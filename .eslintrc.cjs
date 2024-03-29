@@ -1,10 +1,16 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
-  extends: ['airbnb-base', 'prettier'],
+  env: { browser: true, es2020: true, node: true },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'prettier',
+    'plugin:prettier/recommended',
+  ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['prettier', 'react-refresh'],
+  plugins: ['react-refresh', 'prettier'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -13,11 +19,15 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
-        doubleQuote: true,
+        endOfLine: 'auto',
+        singleQuote: true,
+        semi: true,
+        useTabs: false,
         tabWidth: 2,
+        trailingComma: 'all',
         printWidth: 80,
         bracketSpacing: true,
-        arrowParens: 'avoid',
+        arrowParens: 'always',
       },
     ],
   },
