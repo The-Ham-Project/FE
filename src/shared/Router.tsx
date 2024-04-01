@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Main from '../pages/Main';
-import KakaoLogin from '../pages/KakaoLogin';
-import NaverLogin from '../pages/NaverLogin';
-import GoogleLogin from '../pages/GoogleLogin';
+import KakaoLogin from '../pages/Login/KakaoLogin';
+import NaverLogin from '../pages/Login/NaverLogin';
+import GoogleLogin from '../pages/Login/GoogleLogin';
+import Location from '../pages/Location/Location';
 
 function Router() {
   return (
@@ -12,6 +13,7 @@ function Router() {
         <Route path="/oauth/kakaologin" element={<KakaoLogin />} />
         <Route path="/oauth/naverlogin" element={<NaverLogin />} />
         <Route path="/oauth/googlelogin" element={<GoogleLogin />} />
+        <Route path="/thxkakaomap" element={<Location />} />
       </Routes>
     </BrowserRouter>
   );

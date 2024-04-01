@@ -1,4 +1,4 @@
-import Login from '../components/KakaoLogin/Login';
+import Login from '../../components/KakaoLogin/Login';
 // import styled from 'styled-components';
 // import { useDispatch } from 'react-re'
 
