@@ -1,4 +1,4 @@
-import Login from '../components/GoogleLogin/Login';
+import Login from '../../components/GoogleLogin/Login';
 
 function GoogleLogin() {
   return (

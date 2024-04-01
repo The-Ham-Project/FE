@@ -1,4 +1,4 @@
-import Login from '../components/NaverLogin/Login';
+import Login from '../../components/NaverLogin/Login';
 
 function NaverLogin() {
   return (
