@@ -1,6 +1,19 @@
+
 import { create } from 'zustand';
 import { Cookies } from 'react-cookie';
 import axios from 'axios';
+
+interface State {
+isLoggedIn: boolean;
+login: () => void;
+logout: () => void;
+}
+//쿠키에서 사용자 정보를 읽어옴
+const cookies = new Cookies();
+const userCookie = cookies.get('user');
+const initialIsLoggedIn = !!userCookie;
+const initialSelectedCategory: Category = 'ALL';
+
 
 interface State {
   isLoggedIn: boolean;
@@ -21,10 +34,7 @@ export type Category =
   | 'PLACE'
   | 'OTHER';
 
-const cookies = new Cookies();
-const userCookie = cookies.get('user');
-const initialIsLoggedIn = !!userCookie;
-const initialSelectedCategory: Category = 'ALL';
+
 
 const useStore = create<State>((set) => ({
   isLoggedIn: initialIsLoggedIn,

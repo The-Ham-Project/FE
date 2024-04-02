@@ -4,6 +4,7 @@ import KakaoLogin from '../pages/Login/KakaoLogin';
 import NaverLogin from '../pages/Login/NaverLogin';
 import GoogleLogin from '../pages/Login/GoogleLogin';
 import Location from '../pages/Location/Location';
+import Redirect from '../components/KakaoLogin/Redirect';
 import PostDetailsPage from '../pages/main/PostDetailsPage';
 import Details from '../pages/main/Details';
 
@@ -18,6 +19,7 @@ function Router() {
         <Route path="/oauth/googlelogin" element={<GoogleLogin />} />
         <Route path="/thxkakaomap" element={<Location />} />
         <Route path="/details/:rentalId" element={<Details />} />
+        <Route path="/kakao/callback" element={<Redirect />} />
       </Routes>
     </BrowserRouter>
   );
