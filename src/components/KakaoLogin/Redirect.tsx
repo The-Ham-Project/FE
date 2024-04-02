@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 // // import { postKakaoLogin } from '../../api/auth';
 
 // function Redirect() {
@@ -178,9 +179,9 @@ function Redirect() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
   //https://kauth.kakao.com/oauth/authorize?client_id=86e1404c807c52cb2261fa208ef88d27&redirect_uri=https://api.openmpy.com/api/v1/members/kakao/callback&response_type=code
 
-  const kakao = async () => {
-    window.location.href = kakaoURL;
-  };
+  // const kakao = async () => {
+  //   window.location.href = kakaoURL;
+  // };
 
   // const location = useLocation();
   // const navigate = useNavigate();
@@ -231,27 +232,32 @@ function Redirect() {
       setAccessTokenFetching(true); // Set fetching to true
 
       const response = await axios.get(
-        'https://api.openmpy.com/api/v1/members/kakao/callback',
-        {
-          authorizationCode: KAKAO_CODE,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
+        `https://api.openmpy.com/api/v1/members/kakao/callback?code=${KAKAO_CODE}`,
+        // {
+        //   authorization: KAKAO_CODE,
+        // },
+        // {
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     authorization: KAKAO_CODE,
+        //   },
+        // },
       );
-      const accessToken = response.data.accessToken;
+      console.log('나 김동준이야', response);
+      // const params = { code: KAKAO_CODE };
+      // const params = { userIds: [1, 2] };
+      // axios.get('http://api.com', { params });
+      const accessToken = response.headers.authorization;
       console.log('accessToken:', accessToken);
-
+      saveTokensToLocalStorage(accessToken);
       setAccessTokenFetching(false); // Reset fetching to false
+      navigate('/')
     } catch (error) {
       console.error('Error:', error);
       setAccessTokenFetching(false); // Reset fetching even in case of error
     }
   };
-
- 
+  
 
   useEffect(() => {
     if (KAKAO_CODE) {
@@ -261,7 +267,7 @@ function Redirect() {
 
   return (
     <>
-      <button onClick={kakao}>까까오 로긴 꼴백</button>
+      <button>까까오 로긴 꼴백</button>
     </>
   );
 }
