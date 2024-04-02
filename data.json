@@ -1,0 +1,33 @@
+{
+    "cosmetics": [
+        {
+            "id": 1,
+            "title": " 필요하신분~",
+            "content": "필요하신분 무료로 나눔해드립니다.",
+            "rentalFee": 0,
+            "deposit": 213,
+            "multipartFileList": ["string"]
+          }
+    ],
+    "electronics": [
+        {
+          "id": 1,
+          "title": "스프링부트 책 필요하신분~",
+          "content": "필요하신분 무료로 나눔해드립니다.",
+          "rentalFee": 0,
+          "deposit": 213,
+          "multipartFileList": ["string"]
+        }
+      ],
+    "household": [
+        {
+            "id": 1,
+            "title": "스프링부트 책 필요하신분~",
+            "content": "필요하신분 무료로 나눔해드립니다.",
+            "rentalFee": 0,
+            "deposit": 213,
+            "multipartFileList": ["string"]
+          }
+    ]
+  }
+  

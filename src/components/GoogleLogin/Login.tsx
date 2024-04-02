@@ -76,8 +76,8 @@
 
 // export default Login;
 
-
-const client_id = '410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com';
+const client_id =
+  '410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com';
 // const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
 const redirect_uri = 'https://api.openmpy.com/api/v1/members/google/callback';
 function Login() {

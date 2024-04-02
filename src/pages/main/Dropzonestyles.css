@@ -1,0 +1,58 @@
+/* Dropzone 스타일링 */
+
+.dzu-previewStatusContainer {
+  display: flex;
+  position: absolute;
+  top: 0;
+  justify-content: flex-end;
+}
+
+.dropzone {
+  max-width: 378px;
+  display: flex;
+  overflow-x: auto;
+  width: calc(100% - 20px);
+  border: 2px dashed #3498db !important;
+  border-radius: 5px;
+  transition: 0.2s;
+  justify-content: flex-start;
+}
+
+.dropzone.dz-drag-hover {
+  border: 2px solid #db3487 !important; /* 드래그 중일 때 테두리 스타일 */
+}
+
+/* 파일 선택 버튼(input) 스타일링 */
+.needsclick {
+  border: 2px dashed #34db3c !important;
+  color: #343ec5;
+  margin: 10px;
+  padding: 10px 84px 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 미리보기 스타일링 */
+.custom-preview {
+        border: 2px dashed #69db34 !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+}
+
+.custom-preview-image {
+  max-width: 200px; /* 미리보기 이미지의 최대 너비 */
+  max-height: 200px; /* 미리보기 이미지의 최대 높이 */
+}
+
+/* 제출 버튼 스타일링 */
+.custom-submit-button {
+  border: 2px dashed #3498db !important;
+  color: #c53434;
+  background-color: #69db34;
+}
+
+.custom-submit-button-container {
+  border: 2px dashed #3498db !important;
+}

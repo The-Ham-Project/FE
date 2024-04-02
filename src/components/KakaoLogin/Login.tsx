@@ -1,7 +1,7 @@
 // import axios from 'axios';
 // const client_id = 'a10dff590e44c0b8a20d68095fbb3dbf';
 const client_id = '86e1404c807c52cb2261fa208ef88d27';
-// const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
+// const redirect_uri = 'http://localhost:5173';
 const redirect_uri = 'https://api.openmpy.com/api/v1/members/kakao/callback';
 function Login() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
