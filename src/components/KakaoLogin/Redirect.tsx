@@ -256,6 +256,7 @@ function Redirect() {
       console.error('Error:', error);
       setAccessTokenFetching(false); // Reset fetching even in case of error
     }
+    
   };
   
 

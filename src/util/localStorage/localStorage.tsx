@@ -10,6 +10,7 @@ export const saveRefreshTokenToLocalStorage = (token: string) => {
   localStorage.setItem("accessToken", JSON.stringify(token));
 };
 
+
 // export const getTokensFromLocalStorage = () => {
 //   const token = localStorage.getItem("accessToken");
 //   if (token) {
