@@ -115,7 +115,9 @@ function Category() {
       {item.firstThumbnailUrl ? (
         <img src={item.firstThumbnailUrl} alt="Thumbnail" style={{  objectFit: 'cover', maxWidth: '200px', maxHeight: '200px', borderRadius: '10%' }} />
       ) : (
-        <p>No Thumbnail Available</p>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzwsDBA9dpNwSzYVQaI3H56yvEAWRLcqM4toib5euBUT_KDVDqqj1yZhNN80tXVnDRvbo&usqp=CAU" // 기본 이미지 경로 설정
+          alt="Default"></img>
       )}
       
     </Link>

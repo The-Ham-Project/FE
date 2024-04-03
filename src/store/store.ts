@@ -1,19 +1,21 @@
-
 import { create } from 'zustand';
 import { Cookies } from 'react-cookie';
 import axios from 'axios';
 
-interface State {
-isLoggedIn: boolean;
-login: () => void;
-logout: () => void;
-}
-//쿠키에서 사용자 정보를 읽어옴
-const cookies = new Cookies();
-const userCookie = cookies.get('user');
-const initialIsLoggedIn = !!userCookie;
-const initialSelectedCategory: Category = 'ALL';
+// jwt 로컬스토리지 관련 함수
+// TODO 객체 키 리스폰 보고 알잘딱깔센 수정하기
+export const saveTokensToLocalStorage = (token: any) => {
+  localStorage.setItem('accessToken', JSON.stringify(token));
+};
 
+export const saveRefreshTokenToLocalStorage = (token: any) => {
+  localStorage.setItem('refreshToken', JSON.stringify(token));
+};
+
+export const removeTokensFromLocalStorage = () => {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+};
 
 interface State {
   isLoggedIn: boolean;
@@ -35,6 +37,8 @@ export type Category =
   | 'OTHER';
 
 
+const initialIsLoggedIn = !!saveTokensToLocalStorage;
+const initialSelectedCategory: Category = 'ALL';
 
 const useStore = create<State>((set) => ({
   isLoggedIn: initialIsLoggedIn,
