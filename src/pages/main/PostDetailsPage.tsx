@@ -127,6 +127,7 @@ function PostDetailsPage() {
           inputContent="이미지를 업로드하세요"
           accept="image/*"
           multiple={true}
+          maxFiles={3}
           classNames={{
             dropzone: 'dropzone',
             dropzoneActive: 'dz-drag-hover',
