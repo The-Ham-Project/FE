@@ -7,6 +7,8 @@ import Location from '../pages/Location/Location';
 import Redirect from '../components/KakaoLogin/Redirect';
 import PostDetailsPage from '../pages/main/PostDetailsPage';
 import Details from '../pages/main/Details';
+import Chat from '../pages/chat/Chat.tsx';
+import ChatList from '../pages/chatlist/ChatList.tsx';
 
 function Router() {
   return (
@@ -20,6 +22,8 @@ function Router() {
         <Route path="/thxkakaomap" element={<Location />} />
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path="/kakao/callback" element={<Redirect />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path={'/chatlist'} element={<ChatList />} />
       </Routes>
     </BrowserRouter>
   );

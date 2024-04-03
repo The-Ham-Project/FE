@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { saveTokensToLocalStorage } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
+import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 // // import { postKakaoLogin } from '../../api/auth';
-
 // function Redirect() {
 //   const client_id = '86e1404c807c52cb2261fa208ef88d27';
 //   // const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
@@ -251,14 +250,12 @@ function Redirect() {
       console.log('accessToken:', accessToken);
       saveTokensToLocalStorage(accessToken);
       setAccessTokenFetching(false); // Reset fetching to false
-      navigate('/')
+      navigate('/');
     } catch (error) {
       console.error('Error:', error);
       setAccessTokenFetching(false); // Reset fetching even in case of error
     }
-    
   };
-  
 
   useEffect(() => {
     if (KAKAO_CODE) {
