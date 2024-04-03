@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
+import { saveTokensToLocalStorage } from '../../store/store';
 // // import { postKakaoLogin } from '../../api/auth';
 
 // function Redirect() {
