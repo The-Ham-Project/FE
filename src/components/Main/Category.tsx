@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FaDesktop,
   FaHome,
@@ -10,7 +10,7 @@ import {
   FaCubes,
 } from 'react-icons/fa';
 import useStore from '../../store/store'; // Zustand의 상태 저장소 import
-import { Link ,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface CategoryData {
   rentalId: any;
@@ -28,7 +28,7 @@ function Category() {
   const getCategoryData = useStore((state) => state.getCategoryData); // 각 카테고리 데이터를 가져오는 함수 가져오기
   const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태 추가
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // 카테고리에 대한 이름 및 아이콘 정의
   const categoryInfo = {
@@ -62,7 +62,7 @@ function Category() {
         });
     }
   }, [selectedCategory, getCategoryData]);
-  
+
   useEffect(() => {
     console.log('로딩상태:', isLoading); // 로딩 상태 변경 로그
   }, [isLoading]);
@@ -100,33 +100,48 @@ function Category() {
       {/* 로딩 중일 때 표시할 메시지 */}
       {isLoading && <div>Loading...</div>}
 
-     {/* 선택된 카테고리에 따라 렌더링된 카드들 표시 */}
-     {categoryData.length > 0 && !isLoading && (
-  <div>
- {categoryData.map((item, rentalId) => (
-  <div key={rentalId} onClick={() => handleCardClick(item.rentalId)}>
-    <Link to={`/details/${item.rentalId}`}>
-      <h3>{item.title}</h3>
-      <p>{item.content}</p>
-      <p>Rental Fee: {item.rentalFee}</p>
-      <p>Deposit: {item.deposit}</p>
-      <p>Posted by: {item.nickname}</p>
-      <img src={item.profileUrl} alt="Profile" style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }} />
-      {item.firstThumbnailUrl ? (
-        <img src={item.firstThumbnailUrl} alt="Thumbnail" style={{  objectFit: 'cover', maxWidth: '200px', maxHeight: '200px', borderRadius: '10%' }} />
-      ) : (
-        <p>No Thumbnail Available</p>
+      {/* 선택된 카테고리에 따라 렌더링된 카드들 표시 */}
+      {categoryData.length > 0 && !isLoading && (
+        <div>
+          {categoryData.map((item, rentalId) => (
+            <div key={rentalId} onClick={() => handleCardClick(item.rentalId)}>
+              <Link to={`/details/${item.rentalId}`}>
+                <h3>{item.title}</h3>
+                <p>{item.content}</p>
+                <p>Rental Fee: {item.rentalFee}</p>
+                <p>Deposit: {item.deposit}</p>
+                <p>Posted by: {item.nickname}</p>
+                <img
+                  src={item.profileUrl}
+                  alt="Profile"
+                  style={{
+                    maxWidth: '50px',
+                    maxHeight: '50px',
+                    borderRadius: '50%',
+                  }}
+                />
+                {item.firstThumbnailUrl ? (
+                  <img
+                    src={item.firstThumbnailUrl}
+                    alt="Thumbnail"
+                    style={{
+                      objectFit: 'cover',
+                      maxWidth: '200px',
+                      maxHeight: '200px',
+                      borderRadius: '10%',
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzwsDBA9dpNwSzYVQaI3H56yvEAWRLcqM4toib5euBUT_KDVDqqj1yZhNN80tXVnDRvbo&usqp=CAU" // 기본 이미지 경로 설정
+                    alt="Default"
+                  ></img>
+                )}
+              </Link>
+            </div>
+          ))}
+        </div>
       )}
-      
-    </Link>
-  </div>
-))}
-
-  </div>
-)}
-
-
-
     </div>
   );
 }
