@@ -5,9 +5,9 @@
 // import useStore from '../../store/store';
 
 // const client_id = 'a10dff590e44c0b8a20d68095fbb3dbf';
-const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+const client_id = '86e1404c807c52cb2261fa208ef88d27';
 // const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
-const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+const redirect_uri = 'http://localhost:5173/kakao/callback';
 function Login() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
   //https://kauth.kakao.com/oauth/authorize?client_id=86e1404c807c52cb2261fa208ef88d27&redirect_uri=https://api.openmpy.com/api/v1/members/kakao/callback&response_type=code

@@ -60,15 +60,20 @@ function Details() {
           }}
         />
       )}
-    {item.rentalImageList && item.rentalImageList.length > 0 && (
+      {item.rentalImageList && item.rentalImageList.length > 0 && (
         <div>
           {item.rentalImageList.map((image, index) => (
-            <img key={index} src={image.imageUrl} alt={`Image ${index + 1}`}     style={{
-              maxWidth: '500px',
-              maxHeight: '500px',
-              width: '100%',
-              height: 'auto',
-            }}/>
+            <img
+              key={index}
+              src={image.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{
+                maxWidth: '500px',
+                maxHeight: '500px',
+                width: '100%',
+                height: 'auto',
+              }}
+            />
           ))}
         </div>
       )}
@@ -80,7 +85,6 @@ function Details() {
         />
         <p>{item.nickname}</p>
       </Flex>
-      
 
       <Flex>
         <Rental>대여비 {item.rentalFee}원</Rental>
@@ -90,8 +94,6 @@ function Details() {
       <p>{item.content}</p>
 
       <p>Category: {item.category}</p>
-
-  
     </Container>
   );
 }

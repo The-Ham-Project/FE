@@ -7,12 +7,13 @@ import axios, {
 } from 'axios';
 ;
 
-const baseUrl = process.env.VITE_SERVER_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: baseUrl,
   withCredentials: true,
 });
+
 
 
 
