@@ -2,17 +2,20 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 export const login = async (data: { email: string; password: string }) => {
   try {
-    const response: AxiosResponse = await axiosInstance.post(`/kakao/callback`, data);
+    const response: AxiosResponse = await axiosInstance.post(
+      `/kakao/callback`,
+      data,
+    );
     // console.log('Login Success, ', response.data);
 
     // 토큰 가져오기
     const accessToken = response.headers['authorization'].replace(
       'Bearer%20',
-      ''
+      '',
     );
     const refreshToken = response.headers['refreshtoken'].replace(
       'Bearer%20',
-      ''
+      '',
     );
     // console.log('Received Access Token: ', accessToken);
     // console.log('Received Refresh Token: ', refreshToken);
@@ -27,13 +30,6 @@ export const login = async (data: { email: string; password: string }) => {
     throw e;
   }
 };
-
-
-
-
-
-
-
 
 // import axios, { AxiosResponse, AxiosError } from 'axios';
 // import { axiosInstance } from './api';
@@ -169,6 +165,3 @@ export const login = async (data: { email: string; password: string }) => {
 //     throw e;
 //   }
 // };
-
-
-
