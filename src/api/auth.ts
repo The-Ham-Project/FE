@@ -5,22 +5,12 @@ import axios, {
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from 'axios';
-;
-
 const baseUrl = process.env.VITE_SERVER_URL;
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: baseUrl,
   withCredentials: true,
 });
-
-
-
-
-
-
-
-
 
 // import axios from 'axios';
 
@@ -75,7 +65,6 @@ export const axiosInstance: AxiosInstance = axios.create({
 //     throw error;
 //   }
 // };
-
 
 // import axios, {
 //   AxiosInstance,
