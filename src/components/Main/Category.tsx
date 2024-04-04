@@ -10,7 +10,13 @@ import {
   FaCubes,
 } from 'react-icons/fa';
 import useStore from '../../store/store'; // Zustand의 상태 저장소 import
-import { Link ,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  FlexColumn,
+  FlexWrap,
+  MainContainer,
+  MainFlex,
+} from '../../styles/Details-Styles';
 
 interface CategoryData {
   rentalId: any;
@@ -28,7 +34,7 @@ function Category() {
   const getCategoryData = useStore((state) => state.getCategoryData); // 각 카테고리 데이터를 가져오는 함수 가져오기
   const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태 추가
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // 카테고리에 대한 이름 및 아이콘 정의
   const categoryInfo = {
@@ -49,20 +55,21 @@ function Category() {
 
   useEffect(() => {
     if (selectedCategory) {
-      setIsLoading(true); // 데이터를 요청하기 전에 로딩 상태를 true로 설정
+      setIsLoading(true);
       getCategoryData(selectedCategory)
         .then((response) => {
-          setCategoryData(response.data); // 데이터 배열을 categoryData로 설정
-          console.log('데이터 확인:', response.data); // 데이터 확인 및 로그
-          setIsLoading(false); // 데이터 요청 후에는 항상 로딩 상태를 false로 설정
+          // 응답 데이터에서 필요한 카테고리 데이터를 추출합니다.
+          const categoryData = response.data.content;
+          setCategoryData(categoryData);
+          setIsLoading(false);
         })
         .catch((error) => {
           console.error('에러:', error);
-          setIsLoading(false); // 에러 발생 시 로딩 상태를 false로 설정
+          setIsLoading(false);
         });
     }
   }, [selectedCategory, getCategoryData]);
-  
+
   useEffect(() => {
     console.log('로딩상태:', isLoading); // 로딩 상태 변경 로그
   }, [isLoading]);
@@ -100,35 +107,78 @@ function Category() {
       {/* 로딩 중일 때 표시할 메시지 */}
       {isLoading && <div>Loading...</div>}
 
-     {/* 선택된 카테고리에 따라 렌더링된 카드들 표시 */}
-     {categoryData.length > 0 && !isLoading && (
-  <div>
- {categoryData.map((item, rentalId) => (
-  <div key={rentalId} onClick={() => handleCardClick(item.rentalId)}>
-    <Link to={`/details/${item.rentalId}`}>
-      <h3>{item.title}</h3>
-      <p>{item.content}</p>
-      <p>Rental Fee: {item.rentalFee}</p>
-      <p>Deposit: {item.deposit}</p>
-      <p>Posted by: {item.nickname}</p>
-      <img src={item.profileUrl} alt="Profile" style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }} />
-      {item.firstThumbnailUrl ? (
-        <img src={item.firstThumbnailUrl} alt="Thumbnail" style={{  objectFit: 'cover', maxWidth: '200px', maxHeight: '200px', borderRadius: '10%' }} />
-      ) : (
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzwsDBA9dpNwSzYVQaI3H56yvEAWRLcqM4toib5euBUT_KDVDqqj1yZhNN80tXVnDRvbo&usqp=CAU" // 기본 이미지 경로 설정
-          alt="Default"></img>
+      {/* 선택된 카테고리에 따라 렌더링된 카드들 표시 */}
+      {categoryData.length > 0 && !isLoading && (
+        <FlexWrap>
+          {categoryData.map((item) => (
+            <MainContainer
+              key={item.rentalId}
+              onClick={() => handleCardClick(item.rentalId)}
+            >
+              <Link to={`/details/${item.rentalId}`}>
+                {/* 썸네일 */}
+                {item.firstThumbnailUrl ? (
+                  <img
+                    src={item.firstThumbnailUrl}
+                    alt="Thumbnail"
+                    style={{
+                      
+                      objectFit: 'fill',
+                      backgroundSize: 'cover',
+                      maxWidth: '200px',
+                      height: '200px',
+                      borderRadius: '10%',
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzwsDBA9dpNwSzYVQaI3H56yvEAWRLcqM4toib5euBUT_KDVDqqj1yZhNN80tXVnDRvbo&usqp=CAU" // 기본 이미지 경로 설정
+                    alt="Default"
+                    style={{
+                      maxWidth: '200px',
+                      maxHeight: '200px',
+                      width: '100%',
+                      height: 'auto',
+                    }}
+                  />
+                )}
+
+                <MainFlex>
+                  <img
+                    src={item.profileUrl}
+                    alt="Profile"
+                    style={{
+                      maxWidth: '20px',
+                      maxHeight: '50px',
+                      borderRadius: '50%',
+                    }}
+                  />
+                  <p>{item.nickname}</p>
+                </MainFlex>
+                <FlexColumn>
+                  <h3>{item.title}</h3>
+                </FlexColumn>
+                <MainFlex>
+                  <p
+                    style={{
+                      fontSize: '12px',
+                    }}
+                  >
+                    대여비 {item.rentalFee}원
+                  </p>
+                  <p
+                    style={{
+                      fontSize: '18px',
+                    }}
+                  >
+                    사례금 {item.deposit}원
+                  </p>
+                </MainFlex>
+              </Link>
+            </MainContainer>
+          ))}
+        </FlexWrap>
       )}
-      
-    </Link>
-  </div>
-))}
-
-  </div>
-)}
-
-
-
     </div>
   );
 }
