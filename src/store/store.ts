@@ -1,19 +1,5 @@
-
 import { create } from 'zustand';
-import { Cookies } from 'react-cookie';
 import axios from 'axios';
-
-interface State {
-isLoggedIn: boolean;
-login: () => void;
-logout: () => void;
-}
-//쿠키에서 사용자 정보를 읽어옴
-const cookies = new Cookies();
-const userCookie = cookies.get('user');
-const initialIsLoggedIn = !!userCookie;
-const initialSelectedCategory: Category = 'ALL';
-
 
 interface State {
   isLoggedIn: boolean;
@@ -34,10 +20,16 @@ export type Category =
   | 'PLACE'
   | 'OTHER';
 
+// 유저의 로그인 상태를 확인하는 함수
+function checkLoginStatus(): boolean {
+  // 토큰이 존재하면 로그인 상태로 간주
+  return !!localStorage.getItem('accessToken');
+}
 
+const initialSelectedCategory: Category = 'ALL';
 
 const useStore = create<State>((set) => ({
-  isLoggedIn: initialIsLoggedIn,
+  isLoggedIn: checkLoginStatus(),
   selectedCategory: initialSelectedCategory,
   isLoading: false, // 초기 로딩 상태는 false로 설정
   login: () => set({ isLoggedIn: true }),

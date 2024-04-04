@@ -31,3 +31,45 @@ export const Deposit = styled.p`
 
   font-size: 15px;
 `;
+
+
+///카테고리 스타일
+
+
+export const FlexWrap  = styled.div`
+  width: 550px;
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+`
+
+export const MainContainer  = styled.div`
+
+max-width: 200px;
+background-color: antiquewhite;
+
+`
+
+export const MainFlex = styled.div`
+width: 80%;
+    background: white;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 7px;
+    margin: 15px;
+`;
+
+
+export const FlexColumn = styled.div`
+
+width: 70%;
+    background: white;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 15px;
+    flex-direction: column;
+font-size: 10px;
+`
