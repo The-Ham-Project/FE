@@ -7,7 +7,7 @@ export const saveTokensToLocalStorage = (token: string) => {
 };
 
 export const saveRefreshTokenToLocalStorage = (token: string) => {
-  localStorage.setItem("accessToken", JSON.stringify(token));
+  localStorage.setItem("refreshToken", JSON.stringify(token));
 };
 
 

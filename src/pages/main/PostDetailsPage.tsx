@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css'; // Import default styles
 import './Dropzonestyles.css';
 import axios from 'axios';
+import { useStore } from 'zustand';
 
 // 카테고리 타입 정의
 type Category =
@@ -36,7 +37,7 @@ function PostDetailsPage() {
   const [deposit, setDeposit] = useState(''); // 보증금 상태
   const [selectedCategory, setSelectedCategory] = useState(''); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
-
+  const isLoggedIn = useStore((state) => state.checkLoginStatus); 
   // 카테고리 클릭 시 상태 업데이트 함수
   const handleCategoryClick = (category: Category) => {
     setSelectedCategory(category);
@@ -77,6 +78,14 @@ function PostDetailsPage() {
 
   // 게시 버튼 클릭 시 실행되는 함수
   const handleButtonClick = () => {
+
+    if (!isLoggedIn) {
+      // 로그인되어 있지 않으면 로그인 페이지로 이동
+      navigate('/login');
+      return;
+    }
+
+
     if (!title) {
       alert('제목을 작성해주세요');
       return;
