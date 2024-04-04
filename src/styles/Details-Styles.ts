@@ -32,44 +32,70 @@ export const Deposit = styled.p`
   font-size: 15px;
 `;
 
-
 ///카테고리 스타일
 
+export const FlexWrap = styled.div`
+    width: 550px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+`;
 
-export const FlexWrap  = styled.div`
-  width: 550px;
-display: flex;
-flex-wrap: wrap;
-gap: 20px;
-`
-
-export const MainContainer  = styled.div`
-
-max-width: 200px;
-background-color: antiquewhite;
-
-`
+export const MainContainer = styled.div`
+  background-color: antiquewhite;
+  display: flex;
+`;
 
 export const MainFlex = styled.div`
-width: 80%;
-    background: white;
+     background: white;
     display: flex;
     align-items: baseline;
     justify-content: flex-start;
     gap: 7px;
     margin: 15px;
+    width: 200px;
+`;
+
+export const FlexColumn = styled.div`
+  width: 70%;
+  background: white;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 15px;
+  flex-direction: column;
+  font-size: 10px;
+`;
+
+export const CategoryTsxtSize = styled.button`
+       display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+font-size: 10px;
 `;
 
 
-export const FlexColumn = styled.div`
-
-width: 70%;
-    background: white;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 10px;
-    margin: 15px;
+export const Categoryinbutton = styled.button`
+       display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
-font-size: 10px;
-`
+    align-items: center;
+
+`;
+
+
+
+export const Categorybutton = styled.button`
+  display: flex;
+  flex-wrap: wrap;
+
+`;
+
+
+export const FlexCenter = styled.div`
+display: flex;
+    justify-content: center;
+`;
