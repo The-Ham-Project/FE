@@ -43,7 +43,7 @@ export const FlexWrap = styled.div`
 `;
 
 export const MainContainer = styled.div`
-  background-color: antiquewhite;
+
   display: flex;
 `;
 
@@ -88,7 +88,7 @@ export const Categoryinbutton = styled.button`
 
 
 
-export const Categorybutton = styled.button`
+export const Categorybutton = styled.div`
   display: flex;
   flex-wrap: wrap;
 

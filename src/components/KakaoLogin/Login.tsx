@@ -1,5 +1,5 @@
 const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
-const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+export const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 function Login() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
 
