@@ -5,19 +5,16 @@ import Search from '../../components/Main/Search';
 import useStore from '../../store/store';
 
 function Main() {
-  const isLoggedIn = useStore(state => state.isLoggedIn)
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
     if (isLoggedIn) {
       navigate('/main/PostDetailsPage');
-    }else{
-      alert('로그인 후에 게시글을 생성할 수 있습니다')
+    } else {
+      alert('로그인 후에 게시글을 생성할 수 있습니다');
       navigate('/oauth/kakaologin');
-
-
     }
-
   };
 
   return (
@@ -31,6 +28,3 @@ function Main() {
 }
 
 export default Main;
-
-
-
