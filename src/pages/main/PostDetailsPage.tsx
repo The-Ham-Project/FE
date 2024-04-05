@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Dropzone from 'react-dropzone-uploader';
-import 'react-dropzone-uploader/dist/styles.css'; // Import default styles
+import 'react-dropzone-uploader/dist/styles.css'; // 기본 스타일 가져오기
 import './Dropzonestyles.css';
-import axios from 'axios';
-import { useStore } from 'zustand';
+
+import { authInstance } from '../../api/axios';
 
 // 카테고리 타입 정의
 type Category =
@@ -35,9 +35,10 @@ function PostDetailsPage() {
   const [content, setContent] = useState(''); // 게시글 내용 상태
   const [rentalFee, setRentalFee] = useState(''); // 대여비 상태
   const [deposit, setDeposit] = useState(''); // 보증금 상태
-  const [selectedCategory, setSelectedCategory] = useState(''); // 선택한 카테고리 상태
+  const [selectedCategory, setSelectedCategory] = useState<Category>(''); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
-  const isLoggedIn = useStore((state) => state.checkLoginStatus); 
+
+  console.log('이미지', selectedFiles);
   // 카테고리 클릭 시 상태 업데이트 함수
   const handleCategoryClick = (category: Category) => {
     setSelectedCategory(category);
@@ -46,46 +47,8 @@ function PostDetailsPage() {
   // FormData 객체 생성
   const formData = new FormData();
 
-  // 파일 상태를 업데이트하는 함수
-  const handleFileChangeStatus = (meta: any, status: string) => {
-    console.log(status, meta);
-    if (status === 'done') {
-      // 파일 업로드가 완료된 경우에 미리보기 이미지 및 파일 상태를 업데이트
-      setSelectedFiles((prevFiles) => [...prevFiles, meta.file]);
-      setSelectedFiles((prevImages) => [...prevImages, meta.previewUrl]);
-
-      // 파일을 formData에 추가
-      formData.append(`multipartFileList`, meta.file);
-    } else if (status === 'removed') {
-      // 파일이 삭제된 경우 해당 파일 및 미리보기 이미지를 제거
-      const index = selectedFiles.findIndex((file) => file === meta.file);
-      if (index !== -1) {
-        setSelectedFiles((prevFiles) => {
-          const newFiles = [...prevFiles];
-          newFiles.splice(index, 1);
-          return newFiles;
-        });
-        setSelectedFiles((prevImages) => {
-          const newImages = [...prevImages];
-          newImages.splice(index, 1);
-          return newImages;
-        });
-        // 파일을 formData에서도 제거
-        formData.delete(`multipartFileList`);
-      }
-    }
-  };
-
   // 게시 버튼 클릭 시 실행되는 함수
   const handleButtonClick = () => {
-
-    if (!isLoggedIn) {
-      // 로그인되어 있지 않으면 로그인 페이지로 이동
-      navigate('/login');
-      return;
-    }
-
-
     if (!title) {
       alert('제목을 작성해주세요');
       return;
@@ -107,16 +70,15 @@ function PostDetailsPage() {
     // requestDto 객체를 JSON 문자열로 변환하여 FormData에 추가
     formData.append('requestDto', JSON.stringify(requestDto));
 
-    // 콘솔에 전송되는 데이터 출력
-    console.log('전송되는 데이터:', formData);
+   // 파일들을 FormData에 추가
+selectedFiles.forEach(file => {
+  formData.append('multipartFileList', file);
+});
+
 
     // 서버에 데이터 전송
-    axios
-      .post('https://api.openmpy.com/api/v1/rentals', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+    authInstance
+      .post('https://api.openmpy.com/api/v1/rentals', formData)
       .then((response) => {
         console.log('서버 응답:', response.data);
         alert('게시글을 성공적으로 추가했습니다.');
@@ -132,7 +94,15 @@ function PostDetailsPage() {
     <>
       <div>
         <Dropzone
-          onChangeStatus={handleFileChangeStatus}
+          onChangeStatus={(meta, status) => {
+            if (status === 'done') {
+              setSelectedFiles((prevFiles) => [...prevFiles, meta.file]);
+            } else if (status === 'removed') {
+              setSelectedFiles((prevFiles) =>
+                prevFiles.filter((file) => file !== meta.file),
+              );
+            }
+          }}
           inputContent="이미지를 업로드하세요"
           accept="image/*"
           multiple={true}
