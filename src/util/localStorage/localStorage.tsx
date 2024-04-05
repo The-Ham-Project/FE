@@ -3,11 +3,7 @@
 import jwt_decode, { jwtDecode } from 'jwt-decode';
 
 export const saveTokensToLocalStorage = (token: string) => {
-  localStorage.setItem('accessToken', JSON.stringify(token));
-};
-
-export const saveRefreshTokenToLocalStorage = (token: string) => {
-  localStorage.setItem('refreshToken', JSON.stringify(token));
+  localStorage.setItem('accessToken', token);
 };
 
 // export const getTokensFromLocalStorage = () => {
@@ -16,7 +12,6 @@ export const saveRefreshTokenToLocalStorage = (token: string) => {
 //     const tokenString = JSON.parse(token);
 //     // console.log(JSON.parse(token));
 //     // console.log(tokenString);
-
 //     const decodedToken = jwt_decode(tokenString);
 //     return decodedToken;
 //   }
@@ -32,8 +27,8 @@ export const saveRefreshTokenToLocalStorage = (token: string) => {
 //   return null;
 // };
 
-export const removeTokensFromLocalStorage = () => {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('smoothieRefresh');
-};
+// export const removeTokensFromLocalStorage = () => {
+//   localStorage.removeItem('accessToken');
+//   localStorage.removeItem('smoothieRefresh');
+// };
 // => 백엔드에서 유효성 검사를 진행한다면 로그아웃 api 콜을 별도로 프론트엔드에서 작성해줘야 할 것
