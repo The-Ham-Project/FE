@@ -76,11 +76,12 @@
 
 // export default Login;
 
-const client_id =
-  '410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com';
+import startwithgoogle from '../../../public/assets/startwithgoogle.png';
+
+const client_id = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 // const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
-const redirect_uri = 'https://api.openmpy.com/api/v1/members/google/callback';
-function Login() {
+const redirect_uri = import.meta.env.VITE_APP_GOOGLE_REDIRECT_URI;
+function GoogleLogin() {
   const googleURL = `https://accounts.google.com/o/oauth2/auth?client_id=${client_id}&scope=email&redirect_uri=${redirect_uri}&response_type=code`;
   //https://accounts.google.com/o/oauth2/auth?client_id=410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com&scope=email&redirect_uri=https://api.openmpy.com/api/v1/members/google/callback&response_type=code
 
@@ -89,9 +90,30 @@ function Login() {
   };
   return (
     <>
-      <button onClick={google}>꾸글 로긴</button>
+      <button onClick={google}>
+        <img src={startwithgoogle} alt="구글 로그인 버튼" />
+      </button>
     </>
   );
 }
 
-export default Login;
+export default GoogleLogin;
+
+// 김수환무거북이와두루미
+// const client_id = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
+// const redirect_uri = import.meta.env.VITE_APP_GOOGLE_REDIRECT_URI;
+// function Login() {
+//   const googleURL = `https://accounts.google.com/o/oauth2/auth?client_id=${client_id}&scope=email&redirect_uri=${redirect_uri}&response_type=code`;
+
+//   const google = async () => {
+//     window.location.href = googleURL;
+//   };
+
+//   return (
+//     <>
+//       <button onClick={google}>구글 로긴</button>
+//     </>
+//   );
+// }
+
+// export default Login;

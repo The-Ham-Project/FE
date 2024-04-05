@@ -1,6 +1,6 @@
 // jwt 로컬스토리지 관련 함수
 // TODO 객체 키 리스폰 보고 알잘딱깔센 수정하기
-import jwt_decode, { jwtDecode } from 'jwt-decode';
+// import jwt_decode, { jwtDecode } from 'jwt-decode';
 
 export const saveTokensToLocalStorage = (token: string) => {
   localStorage.setItem('accessToken', token);

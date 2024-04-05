@@ -6,7 +6,7 @@ import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 // const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
-function Redirect() {
+function RedirectKakao() {
   // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
 
   const navigate = useNavigate();
@@ -32,6 +32,7 @@ function Redirect() {
       const accessToken = response.headers.authorization;
       console.log('accessToken:', accessToken);
       saveTokensToLocalStorage(accessToken);
+      // localStorage.setItem('accessToken', accessToken);
       setAccessTokenFetching(false); // Reset fetching to false
       navigate('/');
     } catch (error) {
@@ -53,4 +54,4 @@ function Redirect() {
   );
 }
 
-export default Redirect;
+export default RedirectKakao;
