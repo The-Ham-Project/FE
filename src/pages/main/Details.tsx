@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Deposit, Flex, Rental } from '../../styles/Details-Styles';
+import { useMutation } from '@tanstack/react-query';
+import { createChat } from '../../api/chat.ts';
 
 interface RentalImage {
   imageUrl: string;
@@ -29,6 +31,14 @@ interface RentalData {
 function Details() {
   const { rentalId } = useParams(); // useParams를 사용하여 URL에서 rentalId를 추출
   const [item, setItem] = useState<RentalData | null>(null); // RentalData 타입으로 상태 초기화
+
+  const { mutate } = useMutation({
+    mutationFn: createChat,
+    onSuccess: () => {
+      console.log('성공');
+    },
+  });
+  const handleCreateChat = () => mutate(item?.nickname);
 
   useEffect(() => {
     axios
@@ -94,6 +104,7 @@ function Details() {
       <p>{item.content}</p>
 
       <p>Category: {item.category}</p>
+      <button onClick={handleCreateChat}>채팅하기</button>
     </Container>
   );
 }
