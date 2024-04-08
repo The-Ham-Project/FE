@@ -33,9 +33,9 @@ function PostDetailsPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); // 게시글 제목 상태
   const [content, setContent] = useState(''); // 게시글 내용 상태
-  const [rentalFee, setRentalFee] = useState(''); // 대여비 상태
-  const [deposit, setDeposit] = useState(''); // 보증금 상태
-  const [selectedCategory, setSelectedCategory] = useState<Category>(''); // 선택한 카테고리 상태
+  const [rentalFee, setRentalFee] = useState<number>(0);
+  const [deposit, setDeposit] = useState<number>(0); // 보증금 상태
+  const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
 
   console.log('이미지', selectedFiles);
@@ -70,11 +70,10 @@ function PostDetailsPage() {
     // requestDto 객체를 JSON 문자열로 변환하여 FormData에 추가
     formData.append('requestDto', JSON.stringify(requestDto));
 
-   // 파일들을 FormData에 추가
-selectedFiles.forEach(file => {
-  formData.append('multipartFileList', file);
-});
-
+    // 파일들을 FormData에 추가
+    selectedFiles.forEach((file) => {
+      formData.append('multipartFileList', file);
+    });
 
     // 서버에 데이터 전송
     authInstance
@@ -169,7 +168,7 @@ selectedFiles.forEach(file => {
           type="text"
           placeholder="대여비를 입력해주세요"
           value={rentalFee}
-          onChange={(e) => setRentalFee(e.target.value)}
+          onChange={(e) => setRentalFee(parseInt(e.target.value))}
         />
       </div>
       <div>보증금</div>
@@ -178,7 +177,7 @@ selectedFiles.forEach(file => {
           type="text"
           placeholder="보증금을 입력해주세요"
           value={deposit}
-          onChange={(e) => setDeposit(e.target.value)}
+          onChange={(e) => setDeposit(parseInt(e.target.value))}
         />
       </div>
 

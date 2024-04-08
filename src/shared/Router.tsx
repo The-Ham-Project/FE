@@ -9,6 +9,7 @@ import Chat from '../pages/chat/Chat.tsx';
 import ChatList from '../pages/chatlist/ChatList.tsx';
 import RedirectGoogle from '../components/GoogleLogin/RedirectGoogle.tsx';
 import SocialLogin from '../pages/Login/SocialLogin.tsx';
+import Mypage from '../pages/Mypage/Mypage.tsx';
 
 function Router() {
   return (
@@ -24,6 +25,9 @@ function Router() {
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path={'/chatlist'} element={<ChatList />} />
+        <Route path={'/Mypage'} element={<Mypage />} />
       </Routes>
     </BrowserRouter>
   );
