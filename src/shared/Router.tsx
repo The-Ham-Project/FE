@@ -8,7 +8,7 @@ import Chat from '../pages/chat/Chat.tsx';
 import ChatList from '../pages/chatlist/ChatList.tsx';
 import RedirectGoogle from '../components/GoogleLogin/RedirectGoogle.tsx';
 import SocialLogin from '../pages/Login/SocialLogin.tsx';
-import Mypage from '../pages/Mypage/mypage.tsx';
+import Mypage from '../pages/Mypage/Mypage.tsx';
 
 function Router() {
   return (
