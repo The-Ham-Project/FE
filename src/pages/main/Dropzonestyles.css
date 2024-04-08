@@ -8,14 +8,14 @@
 }
 
 .dropzone {
-    max-width: 300px;
-    display: flex;
-    overflow-x: auto;
-    width: calc(100% - 20px);
-    border: 2px dashed #3498db !important;
-    border-radius: 5px;
-    transition: 0.2s;
-    justify-content: flex-start;
+  max-width: 378px;
+  display: flex;
+  overflow-x: auto;
+  width: calc(100% - 20px);
+  border: 2px dashed #3498db !important;
+  border-radius: 5px;
+  transition: 0.2s;
+  justify-content: flex-start;
 }
 
 .dropzone.dz-drag-hover {

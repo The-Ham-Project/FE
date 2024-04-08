@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FaDesktop,
   FaHome,
@@ -143,7 +143,7 @@ function Category() {
                     src={item.firstThumbnailUrl}
                     alt="Thumbnail"
                     style={{
-                      
+
                       objectFit: 'fill',
                       backgroundSize: 'cover',
                       maxWidth: '260px',
