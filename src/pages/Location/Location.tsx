@@ -220,6 +220,7 @@
 // // export default Location;
 
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 declare global {
   interface Window {
@@ -233,6 +234,8 @@ declare const window: typeof globalThis & {
 
 export default function Location(): JSX.Element {
   const [map, setMap] = useState<any>();
+  const [address, setAddress] = useState('');
+  const [results, setResults] = useState<any>([]);
   // // 현재 표시되는 반경
   // const [currentCircle, setCurrentCircle] = useState<any>(null);
 
@@ -268,6 +271,10 @@ export default function Location(): JSX.Element {
     );
   };
 
+  // navigator.geolocation.getCurrentPosition((currentPos) => {
+  //   alterAddress(currentPos);
+  // });
+
   // 현재 위치 함수가 정상 작동하면 실행
   const getPosSuccess = (pos: GeolocationPosition) => {
     // 현재 위치의 위도, 경도
@@ -275,6 +282,10 @@ export default function Location(): JSX.Element {
       pos.coords.latitude, // 위도
       pos.coords.longitude, // 경도
     );
+    console.log(currentPos);
+
+    // 위치 정보 가져오기 성공 시 주소 변환 함수 호출
+    alterAddress(pos);
 
     // 마커를 생성합니다
     const marker = new window.kakao.maps.Marker({
@@ -295,15 +306,129 @@ export default function Location(): JSX.Element {
     });
     circle.setMap(map);
     marker.setMap(map);
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+      alterAddress(pos);
+    });
+  };
+
+  // const getCurrentLocation = () => {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     alterAddress(position);
+  //   });
+  // };
+
+  /* 카카오지도 API로 현재 유저 좌표를 동단위로 변환 */
+  const alterAddress = async (pos: GeolocationPosition) => {
+    const x = pos.coords.longitude;
+    const y = pos.coords.latitude;
+    console.log(x, 'x');
+    console.log(y, 'y');
+    if (x && y) {
+      await axios
+        .get(
+          `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${x}&y=${y}`,
+          // `https://dapi.kakao.com/v2/local/geo/coord2address.json?input_coord=WGS84&x=${x}&y=${y}`,
+          {
+            headers: {
+              // Authorization: `KakaoAK 1df8e00ba19cbaf3ed39000226e2e4c8`,
+              Authorization: `KakaoAK ${import.meta.env.VITE_APP_KAKAO_JAVASCRIPT_KEY}`,
+            },
+          },
+        )
+        .then((result) => {
+          if (
+            result &&
+            result.data &&
+            result.data.documents &&
+            result.data.documents.length > 0
+          ) {
+            //법정동 기준으로 동단위의 값을 가져온다
+            const location = result.data.documents[0].address_name;
+            setAddress(location);
+            console.log(result);
+            console.log('location: ', location);
+            console.log('address: ', address);
+          } else {
+            console.error('유효한 응답 데이터가 없습니다.');
+          }
+        })
+        .catch((error) => {
+          console.error('카카오지도 API 호출 중 오류 발생:', error);
+        });
+    }
+
+    //   try {
+    //     const x = currentPos.coords.longitude;
+    //     const y = currentPos.coords.latitude;
+    //     console.log(x, 'x');
+    //     console.log(y, 'y');
+    //     const response = await axios
+    //       .get(
+    //         `https://dapi.kakao.com/v2/local/geo/coord2address.json?input_coord=WGS84&x=${y}&y=${x}`,
+    //         {
+    //           headers: {
+    //             Authorization: 'KakaoAK {REST API 키}',
+    //           },
+    //         },
+    //       )
+    //       .then((response) => {
+    //         const location = response.data.documents[0];
+    //         console.log({
+    //           si: location.address.region_1depth_name,
+    //           gu: location.address.region_2depth_name,
+    //           dong: location.address.region_3depth_name,
+    //           // locationX: location.address.x,
+    //           // locationY: location.address.y,
+    //         });
+    //       });
+    //     console.log(response);
+    //   } catch (error) {
+    //     return;
+    //   }
+  };
+
+  const handleResultClick = (selectedAddress) => {
+    setAddress(selectedAddress);
+    setResults([]);
   };
 
   return (
     <>
       <div id="map" style={{ width: 500, height: 400 }}></div>
+      <div>현재 위치에 있는 동네는 아래와 같나요?</div>
+      <div>{address}</div>
       <button onClick={getCurrentPosBtn}>내 위치</button>
     </>
   );
 }
+//qa {La: 127.1565555, Ma: 37.4493366}
+
+// // 펀딩 수정 API
+// const handlefundingModifyClick = async () => {
+//   try {
+//     if (
+//       fundingData.publicFlag === "" ||
+//       fundingData.showName === "" ||
+//       fundingData.title === "" ||
+//       fundingData.content === ""
+//     ) {
+//       infoToast("내용을 입력해주세요");
+//       return;
+//     }
+
+//     const data = await patchFundingModify(id, fundingData);
+
+//     setFundingData({
+//       ...fundingData,
+//       data, // 수정된 데이터로 업데이트
+//     });
+
+//     navigate(`/fundingdetail/${id}`);
+//   } catch (error) {
+//     console.error("펀딩 수정 오류");
+//   }
+// };
 
 // import { useCallback, useEffect, useState } from 'react';
 
