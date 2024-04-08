@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css'; // 기본 스타일 가져오기
@@ -105,7 +105,6 @@ function PostDetailsPage() {
           inputContent="이미지를 업로드하세요"
           accept="image/*"
           multiple={true}
-          maxFiles={3}
           classNames={{
             dropzone: 'dropzone',
             dropzoneActive: 'dz-drag-hover',
