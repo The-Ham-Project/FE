@@ -29,6 +29,7 @@ interface Message {
 }
 
 const Chat = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const params = useParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
@@ -124,7 +125,7 @@ const Chat = () => {
         </MenuBox>
       </PaddingBox>
       <Center>
-        <ChatBox>
+        <ChatBox ref={scrollRef}>
           {testMessges.map((item, index) => {
             return (
               <Chatting
