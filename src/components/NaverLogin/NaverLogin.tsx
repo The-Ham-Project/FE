@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import startwithnaver from '../../../public/assets/startwithnaver.png';
 
 interface User {
   nickname: string;
@@ -9,7 +10,7 @@ interface Image {
   url: string;
 }
 
-function Login() {
+function NaverLogin() {
   const [data, setData] = useState<User>({ nickname: '', image: '' });
   const [profile, setProfile] = useState<boolean>(false);
 
@@ -121,7 +122,7 @@ function Login() {
   );
 }
 
-export default Login;
+export default NaverLogin;
 
 /////////////////////////////////////////
 

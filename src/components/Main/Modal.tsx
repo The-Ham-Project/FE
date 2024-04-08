@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -8,17 +9,23 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
+  const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
+
+  const onConfirm = () => {
+    // onConfirm 함수를 모달 컴포넌트 내에서 정의
+    navigate('/sociallogin');
+  };
+
   if (!isOpen) return null;
 
   return (
     <ModalOverlay>
       <ModalContent>
-        <ModalHeader>
-          <h2>Error</h2>
-          <ModalCloseButton onClick={onClose}>Close</ModalCloseButton>
-        </ModalHeader>
+        <ModalHeader></ModalHeader>
         <ModalBody>
           <p>{message}</p>
+          <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
+          <button onClick={onConfirm}>확인</button> {/* 확인 버튼 */}
         </ModalBody>
       </ModalContent>
     </ModalOverlay>
@@ -43,7 +50,7 @@ const ModalContent = styled.div`
   background-color: white;
   border-radius: 8px;
   padding: 20px;
-  max-width: 200px;
+  max-width: 300px;
 `;
 
 const ModalHeader = styled.div`

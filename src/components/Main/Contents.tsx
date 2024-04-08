@@ -3,7 +3,7 @@ import styled from 'styled-components';
 function Contents() {
   return (
     <>
-    <div></div>
+      <div></div>
       <Box>상단 컨텐츠 박스</Box>
     </>
   );
@@ -11,16 +11,13 @@ function Contents() {
 
 export default Contents;
 
-
-
 const Box = styled.div`
-  width: 350px;
+  width: 100%;
   height: 150px;
   background-color: #1879ff;
   border: 1px solid #7c40ff;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px;
+  border-radius: 15px;
+
   display: flex;
   justify-content: center;
   align-items: center;
