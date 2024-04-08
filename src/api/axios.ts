@@ -82,15 +82,12 @@ export const authInstance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_URL,
 });
 
-
 authInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken') || '';
 
-    console.log("아무글",accessToken)
     if (accessToken) {
       config.headers['Authorization'] = `${accessToken}`;
-      console.log("다른글",accessToken)
     }
     return config;
   },
@@ -115,7 +112,7 @@ authInstance.interceptors.response.use(
 
         // 리프레시 토큰을 사용하여 새로운 액세스 토큰을 가져옵니다.
         const response = await axios.post('your-refresh-token-endpoint', {
-          refreshToken: refreshToken
+          refreshToken: refreshToken,
         });
 
         // 새로운 액세스 토큰을 로컬 스토리지에 저장합니다.
@@ -130,4 +127,3 @@ authInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-

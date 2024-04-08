@@ -35,26 +35,25 @@ export const Deposit = styled.p`
 ///카테고리 스타일
 
 export const FlexWrap = styled.div`
-    width: 424px;
-    height: 330px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-`
+  width: 424px;
+  height: 330px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+`;
 
 export const MainContainer = styled.div`
-
   display: flex;
 `;
 
 export const MainFlex = styled.div`
-     background: white;
-    display: flex;
-    align-items: baseline;
-    justify-content: flex-start;
-    gap: 7px;
-    margin: 15px;
-    width: 150px;
+  background: white;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 7px;
+  margin: 15px;
+  width: 150px;
 `;
 
 export const FlexColumn = styled.div`
@@ -70,41 +69,34 @@ export const FlexColumn = styled.div`
 `;
 
 export const CategoryTsxtSize = styled.button`
-       display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-font-size: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  font-size: 10px;
 `;
-
 
 export const Categoryinbutton = styled.div`
-       display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-
-
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 `;
-
-
 
 export const Categorybutton = styled.div`
-display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 300px;
-    gap: 5px;
-    border-radius: 20px;
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 300px;
+  gap: 5px;
+  border-radius: 20px;
 `;
 
-
 export const FlexCenter = styled.div`
-display: flex;
+  display: flex;
 
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 `;
