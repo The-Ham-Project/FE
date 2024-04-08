@@ -5,8 +5,6 @@ import 'react-dropzone-uploader/dist/styles.css'; // 기본 스타일 가져오�
 import './Dropzonestyles.css';
 
 import { authInstance } from '../../api/axios';
-import { useErrorModalStore } from '../../store/store';
-import Modal from '../../components/Main/Modal';
 
 // 카테고리 타입 정의
 type Category =
@@ -35,11 +33,11 @@ function PostDetailsPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); // 게시글 제목 상태
   const [content, setContent] = useState(''); // 게시글 내용 상태
-  const [rentalFee, setRentalFee] = useState(''); // 대여비 상태
-  const [deposit, setDeposit] = useState(''); // 보증금 상태
+  const [rentalFee, setRentalFee] = useState<number>(0);
+  const [deposit, setDeposit] = useState<number>(0); // 보증금 상태
   const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
-  const { isOpen, errorMessage, closeModal } = useErrorModalStore();
+
   console.log('이미지', selectedFiles);
   // 카테고리 클릭 시 상태 업데이트 함수
   const handleCategoryClick = (category: Category) => {
@@ -52,10 +50,12 @@ function PostDetailsPage() {
   // 게시 버튼 클릭 시 실행되는 함수
   const handleButtonClick = () => {
     if (!title) {
-      useErrorModalStore.getState().openModal('타이틀 입력해주새요');
+      alert('제목을 작성해주세요');
+      return;
     }
     if (!selectedCategory) {
-      useErrorModalStore.getState().openModal('카테고리 선택해주새요');
+      alert('카테고리를 선택해주세요.');
+      return;
     }
 
     // requestDto 객체 생성
@@ -75,10 +75,6 @@ function PostDetailsPage() {
       formData.append('multipartFileList', file);
     });
 
-    // 콘솔에 데이터 출력
-  console.log('FormData:', formData);
-  console.log('Selected Files:', selectedFiles);
-
     // 서버에 데이터 전송
     authInstance
       .post('https://api.openmpy.com/api/v1/rentals', formData)
@@ -88,13 +84,8 @@ function PostDetailsPage() {
         navigate('/');
       })
       .catch((error) => {
-        if (error === 'Refresh token not found') {
-          console.error('에러 발생:', error);
-          useErrorModalStore
-            .getState()
-            .openModal('만료된 사용자입니다 로그인 페이지로 이동합니다');
-            navigate('/oauth/kakaologin');
-        }
+        console.error('에러 발생:', error);
+        alert('게시글 생성에 실패했습니다');
       });
   };
 
@@ -178,7 +169,7 @@ function PostDetailsPage() {
           type="text"
           placeholder="대여비를 입력해주세요"
           value={rentalFee}
-          onChange={(e) => setRentalFee(e.target.value)}
+          onChange={(e) => setRentalFee(parseInt(e.target.value))}
         />
       </div>
       <div>보증금</div>
@@ -187,12 +178,11 @@ function PostDetailsPage() {
           type="text"
           placeholder="보증금을 입력해주세요"
           value={deposit}
-          onChange={(e) => setDeposit(e.target.value)}
+          onChange={(e) => setDeposit(parseInt(e.target.value))}
         />
       </div>
 
       <button onClick={handleButtonClick}>게시글 작성</button>
-      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
     </>
   );
 }
