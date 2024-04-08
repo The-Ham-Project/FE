@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import theham from '../../../public/assets/theham.svg'
 import charactor from '../../../public/assets/charactor.svg';
 // import Header from '../../components/layout/Header';
-import React from 'react';
 
 function SocialLogin() {
   return (
