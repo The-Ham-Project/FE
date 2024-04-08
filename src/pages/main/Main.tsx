@@ -13,7 +13,7 @@ function Main() {
       navigate('/main/PostDetailsPage');
     } else {
       alert('로그인 후에 게시글을 생성할 수 있습니다');
-      navigate('/oauth/kakaologin');
+      navigate('/sociallogin');
     }
   };
 

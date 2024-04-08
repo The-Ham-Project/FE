@@ -8,7 +8,7 @@ import Chat from '../pages/chat/Chat.tsx';
 import ChatList from '../pages/chatlist/ChatList.tsx';
 import RedirectGoogle from '../components/GoogleLogin/RedirectGoogle.tsx';
 import SocialLogin from '../pages/Login/SocialLogin.tsx';
-import React from 'react';
+import Mypage from '../pages/Mypage/mypage.tsx';
 
 function Router() {
   return (
@@ -20,6 +20,7 @@ function Router() {
         <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
         <Route path="/thxkakaomap" element={<Location />} />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
