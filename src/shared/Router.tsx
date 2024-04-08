@@ -22,7 +22,6 @@ function Router() {
         <Route path="/hellokakaomap" element={<RoutingMap />} />
         <Route path="/thxkakaomap" element={<Location />} />
         <Route path="/details/:rentalId" element={<Details />} />
-        <Route path="/kakao/callback" element={<Redirect />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
       </Routes>
