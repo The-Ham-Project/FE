@@ -76,7 +76,8 @@
 
 // export default Login;
 
-import startwithgoogle from '../../../public/assets/startwithgoogle.png';
+import startwithgoogle from '../../../public/assets/startwithgoogle.svg';
+import styled from 'styled-components';
 
 const client_id = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 // const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
@@ -90,9 +91,9 @@ function GoogleLogin() {
   };
   return (
     <>
-      <button onClick={google}>
-        <img src={startwithgoogle} alt="구글 로그인 버튼" />
-      </button>
+      <Button onClick={google}>
+        <IMG src={startwithgoogle} alt="구글 로그인 버튼" />
+      </Button>
     </>
   );
 }
@@ -117,3 +118,19 @@ export default GoogleLogin;
 // }
 
 // export default Login;
+
+const Button = styled.button`
+  @media screen and (max-width: 430px) {
+    width: 350px;
+    height: 45px;
+  }
+`;
+const IMG = styled.img`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 350px;
+    height: 45px;
+    left: 20.16px;
+    top: 753.77px;
+  }
+`;

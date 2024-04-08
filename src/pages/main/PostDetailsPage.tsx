@@ -70,11 +70,10 @@ function PostDetailsPage() {
     // requestDto 객체를 JSON 문자열로 변환하여 FormData에 추가
     formData.append('requestDto', JSON.stringify(requestDto));
 
-   // 파일들을 FormData에 추가
-selectedFiles.forEach(file => {
-  formData.append('multipartFileList', file);
-});
-
+    // 파일들을 FormData에 추가
+    selectedFiles.forEach((file) => {
+      formData.append('multipartFileList', file);
+    });
 
     // 서버에 데이터 전송
     authInstance

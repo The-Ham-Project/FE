@@ -61,7 +61,7 @@ function RedirectGoogle() {
       saveTokensToLocalStorage(accessToken);
       // localStorage.setItem('accessToken', accessToken);
       setAccessTokenFetching(false); // Reset fetching to false
-      navigate('/');
+      navigate('/thxkakaomap');
     } catch (error) {
       console.error('Error:', error);
       setAccessTokenFetching(false); // Reset fetching even in case of error

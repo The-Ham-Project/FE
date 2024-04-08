@@ -1,244 +1,29 @@
-// import { useEffect, useState } from 'react';
-
-// declare global {
-//   interface Window {
-//     kakao;
-//   }
-// }
-
-// declare const window: typeof globalThis & {
-//   kakao;
-// };
-
-// // const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-// // const options = {
-// //   //지도를 생성할 때 필요한 기본 옵션
-// //   center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-// //   level: 3, //지도의 레벨(확대, 축소 정도)
-// // };
-
-// // const map = new window.kakao.maps.Map(container, options);
-// // console.log(map);
-
-// export default function Location(): JSX.Element {
-//   const [map, setMap] = useState<any>();
-//   // const [marker, setMarker] = useState<any>(); //지도 생성 및 객체 리턴
-
-//   // const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-//   // const options = {
-//   //   //지도를 생성할 때 필요한 기본 옵션
-//   //   center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-//   //   level: 3, //지도의 레벨(확대, 축소 정도)
-//   // };
-//   // const location = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-//   useEffect(() => {
-//     const script = document.createElement('script');
-//     script.src =
-//       '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
-//     document.head.appendChild(script);
-//     script.onload = () => {
-//       window.kakao.maps.load(function () {
-//         const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-//         const options = {
-//           //지도를 생성할 때 필요한 기본 옵션
-//           center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-//           level: 3, //지도의 레벨(확대, 축소 정도)
-//         };
-
-//         setMap(new window.kakao.maps.Map(container, options));
-//         // setMarker(new window.kakao.maps.Marker());
-
-//         // const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-
-//         //마커가 표시될 위치
-//         // const markerPosition = new window.kakao.maps.LatLng(
-//         //   33.450701,
-//         //   126.570667,
-//         // );
-
-//         // //마커를 생성
-//         // const marker = new window.kakao.maps.Marker({
-//         //   position: markerPosition,
-//         // });
-
-//         // //마커가 지도 위에 표시되도록 설정
-//         // marker.setMap(location);
-//       });
-//     };
-//   }, []);
-
-//   // 현재 위치
-//   const getCurrentPosBtn = () => {
-//     navigator.geolocation.getCurrentPosition(
-//       getPosSuccess,
-//       () => alert('위치 정보 가져오기 실패'),
-//       {
-//         enableHighAccuracy: true,
-//         maximumAge: 30000,
-//         timeout: 27000,
-//       },
-//     );
-//   };
-
-//   // 현재 위치 함수가 정상 작동하면 실행
-//   const getPosSuccess = (pos: GeolocationPosition) => {
-//     // 현재 위치의 위도, 경도
-//     const currentPos = new window.kakao.maps.LatLng(
-//       pos.coords.latitude, // 위도
-//       pos.coords.longitude, // 경도
-//     );
-
-//     // 지도를 현재 위치로 이동
-//     map.panTo(currentPos);
-
-//     // 기존 마커를 제거하고 새로운 마커를 넣는다.
-//     // marker.setMap(null);
-//     // marker.setPosition(currentPos);
-//     // marker.setMap(location);
-//   };
-//   return (
-//     <>
-//       {/* <script
-//         type="text/javascript"
-//         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1df8e00ba19cbaf3ed39000226e2e4c8"
-//       ></script> */}
-//       <div id="map" style={{ width: 500, height: 400 }}></div>
-//       <button onClick={getCurrentPosBtn}>내 위치</button>
-//     </>
-//   );
-// }
-
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-
-// // import { useState, useEffect } from 'react';
-// // import styled from 'styled-components';
-
-// // declare global {
-// //   interface Window {
-// //     kakao: any;
-// //   }
-// // }
-
-// // interface LocationProps {
-// //   width: string;
-// //   height: string;
-// // }
-
-// // const Location = ({ width, height }: LocationProps) => {
-// //   const [map, setMap] = useState<any>();
-// //   const [marker, setMarker] = useState<any>();
-
-// //   // 1. 카카오맵 불러오기
-// //   useEffect(() => {
-// //     const script = document.createElement('script');
-// //     script.src =
-// //       '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
-// //     document.head.appendChild(script);
-// //     window.kakao.maps.load(() => {
-// //       const container = document.getElementById('map');
-// //       const options = {
-// //         center: new window.kakao.maps.LatLng(37.555949, 126.972309),
-// //         level: 3,
-// //       };
-
-// //       setMap(new window.kakao.maps.Map(container, options));
-// //       setMarker(new window.kakao.maps.Marker());
-// //     });
-// //   }, []);
-
-// //   // 2. 현재 위치 함수
-// //   const getCurrentPosBtn = () => {
-// //     navigator.geolocation.getCurrentPosition(
-// //       getPosSuccess,
-// //       () => alert('위치 정보 가져오기 실패'),
-// //       {
-// //         enableHighAccuracy: true,
-// //         maximumAge: 30000,
-// //         timeout: 27000,
-// //       },
-// //     );
-// //   };
-
-// //   // 3. 현재 위치 함수가 정상 작동하면 실행
-// //   const getPosSuccess = (pos: GeolocationPosition) => {
-// //     // 현재 위치의 위도, 경도
-// //     const currentPos = new window.kakao.maps.LatLng(
-// //       pos.coords.latitude, // 위도
-// //       pos.coords.longitude, // 경도
-// //     );
-
-// //     // 지도를 현재 위치로 이동시킨다.
-// //     map.panTo(currentPos);
-
-// //     // 기존 마커를 제거하고 새로운 마커를 넣는다.
-// //     marker.setMap(null);
-// //     marker.setPosition(currentPos);
-// //     marker.setMap(map);
-// //   };
-
-// //   return (
-// //     <Layout>
-// //       <MapContainer style={{ width, height }}>
-// //         <MapBox id="map" style={{ width: '100%', height: '100%' }}></MapBox>
-// //         <MyLocationBtn onClick={getCurrentPosBtn}></MyLocationBtn>
-// //       </MapContainer>
-// //     </Layout>
-// //   );
-// // };
-
-// // const Layout = styled.div`
-// //   padding: 10px;
-// // `;
-
-// // const MapContainer = styled.div`
-// //   position: relative;
-// //   border-radius: 20px;
-// //   overflow: hidden;
-// // `;
-
-// // const MapBox = styled.div`
-// //   width: 100%;
-// //   height: 100%;
-// // `;
-
-// // const MyLocationBtn = styled.div`
-// //   position: absolute;
-// //   left: 15px;
-// //   top: 15px;
-// //   padding: 5px 6px 3px 7px;
-// //   border: 1px solid #c2c2c2;
-// //   border-radius: 100px;
-// //   background: white;
-// //   z-index: 1;
-// //   cursor: pointer;
-
-// //   &:hover {
-// //     background-color: #f1f1f1;
-// //   }
-// // `;
-
-// // export default Location;
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { geolocation } from '../../api/geolocation';
+import styled from 'styled-components';
+import locationButton from '../../../public/assets/locationButton.svg';
 
 declare global {
   interface Window {
-    kakao;
+    kakao: any;
   }
 }
 
 declare const window: typeof globalThis & {
-  kakao;
+  kakao: any;
 };
 
 export default function Location(): JSX.Element {
-  const [map, setMap] = useState<any>();
+  const [map, setMap] = useState();
   const [address, setAddress] = useState('');
-  const [results, setResults] = useState<any>([]);
+  // const [results, setResults] = useState([]);
+  // const [currentPosState, setCurrentPosState] = useState();
+
   // // 현재 표시되는 반경
   // const [currentCircle, setCurrentCircle] = useState<any>(null);
-
   useEffect(() => {
     const script = document.createElement('script');
     script.src =
@@ -250,7 +35,7 @@ export default function Location(): JSX.Element {
         const options = {
           //지도를 생성할 때 필요한 기본 옵션
           center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-          level: 3, //지도의 레벨(확대, 축소 정도)
+          level: 7, //지도의 레벨(확대, 축소 정도)
         };
 
         setMap(new window.kakao.maps.Map(container, options));
@@ -258,7 +43,7 @@ export default function Location(): JSX.Element {
     };
   }, []);
 
-  // 현재 위치
+  // 2. 현재 위치
   const getCurrentPosBtn = () => {
     navigator.geolocation.getCurrentPosition(
       getPosSuccess,
@@ -271,18 +56,19 @@ export default function Location(): JSX.Element {
     );
   };
 
-  // navigator.geolocation.getCurrentPosition((currentPos) => {
-  //   alterAddress(currentPos);
-  // });
-
-  // 현재 위치 함수가 정상 작동하면 실행
-  const getPosSuccess = (pos: GeolocationPosition) => {
+  // 3. 현재 위치 함수가 정상 작동하면 실행
+  const getPosSuccess = async (pos: GeolocationPosition) => {
     // 현재 위치의 위도, 경도
     const currentPos = new window.kakao.maps.LatLng(
       pos.coords.latitude, // 위도
       pos.coords.longitude, // 경도
     );
+
     console.log(currentPos);
+    geolocationMutation.mutate({
+      lon: currentPos.Ma,
+      lat: currentPos.La,
+    });
 
     // 위치 정보 가져오기 성공 시 주소 변환 함수 호출
     alterAddress(pos);
@@ -311,12 +97,6 @@ export default function Location(): JSX.Element {
       alterAddress(pos);
     });
   };
-
-  // const getCurrentLocation = () => {
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //     alterAddress(position);
-  //   });
-  // };
 
   /* 카카오지도 API로 현재 유저 좌표를 동단위로 변환 */
   const alterAddress = async (pos: GeolocationPosition) => {
@@ -357,344 +137,168 @@ export default function Location(): JSX.Element {
           console.error('카카오지도 API 호출 중 오류 발생:', error);
         });
     }
-
-    //   try {
-    //     const x = currentPos.coords.longitude;
-    //     const y = currentPos.coords.latitude;
-    //     console.log(x, 'x');
-    //     console.log(y, 'y');
-    //     const response = await axios
-    //       .get(
-    //         `https://dapi.kakao.com/v2/local/geo/coord2address.json?input_coord=WGS84&x=${y}&y=${x}`,
-    //         {
-    //           headers: {
-    //             Authorization: 'KakaoAK {REST API 키}',
-    //           },
-    //         },
-    //       )
-    //       .then((response) => {
-    //         const location = response.data.documents[0];
-    //         console.log({
-    //           si: location.address.region_1depth_name,
-    //           gu: location.address.region_2depth_name,
-    //           dong: location.address.region_3depth_name,
-    //           // locationX: location.address.x,
-    //           // locationY: location.address.y,
-    //         });
-    //       });
-    //     console.log(response);
-    //   } catch (error) {
-    //     return;
-    //   }
   };
 
-  const handleResultClick = (selectedAddress) => {
-    setAddress(selectedAddress);
-    setResults([]);
-  };
+  // const handleResultClick = (selectedAddress) => {
+  //   setAddress(selectedAddress);
+  //   setResults([]);
+  // };
+
+  const geolocationMutation = useMutation({
+    mutationFn: geolocation,
+    onSuccess: (res) => {
+      console.log('res', res);
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
 
   return (
     <>
-      <div id="map" style={{ width: 500, height: 400 }}></div>
-      <div>현재 위치에 있는 동네는 아래와 같나요?</div>
-      <div>{address}</div>
-      <button onClick={getCurrentPosBtn}>내 위치</button>
+      <Wrapper>
+        <Map id="map" style={{ width: 500, height: 400 }}></Map>
+        <MSG>현재 위치에 있는 동네는 아래와 같나요?</MSG>
+        <Address>{address}</Address>
+        <Button onClick={getCurrentPosBtn}>내 위치 인증하기</Button>
+        <IMG src={locationButton} alt="위치인증하기" />
+      </Wrapper>
     </>
   );
 }
-//qa {La: 127.1565555, Ma: 37.4493366}
 
-// // 펀딩 수정 API
-// const handlefundingModifyClick = async () => {
-//   try {
-//     if (
-//       fundingData.publicFlag === "" ||
-//       fundingData.showName === "" ||
-//       fundingData.title === "" ||
-//       fundingData.content === ""
-//     ) {
-//       infoToast("내용을 입력해주세요");
-//       return;
-//     }
+// return (
+//   <>
+//     <Button onClick={kakao}>
+//       <IMG src={startwithkakao} alt="카카오 로그인 버튼" />
+//     </Button>
+//   </>
+// );
 
-//     const data = await patchFundingModify(id, fundingData);
+const IMG = styled.img`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 348.73px;
+    height: 53.65px;
+    left: 20px;
+    top: 756px;
+  }
+`;
 
-//     setFundingData({
-//       ...fundingData,
-//       data, // 수정된 데이터로 업데이트
-//     });
+const Wrapper = styled.div`
+  @media screen and (max-width: 430px) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 
-//     navigate(`/fundingdetail/${id}`);
-//   } catch (error) {
-//     console.error("펀딩 수정 오류");
-//   }
-// };
+const Map = styled.div`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 723.9px;
+    height: 555.27px;
+    left: -167.29px;
+    top: 13.77px;
 
-// import { useCallback, useEffect, useState } from 'react';
+    background: url(image.png);
+  }
+`;
+const MSG = styled.div`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 230px;
+    height: 17px;
+    left: calc(50% - 215px / 2 - 0.5px);
+    top: 622.79px;
 
-// import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-// import {
-//   currentLocationState,
-//   dbDefaultState,
-//   dbState,
-// } from '../../../store/selectors';
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+    text-align: center;
 
-// import { data } from '../../../bookstore';
-// import colors from '../../../common/colors';
+    color: #000000;
 
-// import { FaParking } from 'react-icons/fa';
-// import { IoCafeOutline } from 'react-icons/io5';
-// import { MdCircle } from 'react-icons/md';
-// import { BiCurrentLocation } from 'react-icons/bi';
-// import { BiX } from 'react-icons/bi';
+    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
+  }
+`;
 
-// import * as S from './InfoWrapper.style';
-// import ResultItem from './ResultItem/ResultItem';
-// import Category from './Category/Category';
-// import { useNavigate, useParams } from 'react-router-dom';
-// import { useGeolocation, useSearch } from '../../../hooks';
+const Address = styled.div`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 250px;
+    height: 26px;
+    left: calc(50% - 139px / 2 - 0.5px);
+    top: 658.21px;
 
-// export default function InfoWrapper({ map }: any) {
-//   const navigate = useNavigate();
-//   const { bookstoreId } = useParams();
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 26px;
+    text-align: center;
 
-//   // 현재 위치 가져오기
-//   const location = useGeolocation();
+    color: #000000;
 
-//   // 현재 위치 전역 상태
-//   const setCurrentLocation = useSetRecoilState(currentLocationState);
-// // 현재 표시되는 반경
-// const [currentCircle, setCurrentCircle] = useState<any>(null);
+    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
+  }
+`;
+const Button = styled.button`
+  @media screen and (max-width: 430px) {
+    width: 320px;
+    height: 49.23px;
+    background-color: #1689f3;
+    color: white;
+    border-radius: 92.7px;
+  }
+`;
 
-//   // db 전역 상태
-//   const [DB, setDB] = useRecoilState<IdbState[]>(dbState);
-//   const DBDefault = useRecoilValue<IdbState[]>(dbDefaultState);
+// /* Group 165 */
 
-//   // 검색어
-//   const [search, setSearch] = useState<string>('');
+// position: absolute;
+// width: 348.73px;
+// height: 53.65px;
+// left: 20px;
+// top: 756px;
 
-//   // 현재 카테고리
+// /* Group 165 */
 
-//   // 카테고리 드롭다운 상태
-//   const [openCategory, setOpenCategory] = useState<boolean>(false);
+// position: absolute;
+// width: 348.73px;
+// height: 53.65px;
+// left: 20px;
+// top: 756px;
 
-//   // 주차, 카페, 영업 상태 필터
+// /* Rectangle 134 */
 
-//   // 검색결과 데이터 끝 여부
-//   const [isEndOfData, setIsEndOfData] = useState<boolean>(false);
+// position: absolute;
+// width: 348.73px;
+// height: 53.65px;
+// left: 20px;
+// top: 756px;
 
-//   const loadCount = 20;
-//   // 더보기 버튼 클릭 시 로드할 데이터 개수
-//   const [countOfData, setCountOfData] = useState<number>(loadCount);
+// background: #1689F3;
+// border-radius: 31.0829px;
 
-//   const {
-//     handleSubmit,
-//     handleSearch,
-//     handleResetResult,
-//     setCurrentCategory,
-//     setFilterOptions,
-//     currentCategory,
-//     filterOptions,
-//     parking,
-//     cafe,
-//     openFilter,
-//   } = useSearch(DBDefault, search, setDB, setSearch);
+// /* 위치 인증하기 */
 
-//   // 더보기 버튼 클릭 핸들링 함수
-//   const handleLoadMoreButtonClick = useCallback(() => {
-//     if (countOfData + loadCount >= DB.length) {
-//       setCountOfData(DB.length);
-//       setIsEndOfData(true);
-//       return;
-//     }
-//     setCountOfData(countOfData + loadCount);
-//   }, [countOfData, DB.length]);
+// position: absolute;
+// width: 84px;
+// height: 19px;
+// left: calc(50% - 84px/2 - 0.55px);
+// top: 773.77px;
 
-//   //! 검색 결과 초기화 핸들링 함수
+// font-family: 'Pretendard';
+// font-style: normal;
+// font-weight: 500;
+// font-size: 15.4247px;
+// line-height: 19px;
+// /* identical to box height */
 
-//   // 내 위치로 검색하기 버튼 클릭 핸들링 함수
-//   const handleSearchCurrentLocationClick = useCallback(() => {
-//     // 현재 위치가 없으면 return
-//     if (!location || !map) return;
-
-//     navigate('/map');
-
-//     // 현재 중심 위치
-//     const currentCenter = new window.kakao.maps.LatLng(
-//       location.coordinates?.lat,
-//       location.coordinates?.lng,
-//     );
-
-//     // 현재 위치 전역 상태 저장
-//     setCurrentLocation(location);
-
-// // 이전 반경 표시 삭제
-// currentCircle && currentCircle.setMap(null);
-
-//     // 필터 초기화 (전체 검색 결과에서 위치 표시)
-//     handleResetResult();
-
-//     // 중심에서 10km 반경 내의 데이터 필터링 후 DB에 저장
-//     const newDB: any[] = [];
-//     data.forEach((store) => {
-//       // 서점의 위치
-//       const storeLocation = new window.kakao.maps.LatLng(
-//         store.FCLTY_LA,
-//         store.FCLTY_LO,
-//       );
-
-//       const poly = new window.kakao.maps.Polyline({
-//         path: [currentCenter, storeLocation],
-//       });
-
-//       // 서점과 현재 위치의 거리
-//       const distance = poly.getLength();
-//       if (distance <= 10000) {
-//         newDB.push(store);
-//       }
-//     });
-//     setDB(newDB);
-
-//     // 현재 위치로 지도 이동
-//     map.setLevel(8);
-//     map.panTo(currentCenter);
-
-//     // 현재 위치 반경 5km 표시
-//     const circle = new window.kakao.maps.Circle({
-//       center: currentCenter,
-//       radius: 10000,
-//       strokeWeight: 1,
-//       strokeColor: colors.BLUE,
-//       strokeOpacity: 0.8,
-//       fillColor: colors.BLUE,
-//       fillOpacity: 0.2,
-//     });
-//     circle.setMap(map);
-
-//     // 현재 위치 반경 표시 저장
-//     setCurrentCircle(circle);
-//   }, [
-//     currentCircle,
-//     location,
-//     map,
-//     setCurrentLocation,
-//     handleResetResult,
-//     setDB,
-//   ]);
-
-//   // !필터 변경 시 검색
-//   useEffect(() => {
-//     handleSearch();
-//   }, [
-//     currentCategory,
-//     filterOptions.cafe,
-//     filterOptions.parking,
-//     filterOptions.openFilter,
-//   ]);
-
-//   return (
-//     <S.Container>
-//       {/* 필터 */}
-//       <S.Filters>
-//         {/* 카테고리 */}
-//         <S.CategoryContainer>
-//           {/* 카테고리 선택 */}
-//           <S.Category onClick={() => setOpenCategory(!openCategory)}>
-//             {currentCategory}
-//           </S.Category>
-//           {openCategory && (
-//             // 드롭다운 메뉴
-//             <Category
-//               setOpenCategory={setOpenCategory}
-//               currentCategory={currentCategory}
-//               setCurrentCategory={setCurrentCategory}
-//             />
-//           )}
-//         </S.CategoryContainer>
-//         {/* 주차 */}
-//         <S.Filter
-//           width="20%"
-//           onClick={() =>
-//             setFilterOptions({ ...filterOptions, parking: !parking })
-//           }
-//           backgroundColor={
-//             filterOptions.parking ? colors.LIGHT_GRAY : 'transparent'
-//           }
-//         >
-//           <FaParking />
-//         </S.Filter>
-//         {/* 카페 */}
-//         <S.Filter
-//           width="20%"
-//           onClick={() => setFilterOptions({ ...filterOptions, cafe: !cafe })}
-//           backgroundColor={
-//             filterOptions.cafe ? colors.LIGHT_GRAY : 'transparent'
-//           }
-//         >
-//           <IoCafeOutline />
-//           {/* 영업상태 */}
-//         </S.Filter>
-//         <S.Filter
-//           width="33%"
-//           onClick={() =>
-//             setFilterOptions({ ...filterOptions, openFilter: !openFilter })
-//           }
-//           backgroundColor={
-//             filterOptions.openFilter ? colors.LIGHT_GRAY : 'transparent'
-//           }
-//         >
-//           <MdCircle
-//             style={{
-//               color: colors.GREEN,
-//               marginRight: '0.2rem',
-//             }}
-//           />
-//           <span>영업중</span>
-//         </S.Filter>
-//       </S.Filters>
-//       {/* 영업 상태 */}
-
-//       {/* 내 위치로 검색하기 */}
-//       <S.SearchCurrentLocation onClick={handleSearchCurrentLocationClick}>
-//         <BiCurrentLocation style={{ marginRight: '0.5rem' }} />
-//         <span>내 위치로 검색하기</span>
-//       </S.SearchCurrentLocation>
-//       {/* 검색 */}
-//       <S.SearchForm onSubmit={handleSubmit}>
-//         <S.SearchInput
-//           type="text"
-//           placeholder="서점을 찾아보세요."
-//           value={search}
-//           onChange={(e) => setSearch(e.target.value)}
-//           autoFocus={bookstoreId ? false : true}
-//         />
-//         <S.ResetButton onClick={handleResetResult}>
-//           <BiX />
-//         </S.ResetButton>
-//         <S.SearchButton type="submit" value="검색" />
-//       </S.SearchForm>
-
-//       {/* 전체 결과 */}
-//       <S.SearchResultContainer>
-//         <S.Summary>총 {DB.length}건의 검색결과</S.Summary>
-//         <S.ResultItemContainer>
-//           {DB.length === 0 ? (
-//             <S.NoResultBox>
-//               🥹 해당 검색어로 검색된 결과가 없습니다
-//             </S.NoResultBox>
-//           ) : null}
-//           {/* TODO: 검색결과 없을 때 예외처리 */}
-//           {DB.slice(0, countOfData).map((item, idx) => {
-//             return <ResultItem info={item} key={idx} />;
-//           })}
-//         </S.ResultItemContainer>
-//         {/* 더보기 버튼 */}
-//         {isEndOfData || (
-//           <S.LoadMoreButton onClick={handleLoadMoreButtonClick}>
-//             더보기
-//           </S.LoadMoreButton>
-//         )}
-//       </S.SearchResultContainer>
-//     </S.Container>
-//   );
-// }
+// color: #FFFFFF;
