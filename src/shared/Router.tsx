@@ -24,6 +24,9 @@ function Router() {
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path={'/chatlist'} element={<ChatList />} />
+        <Route path={'/Mypage'} element={<Mypage />} />
       </Routes>
     </BrowserRouter>
   );
