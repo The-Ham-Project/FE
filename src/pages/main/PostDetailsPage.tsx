@@ -5,6 +5,8 @@ import 'react-dropzone-uploader/dist/styles.css'; // 기본 스타일 가져오�
 import './Dropzonestyles.css';
 
 import { authInstance } from '../../api/axios';
+import { useErrorModalStore } from '../../store/store';
+import Modal from '../../components/Main/Modal';
 
 // 카테고리 타입 정의
 type Category =
@@ -35,9 +37,9 @@ function PostDetailsPage() {
   const [content, setContent] = useState(''); // 게시글 내용 상태
   const [rentalFee, setRentalFee] = useState(''); // 대여비 상태
   const [deposit, setDeposit] = useState(''); // 보증금 상태
-  const [selectedCategory, setSelectedCategory] = useState<Category>(''); // 선택한 카테고리 상태
+  const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
-
+  const { isOpen, errorMessage, closeModal } = useErrorModalStore();
   console.log('이미지', selectedFiles);
   // 카테고리 클릭 시 상태 업데이트 함수
   const handleCategoryClick = (category: Category) => {
@@ -50,12 +52,10 @@ function PostDetailsPage() {
   // 게시 버튼 클릭 시 실행되는 함수
   const handleButtonClick = () => {
     if (!title) {
-      alert('제목을 작성해주세요');
-      return;
+      useErrorModalStore.getState().openModal('타이틀 입력해주새요');
     }
     if (!selectedCategory) {
-      alert('카테고리를 선택해주세요.');
-      return;
+      useErrorModalStore.getState().openModal('카테고리 선택해주새요');
     }
 
     // requestDto 객체 생성
@@ -70,11 +70,14 @@ function PostDetailsPage() {
     // requestDto 객체를 JSON 문자열로 변환하여 FormData에 추가
     formData.append('requestDto', JSON.stringify(requestDto));
 
-   // 파일들을 FormData에 추가
-selectedFiles.forEach(file => {
-  formData.append('multipartFileList', file);
-});
+    // 파일들을 FormData에 추가
+    selectedFiles.forEach((file) => {
+      formData.append('multipartFileList', file);
+    });
 
+    // 콘솔에 데이터 출력
+  console.log('FormData:', formData);
+  console.log('Selected Files:', selectedFiles);
 
     // 서버에 데이터 전송
     authInstance
@@ -85,8 +88,13 @@ selectedFiles.forEach(file => {
         navigate('/');
       })
       .catch((error) => {
-        console.error('에러 발생:', error);
-        alert('게시글 생성에 실패했습니다');
+        if (error === 'Refresh token not found') {
+          console.error('에러 발생:', error);
+          useErrorModalStore
+            .getState()
+            .openModal('만료된 사용자입니다 로그인 페이지로 이동합니다');
+            navigate('/oauth/kakaologin');
+        }
       });
   };
 
@@ -184,6 +192,7 @@ selectedFiles.forEach(file => {
       </div>
 
       <button onClick={handleButtonClick}>게시글 작성</button>
+      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
     </>
   );
 }

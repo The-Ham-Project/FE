@@ -1,18 +1,25 @@
 import { create } from 'zustand';
-import { Cookies } from 'react-cookie';
-import axios from 'axios';
-import { saveTokensToLocalStorage } from '../util/localStorage/localStorage';
-
-
-
+import axios, { AxiosResponse } from 'axios';
 
 interface State {
+  pageSize: number;
+  pageNumber: number;
   isLoggedIn: boolean;
-  selectedCategory: Category | null;
-  isLoading: boolean; // 로딩 상태 추가
+  selectedCategory: Category 
+  isLoading: boolean;
+  rentalData: { [key in Category]?: any[] };
   login: () => void;
   logout: () => void;
-  getCategoryData: (category: Category) => Promise<any>;
+  getCategoryData: (category: Category, page: number, pageSize: number) => Promise<any>;
+  setPageSize: (pageSize: number) => void;
+  setPageNumber: (pageNumber: number) => void; // setPageNumber 함수 추가
+}
+
+interface ErrorModalState {
+  isOpen: boolean;
+  errorMessage: string;
+  openModal: (errorMessage: string) => void;
+  closeModal: () => void;
 }
 
 export type Category =
@@ -25,31 +32,55 @@ export type Category =
   | 'PLACE'
   | 'OTHER';
 
-
-const initialIsLoggedIn = !!saveTokensToLocalStorage;
+const initialIsLoggedIn = !!localStorage.getItem('accessToken');
 const initialSelectedCategory: Category = 'ALL';
 
 const useStore = create<State>((set) => ({
+  pageSize: 4,
+  pageNumber: 1,
   isLoggedIn: initialIsLoggedIn,
   selectedCategory: initialSelectedCategory,
-  isLoading: false, // 초기 로딩 상태는 false로 설정
+  isLoading: false,
+  rentalData: {},
   login: () => set({ isLoggedIn: true }),
   logout: () => set({ isLoggedIn: false }),
-  getCategoryData: async (category) => {
-    set({ isLoading: true }); // 데이터를 요청하기 전에 로딩 상태를 true로 설정
-    try {
-      const response = await axios.get(
-        `https://api.openmpy.com/api/v1/rentals?category=${category}`,
-      );
 
-      return response.data;
+  getCategoryData: async (category, pageNumber, pageSize) => {
+    set({ isLoading: true });
+  
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        `https://api.openmpy.com/api/v1/rentals?category=${category}&page=${pageNumber}&size=${pageSize}`
+      );
+  
+      const newData: any = response.data;
+      set((state: State) => ({
+        rentalData: { ...state.rentalData, [category]: newData },
+        isLoading: false,
+      }));
+  
+      return newData;
     } catch (error) {
       console.error('Error fetching category data:', error);
       throw error;
     } finally {
-      set({ isLoading: false }); // 데이터 요청 후에는 항상 로딩 상태를 false로 설정
+      set({ isLoading: false });
     }
   },
+  
+  
+  setPageSize: (pageSize) => set({ pageSize }),
+  setPageNumber: (pageNumber) => set({ pageNumber }), // setPageNumber 함수 정의
+}));
+
+export const useErrorModalStore = create<ErrorModalState>((set) => ({
+  isOpen: false,
+  errorMessage: '',
+  openModal: (errorMessage) => {
+    console.log('openModal is called');
+    set({ isOpen: true, errorMessage });
+  },
+  closeModal: () => set({ isOpen: false, errorMessage: '' }),
 }));
 
 export default useStore;
