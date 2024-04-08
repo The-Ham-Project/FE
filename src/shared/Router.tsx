@@ -22,8 +22,8 @@ function Router() {
         <Route path="/hellokakaomap" element={<RoutingMap />} />
         <Route path="/thxkakaomap" element={<Location />} />
         <Route path="/details/:rentalId" element={<Details />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path={'/chatlist'} element={<ChatList />} />
+        <Route path={`/comm/:chatRoom`} element={<Chat />} />
+        <Route path={'/commlist'} element={<ChatList />} />
       </Routes>
     </BrowserRouter>
   );

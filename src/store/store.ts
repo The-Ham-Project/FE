@@ -1,10 +1,6 @@
 import { create } from 'zustand';
-import { Cookies } from 'react-cookie';
 import axios from 'axios';
 import { saveTokensToLocalStorage } from '../util/localStorage/localStorage';
-
-
-
 
 interface State {
   isLoggedIn: boolean;
@@ -24,7 +20,6 @@ export type Category =
   | 'BOOK'
   | 'PLACE'
   | 'OTHER';
-
 
 const initialIsLoggedIn = !!saveTokensToLocalStorage;
 const initialSelectedCategory: Category = 'ALL';
