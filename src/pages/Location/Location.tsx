@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { geolocation } from '../../api/geolocation';
 import styled from 'styled-components';
-import locationButton from '../../../public/assets/locationButton.svg';
+// import locationButton from '../../../public/assets/locationButton.svg';
 
 declare global {
   interface Window {

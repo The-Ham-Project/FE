@@ -2,14 +2,15 @@ import NaverLogin from '../../components/NaverLogin/NaverLogin';
 import GoogleLogin from '../../components/GoogleLogin/GoogleLogin';
 import KakaoLogin from '../../components/KakaoLogin/KakaoLogin';
 import styled from 'styled-components';
-import theham from '../../../public/assets/theham.svg';
+import theham from '../../../public/assets/theham.svg'
 import charactor from '../../../public/assets/charactor.svg';
-import Header from '../../components/layout/Header';
+// import Header from '../../components/layout/Header';
+import React from 'react';
 
 function SocialLogin() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Logo>
         <img src={theham} />
       </Logo>
