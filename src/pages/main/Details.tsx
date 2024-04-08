@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Deposit, Flex, Rental } from '../../styles/Details-Styles';
 import { useMutation } from '@tanstack/react-query';
@@ -29,6 +29,7 @@ interface RentalData {
   rentalImageList: RentalImage[];
 }
 function Details() {
+  const navigate = useNavigate();
   const { rentalId } = useParams(); // useParams를 사용하여 URL에서 rentalId를 추출
   const [item, setItem] = useState<RentalData | null>(null); // RentalData 타입으로 상태 초기화
 
@@ -38,7 +39,12 @@ function Details() {
       console.log('성공');
     },
   });
-  const handleCreateChat = () => mutate(item?.nickname);
+  const handleCreateChat = () => {
+    if (item) {
+      mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
+      navigate(`/comm/${rentalId}`);
+    }
+  };
 
   useEffect(() => {
     axios

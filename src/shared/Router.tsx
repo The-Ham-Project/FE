@@ -10,6 +10,7 @@ import PostDetailsPage from '../pages/main/PostDetailsPage';
 import Details from '../pages/main/Details';
 import Chat from '../pages/chat/Chat.tsx';
 import ChatList from '../pages/chatlist/ChatList.tsx';
+import Chat2 from '../pages/chat/Chat2.tsx';
 
 function Router() {
   return (
@@ -24,8 +25,8 @@ function Router() {
         <Route path="/thxkakaomap" element={<Location />} />
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path="/kakao/callback" element={<Redirect />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path={'/chatlist'} element={<ChatList />} />
+        <Route path={`/comm/:chatRoom`} element={<Chat />} />
+        <Route path={'/commlist'} element={<ChatList />} />
       </Routes>
     </BrowserRouter>
   );
