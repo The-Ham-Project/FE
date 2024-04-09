@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import startwithnaver from '../../../public/assets/startwithnaver.png';
+// import startwithnaver from '../../../public/assets/startwithnaver.svg';
+import styled from 'styled-components';
 
 interface User {
   nickname: string;
@@ -116,13 +117,29 @@ function NaverLogin() {
       >
         네이버 로그인
       </button> */}
-      <div id="naverIdLogin"></div>
-      <button onClick={handleProfile}>{data.nickname}</button>
+      <DIV id="naverIdLogin"></DIV>
+      <Button onClick={handleProfile}>{data.nickname}</Button>
     </>
   );
 }
 
 export default NaverLogin;
+
+const Button = styled.button`
+  @media screen and (max-width: 430px) {
+    width: 350px;
+    height: 45px;
+  }
+`;
+const DIV = styled.div`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 350px;
+    height: 45px;
+    left: 20.16px;
+    top: 684.42px;
+  }
+`;
 
 /////////////////////////////////////////
 

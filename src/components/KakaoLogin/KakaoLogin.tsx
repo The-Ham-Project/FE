@@ -1,5 +1,6 @@
-import startwithkakao from '../../../public/assets/startwithkakaotalk.png';
-// import styled from 'styled-components';
+import startwithkakao from '../../../public/assets/startwithkakaotalk.svg';
+import styled from 'styled-components';
+// import Header from '../layout/Header';
 
 const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
@@ -12,9 +13,10 @@ function KakaoLogin() {
 
   return (
     <>
-      <button onClick={kakao}>
-        <img src={startwithkakao} alt="카카오 로그인 버튼" />
-      </button>
+      {/* <Header></Header> */}
+      <Button onClick={kakao}>
+        <IMG src={startwithkakao} alt="카카오 로그인 버튼" />
+      </Button>
     </>
   );
 }
@@ -28,7 +30,19 @@ export default KakaoLogin;
 
 // import styled from 'styled-components';
 
-// const KakaoLogin = styled.button`
-//   width: 1040.31px;
-//   height: 134.46px;
-// `;
+const Button = styled.button`
+  @media screen and (max-width: 430px) {
+    width: 350px;
+    height: 45px;
+  }
+`;
+
+const IMG = styled.img`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 350px;
+    height: 45px;
+    left: 20.16px;
+    top: 615.06px;
+  }
+`;

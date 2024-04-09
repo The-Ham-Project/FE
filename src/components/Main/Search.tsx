@@ -3,7 +3,6 @@ import useStore from '../../store/store'; // Zustand 스토어 import
 
 const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
-  const setCategoryData = useStore((state) => state.setCategoryData); // 카테고리 데이터 상태 업데이트 함수
 
   const handleSearch = async () => {
     // 검색 실행 함수

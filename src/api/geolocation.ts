@@ -1,15 +1,21 @@
-// 회원 좌표 갱신 API
-export const patchFundingModify = async (id, data) => {
-  try {
-    const response = await instance.patch(`/api/funding/${id}/update`, data);
+import { authInstance } from './axios';
 
-    if (response.status === 200) {
-      successToast(response.data.message);
-      return response.data;
-    }
+interface CurrentPos {
+  lon: number;
+  lat: number;
+}
+
+// 회원 좌표 갱신 API
+export const geolocation = async ({ lon, lat }: CurrentPos) => {
+  try {
+    const response = await authInstance
+      .patch(`/api/v1/members/position`, {
+        longitude: lon,
+        latitude: lat,
+      })
+      .then((response) => response);
+    return response;
   } catch (error) {
-    if (error.response && error.response.status === 400) {
-      warnToast(error.response.data.message);
-    }
+    return error;
   }
 };
