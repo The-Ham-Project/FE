@@ -9,8 +9,10 @@ import ChatList from '../pages/chatlist/ChatList.tsx';
 import RedirectGoogle from '../components/GoogleLogin/RedirectGoogle.tsx';
 import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
+import useStore from '../store/store.ts';
 
 function Router() {
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
   return (
     <BrowserRouter>
       <Routes>
@@ -19,14 +21,13 @@ function Router() {
         <Route path="/sociallogin" element={<SocialLogin />} />
         <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
-        <Route path="/thxkakaomap" element={<Location />} />
-        <Route path="/mypage" element={<Mypage />} />
+        {isLoggedIn &&<Route path="/thxkakaomap" element={<Location />} />}
+        {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
         <Route path="/chat" element={<Chat />} />
         <Route path={'/chatlist'} element={<ChatList />} />
-        <Route path={'/Mypage'} element={<Mypage />} />
       </Routes>
     </BrowserRouter>
   );
