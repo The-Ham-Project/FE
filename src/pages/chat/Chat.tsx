@@ -8,34 +8,23 @@ import { useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import { Stomp, Client } from '@stomp/stompjs';
 
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import { subscribe } from 'node:diagnostics_channel';
-import { Line } from '../chatlist/ChatList.tsx';
-import { it } from 'node:test';
-import { ChatReadResponseDto } from '../../types/chat/chatRoom.ts';
+import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 
-// 엔터치고, 밑으로 내려가는 거
+// 밑으로 내려가는 거
 
-//send에서 왜 오류가 나는지 ( @@@@@@)
-//스타일드 컴포넌트에서 왜 오류가 나는지 저 방법이 맞는지 ( @@@@)
+//스타일드 컴포넌트에서 왜 오류가 나는지 ( @@@@)
 //chatList에서 map이 왜 오류가 나는지
 
 // 소켓으로 채팅 내용추가
 
-interface Message {
-  nickname: string;
-  message: string;
-}
-
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const params = useParams();
-  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
   const [stompClient, setStompClient] = useState<Client | null>();
 
-  const [testMessges, setTestMessges] = useState<any>([]);
+  const [testMessges, setTestMessges] = useState([]);
 
   //한번만
   const queryChatRoom = useQuery({
@@ -48,34 +37,56 @@ const Chat = () => {
 
   useEffect(() => {
     if (params.chatRoom) {
-      const socket = new SockJS('https://api.openmpy.com/chat');
-      const client = Stomp.over(socket);
-      client.connectHeaders = {
-        Authorization: `${localStorage.getItem('accessToken')}`,
-      };
-      client.connect({}, () => {
-        client.subscribe(`/sub/chat/chatRoom/${params.chatRoom}`, (message) => {
-          const receivedMessage = JSON.parse(message.body);
+      const fetchData = async () => {
+        try {
+          const response = await readChatRoom(params.chatRoom);
+          const chatRoomData = response.data;
 
-          receivedMessage.sender = receivedMessage.nickname;
-          receivedMessage.createdAt = moment(new Date()).format(
-            'YYYY-MM-DD hh:mm:ss',
-          );
-
-          console.log(receivedMessage);
-
-          setTestMessges((prevMessages) => {
-            console.log([...prevMessages, receivedMessage]);
-            return [...prevMessages, receivedMessage];
+          // 프로필 이미지 데이터를 받아온 후 처리
+          const socket = new SockJS('https://api.openmpy.com/chat', {
+            headers: {
+              Authorization: `${localStorage.getItem('accessToken')}`,
+            },
           });
-        });
-      });
+          const client = Stomp.over(socket);
+          client.connectHeaders = {
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          };
 
-      setStompClient(client);
-      // Cleanup function
-      return () => {
-        client.disconnect();
+          const headers = {
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          };
+          client.connect(headers, () => {
+            client.subscribe(
+              `/sub/chat/chatRoom/${params.chatRoom}`,
+              (message) => {
+                const receivedMessage = JSON.parse(message.body);
+
+                receivedMessage.profile = data?.senderProfileImage;
+
+                // receivedMessage.sender = receivedMessage.nickname;
+                receivedMessage.createdAt = moment(new Date()).format(
+                  'YYYY-MM-DD hh:mm:ss',
+                );
+
+                console.log(receivedMessage);
+
+                setTestMessges((prevMessages) => {
+                  console.log([...prevMessages, receivedMessage]);
+                  return [...prevMessages, receivedMessage];
+                });
+              },
+            );
+          });
+
+          setStompClient(client);
+          setTestMessges(chatRoomData.chatReadResponseDtoList.reverse());
+        } catch (error) {
+          console.error('Error fetching chat room data:', error);
+        }
       };
+
+      fetchData();
     }
     // Missing dependency array, assuming it's intended to run only once
   }, [params.chatRoom]);
@@ -87,16 +98,25 @@ const Chat = () => {
   const sendMessage = () => {
     if (message.trim() && stompClient && stompClient.connected) {
       const chatMessage = {
-        nickname: data?.toUserNickname,
+        profile: data?.senderProfileImage,
         message: message,
         createAt: new Date(),
       };
-      stompClient.send(
-        `/pub/chat/talk/${params.chatRoom}`,
-        {},
-        JSON.stringify(chatMessage),
-      );
+      // stompClient.send(
+      //   `/pub/chat/talk/${params.chatRoom}`,
+      //   {},
+      //   JSON.stringify(chatMessage),
+      // );
+      stompClient.publish({
+        destination: `/pub/chat/talk/${params.chatRoom}`,
+        body: JSON.stringify(chatMessage),
+      });
+
       // chatMessage.sender = '';
+
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }
 
       setMessage('');
       // setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
@@ -132,11 +152,14 @@ const Chat = () => {
                 JustifyContent={item.sender === data.toUserNickname}
                 key={index}
               >
-                <Message JustifyContent={item.sender === data.toUserNickname}>
-                  <span>{item.sender}</span>
-                  <span>{item.message}</span>
-                </Message>
-                <span>{item.createdAt}</span>
+                <Seserve JustifyContent={item.sender === data.toUserNickname}>
+                  <img src={data.senderProfileImage} />
+                  <Message JustifyContent={item.sender === data.toUserNickname}>
+                    <span>{item.message}</span>
+                  </Message>
+
+                  <span>{item.createdAt}</span>
+                </Seserve>
               </Chatting>
             );
           })}
@@ -148,6 +171,11 @@ const Chat = () => {
           placeholder={'메세지를 입력해주세요.'}
           onChange={handleMessage}
           value={message}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              sendMessage();
+            }
+          }}
         />
         <IoArrowUpCircleOutline
           style={{
@@ -211,11 +239,22 @@ const ChatBox = styled.div`
   overflow-y: auto;
 `;
 
-const Chatting = styled.div`
+const Chatting = styled.div<{ JustifyContent: boolean }>`
   display: flex;
   margin: 10px;
-  justify-content: ${(props) => (props.JustifyContent ? 'flex-end' : 'normal')};
+  justify-content: ${(props) => (props.JustifyContent ? 'normal' : 'flex-end')};
+`;
 
+const Seserve = styled.div<{ JustifyContent: boolean }>`
+  display: flex;
+  flex-direction: ${(props) =>
+    props.JustifyContent ? ' nomal' : 'row-reverse'};
+
+  > img {
+    width: 44px;
+    height: 44px;
+    border-radius: 100%;
+  }
   > span {
     display: flex;
     align-items: flex-end;
@@ -224,17 +263,16 @@ const Chatting = styled.div`
   }
 `;
 
-const Message = styled.div`
-  max-width: 250px;
-  padding: 10px;
+const Message = styled.div<{ JustifyContent: boolean }>`
+  max-width: 220px;
+  padding: 14px;
+  margin: ${(props) =>
+    props.JustifyContent ? '0 3px 0 10px' : '0 10px 0 3px'};
+  align-items: center;
   border-radius: 10px;
-  color: ${(props) => (props.JustifyContent ? 'white' : 'black')};
+  color: ${(props) => (props.JustifyContent ? 'black' : 'white')};
 
-  background-color: ${(props) => (props.JustifyContent ? '#1689F3' : '#fff')};
-`;
-
-const ColumnRevers = styled.div`
-  flex-direction: column-reverse;
+  background-color: ${(props) => (props.JustifyContent ? '#fff' : '#1689F3')};
 `;
 
 const InputBox = styled.div`
