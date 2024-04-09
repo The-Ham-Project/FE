@@ -31,7 +31,7 @@ function ChatList() {
           }}
         >
           <FlexBox>
-            <div>사진</div>
+            <img src={item.toMemberProfileUrl} />
             <TextBox>
               <FlexBox>
                 <span>{item?.toMemberNickName}</span>
@@ -77,6 +77,11 @@ export const Line = styled.hr`
 const ListBox = styled.div``;
 const FlexBox = styled.div`
   display: flex;
+  > img {
+    width: 45px;
+    height: 44px;
+    border-radius: 100%;
+  }
 `;
 
 const TextBox = styled.div``;
