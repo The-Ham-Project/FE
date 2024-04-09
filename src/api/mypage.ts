@@ -2,10 +2,10 @@ import { authInstance } from './axios';
 
 export const getMyPage = async () => {
   try {
-    const Authorization = localStorage.getItem('Authorization') || '';
-    const response = await authInstance.get('/user/mypage', {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const response = await authInstance.get('/api/v1/members', {
       headers: {
-        Authorization: `${Authorization}`,
+        Authorization: `${accessToken}`,
       },
     });
     return response.data;
