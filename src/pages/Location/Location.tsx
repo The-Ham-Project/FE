@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { geolocation } from '../../api/geolocation';
 import styled from 'styled-components';
-// import locationButton from '../../../public/assets/locationButton.svg';
+import locationButton from '../../../public/assets/locationButton.svg';
 
 declare global {
   interface Window {
@@ -160,8 +160,9 @@ export default function Location(): JSX.Element {
         <Map id="map" style={{ width: 500, height: 400 }}></Map>
         <MSG>현재 위치에 있는 동네는 아래와 같나요?</MSG>
         <Address>{address}</Address>
-        <Button onClick={getCurrentPosBtn}>내 위치 인증하기</Button>
-        <IMG src={locationButton} alt="위치인증하기" />
+        <button onClick={getCurrentPosBtn}>
+          <IMG src={locationButton} alt="위치인증하기" />
+        </button>
       </Wrapper>
     </>
   );
@@ -178,10 +179,10 @@ export default function Location(): JSX.Element {
 const IMG = styled.img`
   @media screen and (max-width: 430px) {
     position: absolute;
-    width: 348.73px;
-    height: 53.65px;
-    left: 20px;
-    top: 756px;
+    width: 350px;
+    height: 52px;
+    left: calc(50% - 350px / 2 + 0.49px);
+    top: 758px;
   }
 `;
 
@@ -199,21 +200,21 @@ const Wrapper = styled.div`
 const Map = styled.div`
   @media screen and (max-width: 430px) {
     position: absolute;
-    width: 723.9px;
-    height: 555.27px;
-    left: -167.29px;
-    top: 13.77px;
-
-    background: url(image.png);
+    width: 390px;
+    height: 463px;
+    left: 0px;
+    top: 60px;
   }
 `;
 const MSG = styled.div`
   @media screen and (max-width: 430px) {
+    /* 현재 위치에 있는 동네는 아래와 같아요. */
+
     position: absolute;
     width: 230px;
     height: 17px;
-    left: calc(50% - 215px / 2 - 0.5px);
-    top: 622.79px;
+    left: calc(50% - 230px / 2 - 0.5px);
+    top: 576.74px;
 
     font-family: 'Pretendard';
     font-style: normal;
@@ -234,30 +235,28 @@ const Address = styled.div`
     position: absolute;
     width: 250px;
     height: 26px;
-    left: calc(50% - 139px / 2 - 0.5px);
-    top: 658.21px;
-
+    left: calc(50% - 250px / 2 - 0.5px);
+    top: 612.16px;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600;
     font-size: 22px;
     line-height: 26px;
     text-align: center;
-
     color: #000000;
 
     transform: matrix(1, -0.02, 0.01, 1, 0, 0);
   }
 `;
-const Button = styled.button`
-  @media screen and (max-width: 430px) {
-    width: 320px;
-    height: 49.23px;
-    background-color: #1689f3;
-    color: white;
-    border-radius: 92.7px;
-  }
-`;
+// const Button = styled.button`
+//   @media screen and (max-width: 430px) {
+//     width: 320px;
+//     height: 49.23px;
+//     background-color: #1689f3;
+//     color: white;
+//     border-radius: 92.7px;
+//   }
+// `;
 
 // /* Group 165 */
 

@@ -27,8 +27,8 @@ export const saveTokensToLocalStorage = (token: string) => {
 //   return null;
 // };
 
-// export const removeTokensFromLocalStorage = () => {
-//   localStorage.removeItem('accessToken');
-//   localStorage.removeItem('smoothieRefresh');
-// };
+export const removeTokensFromLocalStorage = () => {
+  localStorage.removeItem('accessToken');
+  // localStorage.removeItem('smoothieRefresh');
+};
 // => 백엔드에서 유효성 검사를 진행한다면 로그아웃 api 콜을 별도로 프론트엔드에서 작성해줘야 할 것
