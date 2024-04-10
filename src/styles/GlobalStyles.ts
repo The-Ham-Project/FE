@@ -49,6 +49,7 @@ input {
     box-sizing: border-box;
     border: none;
     outline:none
+	
 }
 input:checked {
     border: none
@@ -67,6 +68,30 @@ a {
 	}
     color: #222;
 }
+input[type="text"] {
+        width: 50vh;
+        height: 50px;
+        background: #F5F5F5;
+        border-radius: 20px;
+        font-size: 16px;
+        padding: 10px; /* Add padding for text inside the input */
+    }
+
+   /* Custom style for textarea */
+   textarea {
+	width: 50vh;
+	height: 150px;
+	background: #F5F5F5;
+	border-radius: 24px;
+	font-size: 16px;
+	padding: 10px;
+	resize: vertical;
+	overflow-y: auto;
+}
+
+
 `;
+
+
 
 export default GlobalStyle;

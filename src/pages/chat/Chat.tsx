@@ -1,5 +1,5 @@
 import { IoIosArrowBack } from 'react-icons/io';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { RxExit } from 'react-icons/rx';
 import { IoArrowUpCircleOutline } from 'react-icons/io5';
 import { readChatRoom } from '../../api/chat.ts';
@@ -7,36 +7,19 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import { Stomp, Client } from '@stomp/stompjs';
-
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import { subscribe } from 'node:diagnostics_channel';
-import { Line } from '../chatlist/ChatList.tsx';
-import { it } from 'node:test';
-import { ChatReadResponseDto } from '../../types/chat/chatRoom.ts';
+import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 
-// 엔터치고, 밑으로 내려가는 거
-
-//send에서 왜 오류가 나는지 ( @@@@@@)
-//스타일드 컴포넌트에서 왜 오류가 나는지 저 방법이 맞는지 ( @@@@)
-//chatList에서 map이 왜 오류가 나는지
-
-// 소켓으로 채팅 내용추가
-
-interface Message {
-  nickname: string;
-  message: string;
-}
+//무한 스크롤
+//디테일 페이지 , 알림
 
 const Chat = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const params = useParams();
-  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
   const [stompClient, setStompClient] = useState<Client | null>();
+  const [testMessges, setTestMessges] = useState([]);
 
-  const [testMessges, setTestMessges] = useState<any>([]);
-
-  //한번만
   const queryChatRoom = useQuery({
     queryKey: ['chatRoom'],
     queryFn: () => readChatRoom(params?.chatRoom),
@@ -47,54 +30,81 @@ const Chat = () => {
 
   useEffect(() => {
     if (params.chatRoom) {
-      const socket = new SockJS('https://api.openmpy.com/chat');
-      const client = Stomp.over(socket);
-      client.connectHeaders = {
-        Authorization: `${localStorage.getItem('accessToken')}`,
-      };
-      client.connect({}, () => {
-        client.subscribe(`/sub/chat/chatRoom/${params.chatRoom}`, (message) => {
-          const receivedMessage = JSON.parse(message.body);
+      const fetchData = async () => {
+        try {
+          const response = await readChatRoom(params.chatRoom);
+          const chatRoomData = response.data;
 
-          receivedMessage.sender = receivedMessage.nickname;
-          receivedMessage.createdAt = moment(new Date()).format(
-            'YYYY-MM-DD hh:mm:ss',
-          );
+          const socket = new SockJS('https://api.openmpy.com/chat');
+          const client = Stomp.over(socket);
 
-          console.log(receivedMessage);
+          client.connectHeaders = {
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          };
 
-          setTestMessges((prevMessages) => {
-            console.log([...prevMessages, receivedMessage]);
-            return [...prevMessages, receivedMessage];
+          const headers = {
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          };
+          client.connect(headers, () => {
+            client.subscribe(
+              `/sub/chat/chatRoom/${params.chatRoom}`,
+              (message) => {
+                const receivedMessage = JSON.parse(message.body);
+
+                receivedMessage.profile = data?.senderProfileImage;
+
+                // receivedMessage.sender = receivedMessage.nickname;
+                receivedMessage.createdAt = new Date();
+                // moment(new Date()).format('hh:mm');
+                //YYYY-MM-DD hh:mm:ss
+                console.log(receivedMessage);
+
+                setTestMessges((prevMessages) => {
+                  console.log([...prevMessages, receivedMessage]);
+                  return [...prevMessages, receivedMessage];
+                });
+              },
+            );
           });
-        });
-      });
 
-      setStompClient(client);
-      // Cleanup function
-      return () => {
-        client.disconnect();
+          setStompClient(client);
+          setTestMessges(chatRoomData.chatReadResponseDtoList.reverse());
+        } catch (error) {
+          console.error('Error fetching chat room data:', error);
+        }
       };
+
+      fetchData();
     }
-    // Missing dependency array, assuming it's intended to run only once
   }, [params.chatRoom]);
 
-  const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [testMessges]);
+
+  const handleMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
 
   const sendMessage = () => {
     if (message.trim() && stompClient && stompClient.connected) {
       const chatMessage = {
-        nickname: data?.toUserNickname,
+        profile: data?.senderProfileImage,
         message: message,
         createAt: new Date(),
       };
-      stompClient.send(
-        `/pub/chat/talk/${params.chatRoom}`,
-        {},
-        JSON.stringify(chatMessage),
-      );
+      // stompClient.send(
+      //   `/pub/chat/talk/${params.chatRoom}`,
+      //   {},
+      //   JSON.stringify(chatMessage),
+      // );
+      stompClient.publish({
+        destination: `/pub/chat/talk/${params.chatRoom}`,
+        body: JSON.stringify(chatMessage),
+      });
+
       // chatMessage.sender = '';
 
       setMessage('');
@@ -106,11 +116,16 @@ const Chat = () => {
 
   useEffect(() => {
     if (queryChatRoom.data) {
-      setTestMessges(queryChatRoom.data.chatReadResponseDtoList.reverse());
+      const reversedMessages = [
+        ...queryChatRoom.data.chatReadResponseDtoList,
+      ].reverse();
+
+      //  moment(new Date(queryData.createdAt)).format('hh:mm');
+      setTestMessges(reversedMessages);
     }
   }, [queryChatRoom.data]);
 
-  if (error) return <div>죄송합니다. 다시 접속해주세요!</div>;
+  if (error) return <div>죄송합니다. 다시 접속해주세요</div>;
 
   if (isLoading) return <div>로딩중입니다. ~.~</div>;
 
@@ -124,40 +139,58 @@ const Chat = () => {
         </MenuBox>
       </PaddingBox>
       <Center>
-        <ChatBox>
+        <ChatBox ref={scrollRef}>
           {testMessges.map((item, index) => {
             return (
               <Chatting
-                JustifyContent={item.sender === data.toUserNickname}
+                $active={item.sender === data.toUserNickname}
                 key={index}
               >
-                <Message JustifyContent={item.sender === data.toUserNickname}>
-                  <span>{item.sender}</span>
-                  <span>{item.message}</span>
-                </Message>
-                <span>{item.createdAt}</span>
+                <Seserve $active={item.sender === data.toUserNickname}>
+                  <img
+                    src={
+                      item.sender === data.toUserNickname
+                        ? data.toUserProfileImage
+                        : data.senderProfileImage
+                    }
+                  />
+                  <Message $active={item.sender === data.toUserNickname}>
+                    <span>{item.message}</span>
+                  </Message>
+
+                  <span>
+                    {moment(new Date(item.createdAt)).format('hh:mm')}
+                  </span>
+                </Seserve>
               </Chatting>
             );
           })}
         </ChatBox>
       </Center>
       <InputBox>
-        <input
-          type={'text'}
-          placeholder={'메세지를 입력해주세요.'}
-          onChange={handleMessage}
-          value={message}
-        />
-        <IoArrowUpCircleOutline
-          style={{
-            fontSize: '28px',
-            position: 'absolute',
-            right: '30px',
-            zIndex: '100px',
-            color: '#1689F3',
-          }}
-          onClick={sendMessage}
-        />
+        <Box>
+          <textarea
+            placeholder={'메세지를 입력해주세요.'}
+            onChange={handleMessage}
+            value={message}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                sendMessage();
+              }
+            }}
+          />
+          <IoArrowUpCircleOutline
+            style={{
+              fontSize: '28px',
+              // position: 'absolute',
+              // right: '30px',
+              // zIndex: '100px',
+              color: '#1689F3',
+              padding: '10px',
+            }}
+            onClick={sendMessage}
+          />
+        </Box>
       </InputBox>
     </Contaier>
   );
@@ -181,6 +214,7 @@ const MenuBox = styled.div`
     background-color: white;
     > span {
       display: flex;
+      font-size: 18px;
       justify-content: center;
       width: 100%;
     }
@@ -200,59 +234,88 @@ const Center = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+  width: 100%;
+  position: fixed;
 `;
 const ChatBox = styled.div`
   box-sizing: border-box;
+  align-items: center;
   background-color: #f5f5f5;
   height: calc(100% - 150px);
   width: 100%;
-
   overflow-y: auto;
 `;
 
-const Chatting = styled.div`
-  display: flex;
-  margin: 10px;
-  justify-content: ${(props) => (props.JustifyContent ? 'flex-end' : 'normal')};
-
-  > span {
+const Chatting = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
     display: flex;
-    align-items: flex-end;
-    color: #9a9a9a;
-    font-size: 10px;
-  }
-`;
+    word-break: break-all;
+    margin: 10px;
+    justify-content: ${$active ? 'normal' : 'flex-end'};
+  `,
+);
 
-const Message = styled.div`
-  max-width: 250px;
-  padding: 10px;
-  border-radius: 10px;
-  color: ${(props) => (props.JustifyContent ? 'white' : 'black')};
+const Seserve = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
+    display: flex;
+    flex-direction: ${$active ? 'normal' : 'row-reverse'};
+    > img {
+      width: 44px;
+      height: 44px;
+      border-radius: 100%;
+    }
+    > span {
+      display: flex;
+      align-items: flex-end;
+      color: #9a9a9a;
+      font-size: 10px;
+    }
+  `,
+);
+const Message = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
+    max-width: 220px;
+    padding: 14px;
+    margin: ${$active ? `0 5px 0 10px` : `0 10px 0 5px`};
+    align-items: center;
+    border-radius: 10px;
+    color: ${$active ? 'black' : 'white'};
 
-  background-color: ${(props) => (props.JustifyContent ? '#1689F3' : '#fff')};
-`;
-
-const ColumnRevers = styled.div`
-  flex-direction: column-reverse;
-`;
+    background-color: ${$active ? '#fff' : '#1689F3'};
+  `,
+);
 
 const InputBox = styled.div`
   @media screen and (max-width: 430px) {
     position: absolute;
     bottom: 0;
     height: 80px;
+    padding: 20px 30px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: white;
-    > input {
-      background-color: #f5f5f5;
-      height: 45px;
-      border-radius: 20px;
-      width: 89%;
-      padding-left: 18px;
-      font-size: 12px;
-    }
+  }
+`;
+const Box = styled.div`
+  border-radius: 18px;
+  background-color: #f5f5f5;
+  display: flex;
+  height: 50px;
+  align-items: center;
+  width: 100%;
+  > textarea {
+    display: flex;
+    border-radius: 18px;
+    font-family: 'Pretendard-Regular';
+    height: 20px;
+    background-color: #f5f5f5;
+    border: none;
+    width: calc(100% - 28px);
+    padding-left: 18px;
+    font-size: 15px;
+    outline: none;
+    resize: none;
   }
 `;

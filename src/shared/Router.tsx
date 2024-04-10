@@ -22,6 +22,7 @@ function Router() {
         <Route path="/sociallogin" element={<SocialLogin />} />
         <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
+        <Route path="/MyList" element={<MyList />} />
         {isLoggedIn &&<Route path="/thxkakaomap" element={<Location />} />}
         {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
         {isLoggedIn && <Route path="/mylist" element={<MyList />} />}

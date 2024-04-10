@@ -1,6 +1,7 @@
 export interface ChatRoomResponse {
   toUserNickname: string;
   toUserProfileImage: string;
+  senderProfileImage: string;
   chatReadResponseDtoList: ChatReadResponseDto[];
 }
 
