@@ -5,12 +5,16 @@ interface State {
   pageSize: number;
   pageNumber: number;
   isLoggedIn: boolean;
-  selectedCategory: Category 
+  selectedCategory: Category;
   isLoading: boolean;
   rentalData: { [key in Category]?: any[] };
   login: () => void;
   logout: () => void;
-  getCategoryData: (category: Category, page: number, pageSize: number) => Promise<any>;
+  getCategoryData: (
+    category: Category,
+    page: number,
+    pageSize: number,
+  ) => Promise<any>;
   setPageSize: (pageSize: number) => void;
   setPageNumber: (pageNumber: number) => void; // setPageNumber 함수 추가
 }
@@ -47,18 +51,18 @@ const useStore = create<State>((set) => ({
 
   getCategoryData: async (category, pageNumber, pageSize) => {
     set({ isLoading: true });
-  
+
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://api.openmpy.com/api/v1/rentals?category=${category}&page=${pageNumber}&size=${pageSize}`
+        `https://api.openmpy.com/api/v1/rentals?category=${category}&page=${pageNumber}&size=${pageSize}`,
       );
-  
+
       const newData: any = response.data;
       set((state: State) => ({
         rentalData: { ...state.rentalData, [category]: newData },
         isLoading: false,
       }));
-  
+
       return newData;
     } catch (error) {
       console.error('Error fetching category data:', error);
@@ -67,8 +71,7 @@ const useStore = create<State>((set) => ({
       set({ isLoading: false });
     }
   },
-  
-  
+
   setPageSize: (pageSize) => set({ pageSize }),
   setPageNumber: (pageNumber) => set({ pageNumber }), // setPageNumber 함수 정의
 }));

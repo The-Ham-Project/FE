@@ -14,6 +14,7 @@ import MyList from '../pages/Mypage/MyList.tsx';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -25,6 +26,7 @@ function Router() {
         <Route path="/MyList" element={<MyList />} />
         {isLoggedIn &&<Route path="/thxkakaomap" element={<Location />} />}
         {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
+        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
