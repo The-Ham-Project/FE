@@ -44,15 +44,17 @@ function Details() {
 
   const { mutate } = useMutation({
     mutationFn: createChat,
-    onSuccess: () => {
-      console.log('성공');
+    onSuccess: (response) => {
+      navigate(`/comm/${response?.data}`);
+    },
+    onError: () => {
+      console.log('error');
     },
   });
 
   const handleCreateChat = () => {
     if (item) {
       mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
-      navigate(`/comm/${rentalId}`);
     }
   };
 
