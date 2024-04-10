@@ -17,16 +17,6 @@ interface Rental {
 
 function MyList() {
     const navigate = useNavigate();
-    const deleteMutation = useMutation<any, any, number>({
-        mutationFn: (itemId) => removeItemPost(itemId),
-        onSuccess: (res) => {
-          console.log("res", res);
-          navigate("/");
-        },
-        onError: (error) => {
-          console.log("error", error);
-        },
-      });
   const page = 1; // 페이지당 아이템 수
   const selectedCategory = 'ALL'; // 선택된 카테고리
 

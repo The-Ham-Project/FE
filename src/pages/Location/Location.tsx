@@ -243,41 +243,42 @@ const Map = styled.div`
 `;
 
 const MSG = styled.div`
-  @media screen and (max-width: 430px) {
-    /* 현재 위치에 있는 동네는 아래와 같아요. */
+@media screen and (max-width: 430px) {
+/* 현재 위치에 있는 동네는 아래와 같아요. */
 
-    position: absolute;
-    width: 230px;
-    height: 17px;
-    left: calc(50% - 230px / 2 - 0.5px);
-    top: 576.74px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    /* identical to box height */
-    text-align: center;
-    color: #000000;
-    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
-  }
+position: absolute;
+width: 280px;
+height: 17px;
+left: calc(50% - 280px / 2 - 0.5px);
+top: 576.74px;
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 17px;
+/* identical to box height */
+text-align: center;
+color: #000000;
+transform: matrix(1, -0.02, 0.01, 1, 0, 0);
+}
 `;
 
 const Address = styled.div`
-  @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 250px;
-    height: 26px;
-    left: calc(50% - 250px / 2 - 0.5px);
-    top: 612.16px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 26px;
-    text-align: center;
-    color: #000000;
+@media screen and (max-width: 430px) {
+position: absolute;
+width: 300px;
+height: 26px;
+left: calc(50% - 300px / 2 - 0.5px);
+top: 612.16px;
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 22px;
+line-height: 26px;
+text-align: center;
+color: #000000;
 
-    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
-  }
+transform: matrix(1, -0.02, 0.01, 1, 0, 0);
+}
+
 `;

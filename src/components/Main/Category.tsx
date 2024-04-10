@@ -12,6 +12,7 @@ import CLOSET from '../../../public/assets/CLOSET.png';
 import BOOK from '../../../public/assets/BOOK.png';
 import PLACE from '../../../public/assets/PLACE.png';
 import OTHER from '../../../public/assets/OTHER.png';
+import Contents from '../../components/Main/Contents';
 
 export type Category =
   | 'ALL'
@@ -23,14 +24,14 @@ export type Category =
   | 'PLACE'
   | 'OTHER';
 const categories = {
-  ALL: { label: 'ALL', icon: ALL },
-  ELECTRONIC: { label: 'ELECTRONIC', icon: ELECTRONIC },
-  HOUSEHOLD: { label: 'HOUSEHOLD', icon: HOUSEHOLD },
-  KITCHEN: { label: 'KITCHEN', icon: KITCHEN },
-  CLOSET: { label: 'CLOSET', icon: CLOSET },
-  BOOK: { label: 'BOOK', icon: BOOK },
-  PLACE: { label: 'PLACE', icon: PLACE },
-  OTHER: { label: 'OTHER', icon: OTHER },
+  ALL: { label: '전체', icon: ALL },
+  ELECTRONIC: { label: '가전제품', icon: ELECTRONIC },
+  HOUSEHOLD: { label: '생활용품', icon: HOUSEHOLD },
+  KITCHEN: { label: '주방용품', icon: KITCHEN },
+  CLOSET: { label: '의류/신발', icon: CLOSET },
+  BOOK: { label: '책', icon: BOOK },
+  PLACE: { label: '공간', icon: PLACE },
+  OTHER: { label: '기타', icon: OTHER },
 };
 
 function Contents() {
@@ -103,6 +104,7 @@ function Contents() {
 
   return (
     <Div>
+      <Contents />
       <CategoryButtonsContainer>
         {Object.keys(categories).map((categoryKey) => (
           <CategoryButtonWrapper key={categoryKey}>
@@ -198,11 +200,25 @@ const ProfileImage = styled.img`
 `;
 
 const ScrollableCategoryContainer = styled.div`
-
   overflow: scroll;
   height: 62vh;
   overflow-x: hidden;
+
+  /* 스크롤바 스타일 지정 */
+  &::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(103, 126, 255, 0.3); /* 스크롤바 색상 */
+    border-radius: 4px; /* 스크롤바 모서리 둥글기 */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; /* 스크롤바 트랙 배경색 */
+  }
 `;
+
 
 const CategoryContainer = styled.div`
   display: grid;
@@ -213,7 +229,6 @@ const CategoryContainer = styled.div`
 
 const CategoryItem = styled.div`
   width: 100%;
-  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
 `;
@@ -225,6 +240,12 @@ const Div = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin: 0px 50px 0px 50px;
+  @media screen and (max-width: 768px) {
+    width: 90%; /* 화면 너비에 따라 조정 */
+    margin:  auto; /* 가운데 정렬 */
+
+  }
 `;
 
 const CategoryButtonsContainer = styled.div`
@@ -234,6 +255,8 @@ const CategoryButtonsContainer = styled.div`
   flex-wrap: wrap;
   width: 400px;
   gap: 20px;
+  margin: 10px;
+  padding: 20px;
 `;
 
 interface CustomCategoryButtonProps {

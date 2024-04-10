@@ -12,6 +12,7 @@ import {
 } from '../../styles/Details-Styles';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
+import styled from 'styled-components';
 
 interface RentalImage {
   imageUrl: string;
@@ -83,7 +84,7 @@ function Details() {
   };
 
   return (
-    <Container>
+    <DetailsContainer>
       <Slider {...settings}>
         {item.rentalImageList.map((image, index) => (
           <div key={index}>
@@ -118,9 +119,56 @@ function Details() {
       <p>{item.content}</p>
 
       <p>Category: {item.category}</p>
-      <button onClick={handleCreateChat}>채팅하기</button>
-    </Container>
+      <Button  onClick={handleCreateChat}>채팅하기</Button >
+    </DetailsContainer>
   );
 }
 
 export default Details;
+
+
+const DetailsContainer = styled.div`
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: auto;
+`;
+
+const ProfileImage = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  max-width: 350px;
+  height: 52px;
+  background-color: #1689f3;
+  border-radius: 31.14px;
+  color: white;
+  font-size: 15.45px;
+  font-family: 'Pretendard';
+  font-weight: 500;
+  text-align: center;
+  margin: 20px auto;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+
+    height: 42px;
+    font-size: 14px;
+    border-radius: 20px;
+    margin: 15px auto;
+  }
+`;
