@@ -3,8 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css'; // 기본 스타일 가져오기
 import './Dropzonestyles.css';
-
+import { FaCamera } from 'react-icons/fa';
 import { authInstance } from '../../api/axios';
+import styled from 'styled-components';
+
+
+import ALL from '../../../public/assets/ALL.png';
+import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
+import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.png';
+import KITCHEN from '../../../public/assets/KITCHEN.png';
+import CLOSET from '../../../public/assets/CLOSET.png';
+import BOOK from '../../../public/assets/BOOK.png';
+import PLACE from '../../../public/assets/PLACE.png';
+import OTHER from '../../../public/assets/OTHER.png';
 
 // 카테고리 타입 정의
 type Category =
@@ -13,28 +24,26 @@ type Category =
   | 'KITCHEN'
   | 'CLOSET'
   | 'BOOK'
-  | 'COSMETICS'
   | 'PLACE'
   | 'OTHER';
 
 // 카테고리에 대한 이름 정의
-const categories: Record<Category, string> = {
-  ELECTRONIC: '전자제품',
-  HOUSEHOLD: '가정용품',
-  KITCHEN: '주방용품',
-  CLOSET: '의류/신발',
-  BOOK: '도서',
-  COSMETICS: '화장품',
-  PLACE: '장소',
-  OTHER: '기타',
+const categories: Record<Category, any> = {
+  ELECTRONIC:   <img src={ELECTRONIC}  />,
+  HOUSEHOLD: <img src={HOUSEHOLD}  />,
+  KITCHEN: <img src={KITCHEN}  />,
+  CLOSET: <img src={CLOSET}  />,
+  BOOK: <img src={BOOK}  />,
+  PLACE: <img src={PLACE}  />,
+  OTHER: <img src={OTHER}  />,
 };
 
 function PostDetailsPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); // 게시글 제목 상태
   const [content, setContent] = useState(''); // 게시글 내용 상태
-  const [rentalFee, setRentalFee] = useState<number>(0);
-  const [deposit, setDeposit] = useState<number>(0); // 보증금 상태
+  const [rentalFee, setRentalFee] = useState<number>();
+  const [deposit, setDeposit] = useState<number>(); // 보증금 상태
   const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
 
@@ -91,7 +100,11 @@ function PostDetailsPage() {
 
   return (
     <>
-      <div>
+      <CustomDropzone>
+
+
+
+    
         <Dropzone
           onChangeStatus={(meta, status) => {
             if (status === 'done') {
@@ -102,7 +115,7 @@ function PostDetailsPage() {
               );
             }
           }}
-          inputContent="이미지를 업로드하세요"
+         inputContent={<FaCamera size={24} color="#B1B1B1" />}
           accept="image/*"
           multiple={true}
           classNames={{
@@ -115,13 +128,13 @@ function PostDetailsPage() {
             submitButton: 'custom-submit-button',
             submitButtonContainer: 'custom-submit-button-container',
           }}
-          inputWithFilesContent={(files) => `${files.length} +`}
+          inputWithFilesContent={(files) => `${files.length}/3`}
+           maxFiles={3} 
         />
-      </div>
+      </CustomDropzone>
 
-      <div>물품의 카테고리를 선택해주세요.</div>
       <div>
-        <div>
+        <Image>
           {Object.entries(categories).map(([key, value]) => (
             <button
               key={key}
@@ -129,16 +142,21 @@ function PostDetailsPage() {
               style={{
                 backgroundColor:
                   selectedCategory === key ? 'lightblue' : 'white',
-                border: '1px solid black',
-                margin: '5px',
-                padding: '5px 10px',
+             
                 cursor: 'pointer',
+                width: '90px',
+                borderRadius: '50%',
+           
+                
               }}
             >
+              <Imagine>
               {value}
+              {key}
+              </Imagine>
             </button>
           ))}
-        </div>
+        </Image>
       </div>
 
       <div>제목</div>
@@ -181,9 +199,101 @@ function PostDetailsPage() {
         />
       </div>
 
-      <button onClick={handleButtonClick}>게시글 작성</button>
+
+
+      <Rectangle>
+      <Text onClick={handleButtonClick}>게시글 작성</Text>
+      </Rectangle >
+
+      
     </>
   );
 }
 
 export default PostDetailsPage;
+
+// 스타일드 컴포넌트를 사용하여 Dropzone 스타일 적용
+const CustomDropzone = styled.div`
+  width: 1037px;
+  height: 150px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 69px;
+`;
+
+const Container = styled.div`
+  width: 1037px;
+  height: 300px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 69px;
+`;
+
+const ItemContainer = styled.div`
+  position: relative;
+  width: 300px;
+  height: 120px;
+  
+`;
+
+const Image = styled.div`
+  width: 360px;
+ 
+`;
+
+const Counter = styled.div`
+  width: 283.81px;
+  height: 46.56px;
+  position: absolute;
+  left: 10.50px;
+  top: 218px;
+  transform: rotate(0.62deg);
+  transform-origin: 0 0;
+  text-align: center;
+  color: #B1B1B1;
+  font-size: 36px;
+  font-family: 'Inter';
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const Group = styled.div`
+  width: 84.20px;
+  height: 112.32px;
+  position: absolute;
+  left: 105.06px;
+  top: 84px;
+`;
+
+const Imagine = styled.div`
+display: flex;
+    flex-direction: column;
+    font-size: 8px;
+    word-break: break-all;
+    padding: 10px;
+   
+`;
+
+
+
+const Rectangle = styled.div`
+  width: 371px;
+  height: 60px;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+  background: #1689F3;
+  border-radius: 85px;
+`;
+
+const Text = styled.button`
+  text-align: center;
+  color: white;
+  font-size: 20px;
+
+
+
+`;
+

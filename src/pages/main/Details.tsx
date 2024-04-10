@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Deposit, Flex, Rental } from '../../styles/Details-Styles';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import {
+  Container,
+  Deposit,
+  Flex,
+  Rental,
+} from '../../styles/Details-Styles';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
 
@@ -28,10 +36,11 @@ interface RentalData {
   longitude: number;
   rentalImageList: RentalImage[];
 }
+
 function Details() {
   const navigate = useNavigate();
-  const { rentalId } = useParams(); // useParams를 사용하여 URL에서 rentalId를 추출
-  const [item, setItem] = useState<RentalData | null>(null); // RentalData 타입으로 상태 초기화
+  const { rentalId } = useParams(); 
+  const [item, setItem] = useState<RentalData | null>(null); 
 
   const { mutate } = useMutation({
     mutationFn: createChat,
@@ -65,37 +74,33 @@ function Details() {
     return <div>Loading...</div>;
   }
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <Container>
-      {item.rentalImageList && item.rentalImageList.length === 0 && (
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzwsDBA9dpNwSzYVQaI3H56yvEAWRLcqM4toib5euBUT_KDVDqqj1yZhNN80tXVnDRvbo&usqp=CAU" // 기본 이미지 경로 설정
-          alt="Default"
-          style={{
-            maxWidth: '500px',
-            maxHeight: '500px',
-            width: '100%',
-            height: 'auto',
-          }}
-        />
-      )}
-      {item.rentalImageList && item.rentalImageList.length > 0 && (
-        <div>
-          {item.rentalImageList.map((image, index) => (
+      <Slider {...settings}>
+        {item.rentalImageList.map((image, index) => (
+          <div key={index}>
             <img
-              key={index}
               src={image.imageUrl}
               alt={`Image ${index + 1}`}
               style={{
-                maxWidth: '500px',
-                maxHeight: '500px',
+                maxWidth: '400px',
+                maxHeight: '400px',
                 width: '100%',
                 height: 'auto',
               }}
             />
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </Slider>
+
       <Flex>
         <img
           src={item.profileUrl}

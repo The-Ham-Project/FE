@@ -17,7 +17,7 @@ declare const window: typeof globalThis & {
 };
 
 export default function Location(): JSX.Element {
-  const [map, setMap] = useState();
+  const [map, setMap] = useState<any>();
   const [address, setAddress] = useState('');
   // const [results, setResults] = useState([]);
   // const [currentPosState, setCurrentPosState] = useState();
@@ -66,8 +66,8 @@ export default function Location(): JSX.Element {
 
     console.log(currentPos);
     geolocationMutation.mutate({
-      lon: currentPos.Ma,
-      lat: currentPos.La,
+      lon: currentPos.La,
+      lat: currentPos.Ma,
     });
 
     // 위치 정보 가져오기 성공 시 주소 변환 함수 호출
@@ -301,3 +301,10 @@ const Address = styled.div`
 // /* identical to box height */
 
 // color: #FFFFFF;
+
+
+
+
+
+
+
