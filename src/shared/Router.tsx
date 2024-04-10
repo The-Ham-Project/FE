@@ -14,6 +14,7 @@ import MyList from '../pages/Mypage/MyList.tsx';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
+
   return (
     <BrowserRouter>
       <Routes>

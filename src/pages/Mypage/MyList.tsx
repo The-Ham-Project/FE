@@ -1,8 +1,9 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface Rental {
   rentalId: number;
@@ -15,6 +16,7 @@ interface Rental {
 }
 
 function MyList() {
+    const navigate = useNavigate();
     const deleteMutation = useMutation<any, any, number>({
         mutationFn: (itemId) => removeItemPost(itemId),
         onSuccess: (res) => {
@@ -90,3 +92,7 @@ const ErrorPage = styled.div`
     top: 280.25px;
   }
 `;
+
+function removeItemPost(itemId: number): Promise<any> {
+    throw new Error('Function not implemented.');
+}
