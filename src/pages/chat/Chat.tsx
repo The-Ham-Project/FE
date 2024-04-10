@@ -4,7 +4,8 @@ import { RxExit } from 'react-icons/rx';
 import { IoArrowUpCircleOutline } from 'react-icons/io5';
 import { readChatRoom } from '../../api/chat.ts';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { MdOutlineCalendarMonth } from 'react-icons/md';
 import SockJS from 'sockjs-client';
 import { Stomp, Client } from '@stomp/stompjs';
 import { useEffect, useRef, useState } from 'react';
@@ -20,12 +21,33 @@ const Chat = () => {
   const [stompClient, setStompClient] = useState<Client | null>();
   const [testMessges, setTestMessges] = useState([]);
 
+  const navigate = useNavigate();
   const queryChatRoom = useQuery({
     queryKey: ['chatRoom'],
     queryFn: () => readChatRoom(params?.chatRoom),
     select: (response) => response.data,
     enabled: !!params.chatRoom,
   });
+
+  //
+  // const getChats = async ({ pageParam = 0 }) => {
+  //   const res = await fetch(
+  //     `/api/v1/chat-rooms/${params.chatRoom}?page=${pageParam}&size=10`,
+  //   );
+  //   const data = await res.json();
+  //   return { ...data, prevPage: pageParam };
+  // };
+  //
+  // const queryChatRoom = useInfiniteQuery({
+  //   queryKey: ['chatRoom'],
+  //   queryFn: () => readChatRoom(params?.chatRoom),
+  //   select: (response) => response.data,
+  //   enabled: !!params.chatRoom,
+  //   getNextPageParam: lastPage=> {
+  //     if(lastPage.prevPage + 10 > lastPage.ar)
+  // },
+  // });
+  //
   const { data, error, isLoading } = queryChatRoom;
 
   useEffect(() => {
@@ -50,8 +72,6 @@ const Chat = () => {
               `/sub/chat/chatRoom/${params.chatRoom}`,
               (message) => {
                 const receivedMessage = JSON.parse(message.body);
-
-                receivedMessage.profile = data?.senderProfileImage;
 
                 // receivedMessage.sender = receivedMessage.nickname;
                 receivedMessage.createdAt = new Date();
@@ -91,7 +111,6 @@ const Chat = () => {
   const sendMessage = () => {
     if (message.trim() && stompClient && stompClient.connected) {
       const chatMessage = {
-        profile: data?.senderProfileImage,
         message: message,
         createAt: new Date(),
       };
@@ -129,11 +148,18 @@ const Chat = () => {
 
   if (isLoading) return <div>로딩중입니다. ~.~</div>;
 
+  const handleClickNavigate = () => {
+    navigate('/commlist');
+    console.log('클릭');
+  };
+
   return (
     <Contaier>
       <PaddingBox>
         <MenuBox>
-          <IoIosArrowBack size={'24px'} />
+          <div onClick={handleClickNavigate}>
+            <IoIosArrowBack size={'24px'} />
+          </div>
           <span>{data?.toUserNickname}</span>
           <RxExit size={'22px'} />
         </MenuBox>
@@ -141,28 +167,44 @@ const Chat = () => {
       <Center>
         <ChatBox ref={scrollRef}>
           {testMessges.map((item, index) => {
+            const previousMessageDate =
+              index > 0 ? new Date(testMessges[index - 1].createdAt) : null;
+            const currentDate = new Date(item.createdAt);
+            const isDifferentDate =
+              previousMessageDate === null ||
+              previousMessageDate.getDate() !== currentDate.getDate() ||
+              previousMessageDate.getMonth() !== currentDate.getMonth() ||
+              previousMessageDate.getFullYear() !== currentDate.getFullYear();
             return (
-              <Chatting
-                $active={item.sender === data.toUserNickname}
-                key={index}
-              >
-                <Seserve $active={item.sender === data.toUserNickname}>
-                  <img
-                    src={
-                      item.sender === data.toUserNickname
-                        ? data.toUserProfileImage
-                        : data.senderProfileImage
-                    }
-                  />
-                  <Message $active={item.sender === data.toUserNickname}>
-                    <span>{item.message}</span>
-                  </Message>
-
+              <div>
+                <DateSpanBox $active={isDifferentDate}>
                   <span>
-                    {moment(new Date(item.createdAt)).format('hh:mm')}
+                    <MdOutlineCalendarMonth style={{ margin: '0 6px 0 0' }} />
+                    {moment(new Date(item.createdAt)).format('YYYY-MM-DD')}
                   </span>
-                </Seserve>
-              </Chatting>
+                </DateSpanBox>
+                <Chatting
+                  $active={item.sender === data.toUserNickname}
+                  key={index}
+                >
+                  <Seserve $active={item.sender === data.toUserNickname}>
+                    <img
+                      src={
+                        item.sender === data.toUserNickname
+                          ? data.toUserProfileImage
+                          : data.senderProfileImage
+                      }
+                    />
+                    <Message $active={item.sender === data.toUserNickname}>
+                      <span>{item.message}</span>
+                    </Message>
+
+                    <span>
+                      {moment(new Date(item.createdAt)).format('hh:mm')}
+                    </span>
+                  </Seserve>
+                </Chatting>
+              </div>
             );
           })}
         </ChatBox>
@@ -181,7 +223,7 @@ const Chat = () => {
           />
           <IoArrowUpCircleOutline
             style={{
-              fontSize: '28px',
+              fontSize: '32px',
               // position: 'absolute',
               // right: '30px',
               // zIndex: '100px',
@@ -208,10 +250,14 @@ const Contaier = styled.div`
 const MenuBox = styled.div`
   @media screen and (max-width: 430px) {
     display: flex;
-    height: 70px;
+    z-index: 100;
+    height: 60px;
     width: 100%;
     align-items: center;
     background-color: white;
+    > div {
+      cursor: pointer;
+    }
     > span {
       display: flex;
       font-size: 18px;
@@ -225,6 +271,7 @@ const PaddingBox = styled.div`
   @media screen and (max-width: 430px) {
     padding: 0 20px;
     position: fixed;
+    //box-shadow: 0 8px 29px 0px rgba(100, 100, 111, 0.2);
     width: 100%;
     background-color: white;
   }
@@ -241,7 +288,7 @@ const ChatBox = styled.div`
   box-sizing: border-box;
   align-items: center;
   background-color: #f5f5f5;
-  height: calc(100% - 150px);
+  height: calc(100% - 130px);
   width: 100%;
   overflow-y: auto;
 `;
@@ -275,10 +322,10 @@ const Seserve = styled.div<{ $active: boolean }>(
 const Message = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
     max-width: 220px;
-    padding: 14px;
+    padding: 13px;
     margin: ${$active ? `0 5px 0 10px` : `0 10px 0 5px`};
     align-items: center;
-    border-radius: 10px;
+    border-radius: 9px;
     color: ${$active ? 'black' : 'white'};
 
     background-color: ${$active ? '#fff' : '#1689F3'};
@@ -289,7 +336,7 @@ const InputBox = styled.div`
   @media screen and (max-width: 430px) {
     position: absolute;
     bottom: 0;
-    height: 80px;
+    height: 70px;
     padding: 20px 30px;
     width: 100%;
     display: flex;
@@ -312,10 +359,26 @@ const Box = styled.div`
     height: 20px;
     background-color: #f5f5f5;
     border: none;
-    width: calc(100% - 28px);
+    width: calc(100% - 32px);
     padding-left: 18px;
     font-size: 15px;
     outline: none;
     resize: none;
   }
 `;
+const DateSpanBox = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
+    display: ${$active ? 'flex' : 'none'};
+    margin: 22px 0;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    > span {
+      font-size: 13px;
+      background-color: rgba(151, 147, 147, 0.4);
+      color: #fff;
+      padding: 8px 17px;
+      border-radius: 30px;
+    }
+  `,
+);

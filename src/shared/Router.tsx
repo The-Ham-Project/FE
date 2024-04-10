@@ -21,7 +21,7 @@ function Router() {
         <Route path="/sociallogin" element={<SocialLogin />} />
         <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
-        {isLoggedIn &&<Route path="/thxkakaomap" element={<Location />} />}
+        {isLoggedIn && <Route path="/thxkakaomap" element={<Location />} />}
         {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
