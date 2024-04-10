@@ -29,13 +29,14 @@ function Main() {
         <div>
           <div>
             {/* <Search /> */}
+            <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
             <Contents />
             <div>
               <Category />
             </div>
-            <ButtonContainer>
-              <button onClick={handleButtonClick}>+</button>
-            </ButtonContainer>
+        
+            
+
           </div>
         </div>
       </div>
@@ -44,8 +45,8 @@ function Main() {
 }
 
 export default Main;
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.button`
   position: fixed;
-
+  background-color: aqua;
   z-index: 999; /* 다른 요소 위에 표시되도록 설정 */
 `;

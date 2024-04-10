@@ -1,16 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import useStore from '../../store/store'; // Zustand store를 import 해야 합니다.
-import {
-  CategoryTsxtSize, // 오타 수정: CategoryTsxtSize -> CategoryTextSize
-  Categorybutton,
-  Categoryinbutton,
-  FlexCenter,
-  FlexColumn,
-  FlexWrap,
-  MainContainer,
-  MainFlex,
-} from '../../styles/Details-Styles';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import ALL from '../../../public/assets/ALL.png';
 import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
 import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.png';
@@ -20,188 +13,285 @@ import BOOK from '../../../public/assets/BOOK.png';
 import PLACE from '../../../public/assets/PLACE.png';
 import OTHER from '../../../public/assets/OTHER.png';
 
-interface CategoryData {
-  rentalId: any;
-  firstThumbnailUrl: string | null;
-  profileUrl: string;
-  nickname: string;
-  title: string;
-  content: string;
-  rentalFee: number;
-  deposit: number;
-}
+export type Category =
+  | 'ALL'
+  | 'ELECTRONIC'
+  | 'HOUSEHOLD'
+  | 'KITCHEN'
+  | 'CLOSET'
+  | 'BOOK'
+  | 'PLACE'
+  | 'OTHER';
+const categories = {
+  ALL: { label: 'ALL', icon: ALL },
+  ELECTRONIC: { label: 'ELECTRONIC', icon: ELECTRONIC },
+  HOUSEHOLD: { label: 'HOUSEHOLD', icon: HOUSEHOLD },
+  KITCHEN: { label: 'KITCHEN', icon: KITCHEN },
+  CLOSET: { label: 'CLOSET', icon: CLOSET },
+  BOOK: { label: 'BOOK', icon: BOOK },
+  PLACE: { label: 'PLACE', icon: PLACE },
+  OTHER: { label: 'OTHER', icon: OTHER },
+};
 
-function Category() {
-  const selectedCategory = useStore((state) => state.selectedCategory); // 선택된 카테고리 상태 가져오기
-  const getCategoryData = useStore((state) => state.getCategoryData); // 각 카테고리 데이터를 가져오는 함수 가져오기
-  const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태 추가
-  const navigate = useNavigate();
-  const page = useRef<number>(1); // 페이지 번호 유지
-  const [isFetching, setIsFetching] = useState<boolean>(false); // 데이터 추가 요청 중인지 여부
-
-  const categoryInfo = {
-    ALL: { name: '전체', icon: ALL },
-    ELECTRONIC: { name: '전자제품', icon: ELECTRONIC },
-    HOUSEHOLD: { name: '생활용품', icon: HOUSEHOLD },
-    KITCHEN: { name: '주방용품', icon: KITCHEN },
-    CLOSET: { name: '의류/신발', icon: CLOSET },
-    BOOK: { name: '도서', icon: BOOK },
-    PLACE: { name: '장소', icon: PLACE },
-    OTHER: { name: '기타', icon: OTHER },
-  };
-
-  // 페이지 로드 시 초기 데이터를 불러오기 위해 호출되는 훅
-  useEffect(() => {
-    if (selectedCategory) {
-      setIsLoading(true);
-      getCategoryData(selectedCategory, page.current, 4)
-        .then((response) => {
-          // 응답 데이터에서 필요한 카테고리 데이터를 추출합니다.
-          const categoryData = response.data.content;
-          setCategoryData((prevData) => [...prevData, ...categoryData]); // 기존 데이터와 새로운 데이터를 합침
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('에러:', error);
-          setIsLoading(false);
-        });
-    }
-  }, [selectedCategory, getCategoryData]);
+function Contents() {
+  const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
+  const [page, setPage] = useState<number>(1);
+  const [items, setItems] = useState<any[]>([]);
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false); // 데이터 로딩 상태 추가
 
   useEffect(() => {
-    console.log('로딩상태:', isLoading); // 로딩 상태 변경 로그
-  }, [isLoading]);
-
-  useEffect(() => {
-    // 스크롤 이벤트 리스너 등록
-    window.addEventListener('scroll', handleScroll);
+    const handleScrollPosition = () => {
+      setScrollPosition(window.scrollY);
+    };
+    handleScrollPosition();
+    window.addEventListener('scroll', handleScrollPosition);
     return () => {
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScrollPosition);
     };
   }, []);
 
-  const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight && !isFetching) {
-      // 페이지 하단에 도달했을 때 요청 보내도록 수정
-      fetchMoreListItems(); // 수정된 함수로 변경
-    }
-  };
-
-  const fetchMoreListItems = () => {
-    if (!isFetching) {
-      setIsFetching(true);
-      // 페이지 번호 업데이트
-      page.current++; // 다음 페이지 번호로 업데이트
-      getCategoryData(selectedCategory, page.current, 10) // 예시로 size를 10으로 설정
-        .then((response) => {
-          const categoryData = response.data.content;
-          setCategoryData((prevData) => [...prevData, ...categoryData]); // 기존 데이터와 새로운 데이터를 합침
-          setIsFetching(false);
-        })
-        .catch((error) => {
-          console.error('에러:', error);
-          setIsFetching(false);
-        });
-    }
-  };
-
   useEffect(() => {
-    setCategoryData([]); // 데이터 초기화
-    page.current = 1; // 페이지 번호 초기화
-  }, [selectedCategory]);
+    fetchData();
+  }, [page, selectedCategory]);
 
-  const handleCategoryClick = (category: any) => {
-    useStore.setState({ selectedCategory: category }); // 선택된 카테고리 상태 업데이트
+  const fetchData = async () => {
+    setIsLoading(true); // 데이터 로딩 시작 시 상태 변경
+    try {
+      const response = await axios.get(
+        'https://api.openmpy.com/api/v1/rentals',
+        {
+          params: {
+            category: selectedCategory,
+            page,
+            size: 6,
+          },
+        },
+      );
+      if (response.data.data.length > 0) {
+        setItems((prevItems) => {
+          const newItems = response.data.data.filter(
+            (newItem: { rentalId: any }) => {
+              return !prevItems.some(
+                (prevItem) => prevItem.rentalId === newItem.rentalId,
+              );
+            },
+          );
+          return [...prevItems, ...newItems];
+        });
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false); // 데이터 로딩 완료 시 상태 변경
+    }
   };
 
-  const handleCardClick = (rentalId: string) => {
-    const path = `/details/${rentalId}`;
-    navigate(path);
+  const fetchMoreData = () => {
+    setPage(page + 1);
+  };
+
+  const handleCategoryChange = (category: Category) => {
+    setSelectedCategory(category);
+    setPage(1);
+    setItems([]);
+    setHasMore(true);
   };
 
   return (
-    <FlexCenter>
+    <Div>
+      <CategoryButtonsContainer>
+        {Object.keys(categories).map((categoryKey) => (
+          <CategoryButtonWrapper key={categoryKey}>
+            <CustomCategoryButton
+              onClick={() => handleCategoryChange(categoryKey as Category)}
+              selected={selectedCategory === categoryKey}
+              icon={categories[categoryKey].icon}
+            />
+            <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
+          </CategoryButtonWrapper>
+        ))}
+      </CategoryButtonsContainer>
 
-      <div>
-        <Categorybutton>
-          {Object.entries(categoryInfo).map(([key, { name, icon }]) => (
-            <Categoryinbutton
-              key={key}
-              onClick={() => handleCategoryClick(key)}
-              style={{
-                backgroundColor:
-                  selectedCategory === key ? 'lightblue' : 'white',
-                width: '70px',
-                borderRadius: '50px',
-                cursor: 'pointer',
-              }}
-            >
-              <img
-                src={icon}
-                style={{
-                  maxWidth: '50px',
-                  maxHeight: '50px',
-                }}
-                alt={name}
-              />
-              <CategoryTsxtSize>{name}</CategoryTsxtSize>
-            </Categoryinbutton>
-          ))}
-        </Categorybutton>
-      </div>
-
-      {isLoading && <div>Loading...</div>}
-
-      {categoryData.length > 0 && (
-        <FlexWrap>
-          {categoryData.map((item, index) => (
-            <MainContainer
-              key={index}
-              onClick={() => handleCardClick(item.rentalId)}
-            >
-              <Link to={`/details/${item.rentalId}`}>
-                <FlexCenter>
-                  <img
-                    src={item.firstThumbnailUrl || 'Default URL here'}
-                    alt="Thumbnail"
-                    style={{
-                      objectFit: 'fill',
-                      width: '150px',
-                      height: '130px',
-                      borderRadius: '10%',
-                    }}
-                  />
-                </FlexCenter>
-
-                <MainFlex>
-                  <img
-                    src={item.profileUrl}
-                    alt="Profile"
-                    style={{
-                      maxWidth: '20px',
-                      maxHeight: '50px',
-                      borderRadius: '50%',
-                    }}
-                  />
-                  <p>{item.nickname}</p>
-                </MainFlex>
-                <FlexColumn>
-                  <h3>{item.title}</h3>
-                </FlexColumn>
-                <MainFlex>
-                  <p style={{ fontSize: '11px' }}>대여비 {item.rentalFee}원</p>
-                  <p style={{ fontSize: '15px' }}>사례금 {item.deposit}원</p>
-                </MainFlex>
-              </Link>
-            </MainContainer>
-          ))}
-        </FlexWrap>
-      )}
-    </FlexCenter>
+      <ScrollableCategoryContainer
+        id="ScrollableCategoryContainer"
+        style={{ paddingTop: `${scrollPosition}px` }}
+      >
+        <InfiniteScroll
+          style={{ overflow: 'hidden' }}
+          dataLength={items.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<LoadingMessage>{isLoading ? 'Loading more...' : ''}</LoadingMessage>}
+          scrollableTarget="ScrollableCategoryContainer"
+          scrollThreshold={0.95}
+        >
+          <CategoryContainer>
+            {items.map((item: any) => (
+              <CategoryItem key={item.rentalId}>
+                <Link
+                  to={`/Details/${item.rentalId}`}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <ImageWrapper>
+                    {item.firstThumbnailUrl ? (
+                      <Image src={item.firstThumbnailUrl} alt="no img" />
+                    ) : (
+                      <PlaceholderImage>No Image</PlaceholderImage>
+                    )}
+                  </ImageWrapper>
+                  <ProfileUrl>
+                    <ProfileImage src={item.profileUrl} alt="Profile" />
+                    <p>{item.nickname}</p>
+                  </ProfileUrl>
+                  <h2>{item.title}</h2>
+                  <p>{item.content}</p>
+                  <div>
+                    <p>보증금 {item.rentalFee}</p>
+                    <p>사례금 {item.rentalId}</p>
+                  </div>
+                </Link>
+              </CategoryItem>
+            ))}
+          </CategoryContainer>
+        </InfiniteScroll>
+      </ScrollableCategoryContainer>
+    </Div>
   );
 }
 
-export default Category;
+export default Contents;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 120px;
+`;
+
+const PlaceholderImage = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const ProfileImage = styled.img`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+
+`;
+
+const ScrollableCategoryContainer = styled.div`
+
+  overflow: scroll;
+  height: 62vh;
+  overflow-x: hidden;
+`;
+
+const CategoryContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  justify-content: center;
+`;
+
+const CategoryItem = styled.div`
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+`;
+
+const Div = styled.div`
+  width: 500px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CategoryButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  width: 400px;
+  gap: 20px;
+`;
+
+interface CustomCategoryButtonProps {
+  selected: boolean;
+  icon: string; // 아이콘 이미지 경로를 전달 받을 prop 추가
+}
+
+const CustomCategoryButton = styled.button<CustomCategoryButtonProps>`
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.3s; // 투명도에 대한 트랜지션 효과 추가
+
+  background-image: ${({ icon }) =>
+    `url(${icon})`}; // 아이콘 이미지를 배경 이미지로 설정
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  text-indent: -9999px;
+  width: 60px;
+  height: 60px;
+  padding: 30px;
+
+  &:hover {
+    opacity: 0.8; // 마우스 호버 시 투명도 조정
+  }
+
+  &:active {
+    opacity: 0.6; // 클릭 시 투명도 조정
+  }
+`;
+
+const LoadingMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+const CategoryButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 50%;
+  &:hover {
+    background-color: #81beff;
+  }
+
+  &:active {
+    background-color: #277dff; /* 클릭한 순간 색상 변경 */
+  }
+`;
+
+const CategoryLabel = styled.span`
+  font-size: 14px;
+`;
+
+const ProfileUrl = styled.span`
+ display: flex;
+ align-items: center;
+`;
