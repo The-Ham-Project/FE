@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
-
+import styled from 'styled-components';
+import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 // const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
@@ -48,10 +49,23 @@ function RedirectKakao() {
   }, [KAKAO_CODE]);
 
   return (
-    <>
-      <button>까까오 로긴 꼴백</button>
-    </>
+    <ErrorPage>
+    <img src={donotcrythehamzzang} />
+    <MSG>페이지를 찾을 수 없습니다. <br />잠시후 다시 시도해주세요.</MSG>
+  </ErrorPage>
   );
 }
 
 export default RedirectKakao;
+
+const ErrorPage = styled.div`
+  @media screen and (max-width: 430px) {
+    /* Group 1394 */
+
+    position: absolute;
+    width: 141.1px;
+    height: 193.64px;
+    left: 125.29px;
+    top: 280.25px;
+  }
+`;

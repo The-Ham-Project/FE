@@ -6,9 +6,11 @@ import gogo from '../../../public/assets/gogo.svg';
 import logout from '../../../public/assets/logout.svg';
 import { removeTokensFromLocalStorage } from '../../util/localStorage/localStorage';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
+import { IoIosArrowBack } from 'react-icons/io';
 
 function Mypage() {
   const navigate = useNavigate();
+  const handleBackClick = () => navigate(-1);
   const GotoListHandler = () => {
     navigate('/');
   };
@@ -24,7 +26,11 @@ function Mypage() {
   });
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return (
+      <Container>
+        <Loading></Loading>
+      </Container>
+    );
   }
   if (isError) {
     return (
@@ -35,51 +41,84 @@ function Mypage() {
   }
 
   return (
-    <>
-      <Profile>
-        <Picture>
+    <Wrapper>
+      <MenuBox>
+        <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+      </MenuBox>
+      <PaddingBox>
+        <Profile>
+          <Picture>
+            <img
+              src={data?.data.profileUrl}
+              style={{
+                maxWidth: '130px',
+                maxHeight: '130px',
+                borderRadius: '50%',
+              }}
+            />
+          </Picture>
+          <Nickname>{data?.data.nickname}</Nickname>
+        </Profile>
+        <Title1>회원정보</Title1>
+        <MyInfo>
+          <Account>로그인 계정</Account>
+          <Email>{data?.data.email}</Email>
+        </MyInfo>
+        <Title2>나의 활동</Title2>
+        <Box1 onClick={GotoListHandler}>
+          <GotoMyList>함께 쓴 내역</GotoMyList>
           <img
-            src={data?.data.profileUrl}
+            src={gogo}
             style={{
-              maxWidth: '130px',
-              maxHeight: '130px',
-              borderRadius: '50%',
+              maxWidth: '10px',
+              maxHeight: '16px',
             }}
           />
-        </Picture>
-        <Nickname>{data?.data.nickname}</Nickname>
-      </Profile>
-      <Title1>회원정보</Title1>
-      <MyInfo>
-        <Account>로그인 계정</Account>
-        <Email>{data?.data.email}</Email>
-      </MyInfo>
-      <Title2>나의 활동</Title2>
-      <Box1 onClick={GotoListHandler}>
-        <GotoMyList>함께 쓴 내역</GotoMyList>
-        <img
-          src={gogo}
-          style={{
-            maxWidth: '10px',
-            maxHeight: '16px',
-          }}
-        />
-      </Box1>
-      <Box2 onClick={LogoutHandler}>
-        <Logout>로그아웃</Logout>
-        <img
-          src={logout}
-          style={{
-            maxWidth: '10px',
-            maxHeight: '16px',
-          }}
-        />
-      </Box2>
-    </>
+        </Box1>
+        <Box2 onClick={LogoutHandler}>
+          <Logout>로그아웃</Logout>
+          <img
+            src={logout}
+            style={{
+              maxWidth: '10px',
+              maxHeight: '16px',
+            }}
+          />
+        </Box2>
+      </PaddingBox>
+    </Wrapper>
   );
 }
 
 export default Mypage;
+const Wrapper = styled.div`
+  @media screen and (max-width: 430px) {
+  }
+`;
+
+const MenuBox = styled.div`
+  @media screen and (max-width: 430px) {
+    display: flex;
+    flex-direction: row;
+    background-color: #f5f5f5;
+    height: 60px;
+    width: 100%;
+    margin: 0px;
+    padding: 0 20px;
+    align-items: center;
+  }
+`;
+
+const PaddingBox = styled.div`
+  @media screen and (max-width: 430px) {
+    box-shadow: inset 0 5px 5px -5px #333;
+    position: absolute;
+    width: 100%;
+    height: 463px;
+    left: 0px;
+    top: 60px;
+  }
+`;
 
 const ErrorPage = styled.div`
   @media screen and (max-width: 430px) {
@@ -92,6 +131,7 @@ const ErrorPage = styled.div`
     top: 280.25px;
   }
 `;
+
 const Profile = styled.div`
   @media screen and (max-width: 430px) {
     width: 100%;
@@ -240,9 +280,9 @@ const Box1 = styled.button`
 const GotoMyList = styled.button`
   @media screen and (max-width: 430px) {
     position: absolute;
-    width: 70px;
+    width: 90px;
     height: 14.79px;
-    left: 28px;
+    left: 18px;
     top: 13.95px;
     font-family: 'Pretendard';
     font-style: normal;
@@ -291,3 +331,60 @@ const Logout = styled.button`
     color: #000000;
   }
 `;
+const Container = styled.div`
+  @media screen and (max-width: 430px) {
+    body {
+      background: #f6f8fa;
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+`;
+const Loading = styled.div`
+  @media screen and (max-width: 430px) {
+    width: 80px;
+    height: 80px;
+    border: 8px solid #8da9db;
+    border-top-color: #2f5496;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+//로딩
+// body {
+//     background: #F6F8FA;
+//     display: flex;
+//     width: 100%;
+//     height: 100vh;
+//     justify-content: center;
+//     align-items: center;
+//   }
+
+//   .loading {
+//     width: 80px;
+//     height: 80px;
+//     border: 8px solid #8da9db;
+//     border-top-color: #2f5496;
+//     border-radius: 50%;
+//     animation: spin 1s linear infinite;
+//   }
+
+//   @keyframes spin {
+//     to {
+//       transform: rotate(360deg);
+//     }
+//   }
+
+// JSX 부분
+{
+  /* <div class="loading"></div> */
+}

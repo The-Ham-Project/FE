@@ -10,6 +10,7 @@ import RedirectGoogle from '../components/GoogleLogin/RedirectGoogle.tsx';
 import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
 import useStore from '../store/store.ts';
+import MyList from '../pages/Mypage/MyList.tsx';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -23,6 +24,7 @@ function Router() {
         <Route path="/google/callback" element={<RedirectGoogle />} />
         {isLoggedIn &&<Route path="/thxkakaomap" element={<Location />} />}
         {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
+        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />

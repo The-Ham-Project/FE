@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { geolocation } from '../../api/geolocation';
 import styled from 'styled-components';
 import locationButton from '../../../public/assets/locationButton.svg';
+import { useNavigate } from 'react-router-dom';
+import { IoIosArrowBack } from 'react-icons/io';
 
 declare global {
   interface Window {
@@ -17,7 +18,9 @@ declare const window: typeof globalThis & {
 };
 
 export default function Location(): JSX.Element {
-  const [map, setMap] = useState();
+  const navigate = useNavigate();
+  const handleBackClick = () => navigate(-2);
+  const [map, setMap] = useState<any>(null);
   const [address, setAddress] = useState('');
   // const [results, setResults] = useState([]);
   // const [currentPosState, setCurrentPosState] = useState();
@@ -66,8 +69,8 @@ export default function Location(): JSX.Element {
 
     console.log(currentPos);
     geolocationMutation.mutate({
-      lon: currentPos.Ma,
-      lat: currentPos.La,
+      lon: currentPos.La,
+      lat: currentPos.Ma,
     });
 
     // 위치 정보 가져오기 성공 시 주소 변환 함수 호출
@@ -90,6 +93,8 @@ export default function Location(): JSX.Element {
       fillColor: 'rgb(0,26,255)',
       fillOpacity: 0.05,
     });
+    circle.setMap(null);
+    marker.setMap(null);
     circle.setMap(map);
     marker.setMap(map);
 
@@ -157,12 +162,19 @@ export default function Location(): JSX.Element {
   return (
     <>
       <Wrapper>
-        <Map id="map" style={{ width: 500, height: 400 }}></Map>
-        <MSG>현재 위치에 있는 동네는 아래와 같나요?</MSG>
-        <Address>{address}</Address>
-        <button onClick={getCurrentPosBtn}>
-          <IMG src={locationButton} alt="위치인증하기" />
-        </button>
+        <MenuBox>
+          <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+        </MenuBox>
+        <PaddingBox>
+          <Ao>
+            <Map id="map"></Map>
+          </Ao>
+          <MSG>현재 위치에 있는 동네는 아래와 같나요?</MSG>
+          <Address>{address}</Address>
+          <button onClick={getCurrentPosBtn}>
+            <IMG src={locationButton} alt="위치인증하기" />
+          </button>
+        </PaddingBox>
       </Wrapper>
     </>
   );
@@ -175,6 +187,23 @@ export default function Location(): JSX.Element {
 //     </Button>
 //   </>
 // );
+const Wrapper = styled.div`
+  @media screen and (max-width: 430px) {
+  }
+`;
+
+const MenuBox = styled.div`
+  @media screen and (max-width: 430px) {
+    display: flex;
+    flex-direction: row;
+    background-color: #f5f5f5;
+    height: 60px;
+    width: 100%;
+    margin: 0px;
+    padding: 0 20px;
+    align-items: center;
+  }
+`;
 
 const IMG = styled.img`
   @media screen and (max-width: 430px) {
@@ -186,26 +215,40 @@ const IMG = styled.img`
   }
 `;
 
-const Wrapper = styled.div`
+const PaddingBox = styled.div`
   @media screen and (max-width: 430px) {
+    /* box-shadow: inset 0 -5px 5px -5px #333; */
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 10000;
+  }
+`;
+
+const Ao = styled.div`
+  @media screen and (max-width: 430px) {
+    box-shadow: inset 0 5px 5px -5px #333;
+    position: absolute;
+    width: 100%;
+    height: 463px;
+    left: 0px;
+    top: 60px;
   }
 `;
 
 const Map = styled.div`
   @media screen and (max-width: 430px) {
     position: absolute;
-    width: 390px;
+    width: 100%;
     height: 463px;
     left: 0px;
-    top: 60px;
+    top: 4px;
   }
 `;
+
 const MSG = styled.div`
   @media screen and (max-width: 430px) {
     /* 현재 위치에 있는 동네는 아래와 같아요. */
@@ -215,7 +258,6 @@ const MSG = styled.div`
     height: 17px;
     left: calc(50% - 230px / 2 - 0.5px);
     top: 576.74px;
-
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400;
@@ -223,9 +265,7 @@ const MSG = styled.div`
     line-height: 17px;
     /* identical to box height */
     text-align: center;
-
     color: #000000;
-
     transform: matrix(1, -0.02, 0.01, 1, 0, 0);
   }
 `;
@@ -248,56 +288,3 @@ const Address = styled.div`
     transform: matrix(1, -0.02, 0.01, 1, 0, 0);
   }
 `;
-// const Button = styled.button`
-//   @media screen and (max-width: 430px) {
-//     width: 320px;
-//     height: 49.23px;
-//     background-color: #1689f3;
-//     color: white;
-//     border-radius: 92.7px;
-//   }
-// `;
-
-// /* Group 165 */
-
-// position: absolute;
-// width: 348.73px;
-// height: 53.65px;
-// left: 20px;
-// top: 756px;
-
-// /* Group 165 */
-
-// position: absolute;
-// width: 348.73px;
-// height: 53.65px;
-// left: 20px;
-// top: 756px;
-
-// /* Rectangle 134 */
-
-// position: absolute;
-// width: 348.73px;
-// height: 53.65px;
-// left: 20px;
-// top: 756px;
-
-// background: #1689F3;
-// border-radius: 31.0829px;
-
-// /* 위치 인증하기 */
-
-// position: absolute;
-// width: 84px;
-// height: 19px;
-// left: calc(50% - 84px/2 - 0.55px);
-// top: 773.77px;
-
-// font-family: 'Pretendard';
-// font-style: normal;
-// font-weight: 500;
-// font-size: 15.4247px;
-// line-height: 19px;
-// /* identical to box height */
-
-// color: #FFFFFF;
