@@ -180,13 +180,6 @@ export default function Location(): JSX.Element {
   );
 }
 
-// return (
-//   <>
-//     <Button onClick={kakao}>
-//       <IMG src={startwithkakao} alt="카카오 로그인 버튼" />
-//     </Button>
-//   </>
-// );
 const Wrapper = styled.div`
   @media screen and (max-width: 430px) {
   }
