@@ -8,14 +8,14 @@ import { authInstance } from '../../api/axios';
 import styled from 'styled-components';
 
 
-import ALL from '../../../public/assets/ALL.png';
-import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
-import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.png';
-import KITCHEN from '../../../public/assets/KITCHEN.png';
-import CLOSET from '../../../public/assets/CLOSET.png';
-import BOOK from '../../../public/assets/BOOK.png';
-import PLACE from '../../../public/assets/PLACE.png';
-import OTHER from '../../../public/assets/OTHER.png';
+import ALL from '../../../public/assets/ALL.svg';
+import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
+import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
+import KITCHEN from '../../../public/assets/KITCHEN.svg';
+import CLOSET from '../../../public/assets/CLOSET.svg';
+import BOOK from '../../../public/assets/BOOK.svg';
+import PLACE from '../../../public/assets/PLACE.svg';
+import OTHER from '../../../public/assets/OTHER.svg';
 
 // 카테고리 타입 정의
 type Category =
