@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ALL from '../../../public/assets/ALL.png';
 import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
@@ -12,6 +12,8 @@ import BOOK from '../../../public/assets/BOOK.png';
 import PLACE from '../../../public/assets/PLACE.png';
 import OTHER from '../../../public/assets/OTHER.png';
 import Contents from '../../components/Main/Contents';
+import Search from './Search';
+import { useQuery } from '@tanstack/react-query';
 
 export type Category =
   | 'ALL'
@@ -22,6 +24,7 @@ export type Category =
   | 'BOOK'
   | 'PLACE'
   | 'OTHER';
+
 const categories = {
   ALL: { label: '전체', icon: ALL },
   ELECTRONIC: { label: '가전제품', icon: ELECTRONIC },
@@ -36,47 +39,32 @@ const categories = {
 function Category() {
   const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
   const [page, setPage] = useState<number>(1);
-  const [items, setItems] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [isLoading, setIsLoading] = useState<boolean>(false); // 데이터 로딩 상태 추가
+  const [rentals, setRentals] = useState<any[]>([]); // 기존 데이터 배열
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['rentals', selectedCategory, page],
+    queryFn: async () => {
+      const response = await fetch(`https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    },
+  });
+
+  
+
 
   useEffect(() => {
-    fetchData();
-  }, [page, selectedCategory]);
-
-  const fetchData = async () => {
-    setIsLoading(true); // 데이터 로딩 시작 시 상태 변경
-    try {
-      const response = await axios.get(
-        'https://api.openmpy.com/api/v1/rentals',
-        {
-          params: {
-            category: selectedCategory,
-            page,
-            size: 6,
-          },
-        },
-      );
-      if (response.data.data.length > 0) {
-        setItems((prevItems) => {
-          const newItems = response.data.data.filter(
-            (newItem: { rentalId: any }) => {
-              return !prevItems.some(
-                (prevItem) => prevItem.rentalId === newItem.rentalId,
-              );
-            },
-          );
-          return [...prevItems, ...newItems];
-        });
-      } else {
+    if (data) {
+      // 새로운 데이터를 받아올 때마다 기존 데이터 배열에 추가
+      setRentals(prevRentals => [...prevRentals, ...data.data]);
+      if (data.data.length === 0) {
         setHasMore(false);
       }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false); // 데이터 로딩 완료 시 상태 변경
     }
-  };
+  }, [data]);
 
   const fetchMoreData = () => {
     setPage(page + 1);
@@ -85,16 +73,15 @@ function Category() {
   const handleCategoryChange = (category: Category) => {
     setSelectedCategory(category);
     setPage(1);
-    setItems([]);
-    setHasMore(true);
   };
 
   return (
     <Div id="ScrollableCategoryContainer">
+      <Search/>
       <ScrollableCategoryContainer>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
-          dataLength={items.length}
+          dataLength={rentals.length}
           next={fetchMoreData}
           hasMore={hasMore}
           loader={
@@ -120,7 +107,7 @@ function Category() {
           </CategoryButtonsContainer>
 
           <CategoryContainer>
-            {items.map((item: any) => (
+            {rentals.map((item: any) => (
               <CategoryItem key={item.rentalId}>
                 <Link
                   to={`/Details/${item.rentalId}`}
@@ -138,9 +125,7 @@ function Category() {
                     <p>{item.nickname}</p>
                   </ProfileUrl>
                   <h2>{item.title}</h2>
-                  <DetailsLink>
-                    <p>{item.content}</p>
-                  </DetailsLink>
+                  
                   <div>
                     <p>보증금 {item.rentalFee}</p>
                     <p>사례금 {item.rentalId}</p>
@@ -156,6 +141,12 @@ function Category() {
 }
 
 export default Category;
+
+// 나머지 스타일드 컴포넌트 및 상수는 이전과 동일하게 유지됩니다.
+
+// 나머지 스타일드 컴포넌트 및 상수는 이전과 동일하게 유지됩니다.
+
+// 나머지 스타일드 컴포넌트 및 상수는 이전과 동일하게 유지됩니다.
 
 const ScrollableCategoryContainer = styled.div``;
 
@@ -189,9 +180,11 @@ const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
   padding: 30px;
   &:hover {
     opacity: 0.8;
+    background-color: #E8F4FE;
   }
   &:active {
     opacity: 0.6;
+    background-color: #418DFF;
   }
 `;
 
@@ -220,8 +213,9 @@ const CategoryContainer = styled.div`
 
 const CategoryItem = styled.div`
   width: 100%;
-  border: 1px solid #ccc;
+
   border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const ImageWrapper = styled.div`
