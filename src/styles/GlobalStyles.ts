@@ -55,10 +55,20 @@ input:checked {
     border: none
 }
 button {
-    background: none;
-    border:none;
-    cursor: pointer;
-    outline:none
+	width: 100%;
+
+height: 52px;
+background-color: #1689f3;
+border-radius: 31.14px;
+color: white;
+font-size: 15.45px;
+font-family: 'Pretendard';
+font-weight: 500;
+text-align: center;
+margin: 20px auto;
+border: none;
+cursor: pointer;
+
 }
 a {
 	text-decoration: none;
@@ -69,7 +79,7 @@ a {
     color: #222;
 }
 input[type="text"] {
-        width: 50vh;
+        width: 100%;
         height: 50px;
         background: #F5F5F5;
         border-radius: 20px;
@@ -79,17 +89,16 @@ input[type="text"] {
 
    /* Custom style for textarea */
    textarea {
-	width: 50vh;
-	height: 150px;
+	
 	background: #F5F5F5;
 	border-radius: 24px;
 	font-size: 16px;
-	padding: 10px;
-	resize: vertical;
-	overflow-y: auto;
+	
 }
 
 
 `;
+
+
 
 export default GlobalStyle;

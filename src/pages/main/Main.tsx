@@ -13,6 +13,7 @@ function Main() {
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
   const handleButtonClick = () => {
+    console.log(isLoggedIn)
     if (isLoggedIn === true) {
       navigate('/main/PostDetailsPage');
     } else {
@@ -23,62 +24,79 @@ function Main() {
 
   return (
     <>
-      <Flex>
-        <Div1>
-          <Div>위치 조정하기 위한 박스</Div>
-        </Div1>
 
      
           <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
-          <div>
-          <ContentContainer>
-            <div>
+
               <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
    
-              <div>
+
                 <Category />
-              </div>
-            </div>
-            </ContentContainer>
-          </div>
-     
-      </Flex>
+
     </>
   );
 }
 
 export default Main;
 
-const ButtonContainer = styled.button`
+const ButtonContainer = styled.div`
   position: fixed;
   background-color: aqua;
   z-index: 999; /* 다른 요소 위에 표시되도록 설정 */
 `;
 
-const Div = styled.div`
-  width: 100%;
-  height: 800px;
-  display: flex;
+export const Div = styled.div`
+    /* margin: 130px; */
+    width: 10%;
+background-color: antiquewhite;
+    height: 800px;
+    display: flex;
 `;
 
-const Flex = styled.div`
+export const Flex = styled.div`
   display: flex;
-  overflow-y: scroll; /* 세로 스크롤이 가능하도록 설정 */
+`;
+export const Flex2 = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: #2c405d;
 `;
 
-const Div1 = styled.div`
-  width: 120vh;
-  height: 100vh;
-  display: flex;
-  background-color: #3fa2ff;
+export const Div1 = styled.div`
+width: auto;
+width: 800px;
+    height: 100vh;
+    display: flex;
+    background-color: #6b8ec0;
+    
   /* 모바일 화면 크기에 맞게 스타일 조정 */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1300px) {
+    display: none;
+    background-color: #233748;
+  }
+  @media screen and (max-width: 500px) {
+
+    background-color: #631818;
+  }
+`;
+export const Div3 = styled.div`
+  width: 10vh;
+  height: 100vh;
+  background-color: #3fa2ff;
+  @media screen and (max-width: 600px) {
+    max-width: 0px;
     display: none;
     background-color: aliceblue;
   }
 `;
+export const Div4 = styled.div`
+  width: 430px;
+  height: 100vh;
+  background-color: #ffffff;
+  overflow-y: auto;
 
+`;
 
-const ContentContainer = styled.div`
+export const ContentContainer = styled.div`
   flex: 1; /* Flex 컨테이너에서 남은 공간을 모두 차지하도록 설정 */
 `;

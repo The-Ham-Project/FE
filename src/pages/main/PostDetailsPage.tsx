@@ -100,11 +100,8 @@ function PostDetailsPage() {
 
   return (
     <>
+    <Container>
       <CustomDropzone>
-
-
-
-    
         <Dropzone
           onChangeStatus={(meta, status) => {
             if (status === 'done') {
@@ -121,7 +118,7 @@ function PostDetailsPage() {
           classNames={{
             dropzone: 'dropzone',
             dropzoneActive: 'dz-drag-hover',
-            inputLabel: 'needsclick',
+            inputLabel: 'needsclick2',
             inputLabelWithFiles: 'needsclick',
             preview: 'custom-preview',
             previewImage: 'custom-preview-image',
@@ -205,7 +202,7 @@ function PostDetailsPage() {
       <Text onClick={handleButtonClick}>게시글 작성</Text>
       </Rectangle >
 
-      
+      </Container>
     </>
   );
 }
@@ -214,7 +211,6 @@ export default PostDetailsPage;
 
 // 스타일드 컴포넌트를 사용하여 Dropzone 스타일 적용
 const CustomDropzone = styled.div`
-  width: 1037px;
   height: 150px;
   display: inline-flex;
   justify-content: center;
@@ -223,12 +219,11 @@ const CustomDropzone = styled.div`
 `;
 
 const Container = styled.div`
-  width: 1037px;
-  height: 300px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 69px;
+display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    gap: 6px;
 `;
 
 const ItemContainer = styled.div`
@@ -279,7 +274,7 @@ display: flex;
 
 
 const Rectangle = styled.div`
-  width: 371px;
+  width: 100%;
   height: 60px;
   display: flex;
     align-items: center;
