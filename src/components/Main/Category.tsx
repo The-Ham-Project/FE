@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ALL from '../../../public/assets/ALL.png';
+import ALL from '../../../public/assets/ALL.svg';
 import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
 import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.png';
 import KITCHEN from '../../../public/assets/KITCHEN.png';
@@ -40,7 +40,8 @@ function Category() {
   const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [rentals, setRentals] = useState<any[]>([]); // 기존 데이터 배열
+  const [rentals, setRentals] = useState<any[]>([]);
+  const [isActive, setIsActive] = useState(false);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
@@ -53,12 +54,8 @@ function Category() {
     },
   });
 
-  
-
-
   useEffect(() => {
     if (data) {
-      // 새로운 데이터를 받아올 때마다 기존 데이터 배열에 추가
       setRentals(prevRentals => [...prevRentals, ...data.data]);
       if (data.data.length === 0) {
         setHasMore(false);
@@ -72,9 +69,10 @@ function Category() {
 
   const handleCategoryChange = (category: Category) => {
     setSelectedCategory(category);
+    setIsActive(!isActive)
     setPage(1);
   };
-
+  
   return (
     <Div id="ScrollableCategoryContainer">
       <Search/>
@@ -94,17 +92,18 @@ function Category() {
         >
           <Contents />
           <CategoryButtonsContainer>
-            {Object.keys(categories).map((categoryKey) => (
-              <CategoryButtonWrapper key={categoryKey}>
-                <CustomCategoryButton
-                  onClick={() => handleCategoryChange(categoryKey as Category)}
-                  selected={selectedCategory === categoryKey}
-                  icon={categories[categoryKey].icon}
-                />
-                <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
-              </CategoryButtonWrapper>
-            ))}
-          </CategoryButtonsContainer>
+  {Object.keys(categories).map((categoryKey) => (
+    <CategoryButtonWrapper key={categoryKey} isActive={selectedCategory === categoryKey}>
+      <CustomCategoryButton 
+        onClick={() => handleCategoryChange(categoryKey as Category)}
+        icon={categories[categoryKey].icon}
+        isActive={selectedCategory === categoryKey}
+      />
+      <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
+    </CategoryButtonWrapper>
+  ))}
+</CategoryButtonsContainer>
+
 
           <CategoryContainer>
             {rentals.map((item: any) => (
@@ -142,12 +141,6 @@ function Category() {
 
 export default Category;
 
-// 나머지 스타일드 컴포넌트 및 상수는 이전과 동일하게 유지됩니다.
-
-// 나머지 스타일드 컴포넌트 및 상수는 이전과 동일하게 유지됩니다.
-
-// 나머지 스타일드 컴포넌트 및 상수는 이전과 동일하게 유지됩니다.
-
 const ScrollableCategoryContainer = styled.div``;
 
 const CategoryButtonsContainer = styled.div`
@@ -161,8 +154,8 @@ const CategoryButtonsContainer = styled.div`
 `;
 
 interface CustomCategoryButtonProps {
-  selected: boolean;
   icon: string;
+  isActive: boolean;
 }
 
 const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
@@ -172,18 +165,12 @@ const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
   transition: opacity 0.3s;
   background-image: ${({ icon }) => `url(${icon})`};
   background-repeat: no-repeat;
-  background-size: contain;
   background-position: center;
-  text-indent: -9999px;
-  width: 60px;
-  height: 60px;
-  padding: 30px;
-  &:hover {
-    opacity: 0.8;
-    background-color: #E8F4FE;
-  }
+  padding: 20px;
+
+  
   &:active {
-    opacity: 0.6;
+    border-radius: 50px;
     background-color: #418DFF;
   }
 `;
@@ -194,14 +181,31 @@ const LoadingMessage = styled.div`
   align-items: center;
 `;
 
-const CategoryButtonWrapper = styled.div`
+const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 80px;
+  height: 80px;
+  justify-content: center;
+  border-radius: 50px;
+  transition: transform 0.3s; /* transform에 대한 transition 효과 추가 */
+
+  
+  &:active {
+    background-color: #418DFF;
+  }
+
+  ${({ isActive }) => isActive && `
+    transform: scale(1.2); /* 클릭 시 내부 영역만 확대 */
+  `}
 `;
 
+
+
 const CategoryLabel = styled.span`
-  font-size: 14px;
+  font-size: 12px;
+  margin-top: 2px;
 `;
 
 const CategoryContainer = styled.div`
@@ -213,7 +217,6 @@ const CategoryContainer = styled.div`
 
 const CategoryItem = styled.div`
   width: 100%;
-
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
