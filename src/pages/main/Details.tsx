@@ -57,7 +57,7 @@ function Details() {
   };
 
   useEffect(() => {
-    instance
+    axios
       .get<ApiResponse>(`https://api.openmpy.com/api/v1/rentals/${rentalId}`)
       .then((response) => {
         console.log('API 호출 후 데이터:', response.data);

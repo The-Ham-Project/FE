@@ -11,8 +11,7 @@ function App() {
 
       <Flex2>
         <Flex>
-
-<Div1></Div1>
+          <Div1></Div1>
           <Div4>
             <Router />
           </Div4>
