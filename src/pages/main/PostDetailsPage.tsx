@@ -7,7 +7,6 @@ import { FaCamera } from 'react-icons/fa';
 import { authInstance } from '../../api/axios';
 import styled from 'styled-components';
 
-
 import ALL from '../../../public/assets/ALL.png';
 import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
 import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.png';
@@ -29,13 +28,13 @@ type Category =
 
 // 카테고리에 대한 이름 정의
 const categories: Record<Category, any> = {
-  ELECTRONIC:   <img src={ELECTRONIC}  />,
-  HOUSEHOLD: <img src={HOUSEHOLD}  />,
-  KITCHEN: <img src={KITCHEN}  />,
-  CLOSET: <img src={CLOSET}  />,
-  BOOK: <img src={BOOK}  />,
-  PLACE: <img src={PLACE}  />,
-  OTHER: <img src={OTHER}  />,
+  ELECTRONIC: <img src={ELECTRONIC} />,
+  HOUSEHOLD: <img src={HOUSEHOLD} />,
+  KITCHEN: <img src={KITCHEN} />,
+  CLOSET: <img src={CLOSET} />,
+  BOOK: <img src={BOOK} />,
+  PLACE: <img src={PLACE} />,
+  OTHER: <img src={OTHER} />,
 };
 
 function PostDetailsPage() {
@@ -101,10 +100,6 @@ function PostDetailsPage() {
   return (
     <>
       <CustomDropzone>
-
-
-
-    
         <Dropzone
           onChangeStatus={(meta, status) => {
             if (status === 'done') {
@@ -115,7 +110,7 @@ function PostDetailsPage() {
               );
             }
           }}
-         inputContent={<FaCamera size={24} color="#B1B1B1" />}
+          inputContent={<FaCamera size={24} color="#B1B1B1" />}
           accept="image/*"
           multiple={true}
           classNames={{
@@ -129,7 +124,7 @@ function PostDetailsPage() {
             submitButtonContainer: 'custom-submit-button-container',
           }}
           inputWithFilesContent={(files) => `${files.length}/3`}
-           maxFiles={3} 
+          maxFiles={3}
         />
       </CustomDropzone>
 
@@ -142,17 +137,15 @@ function PostDetailsPage() {
               style={{
                 backgroundColor:
                   selectedCategory === key ? 'lightblue' : 'white',
-             
+
                 cursor: 'pointer',
                 width: '90px',
                 borderRadius: '50%',
-           
-                
               }}
             >
               <Imagine>
-              {value}
-              {key}
+                {value}
+                {key}
               </Imagine>
             </button>
           ))}
@@ -199,13 +192,9 @@ function PostDetailsPage() {
         />
       </div>
 
-
-
       <Rectangle>
-      <Text onClick={handleButtonClick}>게시글 작성</Text>
-      </Rectangle >
-
-      
+        <Text onClick={handleButtonClick}>게시글 작성</Text>
+      </Rectangle>
     </>
   );
 }
@@ -235,24 +224,22 @@ const ItemContainer = styled.div`
   position: relative;
   width: 300px;
   height: 120px;
-  
 `;
 
 const Image = styled.div`
   width: 360px;
- 
 `;
 
 const Counter = styled.div`
   width: 283.81px;
   height: 46.56px;
   position: absolute;
-  left: 10.50px;
+  left: 10.5px;
   top: 218px;
   transform: rotate(0.62deg);
   transform-origin: 0 0;
   text-align: center;
-  color: #B1B1B1;
+  color: #b1b1b1;
   font-size: 36px;
   font-family: 'Inter';
   font-weight: 400;
@@ -260,7 +247,7 @@ const Counter = styled.div`
 `;
 
 const Group = styled.div`
-  width: 84.20px;
+  width: 84.2px;
   height: 112.32px;
   position: absolute;
   left: 105.06px;
@@ -268,23 +255,20 @@ const Group = styled.div`
 `;
 
 const Imagine = styled.div`
-display: flex;
-    flex-direction: column;
-    font-size: 8px;
-    word-break: break-all;
-    padding: 10px;
-   
+  display: flex;
+  flex-direction: column;
+  font-size: 8px;
+  word-break: break-all;
+  padding: 10px;
 `;
-
-
 
 const Rectangle = styled.div`
   width: 371px;
   height: 60px;
   display: flex;
-    align-items: center;
-    justify-content: center;
-  background: #1689F3;
+  align-items: center;
+  justify-content: center;
+  background: #1689f3;
   border-radius: 85px;
 `;
 
@@ -292,8 +276,4 @@ const Text = styled.button`
   text-align: center;
   color: white;
   font-size: 20px;
-
-
-
 `;
-

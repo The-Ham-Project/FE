@@ -12,7 +12,7 @@ function Mypage() {
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
   const GotoListHandler = () => {
-    navigate('/');
+    navigate('/mylist');
   };
 
   const LogoutHandler = () => {
@@ -147,6 +147,7 @@ const Picture = styled.div`
     left: calc(50% - 130px / 2 + 0.34px);
     top: 110px;
     border-radius: 50%;
+    /* margin-left: 40px; */
   }
 `;
 
