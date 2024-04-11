@@ -46,12 +46,12 @@ const Button = styled.button`
 
 const IMG = styled.img`
   @media screen and (max-width: 430px) {
-    /* Group 126 */
     position: absolute;
     width: 350px;
-    height: 45px;
-    left: 20.15px;
-    top: 684.42px;
+    height: 44px;
+    left: 20px;
+    top: 685px;
+    left: calc(50% - 350px / 2 + 0.41px);
   }
 `;
 //////////////////////////////////////////
@@ -332,38 +332,38 @@ const IMG = styled.img`
 
 //     naverLogin.init();
 
-    // window.addEventListener('load', function() {
-    //   naverLogin.getLoginStatus(function(status: string) {
-    //     if (status) {
-    //       /* 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
+// window.addEventListener('load', function() {
+//   naverLogin.getLoginStatus(function(status: string) {
+//     if (status) {
+//       /* 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
 
-    //       var name = naverLogin.user.getNickName();
-    //       var profileImage = naverLogin.user.getProfileImage();
+//       var name = naverLogin.user.getNickName();
+//       var profileImage = naverLogin.user.getProfileImage();
 
-    //       if (name === undefined || name === null) {
-    //         alert('닉네임은 필수정보입니다. 정보제공을 동의해주세요.');
-    //         /* 사용자 정보 재동의를 위하여 다시 네아로 동의페이지로 이동함 */
-    //         naverLogin.reprompt();
-    //         return;
-    //       } else if (profileImage === undefined || profileImage === null) {
-    //         alert('프로필사진은 필수정보입니다. 정보제공을 동의해주세요.');
-    //         naverLogin.reprompt();
-    //         return;
-    //       }
+//       if (name === undefined || name === null) {
+//         alert('닉네임은 필수정보입니다. 정보제공을 동의해주세요.');
+//         /* 사용자 정보 재동의를 위하여 다시 네아로 동의페이지로 이동함 */
+//         naverLogin.reprompt();
+//         return;
+//       } else if (profileImage === undefined || profileImage === null) {
+//         alert('프로필사진은 필수정보입니다. 정보제공을 동의해주세요.');
+//         naverLogin.reprompt();
+//         return;
+//       }
 
-    //       window.location.replace(
-    //         'http://' +
-    //           window.location.hostname +
-    //           (window.location.port === '' || window.location.port === undefined
-    //             ? ''
-    //             : ':' + window.location.port),
-    //       );
-    //     } else {
-    //       console.log('callback 처리에 실패하였습니다.');
-    //     }
-    //   });
-    // });
-  // }
+//       window.location.replace(
+//         'http://' +
+//           window.location.hostname +
+//           (window.location.port === '' || window.location.port === undefined
+//             ? ''
+//             : ':' + window.location.port),
+//       );
+//     } else {
+//       console.log('callback 처리에 실패하였습니다.');
+//     }
+//   });
+// });
+// }
 
 //   function GetProfile() {
 //     window.location.href.includes('access_token') && GetUser();

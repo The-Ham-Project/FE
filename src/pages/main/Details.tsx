@@ -12,6 +12,8 @@ import {
 } from '../../styles/Details-Styles';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
+import { instance } from '../../api/axios.ts';
+import { error } from 'console';
 
 interface RentalImage {
   imageUrl: string;
@@ -59,7 +61,7 @@ function Details() {
   };
 
   useEffect(() => {
-    axios
+    instance
       .get<ApiResponse>(`https://api.openmpy.com/api/v1/rentals/${rentalId}`)
       .then((response) => {
         console.log('API 호출 후 데이터:', response.data);
@@ -67,6 +69,7 @@ function Details() {
       })
       .catch((error) => {
         console.error('Error fetching item details:', error);
+        // console.log(response.data)
       });
   }, [rentalId]);
 

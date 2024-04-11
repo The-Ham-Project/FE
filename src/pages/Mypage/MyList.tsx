@@ -31,7 +31,7 @@ function MyList() {
   const page = 1; // 페이지당 아이템 수
   const selectedCategory = 'ALL'; // 선택된 카테고리
 
-  function removeItemPost(itemId: number): Promise<any> {
+  function removeItemPost(rentalId: number): Promise<any> {
     throw new Error('Function not implemented.');
   }
   const { data, isLoading, isError, refetch } = useQuery({
@@ -74,23 +74,25 @@ function MyList() {
         <p>No rentals found.</p>
       ) : (
         <>
-          <Link
-            to={`/Details/${data.rentalId}`}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            {data.map((data) => (
-              <div key={data.rentalId}>
-                <h2>{data.title}</h2>
-                <p>{data.content}</p>
-                <p>Rental Fee: {data.rentalFee}</p>
-                <p>Deposit: {data.deposit}</p>
-                <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
-              </div>
-            ))}
-          </Link>
-          <Custom>
-            <Link to={`/Details/${data.rentalId}/edit`}>수정</Link>
-          </Custom>
+          {data.map((data) => (
+            <>
+              <Link
+                to={`/Details/${data.rentalId}`}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <div key={data.rentalId}>
+                  <h2>{data.title}</h2>
+                  <p>{data.content}</p>
+                  <p>Rental Fee: {data.rentalFee}</p>
+                  <p>Deposit: {data.deposit}</p>
+                  <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
+                </div>
+              </Link>
+              <Custom>
+                <Link to={`/Details/${data.rentalId}/edit`}>수정</Link>
+              </Custom>
+            </>
+          ))}
         </>
       )}
     </div>

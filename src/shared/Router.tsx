@@ -12,6 +12,7 @@ import Mypage from '../pages/Mypage/Mypage.tsx';
 import useStore from '../store/store.ts';
 import MyList from '../pages/Mypage/MyList.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
+import Edit from '../pages/Mypage/Edit.tsx';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -28,6 +29,7 @@ function Router() {
         <Route path="/thxkakaomap" element={<Location />} />
         {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
         {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
+        <Route path="/Details/:rentalId/edit" element={<Edit />} />
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
