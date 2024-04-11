@@ -32,6 +32,7 @@ export default KakaoLogin;
 // import styled from 'styled-components';
 
 const Button = styled.button`
+background-color: white;
   @media screen and (max-width: 430px) {
     width: 350px;
     height: 45px;

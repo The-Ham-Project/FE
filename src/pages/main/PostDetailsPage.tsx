@@ -7,14 +7,17 @@ import { FaCamera } from 'react-icons/fa';
 import { authInstance } from '../../api/axios';
 import styled from 'styled-components';
 
-import ALL from '../../../public/assets/ALL.png';
-import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
-import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.png';
-import KITCHEN from '../../../public/assets/KITCHEN.png';
-import CLOSET from '../../../public/assets/CLOSET.png';
-import BOOK from '../../../public/assets/BOOK.png';
-import PLACE from '../../../public/assets/PLACE.png';
-import OTHER from '../../../public/assets/OTHER.png';
+
+
+import ALL from '../../../public/assets/ALL.svg';
+import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
+import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
+import KITCHEN from '../../../public/assets/KITCHEN.svg';
+import CLOSET from '../../../public/assets/CLOSET.svg';
+import BOOK from '../../../public/assets/BOOK.svg';
+import PLACE from '../../../public/assets/PLACE.svg';
+import OTHER from '../../../public/assets/OTHER.svg';
+
 
 // 카테고리 타입 정의
 type Category =
@@ -99,6 +102,7 @@ function PostDetailsPage() {
 
   return (
     <>
+    <Container>
       <CustomDropzone>
         <Dropzone
           onChangeStatus={(meta, status) => {
@@ -116,7 +120,7 @@ function PostDetailsPage() {
           classNames={{
             dropzone: 'dropzone',
             dropzoneActive: 'dz-drag-hover',
-            inputLabel: 'needsclick',
+            inputLabel: 'needsclick2',
             inputLabelWithFiles: 'needsclick',
             preview: 'custom-preview',
             previewImage: 'custom-preview-image',
@@ -193,8 +197,12 @@ function PostDetailsPage() {
       </div>
 
       <Rectangle>
-        <Text onClick={handleButtonClick}>게시글 작성</Text>
-      </Rectangle>
+
+      <Text onClick={handleButtonClick}>게시글 작성</Text>
+      </Rectangle >
+
+      </Container>
+
     </>
   );
 }
@@ -203,7 +211,6 @@ export default PostDetailsPage;
 
 // 스타일드 컴포넌트를 사용하여 Dropzone 스타일 적용
 const CustomDropzone = styled.div`
-  width: 1037px;
   height: 150px;
   display: inline-flex;
   justify-content: center;
@@ -212,12 +219,11 @@ const CustomDropzone = styled.div`
 `;
 
 const Container = styled.div`
-  width: 1037px;
-  height: 300px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 69px;
+display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    gap: 6px;
 `;
 
 const ItemContainer = styled.div`
@@ -261,7 +267,7 @@ const Imagine = styled.div`
 `;
 
 const Rectangle = styled.div`
-  width: 371px;
+  width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
