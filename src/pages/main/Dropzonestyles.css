@@ -12,7 +12,7 @@
   padding: 10px; /* 내부 여백 추가 */
   display: flex;
 height: 120px;
-  position: absolute;
+
   left: 0;
   top: 0;
   background: #F5F5F5;
@@ -27,12 +27,24 @@ height: 120px;
 }
 
 /* 파일 선택 버튼(input) 스타일링 */
-.needsclick {
-  width: 283.81px;
-  position: absolute;
+.needsclick2 {
+  width: 100%;
+
   top: 50px;
   left: 48%;
+  text-align: center;
+  margin-top: 30px;
+}
 
+.needsclick {
+    /* width: 283.81px; */
+    /* position: absolute; */
+    top: 50px;
+    left: 48%;
+    text-align: center;
+    padding: 43px;
+    background-color: #e1e1e1;
+    border-radius: 10px;
 }
 
 /* 미리보기 스타일링 */

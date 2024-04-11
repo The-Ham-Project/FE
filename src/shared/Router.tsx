@@ -11,7 +11,9 @@ import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
 import useStore from '../store/store.ts';
 import MyList from '../pages/Mypage/MyList.tsx';
+import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
+
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -33,6 +35,7 @@ function Router() {
         <Route path={'/commlist'} element={<ChatList />} />
         <Route path="/chat" element={<Chat />} />
         <Route path={'/chatlist'} element={<ChatList />} />
+       
       </Routes>
     </BrowserRouter>
   );

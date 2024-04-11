@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { geolocation } from '../../api/geolocation';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import locationButton from '../../../public/assets/locationButton.svg';
 import { useNavigate } from 'react-router-dom';
 
@@ -151,7 +151,7 @@ export default function Location(): JSX.Element {
   // };
   const getMainBtn = () => {
     navigate('/');
-  }
+  };
   const geolocationMutation = useMutation({
     mutationFn: geolocation,
     onSuccess: (res) => {
@@ -174,10 +174,36 @@ export default function Location(): JSX.Element {
           </Ao>
           <MSG>현재 위치에 있는 동네는 아래와 같나요?</MSG>
           <Address>{address}</Address>
-          <button onClick={getCurrentPosBtn}>
+          {/* <button onClick={getCurrentPosBtn}>
             <IMG src={locationButton} alt="위치인증하기" />
           </button>
-          {address && <button onClick={getMainBtn}><IMG2 src={locationButton} alt="위치인증하기" /></button>}
+          {address && <button onClick={getMainBtn}><IMG2 src={locationButton} alt="설정완료" /></button>} */}
+          {/* <button onClick={getCurrentPosBtn}>
+            <IMG src={locationButton} alt="위치인증하기" />
+          </button>
+          {address && (
+            <button onClick={getMainBtn}>
+              <IMG2 src={locationButton} alt="설정완료" />
+            </button>
+          )} */}
+
+          <button onClick={getCurrentPosBtn}>
+            <IMG src={locationButton} alt="위치인증하기" $active={address} />
+          </button>
+          {address && (
+            <button onClick={getMainBtn}>
+              <IMG2 src={locationButton} alt="설정완료" $active={address} />
+            </button>
+          )}
+
+          {/* <button onClick={getCurrentPosBtn}>
+            <IMG src={locationButton} alt="위치인증하기" address={address} />
+          </button>
+          {address && (
+            <button onClick={getMainBtn}>
+              <IMG2 src={locationButton} alt="설정완료" address={address} />
+            </button>
+          )} */}
         </PaddingBox>
       </Wrapper>
     </>
@@ -199,6 +225,17 @@ const MenuBox = styled.div`
     margin: 0px;
     padding: 0 20px;
     align-items: center;
+    display: flex;
+    flex-direction: row;
+    background-color: #f5f5f5;
+    height: 60px;
+    width: 100%;
+    margin: 0px;
+    padding: 0 20px;
+    align-items: center;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    z-index: 1;
     > span {
       /* 내 위치 인증 */
 
@@ -217,31 +254,98 @@ const MenuBox = styled.div`
       text-align: center;
 
       color: #000000;
-
-      transform: matrix(1, -0.02, 0.01, 1, 0, 0);
     }
   }
 `;
 
-const IMG = styled.img`
-  @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 350px;
-    height: 52px;
-    left: calc(50% - 350px / 2 + 0.49px);
-    top: 758px;
-  }
-`;
-const IMG2 = styled.img`
-  @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 350px;
-    height: 52px;
-    left: calc(50% - 350px / 2 + 0.49px);
-    top: 700px;
-  }
-`;
+// const IMG = styled.img`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 758px;
+//   }
+// `;
+// const IMG2 = styled.img`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 700px;
+//   }
+// `;
+// const IMG = styled.img`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 758px;
+//   }
+// `;
+// const IMG2 = styled.img`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 700px;
+//   }
+// `;
 
+const IMG = styled.img<{ $active: string }>(
+  ({ $active }) => css`
+    @media screen and (max-width: 430px) {
+      position: absolute;
+      width: 350px;
+      height: 52px;
+      left: calc(50% - 350px / 2 + 0.49px);
+      top: ${$active ? '758px' : '700px'}; /* 조건부 위치 설정 */
+    }
+  `,
+);
+
+const IMG2 = styled.img<{ $active: string }>(
+  ({ $active }) => css`
+    @media screen and (max-width: 430px) {
+      position: absolute;
+      width: 350px;
+      height: 52px;
+      left: calc(50% - 350px / 2 + 0.49px);
+      top: ${$active ? '700px' : '758px'}; /* 조건부 위치 설정 */
+    }
+  `,
+);
+
+// const IMG = styled.img.attrs(props => ({
+//   style: {
+//     top: props.address ? '758px' : '700px',
+//   },
+// }))`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     /* top 속성은 여기서 직접 설정하지 않습니다 */
+//   }
+// `;
+
+// const IMG2 = styled.img.attrs(props => ({
+//   style: {
+//     top: props.address ? '700px' : '758px',
+//   },
+// }))`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     /* top 속성은 여기서 직접 설정하지 않습니다 */
+//   }
+// `;
 const PaddingBox = styled.div`
   @media screen and (max-width: 430px) {
     /* box-shadow: inset 0 -5px 5px -5px #333; */
@@ -251,14 +355,13 @@ const PaddingBox = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
   }
 `;
 
 const Ao = styled.div`
   @media screen and (max-width: 430px) {
     box-shadow: inset 0 5px 5px -5px #333;
-    position: absolute;
+    z-index: -5;
     width: 100%;
     height: 463px;
     left: 0px;
@@ -268,11 +371,11 @@ const Ao = styled.div`
 
 const Map = styled.div`
   @media screen and (max-width: 430px) {
-    position: absolute;
     width: 100%;
     height: 463px;
     left: 0px;
-    top: 4px;
+    top: 60px;
+;
   }
 `;
 
@@ -293,7 +396,6 @@ const MSG = styled.div`
     /* identical to box height */
     text-align: center;
     color: #000000;
-    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
   }
 `;
 
@@ -311,7 +413,5 @@ const Address = styled.div`
     line-height: 26px;
     text-align: center;
     color: #000000;
-
-    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
   }
 `;
