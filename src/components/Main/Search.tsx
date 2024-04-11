@@ -9,7 +9,9 @@ const Search = () => {
     queryKey: ['rentals', keyword],
     queryFn: async () => {
       try {
-        const response = await fetch(`https://api.openmpy.com/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
+        const response = await fetch(
+          `https://api.openmpy.com/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`,
+        );
         if (!response.ok) {
           throw new Error('네트워크 응답이 올바르지 않습니다');
         }
@@ -21,12 +23,12 @@ const Search = () => {
         throw error;
       }
     },
-    enabled: keyword !== '' // keyword가 변경되면 쿼리를 다시 실행합니다.
+    enabled: keyword !== '', // keyword가 변경되면 쿼리를 다시 실행합니다.
   });
 
   const handleChange = (e) => {
     setKeyword(e.target.value);
-    console.log(e.target.value)
+    console.log(e.target.value);
   };
 
   return (
@@ -40,11 +42,12 @@ const Search = () => {
       <ul>
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
-        {data && data.map((rental) => (
-          <li key={rental.rentalId}>
-            <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
-          </li>
-        ))}
+        {data &&
+          data.map((rental) => (
+            <li key={rental.rentalId}>
+              <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
+            </li>
+          ))}
       </ul>
     </div>
   );

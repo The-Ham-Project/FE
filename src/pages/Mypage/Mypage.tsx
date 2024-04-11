@@ -106,12 +106,23 @@ const MenuBox = styled.div`
     margin: 0px;
     padding: 0 20px;
     align-items: center;
+    display: flex;
+    flex-direction: row;
+    background-color: #f5f5f5;
+    height: 60px;
+    width: 100%;
+    margin: 0px;
+    padding: 0 20px;
+    align-items: center;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    z-index: 1;
   }
 `;
 
 const PaddingBox = styled.div`
   @media screen and (max-width: 430px) {
-    box-shadow: inset 0 5px 5px -5px #333;
+    /* box-shadow: inset 0 5px 5px -5px #333; */
     position: absolute;
     width: 100%;
     height: 463px;
@@ -199,7 +210,6 @@ const MyInfo = styled.div`
     /* 텍스트바 */
     background: #f5f5f5;
     border-radius: 6.71835px;
-    transform: matrix(1, 0, 0, 1, 0, 0);
   }
 `;
 
@@ -270,7 +280,6 @@ const Box1 = styled.button`
     right: 0.01%;
     background: #f5f5f5;
     border-radius: 6.71835px;
-    transform: matrix(1, 0, 0, 1, 0, 0);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -305,7 +314,6 @@ const Box2 = styled.button`
     right: 0.01%;
     background: #f5f5f5;
     border-radius: 6.71835px;
-    transform: matrix(1, 0, 0, 1, 0, 0);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -355,7 +363,6 @@ const Loading = styled.div`
   }
   @keyframes spin {
     to {
-      transform: rotate(360deg);
     }
   }
 `;
@@ -381,7 +388,6 @@ const Loading = styled.div`
 
 //   @keyframes spin {
 //     to {
-//       transform: rotate(360deg);
 //     }
 //   }
 

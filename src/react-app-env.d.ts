@@ -1,3 +1,3 @@
 interface Window {
-    naver: any
+  naver: any;
 }

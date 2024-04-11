@@ -129,8 +129,8 @@ const IMG = styled.img`
   @media screen and (max-width: 430px) {
     position: absolute;
     width: 350px;
-    height: 45px;
-    left: 20.16px;
-    top: 753.77px;
+    height: 44px;
+    left: calc(50% - 350px / 2 + 0.41px);
+    top: 754px;
   }
 `;

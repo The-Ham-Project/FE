@@ -242,8 +242,6 @@ const Counter = styled.div`
   position: absolute;
   left: 10.5px;
   top: 218px;
-  transform: rotate(0.62deg);
-  transform-origin: 0 0;
   text-align: center;
   color: #b1b1b1;
   font-size: 36px;

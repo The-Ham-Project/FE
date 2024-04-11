@@ -22,10 +22,8 @@ export const Flexnickname = styled.div`
   display: flex;
   align-items: center;
 
-
   padding-top: 15px;
 `;
-
 
 export const Contentitem = styled.div`
   background: white;
