@@ -5,7 +5,6 @@ import { geolocation } from '../../api/geolocation';
 import styled from 'styled-components';
 import locationButton from '../../../public/assets/locationButton.svg';
 import { useNavigate } from 'react-router-dom';
-import { IoIosArrowBack } from 'react-icons/io';
 
 declare global {
   interface Window {
@@ -28,22 +27,24 @@ export default function Location(): JSX.Element {
   // // 현재 표시되는 반경
   // const [currentCircle, setCurrentCircle] = useState<any>(null);
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src =
-      '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
-    document.head.appendChild(script);
-    script.onload = () => {
-      window.kakao.maps.load(function () {
-        const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-        const options = {
-          //지도를 생성할 때 필요한 기본 옵션
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-          level: 7, //지도의 레벨(확대, 축소 정도)
-        };
+    (async () => {
+      const script = document.createElement('script');
+      script.src =
+        '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
+      document.head.appendChild(script);
+      script.onload = () => {
+        window.kakao.maps.load(async function () {
+          const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+          const options = {
+            //지도를 생성할 때 필요한 기본 옵션
+            center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 7, //지도의 레벨(확대, 축소 정도)
+          };
 
-        setMap(new window.kakao.maps.Map(container, options));
-      });
-    };
+          await setMap(new window.kakao.maps.Map(container, options));
+        });
+      };
+    })();
   }, []);
 
   // 2. 현재 위치
@@ -148,7 +149,9 @@ export default function Location(): JSX.Element {
   //   setAddress(selectedAddress);
   //   setResults([]);
   // };
-
+  const getMainBtn = () => {
+    navigate('/');
+  }
   const geolocationMutation = useMutation({
     mutationFn: geolocation,
     onSuccess: (res) => {
@@ -163,7 +166,7 @@ export default function Location(): JSX.Element {
     <>
       <Wrapper>
         <MenuBox>
-          <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+          <span>내 위치 인증</span>
         </MenuBox>
         <PaddingBox>
           <Ao>
@@ -174,6 +177,7 @@ export default function Location(): JSX.Element {
           <button onClick={getCurrentPosBtn}>
             <IMG src={locationButton} alt="위치인증하기" />
           </button>
+          {address && <button onClick={getMainBtn}><IMG2 src={locationButton} alt="위치인증하기" /></button>}
         </PaddingBox>
       </Wrapper>
     </>
@@ -195,6 +199,27 @@ const MenuBox = styled.div`
     margin: 0px;
     padding: 0 20px;
     align-items: center;
+    > span {
+      /* 내 위치 인증 */
+
+      position: absolute;
+      width: 69px;
+      height: 17px;
+      left: calc(50% - 69px / 2 + 0.41px);
+      top: 22px;
+
+      font-family: 'Pretendard';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14.1085px;
+      line-height: 17px;
+      /* identical to box height */
+      text-align: center;
+
+      color: #000000;
+
+      transform: matrix(1, -0.02, 0.01, 1, 0, 0);
+    }
   }
 `;
 
@@ -205,6 +230,15 @@ const IMG = styled.img`
     height: 52px;
     left: calc(50% - 350px / 2 + 0.49px);
     top: 758px;
+  }
+`;
+const IMG2 = styled.img`
+  @media screen and (max-width: 430px) {
+    position: absolute;
+    width: 350px;
+    height: 52px;
+    left: calc(50% - 350px / 2 + 0.49px);
+    top: 700px;
   }
 `;
 
@@ -247,9 +281,9 @@ const MSG = styled.div`
     /* 현재 위치에 있는 동네는 아래와 같아요. */
 
     position: absolute;
-    width: 230px;
+    width: 280px;
     height: 17px;
-    left: calc(50% - 230px / 2 - 0.5px);
+    left: calc(50% - 280px / 2 - 0.5px);
     top: 576.74px;
     font-family: 'Pretendard';
     font-style: normal;
@@ -266,9 +300,9 @@ const MSG = styled.div`
 const Address = styled.div`
   @media screen and (max-width: 430px) {
     position: absolute;
-    width: 250px;
+    width: 300px;
     height: 26px;
-    left: calc(50% - 250px / 2 - 0.5px);
+    left: calc(50% - 300px / 2 - 0.5px);
     top: 612.16px;
     font-family: 'Pretendard';
     font-style: normal;
