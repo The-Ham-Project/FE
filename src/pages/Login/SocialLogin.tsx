@@ -2,13 +2,13 @@ import NaverLogin from '../../components/NaverLogin/NaverLogin';
 import GoogleLogin from '../../components/GoogleLogin/GoogleLogin';
 import KakaoLogin from '../../components/KakaoLogin/KakaoLogin';
 import styled from 'styled-components';
-import theham from '../../../public/assets/theham.svg'
+import theham from '../../../public/assets/theham.svg';
 import charactor from '../../../public/assets/charactor.svg';
 // import Header from '../../components/layout/Header';
 
 function SocialLogin() {
   return (
-    <>
+    <Wrapper>
       {/* <Header /> */}
       <Logo>
         <img src={theham} />
@@ -20,48 +20,68 @@ function SocialLogin() {
         간편하게 로그인하고 <br />
         동네 쉐어서비스 더함을 이용해보세요.
       </MSG>
-      <KakaoLogin />
-      <NaverLogin /> {/* 네이버는 나중에 */}
-      <GoogleLogin />
-    </>
+      <Container>
+        <KakaoLogin />
+        <NaverLogin /> {/* 네이버는 나중에 */}
+        <GoogleLogin />
+      </Container>
+    </Wrapper>
   );
 }
 
 export default SocialLogin;
 
-const Logo = styled.div`
+const Wrapper = styled.div`
+  padding: 6vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 166px;
-    height: 92px;
-    left: calc(50% - 166px / 2);
-    top: 123px;
+  }
+`;
+const Logo = styled.div`
+  width: 166px;
+  height: 92px;
+
+  @media screen and (max-width: 430px) {
   }
 `;
 const Charactor = styled.div`
+  width: 144.62px;
+  height: 195.27px;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 144.62px;
-    height: 195.27px;
-    left: calc(50% - 144.62px / 2 + 2.31px);
-    top: calc(50% - 195.27px / 2 - 70.36px);
   }
 `;
 const MSG = styled.div`
+  width: 287px;
+  height: 55px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+
+  color: #000000;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 287px;
-    height: 55px;
-    left: calc(50% - 267px / 2 + 0px);
-    top: calc(50% - 55px / 2 + 109.05px);
-
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-
-    color: #000000;
+  }
+`;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  gap: 25px;
+  color: #000000;
+  @media screen and (max-width: 430px) {
   }
 `;

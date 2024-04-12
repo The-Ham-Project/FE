@@ -48,6 +48,7 @@ function Category() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
+      
       const response = await fetch(
         `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
       );
@@ -222,6 +223,7 @@ const H2 = styled.div`
   color: #8b8b8b;
   word-spacing: 2px
 `;
+
 const H3 = styled.div`
 color: #1689F3;
 font-weight: 600;
@@ -264,10 +266,8 @@ const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
   background-position: center;
   padding: 20px;
 
-  &:active {
-    border-radius: 50px;
-    background-color: #418dff;
-  }
+
+
 `;
 
 const LoadingMessage = styled.div`
@@ -275,6 +275,12 @@ const LoadingMessage = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+const CategoryLabel = styled.span`
+  font-size: 12px;
+  margin-top: 2px;
+`;
+
 
 const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
   display: flex;
@@ -284,23 +290,23 @@ const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
   height: 80px;
   justify-content: center;
   border-radius: 50px;
-  transition: transform 0.3s; /* transform에 대한 transition 효과 추가 */
+
 
   &:active {
     background-color: #418dff;
+    transform: scale(1.2); /* &:active 상태일 때 크기를 확대하는 transform 추가 */
   }
 
   ${({ isActive }) =>
     isActive &&
     `
-    transform: scale(1.2); /* 클릭 시 내부 영역만 확대 */
-  `}
+      &:hover {
+        background-color: #E8F4FE; /* isActive가 true일 때 hover 효과 추가 */
+      }
+    `
+  }
 `;
 
-const CategoryLabel = styled.span`
-  font-size: 12px;
-  margin-top: 2px;
-`;
 
 const CategoryContainer = styled.div`
   display: grid;

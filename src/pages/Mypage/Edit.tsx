@@ -5,13 +5,13 @@ import { useNavigate, useParams } from 'react-router';
 import { editItemPut } from '../../api/itemAPI';
 import styled from 'styled-components';
 import Dropzone from 'react-dropzone-uploader';
-import ELECTRONIC from '../../../public/assets/ELECTRONIC.png';
-import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.png';
-import KITCHEN from '../../../public/assets/KITCHEN.png';
-import CLOSET from '../../../public/assets/CLOSET.png';
-import BOOK from '../../../public/assets/BOOK.png';
-import PLACE from '../../../public/assets/PLACE.png';
-import OTHER from '../../../public/assets/OTHER.png';
+import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
+import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
+import KITCHEN from '../../../public/assets/KITCHEN.svg';
+import CLOSET from '../../../public/assets/CLOSET.svg';
+import BOOK from '../../../public/assets/BOOK.svg';
+import PLACE from '../../../public/assets/PLACE.svg';
+import OTHER from '../../../public/assets/OTHER.svg';
 import { authInstance } from '../../api/axios';
 
 export interface UpdatedItem {
@@ -281,54 +281,45 @@ export default Edit;
 
 // 스타일드 컴포넌트를 사용하여 Dropzone 스타일 적용
 const CustomDropzone = styled.div`
-  width: 1037px;
-  height: 150px;
   display: inline-flex;
   justify-content: center;
   align-items: flex-start;
   gap: 69px;
 `;
 
-const Container = styled.div`
-  width: 1037px;
-  height: 300px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 69px;
-`;
+// const Container = styled.div`
+//   display: inline-flex;
+//   justify-content: center;
+//   align-items: flex-start;
+//   gap: 69px;
+// `;
 
-const ItemContainer = styled.div`
-  position: relative;
-  width: 300px;
-  height: 120px;
-`;
+// const ItemContainer = styled.div`
+//   position: relative;
+// `;
 
 const Image = styled.div`
   width: 360px;
 `;
 
-const Counter = styled.div`
-  width: 283.81px;
-  height: 46.56px;
-  position: absolute;
-  left: 10.5px;
-  top: 218px;
-  text-align: center;
-  color: #b1b1b1;
-  font-size: 36px;
-  font-family: 'Inter';
-  font-weight: 400;
-  word-wrap: break-word;
-`;
+// const Counter = styled.div`
+//   left: 10.5px;
+//   top: 218px;
+//   text-align: center;
+//   color: #b1b1b1;
+//   font-size: 36px;
+//   font-family: 'Inter';
+//   font-weight: 400;
+//   word-wrap: break-word;
+// `;
 
-const Group = styled.div`
-  width: 84.2px;
-  height: 112.32px;
-  position: absolute;
-  left: 105.06px;
-  top: 84px;
-`;
+// const Group = styled.div`
+//   width: 84.2px;
+//   height: 112.32px;
+//   position: absolute;
+//   left: 105.06px;
+//   top: 84px;
+// `;
 
 const Imagine = styled.div`
   display: flex;

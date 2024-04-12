@@ -4,7 +4,15 @@ import axios from 'axios';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Container, Contentitem, Deposit, Flex, Flexbetween, Flexnickname, Rental, Title } from '../../styles/Details-Styles';
+import {
+  Contentitem,
+  Deposit,
+  Flex,
+  Flexbetween,
+  Flexnickname,
+  Rental,
+  Title,
+} from '../../styles/Details-Styles';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
 import styled from 'styled-components';
@@ -81,88 +89,85 @@ function Details() {
     slidesToScroll: 1,
     slickNext: false,
     arrows: false,
- 
   };
 
- const images =
-  item.rentalImageList.length === 0 ? (
-    <div>
-      {/* 이미지가 없는 경우에 보여줄 요소 */}
-      <FaCamera
-        size={24}
-        color="#B1B1B1"
-        style={{
-          maxWidth: '330px',
-          maxHeight: '330px',
-          width: '100%',
-          height: '50px',
-          objectFit: 'cover',
-          paddingTop: '150px',
-          paddingBottom: '150px',
-          backgroundColor: '#ececec',
-          borderRadius:'20px',
-        }}
-      />
-    </div>
-  ) : item.rentalImageList.length === 1 ? (
-    <div>
-      <img
-        src={item.rentalImageList[0].imageUrl}
-        alt={`Image 1`}
-        style={{
-          maxWidth: '330px',
-          maxHeight: '330px',
-          width: '100%',
-          height: '330px',
-          objectFit: 'contain',
-          borderRadius:'20px',
-          paddingBottom: '10px',
-        }}
-      />
-    </div>
-  ) : item.rentalImageList.length === 2 ? (
-    <div>
-      {item.rentalImageList.map((image, index) => (
-        <div key={index}>
-          <img
-            src={image.imageUrl}
-            alt={`Image ${index + 1}`}
-            style={{
-              maxWidth: '330px',
-              maxHeight: '330px',
-              width: '100%',
-              height: '330px',
-              objectFit: 'contain',
-              borderRadius:'20px',
-              paddingBottom: '10px',
-            }}
-          />
-        </div>
-      ))}
-    </div>
-  ) : (
-    <Slider {...settings}>
-      {item.rentalImageList.map((image, index) => (
-        <div key={index}>
-          <img
-            src={image.imageUrl}
-            alt={`Image ${index + 1}`}
-            style={{
-              maxWidth: '330px',
-              maxHeight: '330px',
-              width: '100%',
-              height: '330px',
-              objectFit: 'contain',
-              borderRadius:'20px',
-              paddingBottom: '10px',
-            }}
-          />
-        </div>
-      ))}
-    </Slider>
-  );
-
-
+  const images =
+    item.rentalImageList.length === 0 ? (
+      <div>
+        {/* 이미지가 없는 경우에 보여줄 요소 */}
+        <FaCamera
+          size={24}
+          color="#B1B1B1"
+          style={{
+            maxWidth: '330px',
+            maxHeight: '330px',
+            width: '100%',
+            height: '50px',
+            objectFit: 'cover',
+            paddingTop: '150px',
+            paddingBottom: '150px',
+            backgroundColor: '#ececec',
+            borderRadius: '20px',
+          }}
+        />
+      </div>
+    ) : item.rentalImageList.length === 1 ? (
+      <div>
+        <img
+          src={item.rentalImageList[0].imageUrl}
+          alt={`Image 1`}
+          style={{
+            maxWidth: '330px',
+            maxHeight: '330px',
+            width: '100%',
+            height: '330px',
+            objectFit: 'contain',
+            borderRadius: '20px',
+            paddingBottom: '10px',
+          }}
+        />
+      </div>
+    ) : item.rentalImageList.length === 2 ? (
+      <div>
+        {item.rentalImageList.map((image, index) => (
+          <div key={index}>
+            <img
+              src={image.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{
+                maxWidth: '330px',
+                maxHeight: '330px',
+                width: '100%',
+                height: '330px',
+                objectFit: 'contain',
+                borderRadius: '20px',
+                paddingBottom: '10px',
+              }}
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <Slider {...settings}>
+        {item.rentalImageList.map((image, index) => (
+          <div key={index}>
+            <img
+              src={image.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{
+                maxWidth: '330px',
+                maxHeight: '330px',
+                width: '100%',
+                height: '330px',
+                objectFit: 'contain',
+                borderRadius: '20px',
+                paddingBottom: '10px',
+              }}
+            />
+          </div>
+        ))}
+      </Slider>
+    );
 
   return (
     
@@ -171,15 +176,15 @@ function Details() {
 
       <Flexbetween>
         <Flexnickname>
-        <img
-          src={item.profileUrl}
-          alt="Profile"
-          style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }}
-        />
-        <p>{item.nickname}</p>
+          <img
+            src={item.profileUrl}
+            alt="Profile"
+            style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }}
+          />
+          <p>{item.nickname}</p>
         </Flexnickname>
         <div>
-        <p>{item.district}</p>
+          <p>{item.district}</p>
         </div>
       </Flexbetween>
 
@@ -188,16 +193,12 @@ function Details() {
         <Deposit>보증금 {item.deposit}원</Deposit>
       </Flex>
 
-
       <Contentitem>
-      <Title>{item.title}</Title>
+        <Title>{item.title}</Title>
       </Contentitem>
-      <p >{item.content}</p>
-      
-
+      <p>{item.content}</p>
 
       <button onClick={handleCreateChat}>채팅하기</button>
-
     </DetailsContainer>
   );
 }
@@ -205,8 +206,7 @@ function Details() {
 export default Details;
 
 const DetailsContainer = styled.div`
-    margin: 50px;
-  
+  margin: 50px;
 `;
 
 const ImageContainer = styled.div`

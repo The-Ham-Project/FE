@@ -15,7 +15,7 @@ function Main() {
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
   const handleButtonClick = () => {
-    console.log(isLoggedIn)
+    console.log(isLoggedIn);
     if (isLoggedIn === true) {
       navigate('/main/PostDetailsPage');
     } else {
@@ -27,9 +27,7 @@ function Main() {
 
   return (
     <>
-
-     
-          <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
+      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
 
               <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
    
@@ -49,11 +47,11 @@ const ButtonContainer = styled.div`
 `;
 
 export const Div = styled.div`
-    /* margin: 130px; */
-    width: 10%;
-background-color: antiquewhite;
-    height: 800px;
-    display: flex;
+  /* margin: 130px; */
+  width: 10%;
+  background-color: antiquewhite;
+  height: 800px;
+  display: flex;
 `;
 
 export const Flex = styled.div`
@@ -100,7 +98,7 @@ width: 50vw;
 export const Div3 = styled.div`
   width: 10vh;
   height: 100vh;
-  background-color: #3fa2ff;
+  background-color: wheat;
   @media screen and (max-width: 600px) {
     max-width: 0px;
     display: none;
