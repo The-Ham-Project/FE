@@ -7,11 +7,15 @@ export interface ItemDataRes {
   contents: string;
   price: number;
 }
-
+// export interface RemoveResponse {
+//   resultCode: Result;
+//   data: ChatDataProps;
+//   message: string;
+// }
 export const createItem = async (newItem: any) => {
   // 게시글 작성
   try {
-    const res = await authInstance.post(`/item`, newItem, {
+    const res = await authInstance.post(`/api/v1/item`, newItem, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return res;
@@ -35,12 +39,13 @@ export const editItemPut = async ({
   }
 };
 
-export const removeItemPost = async (rentalId: number) => {
+export const removeItemPost = async (rentalId: number): Promise<void> => {
   // 게시글 삭제
   try {
     console.log(`Removing ${rentalId}`);
-    const res = await authInstance.delete(`/item/${rentalId}`);
-    return res.data;
+    // const res =
+    await authInstance.delete(`api/v1/rentals/${rentalId}`);
+    // return res.data;
   } catch (error) {
     throw error;
   }

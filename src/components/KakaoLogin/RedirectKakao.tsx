@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 import styled from 'styled-components';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
-// const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+import { instance } from '../../api/axios';
+const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
 function RedirectKakao() {
@@ -16,6 +17,7 @@ function RedirectKakao() {
   const [accessTokenFetching, setAccessTokenFetching] = useState(false);
 
   console.log('KAKAO_CODE:', KAKAO_CODE);
+  console.log(client_id);
 
   // Access Token 받아오기
   const getAccessToken = async () => {
@@ -26,8 +28,8 @@ function RedirectKakao() {
     try {
       setAccessTokenFetching(true); // Set fetching to true
 
-      const response = await axios.get(
-        `https://api.openmpy.com/api/v1/members/kakao/callback?code=${KAKAO_CODE}`,
+      const response = await instance.get(
+        `/api/v1/members/kakao/callback?code=${KAKAO_CODE}`,
       );
       console.log('나 김동준이야', response);
       const accessToken = response.headers.authorization;

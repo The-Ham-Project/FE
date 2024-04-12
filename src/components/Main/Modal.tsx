@@ -77,9 +77,9 @@ const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 200px;
+  height: 170px;
   justify-content: flex-end;
-  gap: 43px;
+  gap: 23px;
 `;
 const MSG = styled.div`
   display: flex;

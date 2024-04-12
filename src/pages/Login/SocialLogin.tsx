@@ -7,6 +7,10 @@ import charactor from '../../../public/assets/charactor.svg';
 // import Header from '../../components/layout/Header';
 
 function SocialLogin() {
+  const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+  const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+  console.log(client_id);
+  console.log(redirect_uri);
   return (
     <Wrapper>
       {/* <Header /> */}
