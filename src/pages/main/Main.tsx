@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Modal from '../../components/Main/Modal';
 import Details from './Details';
 import MainHeder from '../../components/layout/MainHeder';
+import Navbar from '../../components/layout/Navbar';
 
 function Main() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -27,6 +28,9 @@ function Main() {
 
   return (
     <>
+
+<Navbar/>
+
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
 
               <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
