@@ -30,9 +30,9 @@
 // export default RedirectURI;
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
+import { instance } from '../../api/axios';
 
 // const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
@@ -74,8 +74,8 @@ function RedirectNaver() {
     try {
       setAccessTokenFetching(true); // Set fetching to true
 
-      const response = await axios.get(
-        `https://api.openmpy.com/api/v1/members/naver/callback?code=${NAVER_CODE}&state=false`,
+      const response = await instance.get(
+        `/api/v1/members/naver/callback?code=${NAVER_CODE}&state=false`,
       );
       console.log('나 김동준이야', response);
       const accessToken = response.headers.authorization;
