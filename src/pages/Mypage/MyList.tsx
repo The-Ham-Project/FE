@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useErrorModalStore } from '../../store/store';
 import Modal from '../../components/Main/Modal';
+import { removeItemPost } from '../../api/itemAPI';
 
 interface Rental {
   rentalId: number;
@@ -22,16 +23,18 @@ function MyList() {
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
   const deleteMutation = useMutation<any, any, number>({
-    mutationFn: (itemId) => removeItemPost(itemId),
+    mutationFn: async (rentalId) => await removeItemPost(Number(rentalId)),
     onSuccess: (res) => {
       console.log('res', res);
-      navigate('/');
+      navigate('/mylist');
     },
     onError: (error) => {
       console.log('error', error);
     },
   });
-
+  const deleteitemClick = (rentalId): void => {
+    deleteMutation.mutate(rentalId);
+  };
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
   const handleDeleteClick = () => {
     openModal('님아 리얼루다가 삭제?');
@@ -39,9 +42,6 @@ function MyList() {
   const page = 1; // 페이지당 아이템 수
   const selectedCategory = 'ALL'; // 선택된 카테고리
 
-  function removeItemPost(rentalId: number): Promise<any> {
-    throw new Error('Function not implemented.');
-  }
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['rentals', { page }],
     queryFn: async () => {

@@ -77,9 +77,9 @@ const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 200px;
+  height: 170px;
   justify-content: flex-end;
-  gap: 3px;
+  gap: 23px;
 `;
 const MSG = styled.div`
   display: flex;
@@ -90,7 +90,7 @@ const MSG = styled.div`
 const Button = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 43px;
+  gap: 25px;
 `;
 
 const ModalCloseButton = styled.button`
