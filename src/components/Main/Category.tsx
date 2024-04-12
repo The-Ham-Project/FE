@@ -14,6 +14,8 @@ import OTHER from '../../../public/assets/OTHER.svg';
 import Contents from '../../components/Main/Contents';
 import Search from './Search';
 import { useQuery } from '@tanstack/react-query';
+import { Flex } from '../../pages/main/Main';
+import { FaCamera } from 'react-icons/fa';
 
 export type Category =
   | 'ALL'
@@ -46,7 +48,9 @@ function Category() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      const response = await fetch(`https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`);
+      const response = await fetch(
+        `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
+      );
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -56,7 +60,7 @@ function Category() {
 
   useEffect(() => {
     if (data) {
-      setRentals(prevRentals => [...prevRentals, ...data.data]);
+      setRentals((prevRentals) => [...prevRentals, ...data.data]);
       if (data.data.length === 0) {
         setHasMore(false);
       }
@@ -69,13 +73,13 @@ function Category() {
 
   const handleCategoryChange = (category: Category) => {
     setSelectedCategory(category);
-    setIsActive(!isActive)
+    setIsActive(!isActive);
     setPage(1);
   };
-  
+
   return (
     <Div id="ScrollableCategoryContainer">
-      <Search/>
+
       <ScrollableCategoryContainer>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
@@ -92,43 +96,58 @@ function Category() {
         >
           <Contents />
           <CategoryButtonsContainer>
-  {Object.keys(categories).map((categoryKey) => (
-    <CategoryButtonWrapper key={categoryKey} isActive={selectedCategory === categoryKey}>
-      <CustomCategoryButton 
-        onClick={() => handleCategoryChange(categoryKey as Category)}
-        icon={categories[categoryKey].icon}
-        isActive={selectedCategory === categoryKey}
-      />
-      <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
-    </CategoryButtonWrapper>
-  ))}
-</CategoryButtonsContainer>
-
+            {Object.keys(categories).map((categoryKey) => (
+              <CategoryButtonWrapper
+                key={categoryKey}
+                isActive={selectedCategory === categoryKey}
+              >
+                <CustomCategoryButton
+                  onClick={() => handleCategoryChange(categoryKey as Category)}
+                  icon={categories[categoryKey].icon}
+                  isActive={selectedCategory === categoryKey}
+                />
+                <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
+              </CategoryButtonWrapper>
+            ))}
+          </CategoryButtonsContainer>
 
           <CategoryContainer>
             {rentals.map((item: any) => (
               <CategoryItem key={item.rentalId}>
+                
                 <Link
                   to={`/Details/${item.rentalId}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
+                  <ALLLayout>
                   <ImageWrapper>
                     {item.firstThumbnailUrl ? (
                       <Image src={item.firstThumbnailUrl} alt="no img" />
                     ) : (
-                      <PlaceholderImage>No Image</PlaceholderImage>
+                      <PlaceholderImage><FaCamera size={24} color="#B1B1B1"/></PlaceholderImage>
                     )}
                   </ImageWrapper>
+                  <Layout>
+
                   <ProfileUrl>
                     <ProfileImage src={item.profileUrl} alt="Profile" />
-                    <p>{item.nickname}</p>
+                    <Nickname>{item.nickname}</Nickname>
                   </ProfileUrl>
-                  <h2>{item.title}</h2>
-                  
-                  <div>
-                    <p>보증금 {item.rentalFee}</p>
-                    <p>사례금 {item.rentalId}</p>
-                  </div>
+              
+                    <H1>
+                      {item.title.length > 20
+                        ? item.title.slice(0, 22) + '···'
+                        : item.title}
+                    </H1>
+                    <Layout2>
+                    <Layout1>
+                      <H2>보증금 {item.rentalFee}원</H2>
+                      <H3>대여비 {item.deposit}원</H3>
+                    </Layout1>
+                    
+              </Layout2>
+                  </Layout>
+                  </ALLLayout>
                 </Link>
               </CategoryItem>
             ))}
@@ -142,6 +161,84 @@ function Category() {
 export default Category;
 
 const ScrollableCategoryContainer = styled.div``;
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 150px;
+  padding: 0px;
+  gap: 6px;
+  padding-bottom: 10px;
+ 
+`;
+const Layout2 = styled.div`
+
+  width: 150px;
+`;
+
+const Layout1 = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: flex-end;
+padding: 0px;
+gap: 6px;
+
+`;
+
+
+
+
+const Nickname = styled.div`
+width: 57px;
+    height: 11px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 9.0041px;
+    line-height: 11px;
+    color: #000000;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    padding-left: 10px;
+`;
+
+const H1 = styled.div`
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 600;
+    height: 40px;
+    align-content: center;
+    letter-spacing: -0.1em;
+    
+`;
+const H2 = styled.div`
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: -0.1em;
+  color: #8b8b8b;
+  word-spacing: 2px
+`;
+const H3 = styled.div`
+color: #1689F3;
+font-weight: 600;
+font-size: 12px;
+background: rgba(31, 147, 255, 0.1);
+border-radius: 16.623px;
+letter-spacing: -0.1em;
+`;
+
+
+const ALLLayout = styled.div`
+display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+
 
 const CategoryButtonsContainer = styled.div`
   display: flex;
@@ -167,10 +264,9 @@ const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
   background-position: center;
   padding: 20px;
 
-  
   &:active {
     border-radius: 50px;
-    background-color: #418DFF;
+    background-color: #418dff;
   }
 `;
 
@@ -190,17 +286,16 @@ const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
   border-radius: 50px;
   transition: transform 0.3s; /* transform에 대한 transition 효과 추가 */
 
-  
   &:active {
-    background-color: #418DFF;
+    background-color: #418dff;
   }
 
-  ${({ isActive }) => isActive && `
+  ${({ isActive }) =>
+    isActive &&
+    `
     transform: scale(1.2); /* 클릭 시 내부 영역만 확대 */
   `}
 `;
-
-
 
 const CategoryLabel = styled.span`
   font-size: 12px;
@@ -210,7 +305,8 @@ const CategoryLabel = styled.span`
 const CategoryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 12px;
+  padding: 20px;
   justify-content: center;
 `;
 
@@ -223,7 +319,7 @@ const CategoryItem = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 120px;
+  height: 112px;
 `;
 
 const PlaceholderImage = styled.div`
@@ -240,13 +336,13 @@ const PlaceholderImage = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 100%;
+  height: 111px;
   object-fit: cover;
 `;
 
 const ProfileImage = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   object-fit: cover;
 `;
@@ -254,6 +350,9 @@ const ProfileImage = styled.img`
 const ProfileUrl = styled.span`
   display: flex;
   align-items: center;
+  width: 169px;
+  height: 16px;
+  margin-top: 10px;
 `;
 
 export const Div = styled.div`

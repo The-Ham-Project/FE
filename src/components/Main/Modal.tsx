@@ -12,8 +12,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
   const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
 
   const onConfirm = () => {
-    // onConfirm 함수를 모달 컴포넌트 내에서 정의
-    navigate('/sociallogin');
+
   };
 
   if (!isOpen) return null;
@@ -22,15 +21,41 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
     <ModalOverlay>
       <ModalContent>
         <ModalHeader></ModalHeader>
-        <ModalBody>
+ 
           <p>{message}</p>
+          <ModalBody>
           <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
-          <button onClick={onConfirm}>확인</button> {/* 확인 버튼 */}
+          <ModalCloseButton onClick={onConfirm}>확인</ModalCloseButton> {/* 확인 버튼 */}
         </ModalBody>
       </ModalContent>
     </ModalOverlay>
   );
 };
+
+const Modal2: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
+  const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
+
+  const onConfirm = () => {
+
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <ModalOverlay>
+      <ModalContent>
+        <ModalHeader></ModalHeader>
+ 
+          <p>{message}</p>
+          <ModalBody>
+          <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
+          <ModalCloseButton onClick={onConfirm}>확인</ModalCloseButton> {/* 확인 버튼 */}
+        </ModalBody>
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+
 
 export default Modal;
 
@@ -61,11 +86,13 @@ const ModalHeader = styled.div`
   margin-bottom: 10px;
 `;
 
-const ModalBody = styled.div``;
+const ModalBody = styled.div`
+  display: flex;
+`;
 
 const ModalCloseButton = styled.button`
-  background-color: transparent;
-  border: none;
   font-size: 16px;
+  width: 171px;
+  height: 52px;
   cursor: pointer;
 `;

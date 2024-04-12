@@ -1,6 +1,7 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Search from '../Main/Search';
 
 function Header() {
 const navigate = useNavigate();
@@ -8,7 +9,7 @@ const handleBackClick = () => navigate(-1);
 return (
 <MenuBox>
 <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
-<span>내가 쓴 글</span>
+<Search />
 </MenuBox>
 );
 }
