@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ALL from '../../../public/assets/ALL.svg';
 import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
@@ -12,9 +11,7 @@ import BOOK from '../../../public/assets/BOOK.svg';
 import PLACE from '../../../public/assets/PLACE.svg';
 import OTHER from '../../../public/assets/OTHER.svg';
 import Contents from '../../components/Main/Contents';
-import Search from './Search';
 import { useQuery } from '@tanstack/react-query';
-import { Flex } from '../../pages/main/Main';
 import { FaCamera } from 'react-icons/fa';
 
 export type Category =
@@ -27,7 +24,7 @@ export type Category =
   | 'PLACE'
   | 'OTHER';
 
-const categories = {
+const categories: Record<Category, { label: string; icon: string }> = {
   ALL: { label: '전체', icon: ALL },
   ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
   HOUSEHOLD: { label: '생활용품', icon: HOUSEHOLD },
@@ -43,19 +40,19 @@ function Category() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [rentals, setRentals] = useState<any[]>([]);
-  const [isActive, setIsActive] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      
       const response = await fetch(
         `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      return response.json();
+      const jsonData = await response.json(); // await을 사용하여 데이터를 얻음
+      console.log(jsonData); // 데이터를 콘솔에 출력
+      return jsonData;
     },
   });
 
@@ -68,19 +65,28 @@ function Category() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (!isLoading && rentals.length === 0) {
+      setHasMore(true);
+    }
+  }, [isLoading]);
+
   const fetchMoreData = () => {
     setPage(page + 1);
   };
 
   const handleCategoryChange = (category: Category) => {
+    if (selectedCategory === category) {
+      return;
+    }
     setSelectedCategory(category);
-    setIsActive(!isActive);
     setPage(1);
+    setRentals([]);
+    console.log(rentals);
   };
 
   return (
     <Div id="ScrollableCategoryContainer">
-
       <ScrollableCategoryContainer>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
@@ -97,57 +103,52 @@ function Category() {
         >
           <Contents />
           <CategoryButtonsContainer>
-            {Object.keys(categories).map((categoryKey) => (
+            {Object.keys(categories).map((index) => (
               <CategoryButtonWrapper
-                key={categoryKey}
-                isActive={selectedCategory === categoryKey}
+                key={index}
+                onClick={() => handleCategoryChange(index as Category)}
               >
-                <CustomCategoryButton
-                  onClick={() => handleCategoryChange(categoryKey as Category)}
-                  icon={categories[categoryKey].icon}
-                  isActive={selectedCategory === categoryKey}
-                />
-                <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
+                <CustomCategoryButton icon={categories[index].icon} />
+                <CategoryLabel>{categories[index].label}</CategoryLabel>
               </CategoryButtonWrapper>
             ))}
           </CategoryButtonsContainer>
 
           <CategoryContainer>
-            {rentals.map((item: any) => (
+            {rentals.map((item: any, index: number) => (
               <CategoryItem key={item.rentalId}>
-                
                 <Link
                   to={`/Details/${item.rentalId}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <ALLLayout>
-                  <ImageWrapper>
-                    {item.firstThumbnailUrl ? (
-                      <Image src={item.firstThumbnailUrl} alt="no img" />
-                    ) : (
-                      <PlaceholderImage><FaCamera size={24} color="#B1B1B1"/></PlaceholderImage>
-                    )}
-                  </ImageWrapper>
-                  <Layout>
+                    <ImageWrapper>
+                      {item.firstThumbnailUrl ? (
+                        <Image src={item.firstThumbnailUrl} alt="no img" />
+                      ) : (
+                        <PlaceholderImage>
+                          <FaCamera size={24} color="#B1B1B1" />
+                        </PlaceholderImage>
+                      )}
+                    </ImageWrapper>
+                    <Layout>
+                      <ProfileUrl>
+                        <ProfileImage src={item.profileUrl} alt="Profile" />
+                        <Nickname>{item.nickname}</Nickname>
+                      </ProfileUrl>
 
-                  <ProfileUrl>
-                    <ProfileImage src={item.profileUrl} alt="Profile" />
-                    <Nickname>{item.nickname}</Nickname>
-                  </ProfileUrl>
-              
-                    <H1>
-                      {item.title.length > 20
-                        ? item.title.slice(0, 22) + '···'
-                        : item.title}
-                    </H1>
-                    <Layout2>
-                    <Layout1>
-                      <H2>보증금 {item.rentalFee}원</H2>
-                      <H3>대여비 {item.deposit}원</H3>
-                    </Layout1>
-                    
-              </Layout2>
-                  </Layout>
+                      <H1>
+                        {item.title.length > 20
+                          ? item.title.slice(0, 22) + '···'
+                          : item.title}
+                      </H1>
+                      <Layout2>
+                        <Layout1>
+                          <H2>보증금 {item.rentalFee}원</H2>
+                          <H3>대여비 {item.deposit}원</H3>
+                        </Layout1>
+                      </Layout2>
+                    </Layout>
                   </ALLLayout>
                 </Link>
               </CategoryItem>
@@ -161,6 +162,8 @@ function Category() {
 
 export default Category;
 
+// 이하 스타일 정의 코드 생략
+
 const ScrollableCategoryContainer = styled.div``;
 
 const Layout = styled.div`
@@ -172,75 +175,65 @@ const Layout = styled.div`
   padding: 0px;
   gap: 6px;
   padding-bottom: 10px;
- 
 `;
 const Layout2 = styled.div`
-
   width: 150px;
 `;
 
 const Layout1 = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: flex-end;
-padding: 0px;
-gap: 6px;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0px;
+  gap: 6px;
 `;
 
-
-
-
 const Nickname = styled.div`
-width: 57px;
-    height: 11px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 9.0041px;
-    line-height: 11px;
-    color: #000000;
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    padding-left: 10px;
+  width: 57px;
+  height: 11px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 9.0041px;
+  line-height: 11px;
+  color: #000000;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  padding-left: 10px;
 `;
 
 const H1 = styled.div`
-    font-size: 12px;
-    line-height: 14px;
-    font-weight: 600;
-    height: 40px;
-    align-content: center;
-    letter-spacing: -0.1em;
-    
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+  height: 40px;
+  align-content: center;
+  letter-spacing: -0.1em;
 `;
 const H2 = styled.div`
   font-size: 10px;
   line-height: 14px;
   letter-spacing: -0.1em;
   color: #8b8b8b;
-  word-spacing: 2px
+  word-spacing: 2px;
 `;
 
 const H3 = styled.div`
-color: #1689F3;
-font-weight: 600;
-font-size: 12px;
-background: rgba(31, 147, 255, 0.1);
-border-radius: 16.623px;
-letter-spacing: -0.1em;
+  color: #1689f3;
+  font-weight: 600;
+  font-size: 12px;
+  background: rgba(31, 147, 255, 0.1);
+  border-radius: 16.623px;
+  letter-spacing: -0.1em;
 `;
-
 
 const ALLLayout = styled.div`
-display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
-
-
 
 const CategoryButtonsContainer = styled.div`
   display: flex;
@@ -253,7 +246,6 @@ const CategoryButtonsContainer = styled.div`
 
 interface CustomCategoryButtonProps {
   icon: string;
-  isActive: boolean;
 }
 
 const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
@@ -265,9 +257,6 @@ const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
   background-repeat: no-repeat;
   background-position: center;
   padding: 20px;
-
-
-
 `;
 
 const LoadingMessage = styled.div`
@@ -281,8 +270,7 @@ const CategoryLabel = styled.span`
   margin-top: 2px;
 `;
 
-
-const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
+const CategoryButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -290,23 +278,7 @@ const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
   height: 80px;
   justify-content: center;
   border-radius: 50px;
-
-
-  &:active {
-    background-color: #418dff;
-    transform: scale(1.2); /* &:active 상태일 때 크기를 확대하는 transform 추가 */
-  }
-
-  ${({ isActive }) =>
-    isActive &&
-    `
-      &:hover {
-        background-color: #E8F4FE; /* isActive가 true일 때 hover 효과 추가 */
-      }
-    `
-  }
 `;
-
 
 const CategoryContainer = styled.div`
   display: grid;
@@ -326,6 +298,7 @@ const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 112px;
+
 `;
 
 const PlaceholderImage = styled.div`
@@ -338,11 +311,15 @@ const PlaceholderImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 111px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   object-fit: cover;
 `;
 

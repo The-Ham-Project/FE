@@ -4,7 +4,8 @@ import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 import styled from 'styled-components';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { instance } from '../../api/axios';
-// const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
 function RedirectKakao() {
@@ -16,6 +17,7 @@ function RedirectKakao() {
   const [accessTokenFetching, setAccessTokenFetching] = useState(false);
 
   console.log('KAKAO_CODE:', KAKAO_CODE);
+  console.log(client_id);
 
   // Access Token 받아오기
   const getAccessToken = async () => {
