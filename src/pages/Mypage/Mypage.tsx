@@ -59,53 +59,60 @@ function Mypage() {
           </Picture>
           <Nickname>{data?.data.nickname}</Nickname>
         </Profile>
-        <Title1>회원정보</Title1>
-        <MyInfo>
-          <Account>로그인 계정</Account>
-          <Email>{data?.data.email}</Email>
-        </MyInfo>
-        <Title2>나의 활동</Title2>
-        <Box1 onClick={GotoListHandler}>
-          <GotoMyList>함께 쓴 내역</GotoMyList>
-          <img
-            src={gogo}
-            style={{
-              maxWidth: '10px',
-              maxHeight: '16px',
-            }}
-          />
-        </Box1>
-        <Box2 onClick={LogoutHandler}>
-          <Logout>로그아웃</Logout>
-          <img
-            src={logout}
-            style={{
-              maxWidth: '10px',
-              maxHeight: '16px',
-            }}
-          />
-        </Box2>
+
+        <Container>
+          <Title1>회원정보</Title1>
+          <MyInfo>
+            <Account>로그인 계정</Account>
+            <Email>{data?.data.email}</Email>
+          </MyInfo>
+        </Container>
+
+        <Container2>
+          <Title2>나의 활동</Title2>
+          <Box1 onClick={GotoListHandler}>
+            <GotoMyList>함께 쓴 내역</GotoMyList>
+            <img
+              src={gogo}
+              style={{
+                maxWidth: '10px',
+                maxHeight: '16px',
+              }}
+            />
+          </Box1>
+          <Box2 onClick={LogoutHandler}>
+            <Logout>로그아웃</Logout>
+            <img
+              src={logout}
+              style={{
+                maxWidth: '10px',
+                maxHeight: '16px',
+              }}
+            />
+          </Box2>
+        </Container2>
       </PaddingBox>
     </Wrapper>
   );
 }
 
 export default Mypage;
+
 const Wrapper = styled.div`
   @media screen and (max-width: 430px) {
   }
 `;
 
 const MenuBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 6vh;
+  padding: 0 7%;
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  z-index: 1;
   @media screen and (max-width: 430px) {
-    display: flex;
-    flex-direction: row;
-    background-color: #f5f5f5;
-    height: 60px;
-    width: 100%;
-    margin: 0px;
-    padding: 0 20px;
-    align-items: center;
     display: flex;
     flex-direction: row;
     background-color: #f5f5f5;
@@ -115,19 +122,19 @@ const MenuBox = styled.div`
     padding: 0 20px;
     align-items: center;
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
-    position: absolute;
     z-index: 1;
   }
 `;
 
 const PaddingBox = styled.div`
   @media screen and (max-width: 430px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     /* box-shadow: inset 0 5px 5px -5px #333; */
-    position: absolute;
+
     width: 100%;
     height: 463px;
-    left: 0px;
-    top: 60px;
   }
 `;
 
@@ -135,40 +142,41 @@ const ErrorPage = styled.div`
   @media screen and (max-width: 430px) {
     /* Group 1394 */
 
-    position: absolute;
     width: 141.1px;
     height: 193.64px;
-    left: 125.29px;
-    top: 280.25px;
   }
 `;
 
 const Profile = styled.div`
+  gap: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15% 0;
+
   @media screen and (max-width: 430px) {
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
 const Picture = styled.div`
   @media screen and (max-width: 430px) {
-    position: absolute;
     width: 130px;
     height: 130px;
-    left: calc(50% - 130px / 2 + 0.34px);
-    top: 110px;
+
     border-radius: 50%;
     /* margin-left: 40px; */
   }
 `;
 
 const Nickname = styled.div`
+  font-size: 26px;
   @media screen and (max-width: 430px) {
-    position: absolute;
     width: 140px;
     height: 31px;
-    left: calc(50% - 140px / 2 - 2.12px);
-    top: 265px;
+
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600;
@@ -180,86 +188,70 @@ const Nickname = styled.div`
 `;
 
 const Title1 = styled.div`
+  width: 70px;
+  height: 24px;
+  margin-left: 8%;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 70px;
-    height: 24px;
-    left: 20.83px;
-    top: 346px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
   }
 `;
 
 const MyInfo = styled.div`
+  border-radius: 6.71835px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  margin: 0 10%;
   @media screen and (max-width: 430px) {
-    /* Rectangle 106 */
-    /* 텍스트바 */
-
-    position: absolute;
-    width: 390px;
-    height: 40px;
-    left: calc(50% - 390px / 2 + 0px);
-    top: 395px;
-    right: 0.01%;
-
-    /* 텍스트바 */
-    background: #f5f5f5;
-    border-radius: 6.71835px;
   }
 `;
 
 const Account = styled.div`
+  /* 로그인 계정 */
+  width: 80px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  /* identical to box height */
+
+  color: #000000;
   @media screen and (max-width: 430px) {
-    /* 로그인 계정 */
-
-    position: absolute;
-    width: 56.1px;
-    height: 14.79px;
-    left: 28px;
-    top: 12.95px;
-
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    /* identical to box height */
-
-    color: #000000;
   }
 `;
 const Email = styled.div`
+  display: flex;
+  align-items: center;
+  /* 아이디(이메일) */
+  width: 100%;
+  background: #f5f5f5;
+  font-family: 'Pretendard';
+  font-style: normal;
+  height: 40px;
+  font-size: 12px;
+  line-height: 14px;
+  /* identical to box height */
+  margin-left: 20px;
+  padding: 0 20px;
+  border-radius: 7px;
+
+  color: #000000;
   @media screen and (max-width: 430px) {
-    /* 아이디(이메일) */
-
-    position: absolute;
-    width: 74.13px;
-    height: 14.79px;
-    left: 128.08px;
-    top: 12.95px;
-
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    /* identical to box height */
-
-    color: #000000;
   }
 `;
 const Title2 = styled.div`
+  font-size: 20px;
+  margin-left: 8%;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 75px;
-    height: 24px;
-    left: 20.83px;
-    top: 484.95px;
+    margin-left: 8%;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500;
@@ -269,87 +261,79 @@ const Title2 = styled.div`
   }
 `;
 
-const Box1 = styled.button`
+const Box1 = styled.div`
+  display: flex;
+  background: #f5f5f5;
+  height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10%;
+  margin-left: 10%;
+  padding-right: 29px;
+  padding-left: 29px;
+  border-radius: 7px;
+`;
+
+const GotoMyList = styled.div`
+  width: 90px;
+  height: 14.79px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  z-index: 1000000000000;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 390px;
-    height: 40px;
-    left: calc(50% - 390px / 2 + 0px);
-    padding-right: calc(50% - 390px / 2 + 0px);
-    top: 533.95px;
-    right: 0.01%;
-    background: #f5f5f5;
-    border-radius: 6.71835px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
   }
 `;
 
-const GotoMyList = styled.button`
-  @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 90px;
-    height: 14.79px;
-    left: 18px;
-    top: 13.95px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    color: #000000;
-    z-index: 1000000000000;
-  }
+const Box2 = styled.div`
+  display: flex;
+  background: #f5f5f5;
+  height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10%;
+  margin-left: 10%;
+  padding-right: 29px;
+  padding-left: 29px;
+  border-radius: 7px;
 `;
 
-const Box2 = styled.button`
+const Logout = styled.div`
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 390px;
-    height: 40px;
-    left: calc(50% - 390px / 2 + 0px);
-    top: 599px;
-    right: 0.01%;
-    background: #f5f5f5;
-    border-radius: 6.71835px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    padding-right: calc(50% - 390px / 2 + 0px);
-  }
-`;
-
-const Logout = styled.button`
-  @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 56.1px;
-    height: 14.79px;
-    left: 28px;
-    top: 13.95px;
-
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    /* identical to box height */
-
-    color: #000000;
   }
 `;
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
   @media screen and (max-width: 430px) {
-    body {
-      background: #f6f8fa;
-      display: flex;
-      width: 100%;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-    }
+    display: flex;
+    flex-direction: column;
+  }
+`;
+const Container2 = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 25px;
+
+  @media screen and (max-width: 430px) {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 25px;
   }
 `;
 const Loading = styled.div`

@@ -13,7 +13,7 @@ function Main() {
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
   const handleButtonClick = () => {
-    console.log(isLoggedIn)
+    console.log(isLoggedIn);
     if (isLoggedIn === true) {
       navigate('/main/PostDetailsPage');
     } else {
@@ -24,15 +24,11 @@ function Main() {
 
   return (
     <>
+      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
 
-     
-          <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
+      <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
 
-              <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
-   
-
-                <Category />
-
+      <Category />
     </>
   );
 }
@@ -46,11 +42,11 @@ const ButtonContainer = styled.div`
 `;
 
 export const Div = styled.div`
-    /* margin: 130px; */
-    width: 10%;
-background-color: antiquewhite;
-    height: 800px;
-    display: flex;
+  /* margin: 130px; */
+  width: 10%;
+  background-color: antiquewhite;
+  height: 800px;
+  display: flex;
 `;
 
 export const Flex = styled.div`
@@ -59,30 +55,29 @@ export const Flex = styled.div`
 export const Flex2 = styled.div`
   display: flex;
   justify-content: center;
-  background-color: #2c405d;
+  background-color: wheat;
 `;
 
 export const Div1 = styled.div`
-width: auto;
-width: 800px;
-    height: 100vh;
-    display: flex;
-    background-color: #6b8ec0;
-    
+  width: auto;
+  width: 800px;
+  height: 100vh;
+  display: flex;
+  background-color: wheat;
+
   /* 모바일 화면 크기에 맞게 스타일 조정 */
   @media screen and (max-width: 1300px) {
     display: none;
     background-color: #233748;
   }
   @media screen and (max-width: 500px) {
-
     background-color: #631818;
   }
 `;
 export const Div3 = styled.div`
   width: 10vh;
   height: 100vh;
-  background-color: #3fa2ff;
+  background-color: wheat;
   @media screen and (max-width: 600px) {
     max-width: 0px;
     display: none;
@@ -94,7 +89,8 @@ export const Div4 = styled.div`
   height: 100vh;
   background-color: #ffffff;
   overflow-y: auto;
-
+  @media screen and (max-width: 1300px) {
+  }
 `;
 
 export const ContentContainer = styled.div`

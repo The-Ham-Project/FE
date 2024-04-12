@@ -65,7 +65,6 @@ font-size: 15.45px;
 font-family: 'Pretendard';
 font-weight: 500;
 text-align: center;
-margin: 20px auto;
 border: none;
 cursor: pointer;
 
