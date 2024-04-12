@@ -4,6 +4,8 @@ import Category from '../../components/Main/Category';
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
 import Modal from '../../components/Main/Modal';
+import Details from './Details';
+import MainHeder from '../../components/layout/MainHeder';
 
 function Main() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -19,6 +21,7 @@ function Main() {
     } else {
       // 모달 열기
       openModal('로그인 후에 게시글을 생성할 수 있습니다');
+      navigate('/sociallogin');
     }
   };
 
@@ -26,9 +29,11 @@ function Main() {
     <>
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
 
-      <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
+              <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
+   
+<MainHeder/>
+                <Category />
 
-      <Category />
     </>
   );
 }
@@ -51,26 +56,42 @@ export const Div = styled.div`
 
 export const Flex = styled.div`
   display: flex;
+
 `;
 export const Flex2 = styled.div`
   display: flex;
   justify-content: center;
-  background-color: wheat;
+  padding-left: 870px;
+  
+
+  @media screen and (max-width: 1000px) {
+    padding-left: 220px;
+    justify-content: flex-end;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding-left: 0px;
+    justify-content: center;
+    background-color: #1689F3;
+  }
 `;
 
 export const Div1 = styled.div`
-  width: auto;
-  width: 800px;
-  height: 100vh;
-  display: flex;
-  background-color: wheat;
+width: auto;
+width: 50vw;
+    height: 100vh;
+    display: flex;
+    background-color: #6b8ec0;
 
+
+    background-position: center;
   /* 모바일 화면 크기에 맞게 스타일 조정 */
-  @media screen and (max-width: 1300px) {
-    display: none;
-    background-color: #233748;
+  @media screen and (max-width: 1000px) {
+    width: 200px;
+    background-color: #6b8ec0;
   }
   @media screen and (max-width: 500px) {
+    display: none;
     background-color: #631818;
   }
 `;
@@ -86,10 +107,14 @@ export const Div3 = styled.div`
 `;
 export const Div4 = styled.div`
   width: 430px;
-  height: 100vh;
   background-color: #ffffff;
   overflow-y: auto;
-  @media screen and (max-width: 1300px) {
+  border-radius: 20px;
+  @media screen and (max-width: 600px) {
+    margin-right: -190%;
+  }
+  @media screen and (max-width: 500px) {
+    margin-right: 0px;
   }
 `;
 
