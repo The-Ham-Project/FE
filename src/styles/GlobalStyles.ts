@@ -1,7 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-    html, body, div, span, applet, object, iframe,
+    html, body{	background-image: url('assets/background.png');
+	overflow: hidden;
+	background-position: center;
+	background-repeat: no-repeat;} div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -21,6 +24,7 @@ time, mark, audio, video {
 	font-family: 'Pretendard-Regular';
 	vertical-align: baseline;
     box-sizing: border-box;
+
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -55,10 +59,19 @@ input:checked {
     border: none
 }
 button {
-    background: none;
-    border:none;
-    cursor: pointer;
-    outline:none
+	width: 100%;
+
+height: 52px;
+background-color: #1689f3;
+border-radius: 31.14px;
+color: white;
+font-size: 15.45px;
+font-family: 'Pretendard';
+font-weight: 500;
+text-align: center;
+border: none;
+cursor: pointer;
+
 }
 a {
 	text-decoration: none;
@@ -69,7 +82,7 @@ a {
     color: #222;
 }
 input[type="text"] {
-        width: 50vh;
+        width: 100%;
         height: 50px;
         background: #F5F5F5;
         border-radius: 20px;
@@ -79,14 +92,11 @@ input[type="text"] {
 
    /* Custom style for textarea */
    textarea {
-	width: 50vh;
-	height: 150px;
+	
 	background: #F5F5F5;
 	border-radius: 24px;
 	font-size: 16px;
-	padding: 10px;
-	resize: vertical;
-	overflow-y: auto;
+	
 }
    html, body, #root {width:100%; height:100%;}
 

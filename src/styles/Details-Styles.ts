@@ -1,27 +1,55 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 420px;
+  width: 430px;
   background: white;
+  gap: 10px;
 `;
 
 export const Flex = styled.div`
-  width: 420px;
   border-bottom: 1px solid #d1d1d1;
   background: white;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+
   gap: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
-  margin: 15px;
+`;
+
+export const Flexnickname = styled.div`
+  background: white;
+  display: flex;
+  align-items: center;
+
+  padding-top: 15px;
+`;
+
+export const Contentitem = styled.div`
+  background: white;
+
+  padding-top: 20px;
+  padding-bottom: 15px;
+`;
+
+export const Flexbetween = styled.div`
+  border-bottom: 1px solid #d1d1d1;
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  justify-content: space-between;
 `;
 
 export const Rental = styled.p`
   color: #1689f3;
   font-weight: 600;
-
+  font-size: 20px;
+`;
+export const Title = styled.p`
+  font-weight: 600;
   font-size: 20px;
 `;
 

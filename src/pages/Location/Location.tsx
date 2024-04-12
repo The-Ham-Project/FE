@@ -2,24 +2,22 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { geolocation } from '../../api/geolocation';
-import styled from 'styled-components';
-import locationButton from '../../../public/assets/locationButton.svg';
+import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { IoIosArrowBack } from 'react-icons/io';
 
 declare global {
   interface Window {
-    kakao: any;
+    kakao;
   }
 }
 
 declare const window: typeof globalThis & {
-  kakao: any;
+  kakao;
 };
 
 export default function Location(): JSX.Element {
   const navigate = useNavigate();
-  const handleBackClick = () => navigate(-2);
+  // const handleBackClick = () => navigate(-2);
   const [map, setMap] = useState<any>(null);
   const [address, setAddress] = useState('');
   // const [results, setResults] = useState([]);
@@ -28,22 +26,24 @@ export default function Location(): JSX.Element {
   // // 현재 표시되는 반경
   // const [currentCircle, setCurrentCircle] = useState<any>(null);
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src =
-      '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
-    document.head.appendChild(script);
-    script.onload = () => {
-      window.kakao.maps.load(function () {
-        const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-        const options = {
-          //지도를 생성할 때 필요한 기본 옵션
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-          level: 7, //지도의 레벨(확대, 축소 정도)
-        };
+    (async () => {
+      const script = document.createElement('script');
+      script.src =
+        '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
+      document.head.appendChild(script);
+      script.onload = () => {
+        window.kakao.maps.load(async function () {
+          const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+          const options = {
+            //지도를 생성할 때 필요한 기본 옵션
+            center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 7, //지도의 레벨(확대, 축소 정도)
+          };
 
-        setMap(new window.kakao.maps.Map(container, options));
-      });
-    };
+          await setMap(new window.kakao.maps.Map(container, options));
+        });
+      };
+    })();
   }, []);
 
   // 2. 현재 위치
@@ -148,7 +148,9 @@ export default function Location(): JSX.Element {
   //   setAddress(selectedAddress);
   //   setResults([]);
   // };
-
+  const getMainBtn = () => {
+    navigate('/');
+  };
   const geolocationMutation = useMutation({
     mutationFn: geolocation,
     onSuccess: (res) => {
@@ -163,7 +165,7 @@ export default function Location(): JSX.Element {
     <>
       <Wrapper>
         <MenuBox>
-          <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+          <span>내 위치 인증</span>
         </MenuBox>
         <PaddingBox>
           <Ao>
@@ -171,9 +173,46 @@ export default function Location(): JSX.Element {
           </Ao>
           <MSG>현재 위치에 있는 동네는 아래와 같나요?</MSG>
           <Address>{address}</Address>
-          <button onClick={getCurrentPosBtn}>
+          {/* <button onClick={getCurrentPosBtn}>
             <IMG src={locationButton} alt="위치인증하기" />
           </button>
+          {address && <button onClick={getMainBtn}><IMG2 src={locationButton} alt="설정완료" /></button>} */}
+          {/* <button onClick={getCurrentPosBtn}>
+            <IMG src={locationButton} alt="위치인증하기" />
+          </button>
+          {address && (
+            <button onClick={getMainBtn}>
+              <IMG2 src={locationButton} alt="설정완료" />
+            </button>
+          )} */}
+          {/* <Box> */}
+          {/* <button onClick={getCurrentPosBtn}> */}
+          <IMG onClick={getCurrentPosBtn} $active={address}>
+            위치설정하기
+          </IMG>
+          {address && (
+            <IMG onClick={getCurrentPosBtn} $active={address}>
+              위치 다시 설정하기
+            </IMG>
+          )}
+          {/* </button> */}
+          {address && (
+            // <button onClick={getMainBtn}>
+            <IMG2 onClick={getMainBtn} $active={address}>
+              설정 완료
+            </IMG2>
+            // </button>
+          )}
+
+          {/* <button onClick={getCurrentPosBtn}>
+            <IMG src={locationButton} alt="위치인증하기" address={address} />
+          </button>
+          {address && (
+            <button onClick={getMainBtn}>
+              <IMG2 src={locationButton} alt="설정완료" address={address} />
+            </button>
+          )} */}
+          {/* </Box> */}
         </PaddingBox>
       </Wrapper>
     </>
@@ -186,98 +225,188 @@ const Wrapper = styled.div`
 `;
 
 const MenuBox = styled.div`
-  @media screen and (max-width: 430px) {
-    display: flex;
-    flex-direction: row;
-    background-color: #f5f5f5;
-    height: 60px;
-    width: 100%;
-    margin: 0px;
-    padding: 0 20px;
-    align-items: center;
+  position: absolute;
+  width: 430px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #f5f5f5;
+  height: 60px;
+  align-items: center;
+  background-color: #f5f5f5;
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  > span {
+    width: 69px;
+    height: 17px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14.1085px;
+    line-height: 17px;
+    text-align: center;
+    color: #000000;
+    @media screen and (max-width: 430px) {
+    }
   }
 `;
+// const Box = styled.div`
+//   @media screen and (max-width: 430px) {
+//   }
+// `;
 
-const IMG = styled.img`
-  @media screen and (max-width: 430px) {
+// const IMG = styled.img`;
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 758px;
+//   }
+// `;
+// const IMG2 = styled.img`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 700px;
+//   }
+// `;
+// const IMG = styled.img`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 758px;
+//   }
+// `;
+// const IMG2 = styled.img`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     top: 700px;
+//   }
+// `;
+
+const IMG = styled.button<{ $active: string }>(
+  ({ $active }) => css`
     position: absolute;
     width: 350px;
     height: 52px;
-    left: calc(50% - 350px / 2 + 0.49px);
-    top: 758px;
-  }
-`;
+    z-index: 100;
+    bottom: ${$active ? '88px' : '20px'}; /* 조건부 위치 설정 */
+    background-color: ${$active ? '#D1D1D1' : '#1689F3'}; /* 조건부 위치 설정 */
+    @media screen and (max-width: 430px) {
+    }
+  `,
+);
 
+const IMG2 = styled.button<{ $active: string }>(
+  ({ $active }) => css`
+    position: absolute;
+    width: 350px;
+    height: 52px;
+    z-index: 100;
+    bottom: ${$active ? '20px' : '88px'}; /* 조건부 위치 설정 */
+    @media screen and (max-width: 430px) {
+    }
+  `,
+);
+
+// const IMG = styled.img.attrs(props => ({
+//   style: {
+//     top: props.address ? '758px' : '700px',
+//   },
+// }))`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     /* top 속성은 여기서 직접 설정하지 않습니다 */
+//   }
+// `;
+/* Frame 1524 */
+
+/* Auto layout */
+
+// const IMG2 = styled.img.attrs(props => ({
+//   style: {
+//     top: props.address ? '700px' : '758px',
+//   },
+// }))`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 52px;
+//     left: calc(50% - 350px / 2 + 0.49px);
+//     /* top 속성은 여기서 직접 설정하지 않습니다 */
+//   }
+// `;
 const PaddingBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
   @media screen and (max-width: 430px) {
     /* box-shadow: inset 0 -5px 5px -5px #333; */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
   }
 `;
 
 const Ao = styled.div`
+  box-shadow: inset 0 5px 5px -5px #333;
+  /* z-index: 1; */
+  width: 100%;
+  height: 463px;
   @media screen and (max-width: 430px) {
-    box-shadow: inset 0 5px 5px -5px #333;
-    position: absolute;
-    width: 100%;
-    height: 463px;
-    left: 0px;
-    top: 60px;
   }
 `;
 
 const Map = styled.div`
+  position: absolute;
+  top: 60px;
+  width: 430px;
+  height: 463px;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 100%;
-    height: 463px;
-    left: 0px;
-    top: 4px;
   }
 `;
 
 const MSG = styled.div`
+  position: absolute;
+  width: 280px;
+  height: 17px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  color: #000000;
+  z-index: 100;
+  bottom: 250.26px;
   @media screen and (max-width: 430px) {
-    /* 현재 위치에 있는 동네는 아래와 같아요. */
-
-    position: absolute;
-    width: 230px;
-    height: 17px;
-    left: calc(50% - 230px / 2 - 0.5px);
-    top: 576.74px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    /* identical to box height */
-    text-align: center;
-    color: #000000;
-    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
   }
 `;
 
 const Address = styled.div`
+  position: absolute;
+  width: 300px;
+  height: 26px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: center;
+  color: #000000;
+  z-index: 100;
+  bottom: 205.4px;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 250px;
-    height: 26px;
-    left: calc(50% - 250px / 2 - 0.5px);
-    top: 612.16px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 26px;
-    text-align: center;
-    color: #000000;
-
-    transform: matrix(1, -0.02, 0.01, 1, 0, 0);
   }
 `;

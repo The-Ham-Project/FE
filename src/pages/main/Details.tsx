@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import {
-  Container,
+  Contentitem,
   Deposit,
   Flex,
+  Flexbetween,
+  Flexnickname,
   Rental,
+  Title,
 } from '../../styles/Details-Styles';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
+import styled from 'styled-components';
+import { FaCamera } from 'react-icons/fa';
 
 interface RentalImage {
   imageUrl: string;
@@ -24,6 +29,7 @@ interface ApiResponse {
   data: RentalData;
 }
 interface RentalData {
+  district: ReactNode;
   rentalId: number;
   nickname: string;
   profileUrl: string;
@@ -39,8 +45,8 @@ interface RentalData {
 
 function Details() {
   const navigate = useNavigate();
-  const { rentalId } = useParams(); 
-  const [item, setItem] = useState<RentalData | null>(null); 
+  const { rentalId } = useParams();
+  const [item, setItem] = useState<RentalData | null>(null);
 
   const { mutate } = useMutation({
     mutationFn: createChat,
@@ -67,6 +73,7 @@ function Details() {
       })
       .catch((error) => {
         console.error('Error fetching item details:', error);
+        // console.log(response.data)
       });
   }, [rentalId]);
 
@@ -80,10 +87,67 @@ function Details() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    slickNext: false,
+    arrows: false,
   };
 
-  return (
-    <Container>
+  const images =
+    item.rentalImageList.length === 0 ? (
+      <div>
+        {/* 이미지가 없는 경우에 보여줄 요소 */}
+        <FaCamera
+          size={24}
+          color="#B1B1B1"
+          style={{
+            maxWidth: '330px',
+            maxHeight: '330px',
+            width: '100%',
+            height: '50px',
+            objectFit: 'cover',
+            paddingTop: '150px',
+            paddingBottom: '150px',
+            backgroundColor: '#ececec',
+            borderRadius: '20px',
+          }}
+        />
+      </div>
+    ) : item.rentalImageList.length === 1 ? (
+      <div>
+        <img
+          src={item.rentalImageList[0].imageUrl}
+          alt={`Image 1`}
+          style={{
+            maxWidth: '330px',
+            maxHeight: '330px',
+            width: '100%',
+            height: '330px',
+            objectFit: 'contain',
+            borderRadius: '20px',
+            paddingBottom: '10px',
+          }}
+        />
+      </div>
+    ) : item.rentalImageList.length === 2 ? (
+      <div>
+        {item.rentalImageList.map((image, index) => (
+          <div key={index}>
+            <img
+              src={image.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{
+                maxWidth: '330px',
+                maxHeight: '330px',
+                width: '100%',
+                height: '330px',
+                objectFit: 'contain',
+                borderRadius: '20px',
+                paddingBottom: '10px',
+              }}
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
       <Slider {...settings}>
         {item.rentalImageList.map((image, index) => (
           <div key={index}>
@@ -91,36 +155,62 @@ function Details() {
               src={image.imageUrl}
               alt={`Image ${index + 1}`}
               style={{
-                maxWidth: '400px',
-                maxHeight: '400px',
+                maxWidth: '330px',
+                maxHeight: '330px',
                 width: '100%',
-                height: 'auto',
+                height: '330px',
+                objectFit: 'contain',
+                borderRadius: '20px',
+                paddingBottom: '10px',
               }}
             />
           </div>
         ))}
       </Slider>
+    );
 
-      <Flex>
-        <img
-          src={item.profileUrl}
-          alt="Profile"
-          style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }}
-        />
-        <p>{item.nickname}</p>
-      </Flex>
+  return (
+    
+    <DetailsContainer>
+      <ImageContainer>{images}</ImageContainer>
+
+      <Flexbetween>
+        <Flexnickname>
+          <img
+            src={item.profileUrl}
+            alt="Profile"
+            style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }}
+          />
+          <p>{item.nickname}</p>
+        </Flexnickname>
+        <div>
+          <p>{item.district}</p>
+        </div>
+      </Flexbetween>
 
       <Flex>
         <Rental>대여비 {item.rentalFee}원</Rental>
         <Deposit>보증금 {item.deposit}원</Deposit>
       </Flex>
-      <h3>{item.title}</h3>
+
+      <Contentitem>
+        <Title>{item.title}</Title>
+      </Contentitem>
       <p>{item.content}</p>
 
-      <p>Category: {item.category}</p>
       <button onClick={handleCreateChat}>채팅하기</button>
-    </Container>
+    </DetailsContainer>
   );
 }
 
 export default Details;
+
+const DetailsContainer = styled.div`
+  margin: 50px;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+`;

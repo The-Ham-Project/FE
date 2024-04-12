@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+
 function KakaoLogin() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
 
@@ -31,6 +32,7 @@ export default KakaoLogin;
 // import styled from 'styled-components';
 
 const Button = styled.button`
+  background-color: white;
   @media screen and (max-width: 430px) {
     width: 350px;
     height: 45px;
@@ -38,11 +40,9 @@ const Button = styled.button`
 `;
 
 const IMG = styled.img`
+  width: 350px;
+  height: 44px;
+
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 350px;
-    height: 45px;
-    left: 20.16px;
-    top: 615.06px;
   }
 `;
