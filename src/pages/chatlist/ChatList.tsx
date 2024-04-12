@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 function ChatList() {
   const navigate = useNavigate();
   const queryChatList = useQuery({
-    queryKey: ['chatList'],
-    queryFn: readChatList,
+    queryKey: ['chatList', currentPageNo],
+    queryFn: (readChatList, currentPageNo),
     select: (response) => response.data,
   });
   const { data, error, isLoading } = queryChatList;

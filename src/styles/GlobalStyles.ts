@@ -88,7 +88,7 @@ input[type="text"] {
 	resize: vertical;
 	overflow-y: auto;
 }
-
+   html, body, #root {width:100%; height:100%;}
 
 `;
 

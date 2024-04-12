@@ -7,6 +7,7 @@ import logout from '../../../public/assets/logout.svg';
 import { removeTokensFromLocalStorage } from '../../util/localStorage/localStorage';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { IoIosArrowBack } from 'react-icons/io';
+import Navbar from '../../components/layout/Navbar.tsx';
 
 function Mypage() {
   const navigate = useNavigate();

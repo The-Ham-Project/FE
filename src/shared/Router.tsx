@@ -11,6 +11,7 @@ import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
 import useStore from '../store/store.ts';
 import MyList from '../pages/Mypage/MyList.tsx';
+import I from '../pages/chat/I.tsx';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -24,7 +25,7 @@ function Router() {
         <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
         <Route path="/MyList" element={<MyList />} />
-        {isLoggedIn &&<Route path="/thxkakaomap" element={<Location />} />}
+        {isLoggedIn && <Route path="/thxkakaomap" element={<Location />} />}
         {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
         {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
         <Route path="/details/:rentalId" element={<Details />} />
@@ -32,6 +33,7 @@ function Router() {
         <Route path={'/commlist'} element={<ChatList />} />
         <Route path="/chat" element={<Chat />} />
         <Route path={'/chatlist'} element={<ChatList />} />
+        <Route path={'/i'} element={<I />} />
       </Routes>
     </BrowserRouter>
   );
