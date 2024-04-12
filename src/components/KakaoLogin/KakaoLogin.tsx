@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+
 function KakaoLogin() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
 
@@ -42,8 +43,8 @@ const IMG = styled.img`
   @media screen and (max-width: 430px) {
     position: absolute;
     width: 350px;
-    height: 45px;
-    left: 20.16px;
-    top: 615.06px;
+    height: 44px;
+    top: 616px;
+    left: calc(50% - 350px / 2 + 0.41px);
   }
 `;

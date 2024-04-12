@@ -65,6 +65,7 @@ function Details() {
       })
       .catch((error) => {
         console.error('Error fetching item details:', error);
+        // console.log(response.data)
       });
   }, [rentalId]);
 

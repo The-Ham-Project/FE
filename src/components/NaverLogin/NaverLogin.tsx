@@ -1,124 +1,36 @@
-import { useEffect, useState } from 'react';
-// import startwithnaver from '../../../public/assets/startwithnaver.svg';
+// VITE_APP_KAKAO_REST_API_KEY="1df8e00ba19cbaf3ed39000226e2e4c8"
+// VITE_APP_KAKAO_CLIENT_ID="86e1404c807c52cb2261fa208ef88d27"
+// VITE_APP_KAKAO_JAVASCRIPT_KEY="a10dff590e44c0b8a20d68095fbb3dbf"
+// VITE_APP_KAKAO_REDIRECT_URI="http://localhost:5173/kakao/callback"
+
+// VITE_APP_GOOGLE_CLIENT_ID="410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com"
+// VITE_APP_GOOGLE_REDIRECT_URI="http://localhost:5173/google/callback"
+
+// VITE_APP_NAVER_CLIENT_ID="FDNapTSIjIsNa0YGULsx"
+// VITE_APP_NAVER_REDIRECT_URI="http://localhost:5173/naver/callback"
+
+// # VITE_SERVER_URL="http://localhost:5173/"
+// VITE_SERVER_URL="https://api.openmpy.com"
+
+import startwithnaver from '../../../public/assets/startwithnaver.svg';
 import styled from 'styled-components';
 
-interface User {
-  nickname: string;
-  image: string;
-}
-
-interface Image {
-  url: string;
-}
+const client_id = import.meta.env.VITE_APP_NAVER_CLIENT_ID;
+const redirect_uri = import.meta.env.VITE_APP_NAVER_REDIRECT_URI;
 
 function NaverLogin() {
-  const [data, setData] = useState<User>({ nickname: '', image: '' });
-  const [profile, setProfile] = useState<boolean>(false);
+  const naverURL = `https://nid.naver.com/oauth2.0/authorize?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&state=false`;
 
-  useEffect(CDM, []);
-  function CDM() {
-    Naver();
-    //     GetProfile();
-  }
-  function Naver() {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: 'LxN5wJ7nfaBEdeEwePqQ',
-      callbackUrl: 'http://localhost:5173/oauth/naverlogin',
-      callbackHandle: true,
-      loginButton: { color: 'green', type: 3, height: 58 },
-    });
-    naverLogin.init();
-  }
-  //   const NAVER_CLIENT_ID: string | undefined = import.meta.env.VITE_APP_NAVER_CLIENT_ID; // 발급받은 클라이언트 아이디
-  //   const REDIRECT_URI: string = 'http://localhost:5173/oauth/naverlogin'; // Callback URL
-  //   const STATE: string = 'false';
-  //   const NAVER_AUTH_URL: string = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
-  const { naver } = window;
-
-  //   const initializeNaverLogin = () => {
-  //     const naverLogin = new naver.LoginWithNaverId({
-  //       clientId: NAVER_CLIENT_ID!,
-  //       callbackUrl: REDIRECT_URI,
-  //       // 팝업창으로 로그인을 진행할 것인지?
-  //       isPopup: false,
-  //       // 버튼 타입 ( 색상, 타입, 크기 변경 가능 )
-  //       loginButton: { color: 'green', type: 3, height: 58 },
-  //       callbackHandle: true,
-  //     });
-  //     naverLogin.init();
-  //   };
-  function GetProfile() {
-    window.location.href.includes('access_token') && GetUser();
-
-    function GetUser() {
-      const location = window.location.href.split('=')[1];
-      const loca = location.split('&')[0];
-      const header = {
-        Authorization: loca,
-      };
-
-      fetch(`${ip}user/naver_auth`, {
-        method: 'get',
-        headers: header,
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          localStorage.setItem('wtw_token', res.token);
-          setData(res.user);
-        });
-    }
-  }
-  const handleProfile = () => {
-    setProfile(!profile);
+  const naver = async () => {
+    window.location.href = naverURL;
   };
-
-  const handleLogout = () => {
-    window.localStorage.clear();
-    window.location.reload();
-  };
-
-  naver?.Login?.getLoginStatus?.(async function (status) {
-    if (status) {
-      // 아래처럼 선택하여 추출이 가능하고,
-      const userid = naver.Login.user.getEmail();
-      const username = naver.Login.user.getName();
-      // 정보 전체를 아래처럼 state 에 저장하여 추출하여 사용가능하다.
-      // setUserInfo(naverLogin.user)
-    }
-  });
-
-  //   const NaverLogin = () => {
-  //     window.location.href = NAVER_AUTH_URL;
-  //   };
-
-  const userAccessToken = () => {
-    window.location.href.includes('access_token') && getToken();
-  };
-
-  const getToken = () => {
-    const token = window.location.href.split('=')[1].split('&')[0];
-    // console.log, alert 창을 통해 어스코드가 잘 추출 되는지 확인하자!
-
-    // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!
-    // localStorage.setItem('access_token', token)
-    // setGetToken(token)
-  };
-
-  // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
-  //   useEffect(() => {
-  //     initializeNaverLogin();
-  //     userAccessToken();
-  //   }, []);
 
   return (
     <>
-      {/* <button id="naverIdLogin" 
-      onClick={NaverLogin}
-      >
-        네이버 로그인
-      </button> */}
-      <DIV id="naverIdLogin"></DIV>
-      <Button onClick={handleProfile}>{data.nickname}</Button>
+      {/* <Header></Header> */}
+      <Button onClick={naver}>
+        <IMG src={startwithnaver} alt="네이버 로그인 버튼" />
+      </Button>
     </>
   );
 }
@@ -131,17 +43,165 @@ const Button = styled.button`
     height: 45px;
   }
 `;
-const DIV = styled.div`
+
+const IMG = styled.img`
   @media screen and (max-width: 430px) {
     position: absolute;
     width: 350px;
-    height: 45px;
-    left: 20.16px;
-    top: 684.42px;
+    height: 44px;
+    left: 20px;
+    top: 685px;
+    left: calc(50% - 350px / 2 + 0.41px);
   }
 `;
+//////////////////////////////////////////
+// import { useEffect, useState } from 'react';
+// // import startwithnaver from '../../../public/assets/startwithnaver.svg';
+// import styled from 'styled-components';
 
-/////////////////////////////////////////
+// interface User {
+//   nickname: string;
+//   image: string;
+// }
+
+// interface Image {
+//   url: string;
+// }
+
+// function NaverLogin() {
+//   const [data, setData] = useState<User>({ nickname: '', image: '' });
+//   const [profile, setProfile] = useState<boolean>(false);
+
+//   useEffect(CDM, []);
+//   function CDM() {
+//     Naver();
+//     //     GetProfile();
+//   }
+//   function Naver() {
+//     const naverLogin = new naver.LoginWithNaverId({
+//       clientId: 'LxN5wJ7nfaBEdeEwePqQ', //황인영
+//       // clientId: 'FDNapTSIjIsNa0YGULsx',
+//       callbackUrl: 'http://localhost:5173/oauth/naverlogin',
+//       callbackHandle: true,
+//       loginButton: { color: 'green', type: 3, height: 58 },
+//     });
+//     naverLogin.init();
+//   }
+//   //   const NAVER_CLIENT_ID: string | undefined = import.meta.env.VITE_APP_NAVER_CLIENT_ID; // 발급받은 클라이언트 아이디
+//   //   const REDIRECT_URI: string = 'http://localhost:5173/oauth/naverlogin'; // Callback URL
+//   //   const STATE: string = 'false';
+//   //   const NAVER_AUTH_URL: string = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
+//   const { naver } = window;
+
+//   //   const initializeNaverLogin = () => {
+//   //     const naverLogin = new naver.LoginWithNaverId({
+//   //       clientId: NAVER_CLIENT_ID!,
+//   //       callbackUrl: REDIRECT_URI,
+//   //       // 팝업창으로 로그인을 진행할 것인지?
+//   //       isPopup: false,
+//   //       // 버튼 타입 ( 색상, 타입, 크기 변경 가능 )
+//   //       loginButton: { color: 'green', type: 3, height: 58 },
+//   //       callbackHandle: true,
+//   //     });
+//   //     naverLogin.init();
+//   //   };
+//   function GetProfile() {
+//     window.location.href.includes('access_token') && GetUser();
+
+//     function GetUser() {
+//       const location = window.location.href.split('=')[1];
+//       const loca = location.split('&')[0];
+//       const header = {
+//         Authorization: loca,
+//       };
+
+//       fetch(`${ip}user/naver_auth`, {
+//         method: 'get',
+//         headers: header,
+//       })
+//         .then((res) => res.json())
+//         .then((res) => {
+//           localStorage.setItem('wtw_token', res.token);
+//           setData(res.user);
+//         });
+//     }
+//   }
+//   const handleProfile = () => {
+//     setProfile(!profile);
+//   };
+
+//   const handleLogout = () => {
+//     window.localStorage.clear();
+//     window.location.reload();
+//   };
+
+//   naver?.Login?.getLoginStatus?.(async function (status) {
+//     if (status) {
+//       // 아래처럼 선택하여 추출이 가능하고,
+//       const userid = naver.Login.user.getEmail();
+//       const username = naver.Login.user.getName();
+//       // 정보 전체를 아래처럼 state 에 저장하여 추출하여 사용가능하다.
+//       // setUserInfo(naverLogin.user)
+//     }
+//   });
+
+//   //   const NaverLogin = () => {
+//   //     window.location.href = NAVER_AUTH_URL;
+//   //   };
+
+//   const userAccessToken = () => {
+//     window.location.href.includes('access_token') && getToken();
+//   };
+
+//   const getToken = () => {
+//     const token = window.location.href.split('=')[1].split('&')[0];
+//     // console.log, alert 창을 통해 어스코드가 잘 추출 되는지 확인하자!
+
+//     // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!
+//     // localStorage.setItem('access_token', token)
+//     // setGetToken(token)
+//   };
+
+//   // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
+//   //   useEffect(() => {
+//   //     initializeNaverLogin();
+//   //     userAccessToken();
+//   //   }, []);
+
+//   return (
+//     <>
+//       {/* <button id="naverIdLogin"
+//       onClick={NaverLogin}
+//       >
+//         네이버 로그인
+//       </button> */}
+//       <DIV id="naverIdLogin"></DIV>
+//       <Button onClick={handleProfile}>{data.nickname}</Button>
+//     </>
+//   );
+// }
+
+// export default NaverLogin;
+
+// const Button = styled.button`
+//   @media screen and (max-width: 430px) {
+//     width: 350px;
+//     height: 45px;
+//     margin-left: 30px;
+//   }
+// `;
+// const DIV = styled.div`
+//   @media screen and (max-width: 430px) {
+//     position: absolute;
+//     width: 350px;
+//     height: 45px;
+//     left: 20.16px;
+//     top: 684.42px;
+//     margin-left: 40px;
+//   }
+// `;
+
+///////////////////////////////////////
 
 // 구현 코드
 
@@ -272,38 +332,38 @@ const DIV = styled.div`
 
 //     naverLogin.init();
 
-//     // window.addEventListener('load', function() {
-//     //   naverLogin.getLoginStatus(function(status: string) {
-//     //     if (status) {
-//     //       /* 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
+// window.addEventListener('load', function() {
+//   naverLogin.getLoginStatus(function(status: string) {
+//     if (status) {
+//       /* 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
 
-//     //       var name = naverLogin.user.getNickName();
-//     //       var profileImage = naverLogin.user.getProfileImage();
+//       var name = naverLogin.user.getNickName();
+//       var profileImage = naverLogin.user.getProfileImage();
 
-//     //       if (name === undefined || name === null) {
-//     //         alert('닉네임은 필수정보입니다. 정보제공을 동의해주세요.');
-//     //         /* 사용자 정보 재동의를 위하여 다시 네아로 동의페이지로 이동함 */
-//     //         naverLogin.reprompt();
-//     //         return;
-//     //       } else if (profileImage === undefined || profileImage === null) {
-//     //         alert('프로필사진은 필수정보입니다. 정보제공을 동의해주세요.');
-//     //         naverLogin.reprompt();
-//     //         return;
-//     //       }
+//       if (name === undefined || name === null) {
+//         alert('닉네임은 필수정보입니다. 정보제공을 동의해주세요.');
+//         /* 사용자 정보 재동의를 위하여 다시 네아로 동의페이지로 이동함 */
+//         naverLogin.reprompt();
+//         return;
+//       } else if (profileImage === undefined || profileImage === null) {
+//         alert('프로필사진은 필수정보입니다. 정보제공을 동의해주세요.');
+//         naverLogin.reprompt();
+//         return;
+//       }
 
-//     //       window.location.replace(
-//     //         'http://' +
-//     //           window.location.hostname +
-//     //           (window.location.port === '' || window.location.port === undefined
-//     //             ? ''
-//     //             : ':' + window.location.port),
-//     //       );
-//     //     } else {
-//     //       console.log('callback 처리에 실패하였습니다.');
-//     //     }
-//     //   });
-//     // });
-//   }
+//       window.location.replace(
+//         'http://' +
+//           window.location.hostname +
+//           (window.location.port === '' || window.location.port === undefined
+//             ? ''
+//             : ':' + window.location.port),
+//       );
+//     } else {
+//       console.log('callback 처리에 실패하였습니다.');
+//     }
+//   });
+// });
+// }
 
 //   function GetProfile() {
 //     window.location.href.includes('access_token') && GetUser();

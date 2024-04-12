@@ -103,6 +103,4 @@ input[type="text"] {
 
 `;
 
-
-
 export default GlobalStyle;
