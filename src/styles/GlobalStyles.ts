@@ -98,7 +98,9 @@ input[type="text"] {
 	font-size: 16px;
 	
 }
-   html, body, #root {width:100%; height:100%;}
+   html, body, #root {width:100%; height:100%;
+   margin: 0;
+   }
 
 `;
 

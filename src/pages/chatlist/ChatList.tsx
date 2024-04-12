@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { readChatList } from '../../api/chat.ts';
 import { useNavigate } from 'react-router-dom';
+import { ChatReadResponseDto } from '../../types/chat/chatList.type.ts';
 function ChatList() {
   const navigate = useNavigate();
   const queryChatList = useQuery({
@@ -23,7 +24,7 @@ function ChatList() {
           <span>메세지</span>
         </MenuBox>
       </PaddingBox>
-      {data?.map((item) => (
+      {data.ChatReadResponseDto.map((item) => (
         <ListBox
           key={item.chatRoomId}
           onClick={() => {

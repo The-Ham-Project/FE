@@ -34,27 +34,9 @@ const Chat = () => {
     enabled: !!params.chatRoom,
   });
 
-  //
-  // const getChats = async ({ pageParam = 0 }) => {
-  //   const res = await fetch(
-  //     `/api/v1/chat-rooms/${params.chatRoom}?page=${pageParam}&size=10`,
-  //   );
-  //   const data = await res.json();
-  //   return { ...data, prevPage: pageParam };
-  // };
-  //
-  // const queryChatRoom = useInfiniteQuery({
-  //   queryKey: ['chatRoom'],
-  //   queryFn: () => readChatRoom(params?.chatRoom),
-  //   select: (response) => response.data,
-  //   enabled: !!params.chatRoom,
-  //   getNextPageParam: lastPage=> {
-  //     if(lastPage.prevPage + 10 > lastPage.ar)
-  // },
-  // });
-  //
   const { data, error, isLoading } = queryChatRoom;
 
+  console.log('ddddd', data);
   useEffect(() => {
     if (params.chatRoom) {
       const fetchData = async () => {
@@ -89,6 +71,9 @@ const Chat = () => {
                   console.log([...prevMessages, receivedMessage]);
                   return [...prevMessages, receivedMessage];
                 });
+              },
+              {
+                chatRoomId: `${params.chatRoom}`,
               },
             );
           });
@@ -145,33 +130,39 @@ const Chat = () => {
       setTestMessges(reversedMessages);
     }
   }, [queryChatRoom.data]);
+  const loadNextPage = async (nextPageNo: number) => {
+    try {
+      const response = await readChatRoom(params?.chatRoom, nextPageNo);
+      const newData = response.data.chatReadResponseDtoList.reverse();
+      setTestMessges((prevMessages) => [...prevMessages, ...newData]);
+      setCurrentPageNo(nextPageNo);
+    } catch (error) {
+      console.error('Error fetching next page:', error);
+    }
+  };
 
   useEffect(() => {
-    if (!io && indicatorRef?.current) {
+    if (!io && indicatorRef?.current && data?.totalPage) {
       console.log('???');
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
           const nextPageNo = currentPageNo + 1;
-          const totalPage = data.totalPage;
-
+          const isPageEnd = currentPageNo >= data.totalPage;
           console.log('test');
 
-          if (!totalPage < currentPageNo) {
-            setCurrentPageNo(nextPageNo);
+          if (!isPageEnd) {
+            loadNextPage(nextPageNo);
           }
         });
       });
 
-      document
-        .querySelectorAll('.indicator')
-        .forEach((element) => observer.observe(element));
-
+      observer.observe(indicatorRef.current);
       setIo(observer);
     }
     return () => {
       io && io.disconnect();
     };
-  }, [indicatorRef.current, io, currentPageNo]);
+  }, [indicatorRef.current, io, currentPageNo, data?.totalPage]);
 
   if (error) return <div>죄송합니다. 다시 접속해주세요</div>;
 
@@ -233,6 +224,7 @@ const Chat = () => {
             );
           })}
         </ChatBox>
+        {/*<div ref={indicatorRef} className={'indicator'} />*/}
       </Center>
       <InputBox>
         <Box>
@@ -292,7 +284,6 @@ const Center = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: calc(100% - 130px);
-  width: 100%;
   overflow-y: auto;
   background-color: #f5f5f5;
   padding: 0 0 20px;

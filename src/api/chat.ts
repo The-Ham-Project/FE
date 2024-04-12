@@ -22,7 +22,7 @@ export const createChat = async ({
 };
 
 export const readChatList = async (currentPageNo: number) => {
-  const { data } = await authInstance.get<ServerResponse<ChatListType[]>>(
+  const { data } = await authInstance.get<ServerResponse<ChatListType>>(
     '/api/v1/chat-rooms',
     {
       params: {

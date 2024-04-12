@@ -23,6 +23,7 @@ const Container = styled.div`
   width: 100%;
   height: 100px;
   position: absolute;
+  z-index: 1000;
   bottom: 0;
   > .bar {
     width: 100%;
