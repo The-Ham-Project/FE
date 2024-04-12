@@ -46,7 +46,9 @@ function Category() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      const response = await fetch(`https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`);
+      const response = await fetch(
+        `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
+      );
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -56,7 +58,7 @@ function Category() {
 
   useEffect(() => {
     if (data) {
-      setRentals(prevRentals => [...prevRentals, ...data.data]);
+      setRentals((prevRentals) => [...prevRentals, ...data.data]);
       if (data.data.length === 0) {
         setHasMore(false);
       }
@@ -69,13 +71,13 @@ function Category() {
 
   const handleCategoryChange = (category: Category) => {
     setSelectedCategory(category);
-    setIsActive(!isActive)
+    setIsActive(!isActive);
     setPage(1);
   };
-  
+
   return (
     <Div id="ScrollableCategoryContainer">
-      <Search/>
+      <Search />
       <ScrollableCategoryContainer>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
@@ -92,18 +94,20 @@ function Category() {
         >
           <Contents />
           <CategoryButtonsContainer>
-  {Object.keys(categories).map((categoryKey) => (
-    <CategoryButtonWrapper key={categoryKey} isActive={selectedCategory === categoryKey}>
-      <CustomCategoryButton 
-        onClick={() => handleCategoryChange(categoryKey as Category)}
-        icon={categories[categoryKey].icon}
-        isActive={selectedCategory === categoryKey}
-      />
-      <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
-    </CategoryButtonWrapper>
-  ))}
-</CategoryButtonsContainer>
-
+            {Object.keys(categories).map((categoryKey) => (
+              <CategoryButtonWrapper
+                key={categoryKey}
+                isActive={selectedCategory === categoryKey}
+              >
+                <CustomCategoryButton
+                  onClick={() => handleCategoryChange(categoryKey as Category)}
+                  icon={categories[categoryKey].icon}
+                  isActive={selectedCategory === categoryKey}
+                />
+                <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
+              </CategoryButtonWrapper>
+            ))}
+          </CategoryButtonsContainer>
 
           <CategoryContainer>
             {rentals.map((item: any) => (
@@ -124,7 +128,7 @@ function Category() {
                     <p>{item.nickname}</p>
                   </ProfileUrl>
                   <h2>{item.title}</h2>
-                  
+
                   <div>
                     <p>보증금 {item.rentalFee}</p>
                     <p>사례금 {item.rentalId}</p>
@@ -167,10 +171,9 @@ const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
   background-position: center;
   padding: 20px;
 
-  
   &:active {
     border-radius: 50px;
-    background-color: #418DFF;
+    background-color: #418dff;
   }
 `;
 
@@ -190,17 +193,16 @@ const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
   border-radius: 50px;
   transition: transform 0.3s; /* transform에 대한 transition 효과 추가 */
 
-  
   &:active {
-    background-color: #418DFF;
+    background-color: #418dff;
   }
 
-  ${({ isActive }) => isActive && `
+  ${({ isActive }) =>
+    isActive &&
+    `
     transform: scale(1.2); /* 클릭 시 내부 영역만 확대 */
   `}
 `;
-
-
 
 const CategoryLabel = styled.span`
   font-size: 12px;

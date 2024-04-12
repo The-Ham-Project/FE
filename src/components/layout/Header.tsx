@@ -4,34 +4,40 @@
 
 // function Header() {
 //   const navigate = useNavigate();
-//   const handleBackButton = () => {
-//     navigate(-1);
-//   };
+//   const handleBackClick = () => navigate(-1);
 //   return (
-//     <PaddingBox>
-//       <MenuBox>
-//         <IoIosArrowBack onClick={handleBackButton} size={'24px'} />
-//         <span>메세지</span>
-//       </MenuBox>
-//     </PaddingBox>
+//     <MenuBox>
+//       <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+//       <span>내가 쓴 글</span>
+//     </MenuBox>
 //   );
 // }
 
 // export default Header;
-
 // const MenuBox = styled.div`
 //   display: flex;
-//   background-color: #f5f5f5;
-//   height: 60px;
-//   width: 100%;
+//   flex-direction: row;
 //   align-items: center;
-//   > span {
-//     display: flex;
-//     justify-content: center;
-//     width: 100%;
-//   }
-// `;
-// const PaddingBox = styled.div`
-//   padding: 0 20px;
+//   height: 6vh;
+//   padding: 0 7%;
+//   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
 //   background-color: #f5f5f5;
+//   z-index: 1;
+//   > span {
+//     width: 69px;
+//     height: 17px;
+//     font-family: 'Pretendard';
+//     font-style: normal;
+//     font-weight: 400;
+//     font-size: 14.1085px;
+//     line-height: 17px;
+//     text-align: center;
+//     color: #000000;
+//   }
+//   @media screen and (max-width: 430px) {
+//     height: 60px;
+//     width: 100%;
+//     margin: 0px;
+//     padding: 0 20px;
+//   }
 // `;

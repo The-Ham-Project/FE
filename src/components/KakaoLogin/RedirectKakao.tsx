@@ -52,7 +52,8 @@ function RedirectKakao() {
     <ErrorPage>
       <img src={donotcrythehamzzang} />
       <MSG>
-        페이지를 찾을 수 없습니다. <br /><br />
+        페이지를 찾을 수 없습니다. <br />
+        <br />
         잠시후 다시 시도해주세요.
       </MSG>
     </ErrorPage>

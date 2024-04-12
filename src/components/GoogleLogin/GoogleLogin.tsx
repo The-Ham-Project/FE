@@ -120,17 +120,15 @@ export default GoogleLogin;
 // export default Login;
 
 const Button = styled.button`
+  background-color: white;
+  width: 350px;
+  height: 44px;
   @media screen and (max-width: 430px) {
-    width: 350px;
-    height: 45px;
   }
 `;
 const IMG = styled.img`
+  width: 350px;
+  height: 44px;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 350px;
-    height: 44px;
-    left: calc(50% - 350px / 2 + 0.41px);
-    top: 754px;
   }
 `;

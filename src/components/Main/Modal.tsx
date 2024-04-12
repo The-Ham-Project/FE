@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import sweattheham from '../../../public/assets/sweattheham.svg';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,20 +21,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
 
   return (
     <ModalOverlay>
-      <ModalContent>
-        <ModalHeader></ModalHeader>
-        <ModalBody>
-          <p>{message}</p>
+      <ModalHeader>
+        <img src={sweattheham} />
+      </ModalHeader>
+      {/* <ModalContent> */}
+      <ModalBody>
+        <MSG>{message}</MSG>
+        <Button>
           <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
-          <button onClick={onConfirm}>확인</button> {/* 확인 버튼 */}
-        </ModalBody>
-      </ModalContent>
+          <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
+          {/* 확인 버튼 */}
+        </Button>
+      </ModalBody>
+      {/* </ModalContent> */}
     </ModalOverlay>
   );
 };
 
 export default Modal;
-
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -47,25 +52,58 @@ const ModalOverlay = styled.div`
   z-index: 100;
 `;
 
-const ModalContent = styled.div`
+// const ModalContent = styled.div`
+//   background-color: white;
+//   border-radius: 8px;
+//   padding: 20px;
+//   max-width: 300px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// `;
+
+const ModalHeader = styled.div`
+  margin-bottom: 155.39px;
+  position: absolute;
+  /* top: 30%; */
+`;
+
+const ModalBody = styled.div`
+  width: 350px;
   background-color: white;
   border-radius: 8px;
   padding: 20px;
   max-width: 300px;
-`;
-
-const ModalHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
+  height: 200px;
+  justify-content: flex-end;
+  gap: 43px;
+`;
+const MSG = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
-const ModalBody = styled.div``;
+const Button = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+`;
 
 const ModalCloseButton = styled.button`
-  background-color: transparent;
-  border: none;
   font-size: 16px;
+  width: 120px;
+  height: 40px;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  color: #727272;
+`;
+const ModalOKButton = styled.button`
+  font-size: 16px;
+  width: 120px;
+  height: 40px;
   cursor: pointer;
 `;
