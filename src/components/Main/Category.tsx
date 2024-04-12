@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ALL from '../../../public/assets/ALL.svg';
 import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
@@ -12,9 +11,7 @@ import BOOK from '../../../public/assets/BOOK.svg';
 import PLACE from '../../../public/assets/PLACE.svg';
 import OTHER from '../../../public/assets/OTHER.svg';
 import Contents from '../../components/Main/Contents';
-import Search from './Search';
 import { useQuery } from '@tanstack/react-query';
-import { Flex } from '../../pages/main/Main';
 import { FaCamera } from 'react-icons/fa';
 
 export type Category =
@@ -27,7 +24,7 @@ export type Category =
   | 'PLACE'
   | 'OTHER';
 
-const categories = {
+const categories: Record<Category, { label: string; icon: string }> = {
   ALL: { label: '전체', icon: ALL },
   ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
   HOUSEHOLD: { label: '생활용품', icon: HOUSEHOLD },
@@ -43,21 +40,22 @@ function Category() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [rentals, setRentals] = useState<any[]>([]);
-  const [isActive, setIsActive] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      
       const response = await fetch(
         `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      return response.json();
+      const jsonData = await response.json(); // await을 사용하여 데이터를 얻음
+      console.log(jsonData); // 데이터를 콘솔에 출력
+      return jsonData;
     },
   });
+
 
   useEffect(() => {
     if (data) {
@@ -68,15 +66,29 @@ function Category() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (!isLoading && rentals.length === 0) {
+      setHasMore(true);
+    } 
+  }, [isLoading]);
+
+
+
   const fetchMoreData = () => {
     setPage(page + 1);
   };
 
   const handleCategoryChange = (category: Category) => {
+    if (selectedCategory === category) {
+      return;
+    }
     setSelectedCategory(category);
-    setIsActive(!isActive);
     setPage(1);
+    setRentals([])
+    console.log(rentals);
   };
+
+
 
   return (
     <Div id="ScrollableCategoryContainer">
@@ -97,27 +109,27 @@ function Category() {
         >
           <Contents />
           <CategoryButtonsContainer>
-            {Object.keys(categories).map((categoryKey) => (
+            {Object.keys(categories).map((index) => (
               <CategoryButtonWrapper
-                key={categoryKey}
-                isActive={selectedCategory === categoryKey}
+                key={index}
+              
+                onClick={() => handleCategoryChange(index as Category)}
               >
                 <CustomCategoryButton
-                  onClick={() => handleCategoryChange(categoryKey as Category)}
-                  icon={categories[categoryKey].icon}
-                  isActive={selectedCategory === categoryKey}
+                  icon={categories[index].icon} 
                 />
-                <CategoryLabel>{categories[categoryKey].label}</CategoryLabel>
+                <CategoryLabel>{categories[index].label}</CategoryLabel>
               </CategoryButtonWrapper>
             ))}
           </CategoryButtonsContainer>
 
           <CategoryContainer>
-            {rentals.map((item: any) => (
+            {rentals.map((item: any, index: number) => (
               <CategoryItem key={item.rentalId}>
                 
                 <Link
                   to={`/Details/${item.rentalId}`}
+                  key={index}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <ALLLayout>
@@ -160,6 +172,8 @@ function Category() {
 }
 
 export default Category;
+
+// 이하 스타일 정의 코드 생략
 
 const ScrollableCategoryContainer = styled.div``;
 
@@ -253,7 +267,6 @@ const CategoryButtonsContainer = styled.div`
 
 interface CustomCategoryButtonProps {
   icon: string;
-  isActive: boolean;
 }
 
 const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
@@ -265,7 +278,6 @@ const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
   background-repeat: no-repeat;
   background-position: center;
   padding: 20px;
-
 
 
 `;
@@ -282,7 +294,7 @@ const CategoryLabel = styled.span`
 `;
 
 
-const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
+const CategoryButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -290,21 +302,6 @@ const CategoryButtonWrapper = styled.div<{ isActive: boolean }>`
   height: 80px;
   justify-content: center;
   border-radius: 50px;
-
-
-  &:active {
-    background-color: #418dff;
-    transform: scale(1.2); /* &:active 상태일 때 크기를 확대하는 transform 추가 */
-  }
-
-  ${({ isActive }) =>
-    isActive &&
-    `
-      &:hover {
-        background-color: #E8F4FE; /* isActive가 true일 때 hover 효과 추가 */
-      }
-    `
-  }
 `;
 
 
