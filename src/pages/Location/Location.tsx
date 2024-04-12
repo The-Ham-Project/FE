@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 declare global {
   interface Window {
-    kakao: any;
+    kakao;
   }
 }
 
 declare const window: typeof globalThis & {
-  kakao: any;
+  kakao;
 };
 
 export default function Location(): JSX.Element {
