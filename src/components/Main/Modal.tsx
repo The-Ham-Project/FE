@@ -13,8 +13,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
   const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
 
   const onConfirm = () => {
-    // onConfirm 함수를 모달 컴포넌트 내에서 정의
-    navigate('/sociallogin');
+
   };
 
   if (!isOpen) return null;
@@ -37,6 +36,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
     </ModalOverlay>
   );
 };
+
 
 export default Modal;
 const ModalOverlay = styled.div`
