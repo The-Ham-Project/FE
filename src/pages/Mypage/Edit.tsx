@@ -287,39 +287,39 @@ const CustomDropzone = styled.div`
   gap: 69px;
 `;
 
-const Container = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 69px;
-`;
+// const Container = styled.div`
+//   display: inline-flex;
+//   justify-content: center;
+//   align-items: flex-start;
+//   gap: 69px;
+// `;
 
-const ItemContainer = styled.div`
-  position: relative;
-`;
+// const ItemContainer = styled.div`
+//   position: relative;
+// `;
 
 const Image = styled.div`
   width: 360px;
 `;
 
-const Counter = styled.div`
-  left: 10.5px;
-  top: 218px;
-  text-align: center;
-  color: #b1b1b1;
-  font-size: 36px;
-  font-family: 'Inter';
-  font-weight: 400;
-  word-wrap: break-word;
-`;
+// const Counter = styled.div`
+//   left: 10.5px;
+//   top: 218px;
+//   text-align: center;
+//   color: #b1b1b1;
+//   font-size: 36px;
+//   font-family: 'Inter';
+//   font-weight: 400;
+//   word-wrap: break-word;
+// `;
 
-const Group = styled.div`
-  width: 84.2px;
-  height: 112.32px;
-  position: absolute;
-  left: 105.06px;
-  top: 84px;
-`;
+// const Group = styled.div`
+//   width: 84.2px;
+//   height: 112.32px;
+//   position: absolute;
+//   left: 105.06px;
+//   top: 84px;
+// `;
 
 const Imagine = styled.div`
   display: flex;

@@ -15,7 +15,6 @@ import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
 import Edit from '../pages/Mypage/Edit.tsx';
 
-
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
 
@@ -37,7 +36,6 @@ function Router() {
         <Route path={'/commlist'} element={<ChatList />} />
         <Route path="/chat" element={<Chat />} />
         <Route path={'/chatlist'} element={<ChatList />} />
-       
       </Routes>
     </BrowserRouter>
   );

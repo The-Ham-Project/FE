@@ -18,4 +18,3 @@
 // export const removeCookie = (name) => {
 //   return cookies.remove(name);
 // };
-

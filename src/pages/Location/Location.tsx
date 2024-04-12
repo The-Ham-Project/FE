@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { geolocation } from '../../api/geolocation';
 import styled, { css } from 'styled-components';
-import locationButton from '../../../public/assets/locationButton.svg';
 import { useNavigate } from 'react-router-dom';
 
 declare global {
