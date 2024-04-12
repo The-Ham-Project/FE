@@ -42,8 +42,10 @@ export default Main;
 
 const ButtonContainer = styled.div`
   position: fixed;
+  width: 50px;
+  height: 40px;
   background-color: aqua;
-  z-index: 999; /* 다른 요소 위에 표시되도록 설정 */
+
 `;
 
 export const Div = styled.div`
@@ -56,7 +58,8 @@ export const Div = styled.div`
 
 export const Flex = styled.div`
   display: flex;
-
+height: 100vh;
+overflow: hidden;
 `;
 export const Flex2 = styled.div`
   display: flex;
@@ -107,9 +110,11 @@ export const Div3 = styled.div`
 `;
 export const Div4 = styled.div`
   width: 430px;
+  overflow-y: hidden;
   background-color: #ffffff;
-  overflow-y: auto;
+ 
   border-radius: 20px;
+  max-height: 100vh;
   @media screen and (max-width: 600px) {
     margin-right: -190%;
   }

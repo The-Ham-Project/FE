@@ -101,12 +101,12 @@ function MyList() {
                           message={errorMessage}
                           onClose={closeModal}
                         />
-                        <button
+                        <Button
                           style={{ zIndex: '4' }}
                           onClick={handleDeleteClick}
                         >
                           싹제
-                        </button>
+                        </Button>
                       </Custom>
                     </Box1>
                     <Title>{data.title}</Title>
@@ -126,7 +126,10 @@ function MyList() {
 }
 
 export default MyList;
-
+const Button = styled.button`
+width: 100px;
+height: 20px;
+`
 const MenuBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -195,6 +198,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 13px;
+
   @media screen and (max-width: 430px) {
   }
 `;
@@ -202,7 +206,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: space-evenly;
+  align-items: center;
   padding: 25px 12px;
   gap: 10px;
   width: 350px;
@@ -231,7 +235,7 @@ const Box2 = styled.div`
 `;
 
 const Title = styled.div`
-  height: 19px;
+
 
   font-family: 'Pretendard';
   font-style: normal;

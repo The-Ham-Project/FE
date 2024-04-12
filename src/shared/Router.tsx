@@ -35,7 +35,7 @@ function Router() {
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
         <Route path="/chat" element={<Chat />} />
-        <Route path={'/chatlist'} element={<ChatList />} />
+
       </Routes>
     </BrowserRouter>
   );
