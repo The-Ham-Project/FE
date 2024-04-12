@@ -84,6 +84,11 @@ export const useErrorModalStore = create<ErrorModalState>((set) => ({
     set({ isOpen: true, errorMessage });
   },
   closeModal: () => set({ isOpen: false, errorMessage: '' }),
+  // 로그인 페이지로 이동하는 함수 추가
+  goToLoginPage: () => {
+    // 여기에 로그인 페이지로 이동하는 코드 추가
+    window.location.href = '/login'; // 예시: 로그인 페이지의 URL로 이동
+  },
 }));
 
 export default useStore;
