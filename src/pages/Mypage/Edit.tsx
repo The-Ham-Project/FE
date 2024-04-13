@@ -63,7 +63,8 @@ function Edit() {
   const [deposit, setDeposit] = useState<number>(); // 보증금 상태
   // const [rentalId, setRentalId] = useState<number>(); // 보증금 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
-  const [selectedCategory, setSelectedCategory] = useState(); // 선택한 카테고리 상태
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
+  // 선택한 카테고리 상태
   const [item, setItem] = useState<RentalData | null>(null);
   // const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState({
@@ -144,17 +145,17 @@ function Edit() {
     });
 
     // 서버에 데이터 전송
-    authInstance
-      .put('https://api.openmpy.com/api/v1/rentals', formData)
-      .then((response) => {
-        console.log('서버 응답:', response.data);
-        alert('게시글을 성공적으로 수정했습니다.');
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error('에러 발생:', error);
-        alert('게시글 수정에 실패했습니다');
-      });
+    // authInstance
+    //   .put(`https://api.openmpy.com/api/v1/rentals/${rentalId}`, formData)
+    //   .then((response) => {
+    //     console.log('서버 응답:', response.data);
+    //     alert('게시글을 성공적으로 수정했습니다.');
+    //     navigate('/');
+    //   })
+    //   .catch((error) => {
+    //     console.error('에러 발생:', error);
+    //     alert('게시글 수정에 실패했습니다');
+    //   });
   };
 
   // const getProduct = async () => {
@@ -172,25 +173,24 @@ function Edit() {
   //     setIsLoading(false);
   //   }
   // };
-  const updateProduct = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      await authInstance.put(
-        `https://api.openmpy.com/api/v1/rentals/${rentalId}`,
-        product,
-      );
-      navigate('/details/:rentalId');
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
+  // const updateProduct = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   try {
+  //     await authInstance.put(
+  //       `https://api.openmpy.com/api/v1/rentals/${rentalId}`, formData)
+
+  //     navigate('/details/:rentalId');
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //   }
+  // };
   const queryClient = useQueryClient();
   const updatePostMutation = useMutation({
     mutationFn: updatePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['rentalId'] });
-      navigate('/');
+      navigate('/mylist');
     },
     onError: (error) => {
       console.log('error', error);
@@ -207,6 +207,7 @@ function Edit() {
       console.log('이미지 꼬우', data.rentalImageList);
       console.log('이미지 꼬우', ...data.rentalImageList);
       console.log('카테고리 꼬우', data.category);
+
       setTitle(data.title);
       setContent(data.content);
       setSelectedFiles(data.rentalImageList);
@@ -220,11 +221,7 @@ function Edit() {
     <>
       {/* <PostDetailsPage initialValue={data} /> */}
       {/* <form onSubmit={updateProduct}> */}
-      <div>
-    {selectedFiles.map((file, index) => (
-   <img key={index} src={image.imageUrl} alt={`Image ${index}`} />
-    ))}
-  </div>
+
       <CustomDropzone>
         <Dropzone
           onChangeStatus={(meta, status) => {
@@ -239,7 +236,7 @@ function Edit() {
           inputContent={<FaCamera size={24} color="#B1B1B1" />}
           accept="image/*"
           multiple={true}
-          initialFiles={data.rentalImage}
+          initialFiles={selectedFiles}
           classNames={{
             dropzone: 'dropzone',
             dropzoneActive: 'dz-drag-hover',
@@ -321,7 +318,7 @@ function Edit() {
       </div>
 
       <Rectangle>
-        <Text onClick={handleButtonClick}>게시글 수정</Text>
+        <Text onClick={handleSubmit}>게시글 수정</Text>
       </Rectangle>
       {/* </form> */}
     </>

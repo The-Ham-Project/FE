@@ -17,7 +17,7 @@ const Search = () => {
         }
         const responseData = await response.json();
         console.log(responseData);
-        return responseData.data; 
+        return responseData.data;
       } catch (error) {
         console.error('데이터를 가져오는 중 에러 발생:', error);
         throw error;

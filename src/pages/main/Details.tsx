@@ -92,62 +92,62 @@ function Details() {
   };
 
   const images =
-  item.rentalImageList.length === 0 ? (
-    <div>
-      {/* 이미지가 없는 경우에 보여줄 요소 */}
-      <FaCamera
-        size={24}
-        color="#B1B1B1"
-        style={{
-          maxWidth: '330px',
-          maxHeight: '330px',
-          width: '100%',
-          height: '50px',
-          objectFit: 'cover',
-          paddingTop: '150px',
-          paddingBottom: '150px',
-          backgroundColor: '#ececec',
-          borderRadius: '20px',
-        }}
-      />
-    </div>
-  ) : item.rentalImageList.length === 1 ? (
-    <div>
-      <img
-        src={item.rentalImageList[0].imageUrl}
-        alt={`Image 1`}
-        style={{
-          maxWidth: '330px',
-          maxHeight: '330px',
-          width: '100%',
-          height: '330px',
-          objectFit: 'contain',
-          borderRadius: '20px',
-          paddingBottom: '10px',
-        }}
-      />
-    </div>
-  ) : (
-    <Slider {...settings}>
-      {item.rentalImageList.map((image, index) => (
-        <div key={index}>
-          <img
-            src={image.imageUrl}
-            alt={`Image ${index + 1}`}
-            style={{
-              maxWidth: '330px',
-              maxHeight: '330px',
-              width: '100%',
-              height: '330px',
-              objectFit: 'contain',
-              borderRadius: '20px',
-              paddingBottom: '10px',
-            }}
-          />
-        </div>
-      ))}
-    </Slider>
-  );
+    item.rentalImageList.length === 0 ? (
+      <div>
+        {/* 이미지가 없는 경우에 보여줄 요소 */}
+        <FaCamera
+          size={24}
+          color="#B1B1B1"
+          style={{
+            maxWidth: '330px',
+            maxHeight: '330px',
+            width: '100%',
+            height: '50px',
+            objectFit: 'cover',
+            paddingTop: '150px',
+            paddingBottom: '150px',
+            backgroundColor: '#ececec',
+            borderRadius: '20px',
+          }}
+        />
+      </div>
+    ) : item.rentalImageList.length === 1 ? (
+      <div>
+        <img
+          src={item.rentalImageList[0].imageUrl}
+          alt={`Image 1`}
+          style={{
+            maxWidth: '330px',
+            maxHeight: '330px',
+            width: '100%',
+            height: '330px',
+            objectFit: 'contain',
+            borderRadius: '20px',
+            paddingBottom: '10px',
+          }}
+        />
+      </div>
+    ) : (
+      <Slider {...settings}>
+        {item.rentalImageList.map((image, index) => (
+          <div key={index}>
+            <img
+              src={image.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{
+                maxWidth: '330px',
+                maxHeight: '330px',
+                width: '100%',
+                height: '330px',
+                objectFit: 'contain',
+                borderRadius: '20px',
+                paddingBottom: '10px',
+              }}
+            />
+          </div>
+        ))}
+      </Slider>
+    );
 
   return (
     <DetailsContainer>
@@ -187,7 +187,7 @@ export default Details;
 const DetailsContainer = styled.div`
   padding: 50px;
   overflow-y: scroll;
-    height: 100vh;
+  height: 100vh;
 `;
 
 const ImageContainer = styled.div`

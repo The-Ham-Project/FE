@@ -110,26 +110,33 @@ export const fetchPost = async ({ rentalId }) => {
 };
 
 export const updatePost = async ({
-  // rentalId,
+  rentalId,
   updatedPost,
+  // formData,
 }: {
-  // rentalId: number;
+  rentalId: number;
   updatedPost;
+  formData;
 }) => {
   try {
     const response = await authInstance.put(
-      `https://api.openmpy.com/api/v1/rentals'${updatedPost.rentalId}`,
+      `https://api.openmpy.com/api/v1/rentals/${rentalId}`,
       updatedPost,
+      // formData,
     );
+    console.log(rentalId);
     return response.data;
   } catch (error) {
     return error;
   }
 };
 
-export async function deletePost(id) {
-  const response = await instance.put(`http://localhost:3000/posts/${id}`, {
-    method: 'DELETE',
-  });
+export async function deletePost(rentalId) {
+  const response = await authInstance.put(
+    `http://localhost:3000/posts/${rentalId}`,
+    {
+      method: 'DELETE',
+    },
+  );
   return response;
 }

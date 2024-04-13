@@ -44,7 +44,6 @@ const ButtonContainer = styled.div`
   width: 50px;
   height: 40px;
   background-color: aqua;
-
 `;
 
 export const Div = styled.div`
@@ -57,8 +56,8 @@ export const Div = styled.div`
 
 export const Flex = styled.div`
   display: flex;
-height: 100vh;
-overflow: hidden;
+  height: 100vh;
+  overflow: hidden;
 `;
 export const Flex2 = styled.div`
   display: flex;
@@ -109,7 +108,7 @@ export const Div4 = styled.div`
   width: 430px;
   overflow-y: hidden;
   background-color: #ffffff;
- 
+
   border-radius: 20px;
   max-height: 100vh;
   @media screen and (max-width: 600px) {

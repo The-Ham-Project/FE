@@ -131,9 +131,9 @@ function MyList() {
 
 export default MyList;
 const Button = styled.button`
-width: 100px;
-height: 20px;
-`
+  width: 100px;
+  height: 20px;
+`;
 const MenuBox = styled.div`
   width: 100%;
   display: flex;
@@ -197,15 +197,15 @@ const MSG = styled.div`
   }
 `;
 
-const Button = styled.div`
-  background-color: white;
-  color: black;
-  border: none;
-  width: 39.69px;
-  height: 13.77px;
-  @media screen and (max-width: 430px) {
-  }
-`;
+// const Button = styled.div`
+//   background-color: white;
+//   color: black;
+//   border: none;
+//   width: 39.69px;
+//   height: 13.77px;
+//   @media screen and (max-width: 430px) {
+//   }
+// `;
 const Custom = styled.div`
   @media screen and (max-width: 430px) {
   }
