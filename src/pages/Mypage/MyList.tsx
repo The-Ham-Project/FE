@@ -103,7 +103,7 @@ function MyList() {
                           isOpen={isOpen}
                           message={errorMessage}
                           onClose={closeModal}
-                          rentalId={rentalId}
+                          // rentalId={rentalId}
                         />
                       </Custom>
                       <Button
