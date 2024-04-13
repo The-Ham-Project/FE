@@ -158,7 +158,7 @@ const MenuBox = styled.div`
   @media screen and (max-width: 430px) {
     height: 60px;
     margin: 0px;
-    padding: 0 20px;
+    padding: 20px;
   }
 `;
 
