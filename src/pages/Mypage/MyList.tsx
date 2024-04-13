@@ -24,7 +24,7 @@ interface Rental {
 function MyList() {
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
-  const { rentalId } = useParams;
+  // const { rentalId } = useParams;
   // const deleteMutation = useMutation<any, number>({
   //   mutationFn: async (rentalId) => await removeItemPost(Number(rentalId)),
   //   onSuccess: (res) => {

@@ -96,18 +96,18 @@ function Edit() {
     },
   });
 
-  const editMutation = useMutation({
-    mutationFn: async (updatedItem: any) => {
-      await editItemPut({ rentalId: Number(rentalId), updatedItem });
-    },
-    onSuccess: (res) => {
-      console.log('res', res);
-      navigate('/mylist');
-    },
-    onError: (error) => {
-      console.log('error', error);
-    },
-  });
+  // const editMutation = useMutation({
+  //   mutationFn: async (updatedItem: any) => {
+  //     await editItemPut({ rentalId: Number(rentalId), updatedItem });
+  //   },
+  //   onSuccess: (res) => {
+  //     console.log('res', res);
+  //     navigate('/mylist');
+  //   },
+  //   onError: (error) => {
+  //     console.log('error', error);
+  //   },
+  // });
 
   // 카테고리 클릭 시 상태 업데이트 함수
   const handleCategoryClick = (category: Category) => {
