@@ -19,5 +19,6 @@ export interface chatRoomListResponseDto {
   toMemberNickName: string;
   toMemberProfileUrl: string;
   lastMessage: string;
+  unreadCount: number;
   lastMessageTime: string;
 }
