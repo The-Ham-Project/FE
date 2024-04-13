@@ -35,7 +35,7 @@ export const readChatList = async (currentPageNo: number) => {
 };
 
 export const readChatRoom = async (
-  chatRoomId?: string,
+  chatRoomId: number,
   currentPageNo: number,
 ) => {
   const { data } = await authInstance.get<ServerResponse<ChatRoomResponse>>(
@@ -43,7 +43,7 @@ export const readChatRoom = async (
     {
       params: {
         page: currentPageNo,
-        size: 20,
+        size: 10,
       },
     },
   );
