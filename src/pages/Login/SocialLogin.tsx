@@ -35,9 +35,8 @@ function SocialLogin() {
 export default SocialLogin;
 
 const Wrapper = styled.div`
+  height: 100vh;
   padding: 6vh;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -61,14 +60,12 @@ const Charactor = styled.div`
 const MSG = styled.div`
   width: 287px;
   height: 55px;
-
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-
   color: #000000;
   @media screen and (max-width: 430px) {
   }

@@ -150,7 +150,6 @@ function Details() {
   );
 
   return (
-    
     <DetailsContainer>
       <ImageContainer>{images}</ImageContainer>
 
