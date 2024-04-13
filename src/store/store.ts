@@ -62,7 +62,7 @@ const useStore = create<State>((set) => ({
         rentalData: { ...state.rentalData, [category]: newData },
         isLoading: false,
       }));
-
+      console.log('게시 성공!');
       return newData;
     } catch (error) {
       console.error('Error fetching category data:', error);

@@ -119,7 +119,6 @@ function Category() {
               <CategoryItem key={item.rentalId}>
                 <Link
                   to={`/Details/${item.rentalId}`}
-                  key={index}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <ALLLayout>
@@ -299,6 +298,7 @@ const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 112px;
+
 `;
 
 const PlaceholderImage = styled.div`
@@ -311,11 +311,15 @@ const PlaceholderImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 111px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   object-fit: cover;
 `;
 

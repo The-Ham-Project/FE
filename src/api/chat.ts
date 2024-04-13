@@ -21,17 +21,31 @@ export const createChat = async ({
   return data;
 };
 
-export const readChatList = async () => {
-  const { data } =
-    await authInstance.get<ServerResponse<ChatListType[]>>(
-      '/api/v1/chat-rooms',
-    );
+export const readChatList = async (currentPageNo: number) => {
+  const { data } = await authInstance.get<ServerResponse<ChatListType>>(
+    '/api/v1/chat-rooms',
+    {
+      params: {
+        page: currentPageNo,
+        size: 20,
+      },
+    },
+  );
   return data;
 };
 
-export const readChatRoom = async (chatRoomId?: string) => {
+export const readChatRoom = async (
+  chatRoomId?: string,
+  currentPageNo: number,
+) => {
   const { data } = await authInstance.get<ServerResponse<ChatRoomResponse>>(
     `/api/v1/chat-rooms/${chatRoomId}`,
+    {
+      params: {
+        page: currentPageNo,
+        size: 20,
+      },
+    },
   );
   return data;
 };
