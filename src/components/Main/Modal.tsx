@@ -1,42 +1,63 @@
-import React from 'react';
+import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import sweattheham from '../../../public/assets/sweattheham.svg';
+import { useDeleteItem } from '../../api/mutations';
 
 interface ModalProps {
   isOpen: boolean;
   message: string;
   onClose: () => void;
+  rentalId: number;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  message,
+  onClose,
+  rentalId,
+}) => {
   const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
-
-  const onConfirm = () => {
-console.log('d')
+  // const deleteMutation = useMutation<any, number>({
+  //   mutationFn: async (rentalId) => await removeItemPost(Number(rentalId)),
+  //   onSuccess: (res) => {
+  //     console.log('res', res);
+  //     navigate('/mylist');
+  //   },
+  //   onError: (error) => {
+  //     console.log('error', error);
+  //   },
+  // });
+  const deleteMutation = useDeleteItem();
+  const onConfirm = async (rentalId: number) => {
+    await deleteMutation.mutateAsync(rentalId);
+    navigate('/mylist');
   };
 
   if (!isOpen) return null;
 
   return (
-    <ModalOverlay>
-      <ModalHeader>
-        <img src={sweattheham} />
-      </ModalHeader>
-      {/* <ModalContent> */}
-      <ModalBody>
-        <MSG>{message}</MSG>
-        <Button>
-          <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
-          <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
-          {/* 확인 버튼 */}
-        </Button>
-      </ModalBody>
-      {/* </ModalContent> */}
-    </ModalOverlay>
+    <>
+      <ModalOverlay>
+        <ModalHeader>
+          <img src={sweattheham} />
+        </ModalHeader>
+        {/* <ModalContent> */}
+        <ModalBody>
+          <MSG>{message}</MSG>
+          <Button>
+            <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
+            <ModalOKButton onClick={() => onConfirm(rentalId)}>
+              확인
+            </ModalOKButton>
+            {/* 확인 버튼 */}
+          </Button>
+        </ModalBody>
+        {/* </ModalContent> */}
+      </ModalOverlay>
+    </>
   );
 };
-
 
 export default Modal;
 const ModalOverlay = styled.div`

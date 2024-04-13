@@ -4,7 +4,7 @@ import Category from '../../components/Main/Category';
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
 import Modal from '../../components/Main/Modal';
-import Details from './Details';
+// import Details from './Details';
 import MainHeder from '../../components/layout/MainHeder';
 
 function Main() {
@@ -29,11 +29,10 @@ function Main() {
     <>
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
 
-              <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
-   
-<MainHeder/>
-                <Category />
+      <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
 
+      <MainHeder />
+      <Category />
     </>
   );
 }
@@ -65,7 +64,6 @@ export const Flex2 = styled.div`
   display: flex;
   justify-content: center;
   padding-left: 870px;
-  
 
   @media screen and (max-width: 1000px) {
     padding-left: 220px;
@@ -75,19 +73,18 @@ export const Flex2 = styled.div`
   @media screen and (max-width: 500px) {
     padding-left: 0px;
     justify-content: center;
-    background-color: #1689F3;
+    background-color: #1689f3;
   }
 `;
 
 export const Div1 = styled.div`
-width: auto;
-width: 50vw;
-    height: 100vh;
-    display: flex;
-    background-color: #6b8ec0;
+  width: auto;
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  background-color: #6b8ec0;
 
-
-    background-position: center;
+  background-position: center;
   /* 모바일 화면 크기에 맞게 스타일 조정 */
   @media screen and (max-width: 1000px) {
     width: 200px;
