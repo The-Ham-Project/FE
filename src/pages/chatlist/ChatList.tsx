@@ -61,31 +61,34 @@ function ChatList() {
         </MenuBox>
       </PaddingBox>
       <List>
-        {data?.chatRoomListResponseDto.map((item) => (
-          <ListBox
-            key={item.chatRoomId}
-            onClick={() => {
-              navigate(`/comm/${item.chatRoomId}`);
-            }}
-          >
-            <FlexBox>
-              <ImgBox>
-                <img src={item.toMemberProfileUrl} />
-              </ImgBox>
-              <TextBox>
-                <FlexBox>
-                  <span>{item?.toMemberNickName}</span>
-                  {/*<span>동네</span>*/}
-                </FlexBox>
-                <Btween>
-                  <span>{item?.lastMessage}</span>
-                  <div>2</div>
-                </Btween>
-              </TextBox>
-            </FlexBox>
-            <div ref={indicatorRef} className={'indicator'} />
-          </ListBox>
-        ))}
+        {data?.chatRoomListResponseDto.map((item) => {
+          const isUnread = item.unreadCount !== 0;
+          return (
+            <ListBox
+              key={item.chatRoomId}
+              onClick={() => {
+                navigate(`/comm/${item.chatRoomId}`);
+              }}
+            >
+              <FlexBox>
+                <ImgBox>
+                  <img src={item.toMemberProfileUrl} />
+                </ImgBox>
+                <TextBox>
+                  <FlexBox>
+                    <span>{item?.toMemberNickName}</span>
+                    {/*<span>동네</span>*/}
+                  </FlexBox>
+                  <Btween $active={isUnread}>
+                    <span>{item?.lastMessage}</span>
+                    <div>{item.unreadCount}</div>
+                  </Btween>
+                </TextBox>
+              </FlexBox>
+              <div ref={indicatorRef} className={'indicator'} />
+            </ListBox>
+          );
+        })}
       </List>
     </Contaier>
   );

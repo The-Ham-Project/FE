@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Modal from '../../components/Main/Modal';
 // import Details from './Details';
 import MainHeder from '../../components/layout/MainHeder';
+import Navbar from '../../components/layout/Navbar.tsx';
 
 function Main() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -32,6 +33,7 @@ function Main() {
       <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
 
       <MainHeder />
+      <Navbar />
       <Category />
     </>
   );
@@ -44,7 +46,6 @@ const ButtonContainer = styled.div`
   width: 50px;
   height: 40px;
   background-color: aqua;
-
 `;
 
 export const Div = styled.div`
@@ -57,8 +58,8 @@ export const Div = styled.div`
 
 export const Flex = styled.div`
   display: flex;
-height: 100vh;
-overflow: hidden;
+  height: 100vh;
+  overflow: hidden;
 `;
 export const Flex2 = styled.div`
   display: flex;
@@ -109,7 +110,7 @@ export const Div4 = styled.div`
   width: 430px;
   overflow-y: hidden;
   background-color: #ffffff;
- 
+
   border-radius: 20px;
   max-height: 100vh;
   @media screen and (max-width: 600px) {

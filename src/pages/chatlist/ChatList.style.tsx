@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Contaier = styled.div`
   width: 100%;
@@ -70,34 +70,36 @@ export const FlexBox = styled.div`
   }
 `;
 
-export const Btween = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  > span {
-    font-size: 15px;
-    text-overflow: ellipsis;
-    height: 14px;
-    width: 70%;
-    overflow: hidden;
-    -webkit-line-clamp: 1;
-    word-break: break-word;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-  }
-  > div {
+export const Btween = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
     display: flex;
-    justify-content: center;
-    color: #fff;
-    border-radius: 100%;
+    justify-content: space-between;
     align-items: center;
-    height: 20px;
-    width: 20px;
-    font-size: 15px;
-    background-color: #1689f3;
-  }
-`;
+    width: 100%;
+    > span {
+      font-size: 15px;
+      text-overflow: ellipsis;
+      height: 14px;
+      width: 70%;
+      overflow: hidden;
+      -webkit-line-clamp: 1;
+      word-break: break-word;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+    }
+    > div {
+      display: ${$active ? 'flex' : 'none'};
+      justify-content: center;
+      color: #fff;
+      border-radius: 100%;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      font-size: 15px;
+      background-color: #1689f3;
+    }
+  `,
+);
 
 export const TextBox = styled.div`
   width: 100%;
