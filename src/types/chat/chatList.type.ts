@@ -10,10 +10,10 @@
 export interface ChatListType {
   currentPage: number;
   totalPage: number;
-  chatReadResponseDtoList: ChatReadResponseDto[];
+  chatRoomListResponseDto: chatRoomListResponseDto[];
 }
 
-export interface ChatReadResponseDto {
+export interface chatRoomListResponseDto {
   chatRoomId: number;
   toMemberId: number;
   toMemberNickName: string;

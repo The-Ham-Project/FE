@@ -130,10 +130,10 @@ function MyList() {
 }
 
 export default MyList;
-const Button = styled.button`
-  width: 100px;
-  height: 20px;
-`;
+// const Button = styled.button`
+// width: 100px;
+// height: 20px;
+// `
 const MenuBox = styled.div`
   width: 100%;
   display: flex;
