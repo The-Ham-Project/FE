@@ -4,11 +4,13 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useErrorModalStore } from '../../store/store';
 import Modal from '../../components/Main/Modal';
 import { removeItemPost } from '../../api/itemAPI';
+import modification from '../../../public/assets/modification.svg';
+import trashbin from '../../../public/assets/trashbin.svg';
 
 interface Rental {
   rentalId: number;
@@ -22,43 +24,42 @@ interface Rental {
 function MyList() {
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
-  const deleteMutation = useMutation<any, any, number>({
-    mutationFn: async (rentalId) => await removeItemPost(Number(rentalId)),
-    onSuccess: (res) => {
-      console.log('res', res);
-      navigate('/mylist');
-    },
-    onError: (error) => {
-      console.log('error', error);
-    },
-  });
-  const deleteitemClick = (rentalId): void => {
-    deleteMutation.mutate(rentalId);
-  };
+  const { rentalId } = useParams;
+  // const deleteMutation = useMutation<any, number>({
+  //   mutationFn: async (rentalId) => await removeItemPost(Number(rentalId)),
+  //   onSuccess: (res) => {
+  //     console.log('res', res);
+  //     navigate('/mylist');
+  //   },
+  //   onError: (error) => {
+  //     console.log('error', error);
+  //   },
+  // });
+  // const deleteMutation = removeItemPost()
+  // const deleteitemClick = (rentalId): void => {
+  //   deleteMutation.mutate(rentalId);
+  // };
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
   const handleDeleteClick = () => {
     openModal('님아 리얼루다가 삭제?');
   };
   const page = 1; // 페이지당 아이템 수
-  const selectedCategory = 'ALL'; // 선택된 카테고리
+  // const selectedCategory = 'ALL'; // 선택된 카테고리
 
-  const { data, isLoading, isError, refetch } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', { page }],
     queryFn: async () => {
-      const response = await authInstance.get(
-        'https://api.openmpy.com/api/v1/rentals/my/posts',
-        {
-          params: {
-            page,
-          },
+      const response = await authInstance.get('/api/v1/rentals/my/posts', {
+        params: {
+          page,
         },
-      );
+      });
       console.log(response.data.data);
       return response.data.data;
     },
   });
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loading>로딩 중...</Loading>;
   }
   if (isError) {
     return (
@@ -73,7 +74,7 @@ function MyList() {
     );
   }
   return (
-    <div>
+    <Wrapper>
       {!data || data.length === 0 ? (
         <p>No rentals found.</p>
       ) : (
@@ -83,7 +84,7 @@ function MyList() {
             <span>내가 쓴 글</span>
           </MenuBox>
           {data.map((data) => (
-            <Wrapper>
+            <Ao>
               <Link
                 to={`/Details/${data.rentalId}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
@@ -95,43 +96,47 @@ function MyList() {
                   <Box>
                     <Box1>
                       <Custom>
-                        <Link to={`/Details/${data.rentalId}/edit`}>수정</Link>
+                        <Link to={`/Details/${data.rentalId}/edit`}>
+                          <img src={modification} />
+                        </Link>
                         <Modal
                           isOpen={isOpen}
                           message={errorMessage}
                           onClose={closeModal}
+                          rentalId={rentalId}
                         />
-                        <button
-                          style={{ zIndex: '4' }}
-                          onClick={handleDeleteClick}
-                        >
-                          싹제
-                        </button>
                       </Custom>
+                      <Button
+                        style={{ zIndex: '4' }}
+                        onClick={handleDeleteClick}
+                      >
+                        <img src={trashbin} />
+                      </Button>
                     </Box1>
                     <Title>{data.title}</Title>
                     <Box2>
                       <Fee>대여비 {data.rentalFee}원</Fee>
-                      <Deposit>보증금: {data.deposit}원</Deposit>
+                      <Deposit>보증금 {data.deposit}원</Deposit>
                     </Box2>
                   </Box>
                 </Container>
               </Link>
-            </Wrapper>
+            </Ao>
           ))}
         </>
       )}
-    </div>
+    </Wrapper>
   );
 }
 
 export default MyList;
 
 const MenuBox = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 6vh;
+  height: 60px;
   padding: 0 7%;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
@@ -149,31 +154,35 @@ const MenuBox = styled.div`
   }
   @media screen and (max-width: 430px) {
     height: 60px;
-    width: 100%;
     margin: 0px;
     padding: 0 20px;
   }
 `;
 
-const ErrorPage = styled.div`
-  /* Group 1394 */
+const Loading = styled.div`
+  height: 100vh;
+  @media screen and (max-width: 430px) {
+  }
+`;
+const Ao = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-top: 13px;
+  margin-bottom: 12px;
+  @media screen and (max-width: 430px) {
+  }
+`;
 
-  position: absolute;
-  width: 141.1px;
-  height: 193.64px;
-  left: 125.29px;
-  top: 280.25px;
+const ErrorPage = styled.div`
+  height: 100vh;
   @media screen and (max-width: 430px) {
   }
 `;
 
 const MSG = styled.div`
-  /* 페이지를 찾을 수 없습니다. 잠시 후 다시 시도해주세요. */
-  position: absolute;
   width: 230px;
   height: 56px;
-  left: calc(50% - 230px / 2);
-  top: calc(50% + 56px / 2 + 113.25px);
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
@@ -185,40 +194,57 @@ const MSG = styled.div`
   }
 `;
 
+const Button = styled.div`
+  background-color: white;
+  color: black;
+  border: none;
+  width: 39.69px;
+  height: 13.77px;
+  @media screen and (max-width: 430px) {
+  }
+`;
 const Custom = styled.div`
   @media screen and (max-width: 430px) {
   }
 `;
 
 const Wrapper = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 13px;
+  justify-content: flex-start;
+  /* height: 100vh; */
   @media screen and (max-width: 430px) {
   }
 `;
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: space-evenly;
   padding: 25px 12px;
-  gap: 10px;
   width: 350px;
   height: 180px;
   background: #ffffff;
   box-shadow: 0px 4px 10.4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  justify-content: space-between;
   @media screen and (max-width: 430px) {
   }
 `;
 
 const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
   @media screen and (max-width: 430px) {
   }
 `;
 const Box1 = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 18.32px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -226,19 +252,21 @@ const Box1 = styled.div`
 const Box2 = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
+  text-align: center;
   @media screen and (max-width: 430px) {
   }
 `;
 
 const Title = styled.div`
   height: 19px;
-
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-
+  margin-bottom: 25px;
   color: #000000;
 
   @media screen and (max-width: 430px) {
@@ -260,6 +288,7 @@ const Fee = styled.div`
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
+  text-align: center;
   /* identical to box height */
   text-align: right;
 
@@ -269,6 +298,8 @@ const Fee = styled.div`
   flex-grow: 0;
   z-index: 1;
 
+  background: rgba(31, 147, 255, 0.1);
+  border-radius: 16.623px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -276,8 +307,7 @@ const Fee = styled.div`
 const Deposit = styled.div`
   width: 80px;
   height: 14px;
-
-  height: 14px;
+  text-align: center;
 
   font-family: 'Pretendard';
   font-style: normal;
