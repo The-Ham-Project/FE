@@ -76,7 +76,7 @@ const Chat = () => {
 
           setStompClient(client);
           setTestMessges(chatRoomData.chatReadResponseDtoList);
-          // .reverse()
+          // .reverse();
         } catch (error) {
           console.error('Error fetching chat room data:', error);
         }
@@ -130,14 +130,20 @@ const Chat = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (queryChatRoom.data) {
+  //     const reversedMessages = [...queryChatRoom.data.chatReadResponseDtoList];
+  //     // ].reverse();
+  //
+  //     //  moment(new Date(queryData.createdAt)).format('hh:mm');
+  //     setTestMessges((prev) => [...reversedMessages, ...prev]);
+  //   }
+  // }, [queryChatRoom.data]);
   useEffect(() => {
     if (queryChatRoom.data) {
-      const reversedMessages = [
-        ...queryChatRoom.data.chatReadResponseDtoList,
-      ].reverse();
+      const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
 
-      //  moment(new Date(queryData.createdAt)).format('hh:mm');
-      setTestMessges((prev) => [...reversedMessages, ...prev]);
+      setTestMessges((prev) => [...prev, ...messagesToAdd]);
     }
   }, [queryChatRoom.data]);
 

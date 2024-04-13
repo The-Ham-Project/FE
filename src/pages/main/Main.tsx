@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Category from '../../components/Main/Category';
+import { IoPersonOutline } from 'react-icons/io5';
 
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
@@ -7,10 +8,11 @@ import Modal from '../../components/Main/Modal';
 // import Details from './Details';
 import MainHeder from '../../components/layout/MainHeder';
 import Navbar from '../../components/layout/Navbar.tsx';
+import lgoo from '../../../public/assets/lgoo.svg';
 
 function Main() {
   // const isLoggedIn = useStore((state) => state.isLoggedIn);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
@@ -29,7 +31,13 @@ function Main() {
   return (
     <>
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
-
+      <img ser={lgoo} />
+      <IoPersonOutline
+        size={'30px'}
+        onClick={() => {
+          navigate('/mypage');
+        }}
+      />
       {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
 
       <MainHeder />
