@@ -3,13 +3,44 @@ import styled from 'styled-components';
 import { FiPlus } from 'react-icons/fi';
 import message from '../../../public/assets/message.svg';
 import home from '../../../public/assets/home.svg';
+import { useNavigate } from 'react-router-dom';
+import useStore, { useErrorModalStore } from '../../store/store.ts';
 
 function Navbar() {
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
+  const navigate = useNavigate();
+
+  // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
+  const { openModal } = useErrorModalStore();
+
+  const handleButtonClick = () => {
+    console.log(isLoggedIn);
+    if (isLoggedIn === true) {
+      navigate('/main/PostDetailsPage');
+    } else {
+      // 모달 열기
+      openModal('로그인 후에 게시글을 생성할 수 있습니다');
+      navigate('/sociallogin');
+    }
+  };
+
   return (
     <Container>
-      <img className={'home'} src={home} />
-      <img className={'message'} src={message} />
-      <div>
+      <img
+        className={'home'}
+        src={home}
+        onClick={() => {
+          navigate('/');
+        }}
+      />
+      <img
+        className={'message'}
+        src={message}
+        onClick={() => {
+          navigate('/commlist');
+        }}
+      />
+      <div onClick={handleButtonClick}>
         <FiPlus fontSize={'40px'} />
       </div>
       <img className={'bar'} src={bar} />
