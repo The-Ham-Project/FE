@@ -31,7 +31,7 @@ function Main() {
   return (
     <>
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
-      <img ser={lgoo} />
+      <img src={lgoo} />
       <IoPersonOutline
         size={'30px'}
         onClick={() => {
