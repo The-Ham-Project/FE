@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import sweattheham from '../../../public/assets/sweattheham.svg';
-
+import useStore, { useErrorModalStore } from '../../store/store.ts';
 interface ModalProps {
   isOpen: boolean;
   message: string;
@@ -11,10 +11,11 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
   const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
-
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
+  console.log(isLoggedIn);
   const onConfirm = () => {
     console.log('d');
-    navigate('/');
+    navigate('/sociallogin');
   };
 
   if (!isOpen) return null;

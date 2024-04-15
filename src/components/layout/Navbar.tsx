@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 
 function Navbar() {
-  const isLoggedIn = useStore((state) => state.isLoggedIn);
   const navigate = useNavigate();
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
 
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { openModal } = useErrorModalStore();
@@ -16,11 +16,12 @@ function Navbar() {
   const handleButtonClick = () => {
     console.log(isLoggedIn);
     if (isLoggedIn === true) {
+      console.log('postdetail 호출');
       navigate('/main/PostDetailsPage');
     } else {
       // 모달 열기
       openModal('로그인 후에 게시글을 생성할 수 있습니다');
-      navigate('/sociallogin');
+      // navigate('/sociallogin');
     }
   };
 
