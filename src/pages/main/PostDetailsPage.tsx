@@ -15,6 +15,7 @@ import CLOSET from '../../../public/assets/CLOSET.svg';
 import BOOK from '../../../public/assets/BOOK.svg';
 import PLACE from '../../../public/assets/PLACE.svg';
 import OTHER from '../../../public/assets/OTHER.svg';
+import Navbar from '../../components/layout/Navbar';
 
 // 카테고리 타입 정의
 type Category =
@@ -27,14 +28,14 @@ type Category =
   | 'OTHER';
 
 // 카테고리에 대한 이름 정의
-const categories: Record<Category, any> = {
-  ELECTRONIC: <img src={ELECTRONIC} />,
-  HOUSEHOLD: <img src={HOUSEHOLD} />,
-  KITCHEN: <img src={KITCHEN} />,
-  CLOSET: <img src={CLOSET} />,
-  BOOK: <img src={BOOK} />,
-  PLACE: <img src={PLACE} />,
-  OTHER: <img src={OTHER} />,
+const categories: Record<Category, string> = {
+  ELECTRONIC: '가전제품',
+  HOUSEHOLD: '가구용품',
+  KITCHEN: '주방용품',
+  CLOSET: '의류',
+  BOOK: '책',
+  PLACE: '장소',
+  OTHER: '기타',
 };
 
 function PostDetailsPage() {
@@ -99,6 +100,8 @@ function PostDetailsPage() {
 
   return (
     <>
+    <Navbar/>
+    <div>
       <Container>
         <CustomDropzone>
           <Dropzone
@@ -128,8 +131,10 @@ function PostDetailsPage() {
             maxFiles={3}
           />
         </CustomDropzone>
-
+        물품의 카테고리를 선택해주세요
+        <Group>
         <div>
+        
           <Image>
             {Object.entries(categories).map(([key, value]) => (
               <button
@@ -137,16 +142,17 @@ function PostDetailsPage() {
                 onClick={() => handleCategoryClick(key as Category)}
                 style={{
                   backgroundColor:
-                    selectedCategory === key ? 'lightblue' : 'white',
+                    selectedCategory === key ? '' : '#F5F5F5',
 
                   cursor: 'pointer',
-                  width: '90px',
-                  borderRadius: '50%',
+                  width: '80px',
+                  height: '30px',
+                  fontSize: '14px',
+                 
                 }}
               >
                 <Imagine>
                   {value}
-                  {key}
                 </Imagine>
               </button>
             ))}
@@ -185,18 +191,27 @@ function PostDetailsPage() {
         </div>
         <div>보증금</div>
         <div>
-          <input
-            type="text"
-            placeholder="보증금을 입력해주세요"
-            value={deposit}
-            onChange={(e) => setDeposit(parseInt(e.target.value))}
-          />
-        </div>
-
+  <input
+    type="text"
+    placeholder="보증금을 입력해주세요"
+    value={deposit || ''}
+    onChange={(e) => {
+      const value = parseInt(e.target.value);
+      if (!isNaN(value)) {
+        setDeposit(value);
+      } else {
+        setDeposit(undefined);
+      }
+    }}
+  />
+  {isNaN(deposit) && <span>숫자를 입력해주세요.</span>}
+</div>
+        </Group>
         <Rectangle>
           <Text onClick={handleButtonClick}>게시글 작성</Text>
         </Rectangle>
       </Container>
+     </div>
     </>
   );
 }
@@ -205,7 +220,6 @@ export default PostDetailsPage;
 
 // 스타일드 컴포넌트를 사용하여 Dropzone 스타일 적용
 const CustomDropzone = styled.div`
-  height: 150px;
   display: inline-flex;
   justify-content: center;
   align-items: flex-start;
@@ -217,7 +231,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
-  gap: 6px;
+
 `;
 
 const ItemContainer = styled.div`
@@ -245,20 +259,22 @@ const Counter = styled.div`
 `;
 
 const Group = styled.div`
-  width: 84.2px;
-  height: 112.32px;
-  position: absolute;
-  left: 105.06px;
-  top: 84px;
+display: flex;
+    flex-direction: column;
+    width: 88%;
 `;
 
 const Imagine = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 8px;
+  font-size: 16px;
   word-break: break-all;
-  padding: 10px;
+  color: black;
+
+  justify-content: center; /* 텍스트를 버튼 세로 가운데 정렬합니다. */
+  align-items: center; /* 텍스트를 버튼 가로 가운데 정렬합니다. */
 `;
+
 
 const Rectangle = styled.div`
   width: 100%;

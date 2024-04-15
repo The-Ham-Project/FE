@@ -4,7 +4,6 @@ import Category from '../../components/Main/Category';
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
 import Modal from '../../components/Main/Modal';
-import Details from './Details';
 import MainHeder from '../../components/layout/MainHeder';
 import Navbar from '../../components/layout/Navbar';
 
@@ -26,30 +25,67 @@ function Main() {
     }
   };
 
+  const handleHomeClick = () => {
+    console.log(isLoggedIn);
+
+    navigate('/');
+  };
+
   return (
     <>
-
-<Navbar/>
-
+      <Navbar />
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
-
-              <ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>
-   
-<MainHeder/>
-                <Category />
-
+      <MainHeder />
+      <Category />
     </>
   );
 }
 
 export default Main;
 
-const ButtonContainer = styled.div`
+const Chat = styled.div`
+  display: flex;
   position: fixed;
   width: 50px;
-  height: 40px;
-  background-color: aqua;
+  border-radius: 50px;
+  height: 50px;
 
+  font-size: 30px; /* 폰트 크기 수정 */
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 99;
+  transform: translate(630%, 1530%);
+`;
+
+const Home = styled.div`
+  display: flex;
+  position: fixed;
+  width: 50px;
+  border-radius: 50px;
+  height: 50px;
+
+  font-size: 30px; /* 폰트 크기 수정 */
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 99;
+  transform: translate(130%, 1530%);
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  position: fixed;
+  width: 50px;
+  border-radius: 50px;
+  height: 50px;
+  background-color: #1879ff;
+  font-size: 30px; /* 폰트 크기 수정 */
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 99;
+  transform: translate(370%, 1530%);
 `;
 
 export const Div = styled.div`
@@ -62,14 +98,13 @@ export const Div = styled.div`
 
 export const Flex = styled.div`
   display: flex;
-height: 100vh;
-overflow: hidden;
+  height: 100vh;
+  overflow: hidden;
 `;
 export const Flex2 = styled.div`
   display: flex;
   justify-content: center;
   padding-left: 870px;
-  
 
   @media screen and (max-width: 1000px) {
     padding-left: 220px;
@@ -79,19 +114,18 @@ export const Flex2 = styled.div`
   @media screen and (max-width: 500px) {
     padding-left: 0px;
     justify-content: center;
-    background-color: #1689F3;
+    background-color: #1689f3;
   }
 `;
 
 export const Div1 = styled.div`
-width: auto;
-width: 50vw;
-    height: 100vh;
-    display: flex;
-    background-color: #6b8ec0;
+  width: auto;
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  background-color: #6b8ec0;
 
-
-    background-position: center;
+  background-position: center;
   /* 모바일 화면 크기에 맞게 스타일 조정 */
   @media screen and (max-width: 1000px) {
     width: 200px;
@@ -116,7 +150,7 @@ export const Div4 = styled.div`
   width: 430px;
   overflow-y: hidden;
   background-color: #ffffff;
- 
+
   border-radius: 20px;
   max-height: 100vh;
   @media screen and (max-width: 600px) {

@@ -3,14 +3,28 @@ import styled from 'styled-components';
 import { FiPlus } from 'react-icons/fi';
 import message from '../../../public/assets/message.svg';
 import home from '../../../public/assets/home.svg';
-
+import { useNavigate } from 'react-router-dom';
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handlePlusClick = () => {
+    navigate('/main/PostDetailsPage');
+  };
+
+  const handlehomeClick = () => {
+    navigate('/');
+  };
+
+
+  const handlemessageClick = () => {
+    navigate('/commlist');
+  };
   return (
     <Container>
-      <img className={'home'} src={home} />
-      <img className={'message'} src={message} />
+      <img onClick={handlehomeClick}  className={'home'} src={home} />
+      <img onClick={handlemessageClick} className={'message'} src={message} />
       <div>
-        <FiPlus fontSize={'40px'} />
+        <FiPlus onClick={handlePlusClick} fontSize={'40px'} />
       </div>
       <img className={'bar'} src={bar} />
     </Container>
