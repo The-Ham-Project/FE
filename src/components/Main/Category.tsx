@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ALL from '../../../public/assets/ALL.svg';
-import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
-import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
-import KITCHEN from '../../../public/assets/KITCHEN.svg';
-import CLOSET from '../../../public/assets/CLOSET.svg';
-import BOOK from '../../../public/assets/BOOK.svg';
-import PLACE from '../../../public/assets/PLACE.svg';
-import OTHER from '../../../public/assets/OTHER.svg';
+import ALL from '/public/assets/ALL.svg';
+import ELECTRONIC from '/public/assets/ELECTRONIC.svg';
+import HOUSEHOLD from '/public/assets/HOUSEHOLD.svg';
+import KITCHEN from '/public/assets/KITCHEN.svg';
+import CLOSET from '/public/assets/CLOSET.svg';
+import BOOK from '/public/assets/BOOK.svg';
+import PLACE from '/public/assets/PLACE.svg';
+import OTHER from '/public/assets/OTHER.svg';
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
@@ -86,7 +86,9 @@ function Category() {
   };
 
   return (
+    
     <Div id="ScrollableCategoryContainer">
+      
       <ScrollableCategoryContainer>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
@@ -108,7 +110,9 @@ function Category() {
                 key={index}
                 onClick={() => handleCategoryChange(index as Category)}
               >
-                <CustomCategoryButton icon={categories[index].icon} />
+                <CustomCategoryButton>
+                  <img src={categories[index].icon}/>
+                </CustomCategoryButton>
                 <CategoryLabel>{categories[index].label}</CategoryLabel>
               </CategoryButtonWrapper>
             ))}
@@ -248,12 +252,11 @@ interface CustomCategoryButtonProps {
   icon: string;
 }
 
-const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
+const CustomCategoryButton = styled.div`
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: opacity 0.3s;
-  background-image: ${({ icon }) => `url(${icon})`};
   background-repeat: no-repeat;
   background-position: center;
   padding: 20px;
