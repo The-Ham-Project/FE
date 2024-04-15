@@ -301,7 +301,6 @@ const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 112px;
-
 `;
 
 const PlaceholderImage = styled.div`

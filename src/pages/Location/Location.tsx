@@ -220,6 +220,7 @@ export default function Location(): JSX.Element {
 }
 
 const Wrapper = styled.div`
+  height: 100vh;
   @media screen and (max-width: 430px) {
   }
 `;

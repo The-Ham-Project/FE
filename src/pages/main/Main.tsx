@@ -1,41 +1,48 @@
 import { useNavigate } from 'react-router-dom';
 import Category from '../../components/Main/Category';
+import { IoPersonOutline } from 'react-icons/io5';
 
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
 import Modal from '../../components/Main/Modal';
+// import Details from './Details';
 import MainHeder from '../../components/layout/MainHeder';
-import Navbar from '../../components/layout/Navbar';
+import Navbar from '../../components/layout/Navbar.tsx';
+import lgoo from '../../../public/assets/lgoo.svg';
 
 function Main() {
-  const isLoggedIn = useStore((state) => state.isLoggedIn);
+  // const isLoggedIn = useStore((state) => state.isLoggedIn);
   const navigate = useNavigate();
 
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
-  const handleButtonClick = () => {
-    console.log(isLoggedIn);
-    if (isLoggedIn === true) {
-      navigate('/main/PostDetailsPage');
-    } else {
-      // 모달 열기
-      openModal('로그인 후에 게시글을 생성할 수 있습니다');
-      navigate('/sociallogin');
-    }
-  };
-
-  const handleHomeClick = () => {
-    console.log(isLoggedIn);
-
-    navigate('/');
-  };
+  // const handleButtonClick = () => {
+  //   console.log(isLoggedIn);
+  //   if (isLoggedIn === true) {
+  //     navigate('/main/PostDetailsPage');
+  //   } else {
+  //     // 모달 열기
+  //     openModal('로그인 후에 게시글을 생성할 수 있습니다');
+  //     navigate('/sociallogin');
+  //   }
+  // };
 
   return (
     <>
       <Navbar />
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
+      <img src={lgoo} />
+      <IoPersonOutline
+        size={'30px'}
+        onClick={() => {
+          navigate('/mypage');
+        }}
+      />
+      {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
+
       <MainHeder />
+      <Navbar />
       <Category />
     </>
   );
@@ -73,20 +80,12 @@ const Home = styled.div`
   transform: translate(130%, 1530%);
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  position: fixed;
-  width: 50px;
-  border-radius: 50px;
-  height: 50px;
-  background-color: #1879ff;
-  font-size: 30px; /* 폰트 크기 수정 */
-  justify-content: center;
-  align-items: center;
-  color: white;
-  z-index: 99;
-  transform: translate(370%, 1530%);
-`;
+// const ButtonContainer = styled.div`
+//   position: fixed;
+//   width: 50px;
+//   height: 40px;
+//   background-color: aqua;
+// `;
 
 export const Div = styled.div`
   /* margin: 130px; */

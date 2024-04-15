@@ -18,25 +18,25 @@ jobs:
       - name: Check Node v
         run: node -v
 
+      - name: Create env file
+        run: |
+          touch .env
+          echo VITE_APP_KAKAO_REST_API_KEY=${{ secrets.VITE_APP_KAKAO_REST_API_KEY }} >> .env
+          echo VITE_APP_KAKAO_CLIENT_ID=${{ secrets.VITE_APP_KAKAO_CLIENT_ID }} >> .env
+          echo VITE_APP_KAKAO_JAVASCRIPT_KEY=${{ secrets.VITE_APP_KAKAO_JAVASCRIPT_KEY }} >> .env
+          echo VITE_APP_KAKAO_REDIRECT_URI=${{ secrets.VITE_APP_KAKAO_REDIRECT_URI }} >> .env
+          echo VITE_APP_GOOGLE_CLIENT_ID=${{ secrets.VITE_APP_GOOGLE_CLIENT_ID }} >> .env
+          echo VITE_APP_GOOGLE_REDIRECT_URI=${{ secrets.VITE_APP_GOOGLE_REDIRECT_URI }} >> .env
+          echo VITE_APP_NAVER_CLIENT_ID=${{ secrets.VITE_APP_NAVER_CLIENT_ID }} >> .env
+          echo VITE_APP_NAVER_REDIRECT_URI=${{ secrets.VITE_APP_NAVER_REDIRECT_URI }} >> .env
+          echo VITE_SERVER_URL=${{ secrets.VITE_SERVER_URL }} >> .env
+          cat .env
+
       - name: Install dependencies
         run: npm install
 
       - name: Generate build
         run: npm run build
-
-      - name: Create env file
-        run: |
-          touch .env
-          echo VITE_APP_KAKAO_REST_API_KEY=${{ secrets.VITE_APP_KAKAO_REST_API_KEY }} >> .env
-          echo VITE_APP_KAKAO_CLIENT_ID={{ secrets.VITE_APP_KAKAO_CLIENT_ID }} >> .env
-          echo VITE_APP_KAKAO_JAVASCRIPT_KEY={{ secrets.VITE_APP_KAKAO_JAVASCRIPT_KEY }} >> .env
-          echo VITE_APP_KAKAO_REDIRECT_URI={{ secrets.VITE_APP_KAKAO_REDIRECT_URI }} >> .env
-          echo VITE_APP_GOOGLE_CLIENT_ID={{ secrets.VITE_APP_GOOGLE_CLIENT_ID }} >> .env
-          echo VITE_APP_GOOGLE_REDIRECT_URI={{ secrets.VITE_APP_GOOGLE_REDIRECT_URI }} >> .env
-          echo VITE_APP_NAVER_CLIENT_ID={{ secrets.VITE_APP_NAVER_CLIENT_ID }} >> .env
-          echo VITE_APP_NAVER_REDIRECT_URI={{ secrets.VITE_APP_NAVER_REDIRECT_URI }} >> .env
-          echo VITE_SERVER_URL={{ secrets.VITE_SERVER_URL }} >> .env
-          cat .env
 
       - name: Deploy
         uses: lbertenasco/s3-deploy@v1
