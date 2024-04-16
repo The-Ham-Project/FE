@@ -1,27 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
-// import { editItemPut } from '../../api/itemAPI';
 import styled from 'styled-components';
 import Dropzone from 'react-dropzone-uploader';
-
-import { instance, authInstance } from '../../api/axios';
-import PostDetailsPage from '../main/PostDetailsPage';
-import { updatePost, fetchPost } from '../../api/itemAPI';
-
-export interface UpdatedItem {
-  rentalId: number;
-  title: string;
-  category: string;
-  contents: string;
-  price: number;
-}
-
-interface RentalImage {
-  imageUrl: string;
-  createdAt: string;
-}
+import { instance } from '../../api/axios';
+import { updatePost } from '../../api/itemAPI';
 
 // 카테고리 타입 정의
 type Category =
@@ -36,72 +20,74 @@ type Category =
 // 카테고리에 대한 이름 정의
 const categories: Record<Category, string> = {
   ELECTRONIC: '가전제품',
-  HOUSEHOLD: '가구용품',
+  HOUSEHOLD: '생활용품',
   KITCHEN: '주방용품',
   CLOSET: '의류',
   BOOK: '책',
   PLACE: '장소',
   OTHER: '기타',
 };
+
+interface RentalImage {
+  imageUrl: string;
+  createdAt: string;
+}
+
 interface RentalData {
   rentalId: number;
   nickname: string;
   profileUrl: string;
-  category: string;
+  category: Category;
   title: string;
   content: string;
   rentalFee: number;
   deposit: number;
   latitude: number;
   longitude: number;
-  rentalImageList: RentalImage[];
+  rentalImageList: any;
 }
+
 function Edit() {
-  const [title, setTitle] = useState<string>(''); // 게시글 제목 상태
-  const [content, setContent] = useState<string>(''); // 게시글 내용 상태
-  const [rentalFee, setRentalFee] = useState<number>();
-  const [deposit, setDeposit] = useState<number>(); // 보증금 상태
-  // const [rentalId, setRentalId] = useState<number>(); // 보증금 상태
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [rentalFee, setRentalFee] = useState<number | ''>('');
+  const [deposit, setDeposit] = useState<number | ''>('');
+
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [Files, setFiles] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
-  // 선택한 카테고리 상태
-  const [item, setItem] = useState<RentalData | null>(null);
-  // const [isLoading, setIsLoading] = useState(false);
-  const [product, setProduct] = useState({
-    title: '',
-    content: '',
-  });
-
   const { rentalId } = useParams();
-  // const { rentalId } = useParams<{ rentalId: any }>();
-  // console.log(rentalId);
 
-  // const queryClient = useQueryClient();
   const navigate = useNavigate();
-  // const { isLoading, isError, data, error } = useQuery({
-  //   queryKey: ['data', rentalId],
-  //   queryFn: () => fetchPost(rentalId),
-  // });
-  const page = 1; // 페이지당 아이템 수
-  // const selectedCategory = 'ALL'; // 선택된 카테고리
+  console.log('이미지', Files);
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['rentals', rentalId],
-    queryFn: async () => {
-      const response = await instance.get(`/api/v1/rentals/${rentalId}`);
-      console.log('API 호출 후 데이터:', response.data);
-      console.log(response.data.data);
-      console.log(response.data.data.title);
-      return response.data.data;
-    },
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await instance.get(`/api/v1/rentals/${rentalId}`);
+        const rentalData = response.data.data;
+        setTitle(rentalData.title);
+        setContent(rentalData.content);
+        setRentalFee(rentalData.rentalFee);
+        setDeposit(rentalData.deposit);
+        setFiles(rentalData.rentalImageList);
+        setSelectedCategory(rentalData.category);
+        // const { data }
+      } catch (error) {
+        console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+      }
+    };
 
-  // const editMutation = useMutation({
-  //   mutationFn: async (updatedItem: any) => {
-  //     await editItemPut({ rentalId: Number(rentalId), updatedItem });
-  //   },
-  //   onSuccess: (res) => {
-  //     console.log('res', res);
+    fetchData();
+  }, [rentalId]);
+
+  console.log('카테고리', selectedCategory);
+  console.log();
+  // const queryClient = useQueryClient();
+  // const updatePostMutation = useMutation({
+  //   mutationFn: updatePost,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['rentalId'] });
   //     navigate('/mylist');
   //   },
   //   onError: (error) => {
@@ -109,134 +95,122 @@ function Edit() {
   //   },
   // });
 
-  // 카테고리 클릭 시 상태 업데이트 함수
-  const handleCategoryClick = (category: Category) => {
-    setSelectedCategory(category);
-  };
+  const handleSubmit = async () => {
+    const formData = new FormData();
 
-  // FormData 객체 생성
-  const formData = new FormData();
-  // 게시 버튼 클릭 시 실행되는 함수
-  const handleButtonClick = () => {
-    if (!title) {
-      alert('제목을 작성해주세요');
-      return;
-    }
-    if (!selectedCategory) {
-      alert('카테고리를 선택해주세요.');
-      return;
-    }
-
-    // requestDto 객체 생성
     const requestDto = {
-      title: title,
+      title,
       category: selectedCategory,
-      content: content,
-      rentalFee: rentalFee,
-      deposit: deposit,
+      content,
+      rentalFee,
+      deposit,
     };
 
-    // requestDto 객체를 JSON 문자열로 변환하여 FormData에 추가
     formData.append('requestDto', JSON.stringify(requestDto));
 
-    // 파일들을 FormData에 추가
-    selectedFiles.forEach((file) => {
-      formData.append('multipartFileList', file);
-    });
+    // 새 이미지가 선택되었는지 확인합니다.
+    const hasNewImages = selectedFiles.length > 0;
 
-    // 서버에 데이터 전송
-    // authInstance
-    //   .put(`https://api.openmpy.com/api/v1/rentals/${rentalId}`, formData)
-    //   .then((response) => {
-    //     console.log('서버 응답:', response.data);
-    //     alert('게시글을 성공적으로 수정했습니다.');
-    //     navigate('/');
-    //   })
-    //   .catch((error) => {
-    //     console.error('에러 발생:', error);
-    //     alert('게시글 수정에 실패했습니다');
-    //   });
+    // 새 이미지가 선택된 경우, 폼 데이터에 추가합니다.
+    if (hasNewImages) {
+      console.log('새 이미지가 선택되었습니다.');
+      selectedFiles.forEach((file) => {
+        console.log('추가할 파일:', file);
+        formData.append('multipartFileList', file);
+      });
+    } else {
+      // 새 이미지가 선택되지 않은 경우, 기존 이미지를 폼 데이터에 추가합니다.
+      console.log('새 이미지가 선택되지 않았습니다. 기존 이미지를 사용합니다.');
+      formData.append('rentalImageList', JSON.stringify(Files));
+    }
+    // const isAlreadySelected = selectedFiles.some(
+    //   (file) => file.name === meta.file.name,
+    // );
+    // if (isAlreadySelected) {setFiles(rentalImageList);}
+    // Array.from(selectedFiles).forEach((myImg) => formData.append('selectedFiles', myImg));
+    console.log(selectedFiles);
+    try {
+      await updatePost({ rentalId: rentalId, formData: formData });
+      navigate('/mylist');
+    } catch (error) {
+      console.error('게시글 수정 오류:', error);
+      // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+    }
+    // updatePostMutation.mutate({ rentalId, ...updatedPost });
   };
 
-  // const getProduct = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await authInstance.get(
-  //       `https://api.openmpy.com/api/v1/rentals/${rentalId}`,
-  //     );
-  //     setProduct({
-  //       title: response.data.name,
-  //       content: response.data.quantity,
-  //     });
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     setIsLoading(false);
-  //   }
+  // const handleSubmit = (updatedPost) => {
+  //   updatePostMutation.mutate({ rentalId, ...updatedPost });
   // };
-  // const updateProduct = async (e) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   try {
-  //     await authInstance.put(
-  //       `https://api.openmpy.com/api/v1/rentals/${rentalId}`, formData)
 
-  //     navigate('/details/:rentalId');
-  //   } catch (error) {
-  //     setIsLoading(false);
-  //   }
-  // };
-  const queryClient = useQueryClient();
-  const updatePostMutation = useMutation({
-    mutationFn: updatePost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['rentalId'] });
-      navigate('/mylist');
-    },
-    onError: (error) => {
-      console.log('error', error);
-    },
-  });
+  const handleValueChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<React.SetStateAction<number | string>>,
+  ) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    const numericValue: number | '' = value === '' ? '' : +value;
+    const formattedValue: number | string =
+      numericValue === '' ? '' : numericValue.toLocaleString();
+    setter(formattedValue);
+  };
 
-  const handleSubmit = (updatedPost) => {
-    updatePostMutation.mutate({ rentalId, ...updatedPost });
+  const handleRentalFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleValueChange(e, setRentalFee);
+  };
+
+  const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleValueChange(e, setDeposit);
   };
 
   useEffect(() => {
-    if (data) {
-      console.log('데이터꼬우우', data);
-      console.log('이미지 꼬우', data.rentalImageList);
-      console.log('이미지 꼬우', ...data.rentalImageList);
-      console.log('카테고리 꼬우', data.category);
-
-      setTitle(data.title);
-      setContent(data.content);
-      setSelectedFiles(data.rentalImageList);
-      setSelectedCategory(data.category);
-    }
-  }, [data]);
-
-  if (isLoading) return 'loading...';
-  if (isError) return `Error: ${error.message}`;
+    handleSubmit();
+  }, [Files, selectedFiles]);
   return (
     <>
-      {/* <PostDetailsPage initialValue={data} /> */}
-      {/* <form onSubmit={updateProduct}> */}
-
       <CustomDropzone>
         <Dropzone
           onChangeStatus={(meta, status) => {
             if (status === 'done') {
-              setSelectedFiles((prevFiles) => [...prevFiles, meta.file]);
+              const isAlreadySelected = selectedFiles.some(
+                (file) => file.name === meta.file.name,
+              );
+
+              if (!isAlreadySelected) {
+                setSelectedFiles([...selectedFiles, meta.file]);
+                console.log('setSelectedFiles', setSelectedFiles);
+              }
             } else if (status === 'removed') {
               setSelectedFiles((prevFiles) =>
                 prevFiles.filter((file) => file !== meta.file),
               );
+            } else {
+              setSelectedFiles((prevFiles) => prevFiles);
+              console.log('setSelectedFiles', setSelectedFiles);
             }
           }}
-          inputContent={<FaCamera size={24} color="#B1B1B1" />}
+          // data={data}
+          inputContent={
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                marginTop: '-35px',
+                gap: '2px',
+              }}
+            >
+              {Files.map((image, index) => (
+                <img
+                  key={index}
+                  src={image.imageUrl}
+                  alt={`Image ${index + 1}`}
+                  style={{ maxWidth: '100px', maxHeight: '100px' }}
+                />
+              ))}
+            </div>
+          }
           accept="image/*"
           multiple={true}
-          initialFiles={selectedFiles}
+          initialFiles={[]}
           classNames={{
             dropzone: 'dropzone',
             dropzoneActive: 'dz-drag-hover',
@@ -253,127 +227,77 @@ function Edit() {
       </CustomDropzone>
 
       <div>
-        <Image>
-          {Object.entries(categories).map(([key, value]) => (
-            <button
-              key={key}
-              onClick={() => handleCategoryClick(key as Category)}
-              style={{
-                backgroundColor: selectedCategory === key ? '' : '#F5F5F5',
-                color: selectedCategory === key ? '' : 'black',
-                cursor: 'pointer',
-                width: '80px',
-                height: '30px',
-                fontSize: '14px',
-              }}
-            >
-              <Imagine>{value}</Imagine>
-            </button>
-          ))}
-        </Image>
+        {Object.entries(categories).map(([key, value]) => (
+          <button
+            key={key}
+            onClick={() => setSelectedCategory(key as Category)}
+            style={{
+              backgroundColor:
+                String(selectedCategory) === String(key) ||
+                String(selectedCategory) === String(value)
+                  ? '#258bff'
+                  : '#F5F5F5',
+              color: selectedCategory === String(key) ? 'white' : 'black',
+              cursor: 'pointer',
+              width: '80px',
+              height: '30px',
+              fontSize: '14px',
+              fontWeight: selectedCategory === String(key) ? 'bold' : 'normal', // 선택된 카테고리는 볼드체로 표시
+            }}
+          >
+            {value}
+          </button>
+        ))}
       </div>
+
       <div>제목</div>
-      <div>
-        <input
-          type="text"
-          placeholder="제목을 입력하세요"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          defaultValue={data.title}
-        />
-      </div>
+      <input
+        type="text"
+        placeholder="제목을 입력하세요"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
 
       <div>내용</div>
-      <div>
-        <textarea
-          style={{ resize: 'none' }}
-          rows={10}
-          cols={50}
-          placeholder="게시글의 내용을 작성해주세요.부적절한 단어 사용 혹은 금지 물품을 작성할 경우 이용이 제한될 수 있습니다.원활한 쉐어를 위해 내용을 상세하게 작성해주세요."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          defaultValue={data.content}
-        />
-      </div>
+      <textarea
+        style={{ resize: 'none' }}
+        rows={10}
+        cols={50}
+        placeholder="게시글의 내용을 작성해주세요."
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
+
       <div>대여비</div>
-      <div>
-        <input
-          type="text"
-          placeholder="대여비를 입력해주세요"
-          value={rentalFee}
-          onChange={(e) => setRentalFee(parseInt(e.target.value))}
-          defaultValue={data.rentalFee}
-        />
-      </div>
+      <input
+        type="text"
+        placeholder="대여비를 입력해주세요"
+        value={rentalFee}
+        onChange={handleRentalFeeChange}
+      />
+
       <div>보증금</div>
-      <div>
-        <input
-          type="text"
-          placeholder="보증금을 입력해주세요"
-          value={deposit}
-          onChange={(e) => setDeposit(parseInt(e.target.value))}
-          // onChange={(e) => setProduct({...product, deposit: e.target.value})}
-          defaultValue={data.deposit}
-        />
-      </div>
+      <input
+        type="text"
+        placeholder="보증금을 입력해주세요"
+        value={deposit}
+        onChange={handleDepositChange}
+      />
 
       <Rectangle>
-        <Text onClick={handleSubmit}>게시글 수정</Text>
+        <button onClick={handleSubmit}>게시글 수정</button>
       </Rectangle>
-      {/* </form> */}
     </>
   );
 }
+
 export default Edit;
 
-// 스타일드 컴포넌트를 사용하여 Dropzone 스타일 적용
 const CustomDropzone = styled.div`
   display: inline-flex;
   justify-content: center;
   align-items: flex-start;
   gap: 69px;
-`;
-
-// const Container = styled.div`
-//   display: inline-flex;
-//   justify-content: center;
-//   align-items: flex-start;
-//   gap: 69px;
-// `;
-
-// const ItemContainer = styled.div`
-//   position: relative;
-// `;
-
-const Image = styled.div`
-  width: 360px;
-`;
-
-// const Counter = styled.div`
-//   left: 10.5px;
-//   top: 218px;
-//   text-align: center;
-//   color: #b1b1b1;
-//   font-size: 36px;
-//   font-family: 'Inter';
-//   font-weight: 400;
-//   word-wrap: break-word;
-// `;
-
-// const Group = styled.div`
-//   width: 84.2px;
-//   height: 112.32px;
-//   position: absolute;
-//   left: 105.06px;
-//   top: 84px;
-// `;
-
-const Imagine = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 8px;
-  word-break: break-all;
-  padding: 10px;
 `;
 
 const Rectangle = styled.div`
@@ -384,10 +308,4 @@ const Rectangle = styled.div`
   justify-content: center;
   background: #1689f3;
   border-radius: 85px;
-`;
-
-const Text = styled.button`
-  text-align: center;
-  color: white;
-  font-size: 20px;
 `;

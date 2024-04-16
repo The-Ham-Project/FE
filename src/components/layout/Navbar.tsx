@@ -26,7 +26,9 @@ function Navbar() {
   };
 
   return (
-    <Container>
+    <Container
+    // style={{ backgroundColor: 'rgb(239, 239, 239, 0.9)', paddingTop: '10px' }}
+    >
       <img
         className={'home'}
         src={home}
@@ -57,6 +59,7 @@ const Container = styled.div`
   position: absolute;
   z-index: 1000;
   bottom: 0;
+
   > .bar {
     width: 100%;
     margin: 0;
@@ -74,7 +77,7 @@ const Container = styled.div`
   .home {
     position: absolute;
     bottom: 21px;
-    zindex: 100;
+    z-index: 100;
     left: 63px;
     z-index: 103;
     width: 27px;

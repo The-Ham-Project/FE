@@ -39,7 +39,9 @@ function Category() {
   const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [rentals, setRentals] = useState<any[]>([]);
+  const [rentals, setRentals] = useState([]);
+  const priceDot = (num: number) =>
+    num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const { data, isLoading } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
@@ -119,7 +121,7 @@ function Category() {
           </CategoryButtonsContainer>
 
           <CategoryContainer>
-            {rentals.map((item: any, index: number) => (
+            {rentals.map((item) => (
               <CategoryItem key={item.rentalId}>
                 <Link
                   to={`/Details/${item.rentalId}`}
@@ -148,8 +150,8 @@ function Category() {
                       </H1>
                       <Layout2>
                         <Layout1>
-                          <H2>보증금 {item.rentalFee}원</H2>
-                          <H3>대여비 {item.deposit}원</H3>
+                          <H2>보증금 {priceDot(item.rentalFee)}원</H2>
+                          <H3>대여비 {priceDot(item.deposit)}원</H3>
                         </Layout1>
                       </Layout2>
                     </Layout>
