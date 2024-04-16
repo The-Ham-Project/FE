@@ -23,7 +23,7 @@ function Router() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/main/PostDetailsPage" element={<PostDetailsPage />} />
-        {!isLoggedIn && <Route path="/sociallogin" element={<SocialLogin />} />}
+  <Route path="/sociallogin" element={<SocialLogin />} />
         <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
         <Route path="/naver/callback" element={<RedirectNaver />} />

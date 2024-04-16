@@ -13,6 +13,7 @@ import OTHER from '/public/assets/OTHER.svg';
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
+import { authInstance } from '../../api/axios';
 
 export type Category =
   | 'ALL'
@@ -46,15 +47,15 @@ function Category() {
   const { data, isLoading } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      const response = await fetch(
+      const response = await authInstance.get(
         `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
       );
-      if (!response.ok) {
+      if (!response) {
         throw new Error('Network response was not ok');
       }
-      const jsonData = await response.json(); // await을 사용하여 데이터를 얻음
-      console.log(jsonData); // 데이터를 콘솔에 출력
-      return jsonData;
+  // await을 사용하여 데이터를 얻음
+      console.log(response); // 데이터를 콘솔에 출력
+      return response.data;
     },
   });
 
@@ -345,6 +346,7 @@ const ProfileUrl = styled.span`
 export const Div = styled.div`
   height: 100vh;
   overflow-x: hidden;
+  
   &::-webkit-scrollbar {
     width: 8px;
   }

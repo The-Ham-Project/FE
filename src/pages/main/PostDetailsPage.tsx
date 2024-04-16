@@ -47,6 +47,25 @@ function PostDetailsPage() {
   const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
 
+  const handleValueChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<React.SetStateAction<number | string>>
+  ) => {
+    let value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    const numericValue: number | '' = value === '' ? '' : +value;
+    const formattedValue: number | string = numericValue === '' ? '' : numericValue.toLocaleString();
+    setter(formattedValue);
+  };
+
+  const handleRentalFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleValueChange(e, setRentalFee);
+  };
+
+  const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleValueChange(e, setDeposit);
+  };
+
+
   console.log('이미지', selectedFiles);
   // 카테고리 클릭 시 상태 업데이트 함수
   const handleCategoryClick = (category: Category) => {
@@ -189,8 +208,9 @@ function PostDetailsPage() {
                 type="text"
                 placeholder="대여비를 입력해주세요"
                 value={rentalFee}
-                onChange={(e) => setRentalFee(parseInt(e.target.value))}
+                onChange={handleRentalFeeChange}
               />
+              {isNaN(deposit) && <span>숫자를 입력해주세요.</span>}
             </div>
             <div>보증금</div>
             <div>
@@ -198,14 +218,7 @@ function PostDetailsPage() {
                 type="text"
                 placeholder="보증금을 입력해주세요"
                 value={deposit || ''}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value)) {
-                    setDeposit(value);
-                  } else {
-                    setDeposit(undefined);
-                  }
-                }}
+                onChange={handleDepositChange}
               />
               {isNaN(deposit) && <span>숫자를 입력해주세요.</span>}
             </div>
