@@ -136,6 +136,7 @@ function PostDetailsPage() {
             }}
             inputWithFilesContent={(files) => `${files.length}/3`}
             maxFiles={3}
+            data={props.data}
           />
         </CustomDropzone>
         물품의 카테고리를 선택해주세요
@@ -155,7 +156,7 @@ function PostDetailsPage() {
                   width: '80px',
                   height: '30px',
                   fontSize: '14px',
-                 
+                  
                 }}
               >
                 <Imagine>

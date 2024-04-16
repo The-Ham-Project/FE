@@ -109,29 +109,19 @@ export const fetchPost = async ({ rentalId }) => {
   return response;
 };
 
-export const updatePost = async ({
-  rentalId,
-  updatedPost,
-  // formData,
-}: {
-  rentalId: number;
-  updatedPost;
-  formData;
-}) => {
+export async function updatePost(postData: any) {
   try {
-    const response = await authInstance.put(
-      `https://api.openmpy.com/api/v1/rentals/${rentalId}`,
-      updatedPost,
-      // formData,
-    );
-    console.log(rentalId);
-    return response.data;
+    const response = await authInstance.put(`/api/v1/rentals/${postData.rentalId}`,
+    postData.formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response
   } catch (error) {
-    return error;
+    throw new Error('게시글을 수정하는 중 오류가 발생했습니다.');
   }
-};
-
-export async function deletePost(rentalId) {
+}
+export async function deletePost(rentalId: any) {
   const response = await authInstance.put(
     `http://localhost:3000/posts/${rentalId}`,
     {
