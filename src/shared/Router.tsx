@@ -21,7 +21,6 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        
         <Route path="/" element={<Main />} />
         <Route path="/main/PostDetailsPage" element={<PostDetailsPage />} />
         {!isLoggedIn && <Route path="/sociallogin" element={<SocialLogin />} />}
