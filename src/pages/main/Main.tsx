@@ -30,6 +30,7 @@ function Main() {
 
   return (
     <>
+      <Navbar />
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
       <img src={lgoo} />
       <IoPersonOutline
@@ -48,6 +49,36 @@ function Main() {
 }
 
 export default Main;
+
+const Chat = styled.div`
+  display: flex;
+  position: fixed;
+  width: 50px;
+  border-radius: 50px;
+  height: 50px;
+
+  font-size: 30px; /* 폰트 크기 수정 */
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 99;
+  transform: translate(630%, 1530%);
+`;
+
+const Home = styled.div`
+  display: flex;
+  position: fixed;
+  width: 50px;
+  border-radius: 50px;
+  height: 50px;
+
+  font-size: 30px; /* 폰트 크기 수정 */
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 99;
+  transform: translate(130%, 1530%);
+`;
 
 // const ButtonContainer = styled.div`
 //   position: fixed;
