@@ -41,8 +41,8 @@ function PostDetailsPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); // 게시글 제목 상태
   const [content, setContent] = useState(''); // 게시글 내용 상태
-  const [rentalFee, setRentalFee] = useState<number>(0);
-  const [deposit, setDeposit] = useState<number>(0); // 보증금 상태
+  const [rentalFee, setRentalFee] = useState<number>();
+  const [deposit, setDeposit] = useState<number>(); // 보증금 상태
   const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
 
