@@ -50,7 +50,7 @@ const Search = () => {
           maxWidth: '22px',
           maxHeight: '22px',
         }}
-        onClick={handleSearch}
+        // onClick={handleSearch}
       >
         <img
           style={{
