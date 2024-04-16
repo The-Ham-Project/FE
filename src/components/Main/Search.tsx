@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import search from '../../../public/assets/search.svg';
 
 const Search = () => {
   const [keyword, setKeyword] = useState('');
@@ -30,20 +31,40 @@ const Search = () => {
     setKeyword(e.target.value);
     console.log(e.target.value);
   };
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (search.trim() === '') return alert('검색어를 적어주세요');
+  };
 
   return (
-    <div>
+    <div style={{ display: 'nowrap' }}>
       <input
         type="text"
         placeholder="검색..."
         value={keyword}
         onChange={handleChange}
       />
+      <button
+        style={{
+          backgroundColor: '#F5F5F5',
+          maxWidth: '22px',
+          maxHeight: '22px',
+        }}
+        // onClick={handleSearch}
+      >
+        <img
+          style={{
+            maxWidth: '22px',
+            maxHeight: '22px',
+          }}
+          src={search}
+        />
+      </button>
       <ul>
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
         {data &&
-          data.map((rental) => (
+          data.searchResponseList.map((rental) => (
             <li key={rental.rentalId}>
               <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
             </li>

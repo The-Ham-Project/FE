@@ -21,7 +21,6 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        
         <Route path="/" element={<Main />} />
         <Route path="/main/PostDetailsPage" element={<PostDetailsPage />} />
   <Route path="/sociallogin" element={<SocialLogin />} />
@@ -29,10 +28,14 @@ function Router() {
         <Route path="/google/callback" element={<RedirectGoogle />} />
         <Route path="/naver/callback" element={<RedirectNaver />} />
         <Route path="/thxkakaomap" element={<Location />} />
-        <Route path="/mypage" element={<Mypage />} />
+        {/* <Route path="/mypage" element={<Mypage />} /> */}
+        <Route
+          path="/search/:keyword"
+          // element={<SearchDetail match={undefined} />}
+        />
         <Route path="/mylist" element={<MyList />} />
-        {/* {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
-        {isLoggedIn && <Route path="/mylist" element={<MyList />} />} */}
+        {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
+        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
         <Route path="/Details/:rentalId/edit" element={<Edit />} />
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />

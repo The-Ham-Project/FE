@@ -109,19 +109,22 @@ export const fetchPost = async ({ rentalId }) => {
   return response;
 };
 
-export async function updatePost(postData: any) {
+export async function updatePost(postData) {
   try {
-    const response = await authInstance.put(`/api/v1/rentals/${postData.rentalId}`,
-    postData.formData,
-    {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return response
+    const response = await authInstance.put(
+      `/api/v1/rentals/${postData.rentalId}`,
+      postData.formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      },
+    );
+    return response;
   } catch (error) {
     throw new Error('게시글을 수정하는 중 오류가 발생했습니다.');
   }
 }
-export async function deletePost(rentalId: any) {
+
+export async function deletePost(rentalId) {
   const response = await authInstance.put(
     `http://localhost:3000/posts/${rentalId}`,
     {

@@ -31,16 +31,32 @@ interface RentalImage {
   createdAt: string;
 }
 
+interface RentalData {
+  rentalId: number;
+  nickname: string;
+  profileUrl: string;
+  category: Category;
+  title: string;
+  content: string;
+  rentalFee: number;
+  deposit: number;
+  latitude: number;
+  longitude: number;
+  rentalImageList: any;
+}
+
 function Edit() {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [rentalFee, setRentalFee] = useState<number | ''>('');
   const [deposit, setDeposit] = useState<number | ''>('');
+
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  const [Files, setFiles] = useState<RentalImage[]>([]);
+
+  const [Files, setFiles] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
-  const [imageChanged, setImageChanged] = useState<boolean>(false); // Track if images changed
   const { rentalId } = useParams();
+  const [ImageChanged, setImageChanged] = useState(Boolean);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,17 +76,17 @@ function Edit() {
     };
     fetchData();
   }, [rentalId]);
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files) {
+    if (files && files.length > 0) {
       setSelectedFiles(files);
       setImageChanged(true); // 이미지가 변경되었음을 표시
     } else {
+      setSelectedFiles(null); // 파일 선택이 해제되었음을 표시
       setImageChanged(false); // 이미지가 변경되지 않았음을 표시
     }
   };
-
+  
   const handleSubmit = async () => {
     const formData = new FormData();
 
@@ -174,6 +190,7 @@ if (selectedFiles) {
           </button>
         ))}
       </div>
+
       <div>제목</div>
       <input type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
       <div>내용</div>
@@ -191,10 +208,12 @@ if (selectedFiles) {
       <input type="text" placeholder="보증금을 입력해주세요" value={deposit} onChange={handleDepositChange} />
       <Rectangle>
         <button onClick={handleSubmit}>게시글 수정</button>
+        <button onClick={handleSubmit}>게시글 수정</button>
       </Rectangle>
     </>
   );
 }
+
 
 export default Edit;
 
