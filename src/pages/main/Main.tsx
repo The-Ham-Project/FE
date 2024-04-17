@@ -14,9 +14,8 @@ import Header from '../../components/layout/MainHeder';
 import Search from '../../components/Main/Search.tsx';
 
 function Main() {
-  // const isLoggedIn = useStore((state) => state.isLoggedIn);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
