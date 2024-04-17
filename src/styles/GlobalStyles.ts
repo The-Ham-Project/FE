@@ -86,12 +86,7 @@ input[type="text"] {
         font-size: 16px;
         padding: 10px; /* Add padding for text inside the input */
     }
-	body {
-        line-height: 1;
-        background-image: url('/public/assets/background.png'); /* 배경 이미지 경로를 여기에 입력하세요 */
-        background-size: cover; /* 배경 이미지를 컨테이너에 맞게 확대/축소하여 채우기 */
-        background-position: center; /* 배경 이미지를 가운데 정렬 */
-    }
+
    /* Custom style for textarea */
    textarea {
 	

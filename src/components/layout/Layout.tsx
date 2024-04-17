@@ -2,10 +2,13 @@ import styled from 'styled-components';
 import thehamlogo from '../../../public/assets/thehamlogo.svg';
 import phone from '../../../public/assets/phone.svg';
 import { Outlet } from 'react-router-dom';
+import NaverLogin from '../NaverLogin/NaverLogin';
+import Navbar from './Navbar';
 
 function Layout() {
   return (
     <Container>
+
       <Explanation>
         <ContentsBox>
           <Title>
@@ -23,9 +26,11 @@ function Layout() {
           </Bubble>
         </ContentsBox>
         <PhoneBox>
-          <img src={phone} />
+
+          <img src={phone} style={{position: 'absolute', pointerEvents: 'none'}} />
           <Outlet />
         </PhoneBox>
+        
       </Explanation>
     </Container>
   );
@@ -60,8 +65,9 @@ const Explanation = styled.div`
   z-index: 300;
 `;
 const ContentsBox = styled.div`
-  width: 45%;
+  width: 55%;
   height: 100%;
+  margin-right: 250px;
 `;
 
 const Title = styled.div`
@@ -92,7 +98,7 @@ const Contents = styled.div`
 
 const Bubble = styled.div`
   display: flex;
-  align-items: center;
+
   justify-content: center;
   height: 40%;
 
@@ -109,7 +115,7 @@ const Bubble = styled.div`
 
     &:before {
       content: '';
-      background-image: url('../../../public/assets/bubble.svg');
+      background-image: url('/public/assets/bubble.svg');
       position: absolute;
       bottom: 0;
       right: -30px;
@@ -121,22 +127,26 @@ const Bubble = styled.div`
   }
 `;
 const PhoneBox = styled.div`
-  width: 55%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+    width: 500px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    background: beige;
+    background-repeat: no-repeat;
+    
   &:before {
-    background-image: url('../../../public/assets/phontheham.svg');
+    background-image: url('/public/assets/phontheham.svg');
     background-repeat: no-repeat;
     position: absolute;
     content: '';
     bottom: -500px;
-    left: -30px;
+    left: -280px;
     width: 1000px;
     height: 1000px;
-    z-index: 200;
+    z-index: -200;
   }
   > img {
     z-index: 300;

@@ -34,7 +34,7 @@ function Main() {
     <>
       {/* <Navbar /> */}
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
-      <img src={lgoo} />
+
       <IoPersonOutline
         size={'30px'}
         onClick={() => {
