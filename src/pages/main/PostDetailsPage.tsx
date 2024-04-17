@@ -17,6 +17,10 @@ import PLACE from '../../../public/assets/PLACE.svg';
 import OTHER from '../../../public/assets/OTHER.svg';
 import Navbar from '../../components/layout/Navbar';
 
+import { IoIosArrowBack } from 'react-icons/io';
+import { MenuBox } from '../Mypage/Mypage';
+import { Container } from '../../components/layout/DefaultLayout';
+
 // 카테고리 타입 정의
 type Category =
   | 'ELECTRONIC'
@@ -42,8 +46,8 @@ function PostDetailsPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); // 게시글 제목 상태
   const [content, setContent] = useState(''); // 게시글 내용 상태
-  const [rentalFee, setRentalFee] = useState<number>();
-  const [deposit, setDeposit] = useState<number>(); // 보증금 상태
+  const [rentalFee, setRentalFee] = useState<number>(0);
+  const [deposit, setDeposit] = useState<number>(0); // 보증금 상태
   const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
 
@@ -86,13 +90,20 @@ function PostDetailsPage() {
       return;
     }
 
+    // 쉼표 제거 함수
+const removeComma = (value: string | undefined) => {
+  return value ? value.replace(/,/g, '') : '';
+};
+const formattedRentalFee = removeComma(rentalFee?.toLocaleString());
+const formattedDeposit = removeComma(deposit?.toLocaleString());
+
     // requestDto 객체 생성
     const requestDto = {
       title: title,
       category: selectedCategory,
       content: content,
-      rentalFee: rentalFee,
-      deposit: deposit,
+      rentalFee: formattedRentalFee,
+      deposit: formattedDeposit,
     };
 
     // requestDto 객체를 JSON 문자열로 변환하여 FormData에 추가
@@ -124,9 +135,13 @@ function PostDetailsPage() {
   //     body: '',
   //   });
   // };
+  const handleBackClick = () => navigate(-1);
   return (
     <>
-      <Navbar />
+    <Container>
+    <MenuBox>
+        <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+      </MenuBox>
       <div>
         <Container>
           <CustomDropzone>
@@ -207,10 +222,10 @@ function PostDetailsPage() {
               <input
                 type="text"
                 placeholder="대여비를 입력해주세요"
-                value={rentalFee}
+                value={rentalFee || ''}
                 onChange={handleRentalFeeChange}
               />
-              {isNaN(deposit) && <span>숫자를 입력해주세요.</span>}
+
             </div>
             <div>보증금</div>
             <div>
@@ -220,7 +235,7 @@ function PostDetailsPage() {
                 value={deposit || ''}
                 onChange={handleDepositChange}
               />
-              {isNaN(deposit) && <span>숫자를 입력해주세요.</span>}
+  
             </div>
           </Group>
           <Rectangle>
@@ -228,6 +243,7 @@ function PostDetailsPage() {
           </Rectangle>
         </Container>
       </div>
+      </Container>
     </>
   );
 }
@@ -242,12 +258,7 @@ const CustomDropzone = styled.div`
   gap: 69px;
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-`;
+
 
 const ItemContainer = styled.div`
   position: relative;

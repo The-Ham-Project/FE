@@ -9,14 +9,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
-
-      <Flex2>
-        <Flex>
-          <Div4>
             <Router />
-          </Div4>
-        </Flex>
-      </Flex2>
     </QueryClientProvider>
   );
 }

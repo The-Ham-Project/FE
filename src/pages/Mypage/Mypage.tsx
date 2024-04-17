@@ -104,7 +104,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const MenuBox = styled.div`
+export const MenuBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
