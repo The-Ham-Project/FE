@@ -17,7 +17,7 @@ import Edit from '../pages/Mypage/Edit.tsx';
 import Layout from '../components/layout/Layout.tsx';
 import App from '../App.tsx';
 import { createBrowserRouter } from 'react-router-dom';
-import DefaultLayout from '../components/layout/DefaultLayout.tsx';
+import Navbar from '../components/layout/Navbar';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -26,20 +26,34 @@ function Router() {
     <BrowserRouter>
       <Routes>
         
-        <Route element={<DefaultLayout />}> //하단네비게이션 필요 영역
+        <Route element={<Layout />}> 
+
+    
+        <Route element={<Navbar />}>     
           <Route path="/" element={<Main />} />
           <Route path={'/commlist'} element={<ChatList />} />
-          {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
           <Route path="/mylist" element={<MyList />} />
+          </Route>
+          <Route path={'/commlist'} element={<ChatList />} />
+          {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
+     
           <Route path="/details/:rentalId" element={<Details />} />
-        </Route>
-
-        //하단네비게이션 필요 없는 영역
-        <Route path="/sociallogin" element={<SocialLogin />} />
+          <Route path="/sociallogin" element={<SocialLogin />} />
         <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
         <Route path="/naver/callback" element={<RedirectNaver />} />
         <Route path="/thxkakaomap" element={<Location />} />
+        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
+        <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
+        <Route path="/Details/:rentalId/edit" element={<Edit />} />
+    
+        <Route path={`/comm/:chatRoom`} element={<Chat />} />
+       
+        <Route path={'/lo'} element={<Layout />} />
+
+        </Route>
+
+     
 
         {/* <Route path="/mypage" element={<Mypage />} /> */}
         <Route
@@ -49,13 +63,7 @@ function Router() {
 
         
 
-        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
-        <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
-        <Route path="/Details/:rentalId/edit" element={<Edit />} />
-    
-        <Route path={`/comm/:chatRoom`} element={<Chat />} />
-        <Route path={'/commlist'} element={<ChatList />} />
-        <Route path={'/lo'} element={<Layout />} />
+
       </Routes>
     </BrowserRouter>
   );

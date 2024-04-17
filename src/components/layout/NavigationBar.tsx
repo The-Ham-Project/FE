@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store';
 import MainHeder from '../../components/layout/MainHeder';
 import Category from '../../components/Main/Category';
@@ -50,7 +50,7 @@ const ButtonContainer = styled.div`
   transform: translate(370%, 1530%);
 `;
 
-export default function Main() {
+export default function NavigationBar() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const navigate = useNavigate();
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
@@ -66,6 +66,7 @@ export default function Main() {
 
   return (
     <>
+    <Outlet/>
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
       <Home onClick={() => navigate('/')}>
         {' '}

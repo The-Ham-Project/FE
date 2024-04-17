@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FiPlus } from 'react-icons/fi';
 import message from '../../../public/assets/message.svg';
 import home from '../../../public/assets/home.svg';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 
 function Navbar() {
@@ -34,7 +34,9 @@ function Navbar() {
   };
 
   return (
+    <>
     <Container>
+   
       <img
         className={'home'}
         src={home}
@@ -52,6 +54,8 @@ function Navbar() {
       </div>
       <img className={'bar'} src={bar} />
     </Container>
+       <Outlet/>
+       </>
   );
 }
 
