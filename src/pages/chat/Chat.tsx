@@ -93,19 +93,19 @@ const Chat = () => {
     }
   }, [params.chatRoom]);
 
-  useEffect(() => {
-    if (data && !isFirst && scrollRef.current) {
-      console.log('is trigger first scrollT');
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      setIsFirst(true);
-    }
-  }, [data, isFirst, scrollRef.current]);
+  // useEffect(() => {
+  //   if (data && !isFirst && scrollRef.current) {
+  //     console.log('is trigger first scrollT');
+  //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  //     setIsFirst(true);
+  //   }
+  // }, [data, isFirst, scrollRef.current]);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [currentPageNo, scrollRef.current, queryChatRoom.data]);
+  // useEffect(() => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  //   }
+  // }, [currentPageNo, scrollRef.current, queryChatRoom.data]);
 
   const handleMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -128,12 +128,14 @@ const Chat = () => {
       setMessage('');
       // setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
     }
+  };
+  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     } else {
       console.error('STOMP connection is not established.');
     }
-  };
+  }, [testMessges]);
 
   useEffect(() => {
     if (queryChatRoom.data) {
@@ -154,6 +156,10 @@ const Chat = () => {
 
           if (!isPageEnd) {
             setCurrentPageNo(nextPageNo);
+          } else {
+            if (scrollRef.current && !isPageEnd) {
+              scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+            }
           }
         }
       });

@@ -26,6 +26,11 @@ function Layout() {
           <img src={phone} />
           <Outlet />
         </PhoneBox>
+        {/*<PhoneBox>*/}
+        {/*  <Phone>*/}
+        {/*    <Outlet />*/}
+        {/*  </Phone>*/}
+        {/*</PhoneBox>*/}
       </Explanation>
     </Container>
   );
@@ -53,28 +58,31 @@ const Container = styled.div`
   }
 `;
 const Explanation = styled.div`
-  width: 1760px;
-  height: 1022px;
+  width: 1500px;
+  height: 800px;
   display: flex;
+  min-width: 660px;
 
   z-index: 300;
 `;
 const ContentsBox = styled.div`
-  width: 45%;
+  //width: 694px;
+  width: 50%;
+  //flex: 1;
   height: 100%;
 `;
 
 const Title = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 38px;
   display: flex;
   flex-direction: column;
   > span {
     color: #fff;
-    font-size: 42px;
+    font-size: 37px;
     margin-bottom: 19px;
   }
   > img {
-    width: 350px;
+    width: 320px;
     height: auto;
   }
 `;
@@ -85,7 +93,7 @@ const Contents = styled.div`
   margin-bottom: 86px;
   > span {
     margin-top: 20px;
-    font-size: 29px;
+    font-size: 25px;
     color: #fff;
   }
 `;
@@ -93,17 +101,15 @@ const Contents = styled.div`
 const Bubble = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 40%;
 
   > div {
-    width: 790px;
-    height: 200px;
-    padding: 85px 82px;
+    width: 680px;
+    height: 178px;
+    padding: 78px 82px;
     background-color: #fff;
     border-radius: 166px;
     color: #1689f3;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 500;
     position: relative;
 
@@ -121,27 +127,57 @@ const Bubble = styled.div`
   }
 `;
 const PhoneBox = styled.div`
-  width: 55%;
+  width: 50%;
+  //width: 750px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  flex-direction: column;
   &:before {
     background-image: url('../../../public/assets/phontheham.svg');
     background-repeat: no-repeat;
     position: absolute;
     content: '';
-    bottom: -500px;
-    left: -30px;
-    width: 1000px;
-    height: 1000px;
+    bottom: -50px;
+    left: -80px;
+    width: 370px;
+    height: 496px;
     z-index: 200;
   }
   > img {
     z-index: 300;
-    width: 500px;
+    width: 400px;
     height: auto;
     position: relative;
   }
 `;
+//
+// const PhoneBox = styled.div`
+//   width: 55%;
+//   height: 1000%;
+//   position: relative;
+// `;
+//
+// const Phone = styled.div`
+//   width: 424px;
+//   height: 866px;
+//   background-image: url('../../../public/assets/phone.svg');
+//   background-repeat: no-repeat;
+//   position: relative;
+//   top: 100px;
+//   left: 250px;
+//   z-index: 300;
+//   &:before {
+//     background-image: url('../../../public/assets/phontheham.svg');
+//     background-repeat: no-repeat;
+//     position: absolute;
+//     content: '';
+//     bottom: -500px;
+//     left: -240px;
+//     width: 1000px;
+//     height: 1000px;
+//     z-index: 20;
+//   }
+// `;

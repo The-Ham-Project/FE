@@ -100,7 +100,7 @@ export const Btween = styled.div<{ $active: boolean }>(
       width: 80%;
     }
     > .lastMessageTime {
-      font-size: 13px;
+      font-size: 10px;
       margin: 0 0 10px 0;
       color: #9e9e9e;
     }
