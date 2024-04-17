@@ -14,6 +14,9 @@ import MyList from '../pages/Mypage/MyList.tsx';
 // import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
 import Edit from '../pages/Mypage/Edit.tsx';
+import Layout from '../components/layout/Layout.tsx';
+import App from '../App.tsx';
+import { createBrowserRouter } from 'react-router-dom';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -24,10 +27,10 @@ function Router() {
         <Route path="/" element={<Main />} />
         <Route path="/main/PostDetailsPage" element={<PostDetailsPage />} />
         {!isLoggedIn && <Route path="/sociallogin" element={<SocialLogin />} />}
-        <Route path="/kakao/callback" element={<RedirectKakao />} />
+        <Route path="/kakao/callback" element={<RedirectKakao />} />/
         <Route path="/google/callback" element={<RedirectGoogle />} />
         <Route path="/naver/callback" element={<RedirectNaver />} />
-        <Route path="/thxkakaomap" element={<Location />} />
+        <Route path="/thxkakaomap" element={<Location />} />,
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mylist" element={<MyList />} />
         {/* {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
@@ -36,9 +39,51 @@ function Router() {
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
         <Route path={'/commlist'} element={<ChatList />} />
+        <Route path={'/lo'} element={<Layout />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default Router;
+// export const router = createBrowserRouter([
+//   {
+//     element: <App />,
+//     children: [
+//       {
+//         path: '/',
+//         element: <Layout />,
+//         children: [
+//           {
+//             index: true,
+//             element: <Main />,
+//           },
+//           {
+//             path: '/main/PostDetailsPage',
+//             element: <PostDetailsPage />,
+//           },
+//           {
+//             path: '/kakao/callback',
+//             element: <RedirectKakao />,
+//           },
+//           {
+//             path: '/google/callback',
+//             element: <RedirectGoogle />,
+//           },
+//           {
+//             path: '/naver/callback',
+//             element: <RedirectNaver />,
+//           },
+//           {
+//             path: '/thxkakaomap',
+//             element: <Location />,
+//           },
+//           {
+//             path: '/mypage',
+//             element: <Mypage />,
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ]);

@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-    html, body{	background-image: url('assets/background.png');
+    //html, body{	background-image: url('assets/background.png');
 	overflow: hidden;
 	background-position: center;
 	background-repeat: no-repeat;} div, span, applet, object, iframe,

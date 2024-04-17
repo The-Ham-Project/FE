@@ -2,22 +2,47 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import sweattheham from '../../../public/assets/sweattheham.svg';
+import useStore from '../../store/store';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { deleteRental } from '../../api/mylist.ts';
+import { createChat } from '../../api/chat.ts';
 
 interface ModalProps {
   isOpen: boolean;
   message: string;
   onClose: () => void;
+  rentalId: number;
+  successCallback?: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  message,
+  onClose,
+  rentalId,
+  successCallback,
+}) => {
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
   const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
+  console.log(rentalId);
 
   const onConfirm = () => {
-    console.log('d');
-    navigate('/');
+    navigate('/sociallogin');
+  };
+  const { mutate } = useMutation({
+    mutationFn: deleteRental,
+    onSuccess: () => {
+      successCallback && successCallback();
+    },
+  });
+
+  const handelDeleteButton = (e) => {
+    mutate(rentalId);
+    e.stopPropagation();
   };
 
   if (!isOpen) return null;
+  console.log(isLoggedIn);
 
   return (
     <ModalOverlay>
@@ -28,8 +53,19 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
       <ModalBody>
         <MSG>{message}</MSG>
         <Button>
-          <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
-          <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
+          <ModalCloseButton
+            onClick={(e) => {
+              onClose();
+              e.stopPropagation();
+            }}
+          >
+            취소
+          </ModalCloseButton>
+          {isLoggedIn ? (
+            <ModalOKButton onClick={handelDeleteButton}>확인</ModalOKButton>
+          ) : (
+            <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
+          )}
           {/* 확인 버튼 */}
         </Button>
       </ModalBody>

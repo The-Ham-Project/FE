@@ -64,10 +64,6 @@ export const FlexBox = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  > span {
-    font-size: 13px;
-    margin: 0 0 10px 0;
-  }
 `;
 
 export const Btween = styled.div<{ $active: boolean }>(
@@ -76,7 +72,7 @@ export const Btween = styled.div<{ $active: boolean }>(
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    > span {
+    > .lastMessage {
       font-size: 15px;
       text-overflow: ellipsis;
       height: 14px;
@@ -97,6 +93,16 @@ export const Btween = styled.div<{ $active: boolean }>(
       width: 20px;
       font-size: 15px;
       background-color: #1689f3;
+    }
+    > .toMemberNickName {
+      font-size: 13px;
+      margin: 0 0 10px 0;
+      width: 80%;
+    }
+    > .lastMessageTime {
+      font-size: 13px;
+      margin: 0 0 10px 0;
+      color: #9e9e9e;
     }
   `,
 );

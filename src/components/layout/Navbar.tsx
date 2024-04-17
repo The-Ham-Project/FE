@@ -13,14 +13,22 @@ function Navbar() {
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { openModal } = useErrorModalStore();
 
-  const handleButtonClick = () => {
+  const handlePostButtonClick = () => {
     console.log(isLoggedIn);
     if (isLoggedIn === true) {
       navigate('/main/PostDetailsPage');
     } else {
       // 모달 열기
-      openModal('로그인 후에 게시글을 생성할 수 있습니다');
-      navigate('/sociallogin');
+      openModal('로그인 후에 게시글을 생성할 수 있습니다.');
+    }
+  };
+
+  const handleChatButtonClick = () => {
+    console.log(isLoggedIn);
+    if (isLoggedIn === true) {
+      navigate('/commlist');
+    } else {
+      openModal('로그인 후 이용하실 수 있습니다.');
     }
   };
 
@@ -36,11 +44,9 @@ function Navbar() {
       <img
         className={'message'}
         src={message}
-        onClick={() => {
-          navigate('/commlist');
-        }}
+        onClick={handleChatButtonClick}
       />
-      <div onClick={handleButtonClick}>
+      <div onClick={handlePostButtonClick}>
         <FiPlus fontSize={'40px'} />
       </div>
       <img className={'bar'} src={bar} />

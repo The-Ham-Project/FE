@@ -4,6 +4,11 @@ export interface ChatRoomResponse {
   senderProfileImage: string;
   currentPage: number;
   totalPage: number;
+  rentalId: number;
+  rentalTitle: string;
+  rentalFee: number;
+  deposit: number;
+  rentalThumbnailUrl: string;
   chatReadResponseDtoList: ChatReadResponseDto[];
 }
 
