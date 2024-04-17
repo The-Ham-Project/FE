@@ -16,7 +16,8 @@ function Navbar() {
   const handlePostButtonClick = () => {
     console.log(isLoggedIn);
     if (isLoggedIn === true) {
-      navigate('/main/PostDetailsPage');
+      console.log('postdetail 호출');
+      navigate('/PostDetailsPage');
     } else {
       // 모달 열기
       openModal('로그인 후에 게시글을 생성할 수 있습니다.');
@@ -57,7 +58,7 @@ function Navbar() {
 export default Navbar;
 
 const Container = styled.div`
-  width: 100%;
+  width: 420px;
   height: 100px;
   position: absolute;
   z-index: 1000;

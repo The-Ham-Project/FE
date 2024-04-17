@@ -9,11 +9,13 @@ import Modal from '../../components/modal/Modal.tsx';
 import MainHeder from '../../components/layout/MainHeder';
 import Navbar from '../../components/layout/Navbar.tsx';
 import lgoo from '../../../public/assets/lgoo.svg';
+import { Container } from '../../components/layout/DefaultLayout.tsx';
+import Header from '../../components/layout/MainHeder';
+import Search from '../../components/Main/Search.tsx';
 
 function Main() {
-  // const isLoggedIn = useStore((state) => state.isLoggedIn);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
@@ -30,8 +32,8 @@ function Main() {
 
   return (
     <>
-      <Navbar />
-      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
+      {/* <Navbar /> */}
+      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
       <img src={lgoo} />
       <IoPersonOutline
         size={'30px'}
@@ -40,60 +42,24 @@ function Main() {
         }}
       />
       {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
-
-      <MainHeder />
-      <Navbar />
+<Search/>
+      
+      <Container>
+   
       <Category />
+      </Container>
+ 
     </>
   );
 }
 
 export default Main;
 
-const Chat = styled.div`
-  display: flex;
-  position: fixed;
-  width: 50px;
-  border-radius: 50px;
-  height: 50px;
 
-  font-size: 30px; /* 폰트 크기 수정 */
-  justify-content: center;
-  align-items: center;
-  color: white;
-  z-index: 99;
-  transform: translate(630%, 1530%);
-`;
 
-const Home = styled.div`
-  display: flex;
-  position: fixed;
-  width: 50px;
-  border-radius: 50px;
-  height: 50px;
 
-  font-size: 30px; /* 폰트 크기 수정 */
-  justify-content: center;
-  align-items: center;
-  color: white;
-  z-index: 99;
-  transform: translate(130%, 1530%);
-`;
 
-// const ButtonContainer = styled.div`
-//   position: fixed;
-//   width: 50px;
-//   height: 40px;
-//   background-color: aqua;
-// `;
 
-export const Div = styled.div`
-  /* margin: 130px; */
-  width: 10%;
-  background-color: antiquewhite;
-  height: 800px;
-  display: flex;
-`;
 
 export const Flex = styled.div`
   display: flex;
@@ -105,59 +71,31 @@ export const Flex2 = styled.div`
   justify-content: center;
   padding-left: 870px;
 
-  @media screen and (max-width: 1000px) {
-    padding-left: 220px;
-    justify-content: flex-end;
-  }
 
-  @media screen and (max-width: 500px) {
-    padding-left: 0px;
-    justify-content: center;
-    background-color: #1689f3;
-  }
 `;
 
 export const Div1 = styled.div`
-  width: auto;
-  width: 50vw;
+
   height: 100vh;
   display: flex;
   background-color: #6b8ec0;
 
   background-position: center;
-  /* 모바일 화면 크기에 맞게 스타일 조정 */
-  @media screen and (max-width: 1000px) {
-    width: 200px;
-    background-color: #6b8ec0;
-  }
-  @media screen and (max-width: 500px) {
-    display: none;
-    background-color: #631818;
-  }
+
 `;
 export const Div3 = styled.div`
   width: 10vh;
   height: 100vh;
   background-color: wheat;
-  @media screen and (max-width: 600px) {
-    max-width: 0px;
-    display: none;
-    background-color: aliceblue;
-  }
+
 `;
 export const Div4 = styled.div`
-  width: 430px;
   overflow-y: hidden;
   background-color: #ffffff;
 
   border-radius: 20px;
   max-height: 100vh;
-  @media screen and (max-width: 600px) {
-    margin-right: -190%;
-  }
-  @media screen and (max-width: 500px) {
-    margin-right: 0px;
-  }
+
 `;
 
 export const ContentContainer = styled.div`

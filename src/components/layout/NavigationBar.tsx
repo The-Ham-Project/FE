@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store';
 import MainHeder from '../../components/layout/MainHeder';
 import Category from '../../components/Main/Category';
-import Modal from '../Main/Modal';
+import Modal from '../../components/modal/Modal';
+
 
 const Chat = styled.div`
   display: flex;
@@ -65,7 +66,7 @@ export default function Main() {
 
   return (
     <>
-      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} />
+      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
       <Home onClick={() => navigate('/')}>
         {' '}
         <img src="../../../public/assets/home.svg" alt="Home" />

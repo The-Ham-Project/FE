@@ -1,11 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-    //html, body{	background-image: url('assets/background.png');
-	//overflow: hidden;
-	//background-position: center;
-	//background-repeat: no-repeat;} 
-    div, span, applet, object, iframe,
+    html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -90,7 +86,12 @@ input[type="text"] {
         font-size: 16px;
         padding: 10px; /* Add padding for text inside the input */
     }
-
+	body {
+        line-height: 1;
+        background-image: url('/public/assets/background.png'); /* 배경 이미지 경로를 여기에 입력하세요 */
+        background-size: cover; /* 배경 이미지를 컨테이너에 맞게 확대/축소하여 채우기 */
+        background-position: center; /* 배경 이미지를 가운데 정렬 */
+    }
    /* Custom style for textarea */
    textarea {
 	
