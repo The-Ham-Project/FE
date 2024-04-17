@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import thehamlogo from '../../../public/assets/thehamlogo.svg';
 import phone from '../../../public/assets/phone.svg';
 import { Outlet } from 'react-router-dom';
+import phontheham from '../../../public/assets/phontheham.svg';
+import bubble from '../../../public/assets/bubble.svg';
 
 function Layout() {
   return (
@@ -116,13 +118,13 @@ const Bubble = styled.div`
     background-color: #fff;
     border-radius: 166px;
     color: #1689f3;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 500;
     position: relative;
 
     &:before {
       content: '';
-      background-image: url('../../../public/assets/bubble.svg');
+      background-image: url(${bubble});
       position: absolute;
       bottom: 0;
       right: -30px;
@@ -141,12 +143,12 @@ const PhoneBox = styled.div`
   align-items: center;
   justify-content: center;
   &:before {
-    background-image: url('../../../public/assets/phontheham.svg');
+    background-image: url(${phontheham});
     background-repeat: no-repeat;
     position: absolute;
     content: '';
-    bottom: -80px;
-    right: calc(100% - 100px);
+    bottom: -38px;
+    right: calc(100% - 120px);
     width: 380px;
     height: 496px;
     z-index: 10000;
