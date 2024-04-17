@@ -25,45 +25,31 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        
-        <Route element={<Layout />}> 
-
-    
-        <Route element={<Navbar />}>     
+        <Route element={<Layout />}>
+          <Route element={<Navbar />} />
           <Route path="/" element={<Main />} />
           <Route path={'/commlist'} element={<ChatList />} />
           <Route path="/mylist" element={<MyList />} />
-          </Route>
-          <Route path={'/commlist'} element={<ChatList />} />
-          {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
-     
+          <Route path={`/comm/:chatRoom`} element={<Chat />} />
           <Route path="/details/:rentalId" element={<Details />} />
           <Route path="/sociallogin" element={<SocialLogin />} />
-        <Route path="/kakao/callback" element={<RedirectKakao />} />
-        <Route path="/google/callback" element={<RedirectGoogle />} />
-        <Route path="/naver/callback" element={<RedirectNaver />} />
-        <Route path="/thxkakaomap" element={<Location />} />
-        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
-        <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
-        <Route path="/Details/:rentalId/edit" element={<Edit />} />
-    
-        <Route path={`/comm/:chatRoom`} element={<Chat />} />
-       
-        <Route path={'/lo'} element={<Layout />} />
-
+          <Route path="/kakao/callback" element={<RedirectKakao />} />
+          <Route path="/google/callback" element={<RedirectGoogle />} />
+          <Route path="/naver/callback" element={<RedirectNaver />} />
+          <Route path="/thxkakaomap" element={<Location />} />
+          {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
+          {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
+          <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
+          <Route path="/Details/:rentalId/edit" element={<Edit />} />
         </Route>
 
-     
+        {/*</Route>*/}
 
         {/* <Route path="/mypage" element={<Mypage />} /> */}
         <Route
           path="/search/:keyword"
           // element={<SearchDetail match={undefined} />}
         />
-
-        
-
-
       </Routes>
     </BrowserRouter>
   );

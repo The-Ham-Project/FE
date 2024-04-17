@@ -2,13 +2,10 @@ import styled from 'styled-components';
 import thehamlogo from '../../../public/assets/thehamlogo.svg';
 import phone from '../../../public/assets/phone.svg';
 import { Outlet } from 'react-router-dom';
-import NaverLogin from '../NaverLogin/NaverLogin';
-import Navbar from './Navbar';
 
 function Layout() {
   return (
     <Container>
-
       <Explanation>
         <ContentsBox>
           <Title>
@@ -26,11 +23,16 @@ function Layout() {
           </Bubble>
         </ContentsBox>
         <PhoneBox>
-
-          <img src={phone} style={{position: 'absolute', pointerEvents: 'none'}} />
-          <Outlet />
+          <Phone>
+            <img
+              src={phone}
+              style={{ position: 'absolute', pointerEvents: 'none' }}
+            />
+            <div className={'outlet'}>
+              <Outlet />
+            </div>
+          </Phone>
         </PhoneBox>
-        
       </Explanation>
     </Container>
   );
@@ -58,29 +60,36 @@ const Container = styled.div`
   }
 `;
 const Explanation = styled.div`
-  width: 1760px;
-  height: 1022px;
+  width: 1340px;
+  height: 820px;
   display: flex;
 
   z-index: 300;
+  @media screen and (max-width: 640px) {
+    height: 100%;
+  }
 `;
 const ContentsBox = styled.div`
-  width: 55%;
+  //width: 750px;
+  //width: 50%;
+  flex: 1;
   height: 100%;
-  margin-right: 250px;
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 
 const Title = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 38px;
   display: flex;
   flex-direction: column;
   > span {
     color: #fff;
-    font-size: 42px;
+    font-size: 37px;
     margin-bottom: 19px;
   }
   > img {
-    width: 350px;
+    width: 320px;
     height: auto;
   }
 `;
@@ -91,31 +100,29 @@ const Contents = styled.div`
   margin-bottom: 86px;
   > span {
     margin-top: 20px;
-    font-size: 29px;
+    font-size: 25px;
     color: #fff;
   }
 `;
 
 const Bubble = styled.div`
   display: flex;
-
-  justify-content: center;
-  height: 40%;
+  align-items: center;
 
   > div {
-    width: 790px;
-    height: 200px;
-    padding: 85px 82px;
+    width: 680px;
+    height: 178px;
+    padding: 78px 82px;
     background-color: #fff;
     border-radius: 166px;
     color: #1689f3;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 500;
     position: relative;
 
     &:before {
       content: '';
-      background-image: url('/public/assets/bubble.svg');
+      background-image: url('../../../public/assets/bubble.svg');
       position: absolute;
       bottom: 0;
       right: -30px;
@@ -127,31 +134,64 @@ const Bubble = styled.div`
   }
 `;
 const PhoneBox = styled.div`
-    width: 500px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex-direction: column;
-    background: beige;
-    background-repeat: no-repeat;
-    
+  position: relative;
+  width: 390px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:before {
-    background-image: url('/public/assets/phontheham.svg');
+    background-image: url('../../../public/assets/phontheham.svg');
     background-repeat: no-repeat;
     position: absolute;
     content: '';
-    bottom: -500px;
-    left: -280px;
-    width: 1000px;
-    height: 1000px;
-    z-index: -200;
+    bottom: -80px;
+    right: calc(100% - 100px);
+    width: 380px;
+    height: 496px;
+    z-index: 10000;
+    @media (max-width: 640px) {
+      display: none;
+    }
   }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
+const Phone = styled.div`
+  width: 390px;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 10000;
+  border-radius: 60px 55px 52px 54px;
+
   > img {
     z-index: 300;
-    width: 500px;
+    width: calc(100% + 13px);
     height: auto;
     position: relative;
+  }
+  .outlet {
+    height: 100%;
+    width: calc(100% - 8px);
+    padding: 5px;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+    > img {
+      display: none;
+    }
+    .outlet {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+    border-radius: unset;
   }
 `;

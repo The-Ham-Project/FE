@@ -35,37 +35,36 @@ function Navbar() {
 
   return (
     <>
-    <Container>
-   
-      <img
-        className={'home'}
-        src={home}
-        onClick={() => {
-          navigate('/');
-        }}
-      />
-      <img
-        className={'message'}
-        src={message}
-        onClick={handleChatButtonClick}
-      />
-      <div onClick={handlePostButtonClick}>
-        <FiPlus fontSize={'40px'} />
-      </div>
-      <img className={'bar'} src={bar} />
-    </Container>
-       <Outlet/>
-       </>
+      <Container>
+        <img
+          className={'home'}
+          src={home}
+          onClick={() => {
+            navigate('/');
+          }}
+        />
+        <img
+          className={'message'}
+          src={message}
+          onClick={handleChatButtonClick}
+        />
+        <div onClick={handlePostButtonClick}>
+          <FiPlus fontSize={'40px'} />
+        </div>
+        <img className={'bar'} src={bar} />
+      </Container>
+      <Outlet />
+    </>
   );
 }
 
 export default Navbar;
 
 const Container = styled.div`
-  width: 420px;
+  width: 100%;
   height: 100px;
   position: absolute;
-  z-index: 1000;
+  z-index: 10;
   bottom: 0;
   > .bar {
     width: 100%;
@@ -78,19 +77,19 @@ const Container = styled.div`
     position: absolute;
     right: 63px;
     bottom: 21px;
-    z-index: 102;
+    z-index: 10;
     width: 34px;
   }
   .home {
     position: absolute;
     bottom: 21px;
-    zindex: 100;
+    zindex: 10;
     left: 63px;
     z-index: 103;
     width: 27px;
   }
   > div {
-    z-index: 100;
+    z-index: 10;
     background-color: #1689f3;
     color: #fff;
     position: absolute;
