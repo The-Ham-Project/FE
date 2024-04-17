@@ -156,10 +156,6 @@ const Chat = () => {
 
           if (!isPageEnd) {
             setCurrentPageNo(nextPageNo);
-          } else {
-            if (scrollRef.current && !isPageEnd) {
-              scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-            }
           }
         }
       });

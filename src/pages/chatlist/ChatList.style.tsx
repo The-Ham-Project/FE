@@ -12,6 +12,7 @@ export const MenuBox = styled.div`
   height: 60px;
   width: 100%;
   align-items: center;
+  justify-content: center;
   > span {
     display: flex;
     justify-content: center;
@@ -26,7 +27,8 @@ export const PaddingBox = styled.div`
 
 export const List = styled.div`
   overflow-y: auto;
-  height: 100%;
+  height: calc(100% - 60px);
+
   padding: 0 0 100px 0;
   > indicator {
     height: 10px;

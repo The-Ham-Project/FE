@@ -12,8 +12,10 @@ export const MenuBox = styled.div`
   padding: 0 20px;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: #fff;
+  position: relative;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 100;
   > div {
     cursor: pointer;
   }
@@ -131,6 +133,9 @@ export const RentalItemBox = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  background-color: #fff;
+  position: relative;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   > img {
     height: 80px;
     width: 80px;

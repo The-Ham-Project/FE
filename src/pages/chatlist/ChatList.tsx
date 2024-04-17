@@ -15,6 +15,7 @@ import {
   TextBox,
 } from './ChatList.style.tsx';
 import moment from 'moment/moment';
+import Navbar from '../../components/layout/Navbar.tsx';
 function ChatList() {
   const navigate = useNavigate();
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -95,6 +96,7 @@ function ChatList() {
           );
         })}
       </List>
+      <Navbar />
     </Contaier>
   );
 }
