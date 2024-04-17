@@ -15,6 +15,7 @@ import CLOSET from '../../../public/assets/CLOSET.svg';
 import BOOK from '../../../public/assets/BOOK.svg';
 import PLACE from '../../../public/assets/PLACE.svg';
 import OTHER from '../../../public/assets/OTHER.svg';
+import Navbar from '../../components/layout/Navbar';
 
 // 카테고리 타입 정의
 type Category =
@@ -27,24 +28,43 @@ type Category =
   | 'OTHER';
 
 // 카테고리에 대한 이름 정의
-const categories: Record<Category, any> = {
-  ELECTRONIC: <img src={ELECTRONIC} />,
-  HOUSEHOLD: <img src={HOUSEHOLD} />,
-  KITCHEN: <img src={KITCHEN} />,
-  CLOSET: <img src={CLOSET} />,
-  BOOK: <img src={BOOK} />,
-  PLACE: <img src={PLACE} />,
-  OTHER: <img src={OTHER} />,
+const categories: Record<Category, string> = {
+  ELECTRONIC: '가전제품',
+  HOUSEHOLD: '가구용품',
+  KITCHEN: '주방용품',
+  CLOSET: '의류',
+  BOOK: '책',
+  PLACE: '장소',
+  OTHER: '기타',
 };
 
 function PostDetailsPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); // 게시글 제목 상태
   const [content, setContent] = useState(''); // 게시글 내용 상태
-  const [rentalFee, setRentalFee] = useState<number>(0);
-  const [deposit, setDeposit] = useState<number>(0); // 보증금 상태
+  const [rentalFee, setRentalFee] = useState<number>();
+  const [deposit, setDeposit] = useState<number>(); // 보증금 상태
   const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
+
+  const handleValueChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<React.SetStateAction<number | string>>
+  ) => {
+    let value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    const numericValue: number | '' = value === '' ? '' : +value;
+    const formattedValue: number | string = numericValue === '' ? '' : numericValue.toLocaleString();
+    setter(formattedValue);
+  };
+
+  const handleRentalFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleValueChange(e, setRentalFee);
+  };
+
+  const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleValueChange(e, setDeposit);
+  };
+
 
   console.log('이미지', selectedFiles);
   // 카테고리 클릭 시 상태 업데이트 함수
@@ -106,104 +126,108 @@ function PostDetailsPage() {
   // };
   return (
     <>
-      <Container>
-        <CustomDropzone>
-          <Dropzone
-            onChangeStatus={(meta, status) => {
-              if (status === 'done') {
-                setSelectedFiles((prevFiles) => [...prevFiles, meta.file]);
-              } else if (status === 'removed') {
-                setSelectedFiles((prevFiles) =>
-                  prevFiles.filter((file) => file !== meta.file),
-                );
-              }
-            }}
-            inputContent={<FaCamera size={24} color="#B1B1B1" />}
-            accept="image/*"
-            multiple={true}
-            classNames={{
-              dropzone: 'dropzone',
-              dropzoneActive: 'dz-drag-hover',
-              inputLabel: 'needsclick2',
-              inputLabelWithFiles: 'needsclick',
-              preview: 'custom-preview',
-              previewImage: 'custom-preview-image',
-              submitButton: 'custom-submit-button',
-              submitButtonContainer: 'custom-submit-button-container',
-            }}
-            inputWithFilesContent={(files) => `${files.length}/3`}
-            maxFiles={3}
-          />
-        </CustomDropzone>
+      <Navbar />
+      <div>
+        <Container>
+          <CustomDropzone>
+            <Dropzone
+              onChangeStatus={(meta, status) => {
+                if (status === 'done') {
+                  setSelectedFiles((prevFiles) => [...prevFiles, meta.file]);
+                } else if (status === 'removed') {
+                  setSelectedFiles((prevFiles) =>
+                    prevFiles.filter((file) => file !== meta.file),
+                  );
+                }
+              }}
+              inputContent={<FaCamera size={24} color="#B1B1B1" />}
+              accept="image/*"
+              multiple={true}
+              classNames={{
+                dropzone: 'dropzone',
+                dropzoneActive: 'dz-drag-hover',
+                inputLabel: 'needsclick2',
+                inputLabelWithFiles: 'needsclick',
+                preview: 'custom-preview',
+                previewImage: 'custom-preview-image',
+                submitButton: 'custom-submit-button',
+                submitButtonContainer: 'custom-submit-button-container',
+              }}
+              inputWithFilesContent={(files) => `${files.length}/3`}
+              maxFiles={3}
+            />
+          </CustomDropzone>
+          물품의 카테고리를 선택해주세요
+          <Group>
+            <div>
+              <Image>
+                {Object.entries(categories).map(([key, value]) => (
+                  <button
+                    key={key}
+                    onClick={() => handleCategoryClick(key as Category)}
+                    style={{
+                      backgroundColor:
+                        selectedCategory === key ? '' : '#F5F5F5',
 
-        <div>
-          <Image>
-            {Object.entries(categories).map(([key, value]) => (
-              <button
-                key={key}
-                onClick={() => handleCategoryClick(key as Category)}
-                style={{
-                  backgroundColor:
-                    selectedCategory === key ? 'lightblue' : 'white',
+                      cursor: 'pointer',
+                      width: '80px',
+                      height: '30px',
+                      fontSize: '14px',
+                    }}
+                  >
+                    <Imagine>{value}</Imagine>
+                  </button>
+                ))}
+              </Image>
+            </div>
 
-                  cursor: 'pointer',
-                  width: '90px',
-                  borderRadius: '50%',
-                }}
-              >
-                <Imagine>
-                  {value}
-                  {key}
-                </Imagine>
-              </button>
-            ))}
-          </Image>
-        </div>
+            <div>제목</div>
+            <div>
+              <input
+                type="text"
+                placeholder="제목을 입력하세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
 
-        <div>제목</div>
-        <div>
-          <input
-            type="text"
-            placeholder="제목을 입력하세요"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        <div>내용</div>
-        <div>
-          <textarea
-            style={{ resize: 'none' }}
-            rows={10}
-            cols={50}
-            placeholder="게시글의 내용을 작성해주세요.부적절한 단어 사용 혹은 금지 물품을 작성할 경우 이용이 제한될 수 있습니다.원활한 쉐어를 위해 내용을 상세하게 작성해주세요."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </div>
-        <div>대여비</div>
-        <div>
-          <input
-            type="text"
-            placeholder="대여비를 입력해주세요"
-            value={rentalFee}
-            onChange={(e) => setRentalFee(parseInt(e.target.value))}
-          />
-        </div>
-        <div>보증금</div>
-        <div>
-          <input
-            type="text"
-            placeholder="보증금을 입력해주세요"
-            value={deposit}
-            onChange={(e) => setDeposit(parseInt(e.target.value))}
-          />
-        </div>
-
-        <Rectangle>
-          <Text onClick={handleButtonClick}>게시글 작성</Text>
-        </Rectangle>
-      </Container>
+            <div>내용</div>
+            <div>
+              <textarea
+                style={{ resize: 'none' }}
+                rows={10}
+                cols={50}
+                placeholder="게시글의 내용을 작성해주세요.부적절한 단어 사용 혹은 금지 물품을 작성할 경우 이용이 제한될 수 있습니다.원활한 쉐어를 위해 내용을 상세하게 작성해주세요."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </div>
+            <div>대여비</div>
+            <div>
+              <input
+                type="text"
+                placeholder="대여비를 입력해주세요"
+                value={rentalFee}
+                onChange={handleRentalFeeChange}
+              />
+              {isNaN(deposit) && <span>숫자를 입력해주세요.</span>}
+            </div>
+            <div>보증금</div>
+            <div>
+              <input
+                type="text"
+                placeholder="보증금을 입력해주세요"
+                value={deposit || ''}
+                onChange={handleDepositChange}
+              />
+              {isNaN(deposit) && <span>숫자를 입력해주세요.</span>}
+            </div>
+          </Group>
+          <Rectangle>
+            <Text onClick={handleButtonClick}>게시글 작성</Text>
+          </Rectangle>
+        </Container>
+      </div>
     </>
   );
 }
@@ -212,7 +236,6 @@ export default PostDetailsPage;
 
 // 스타일드 컴포넌트를 사용하여 Dropzone 스타일 적용
 const CustomDropzone = styled.div`
-  height: 150px;
   display: inline-flex;
   justify-content: center;
   align-items: flex-start;
@@ -224,7 +247,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
-  gap: 6px;
 `;
 
 const ItemContainer = styled.div`
@@ -252,19 +274,20 @@ const Counter = styled.div`
 `;
 
 const Group = styled.div`
-  width: 84.2px;
-  height: 112.32px;
-  position: absolute;
-  left: 105.06px;
-  top: 84px;
+  display: flex;
+  flex-direction: column;
+  width: 88%;
 `;
 
 const Imagine = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 8px;
+  font-size: 16px;
   word-break: break-all;
-  padding: 10px;
+  color: black;
+
+  justify-content: center; /* 텍스트를 버튼 세로 가운데 정렬합니다. */
+  align-items: center; /* 텍스트를 버튼 가로 가운데 정렬합니다. */
 `;
 
 const Rectangle = styled.div`

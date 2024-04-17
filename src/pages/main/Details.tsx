@@ -51,7 +51,8 @@ function Details() {
   const { rentalId } = useParams();
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const [item, setItem] = useState<RentalData | null>(null);
-
+  const priceDot = (num: number) =>
+    num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const { mutate } = useMutation({
     mutationFn: createChat,
     onSuccess: (response) => {
@@ -176,8 +177,8 @@ function Details() {
       </Flexbetween>
 
       <Flex>
-        <Rental>대여비 {item.rentalFee}원</Rental>
-        <Deposit>보증금 {item.deposit}원</Deposit>
+        <Rental>대여비 {priceDot(item.rentalFee)}원</Rental>
+        <Deposit>보증금 {priceDot(item.deposit)}원</Deposit>
       </Flex>
 
       <Contentitem>

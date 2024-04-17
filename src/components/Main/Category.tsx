@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ALL from '../../../public/assets/ALL.svg';
-import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
-import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
-import KITCHEN from '../../../public/assets/KITCHEN.svg';
-import CLOSET from '../../../public/assets/CLOSET.svg';
-import BOOK from '../../../public/assets/BOOK.svg';
-import PLACE from '../../../public/assets/PLACE.svg';
-import OTHER from '../../../public/assets/OTHER.svg';
+import ALL from '/public/assets/ALL.svg';
+import ELECTRONIC from '/public/assets/ELECTRONIC.svg';
+import HOUSEHOLD from '/public/assets/HOUSEHOLD.svg';
+import KITCHEN from '/public/assets/KITCHEN.svg';
+import CLOSET from '/public/assets/CLOSET.svg';
+import BOOK from '/public/assets/BOOK.svg';
+import PLACE from '/public/assets/PLACE.svg';
+import OTHER from '/public/assets/OTHER.svg';
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
+import { authInstance } from '../../api/axios';
 
 export type Category =
   | 'ALL'
@@ -39,20 +40,22 @@ function Category() {
   const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [rentals, setRentals] = useState<any[]>([]);
+  const [rentals, setRentals] = useState([]);
+  const priceDot = (num: number) =>
+    num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const { data, isLoading } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      const response = await fetch(
+      const response = await authInstance.get(
         `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
       );
-      if (!response.ok) {
+      if (!response) {
         throw new Error('Network response was not ok');
       }
-      const jsonData = await response.json(); // await을 사용하여 데이터를 얻음
-      console.log(jsonData); // 데이터를 콘솔에 출력
-      return jsonData;
+  // await을 사용하여 데이터를 얻음
+      console.log(response); // 데이터를 콘솔에 출력
+      return response.data;
     },
   });
 
@@ -86,7 +89,9 @@ function Category() {
   };
 
   return (
+    
     <Div id="ScrollableCategoryContainer">
+      
       <ScrollableCategoryContainer>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
@@ -108,14 +113,16 @@ function Category() {
                 key={index}
                 onClick={() => handleCategoryChange(index as Category)}
               >
-                <CustomCategoryButton icon={categories[index].icon} />
+                <CustomCategoryButton>
+                  <img src={categories[index].icon}/>
+                </CustomCategoryButton>
                 <CategoryLabel>{categories[index].label}</CategoryLabel>
               </CategoryButtonWrapper>
             ))}
           </CategoryButtonsContainer>
 
           <CategoryContainer>
-            {rentals.map((item: any, index: number) => (
+            {rentals.map((item) => (
               <CategoryItem key={item.rentalId}>
                 <Link
                   to={`/Details/${item.rentalId}`}
@@ -144,8 +151,8 @@ function Category() {
                       </H1>
                       <Layout2>
                         <Layout1>
-                          <H2>보증금 {item.rentalFee}원</H2>
-                          <H3>대여비 {item.deposit}원</H3>
+                          <H2>보증금 {priceDot(item.rentalFee)}원</H2>
+                          <H3>대여비 {priceDot(item.deposit)}원</H3>
                         </Layout1>
                       </Layout2>
                     </Layout>
@@ -248,12 +255,11 @@ interface CustomCategoryButtonProps {
   icon: string;
 }
 
-const CustomCategoryButton = styled.div<CustomCategoryButtonProps>`
+const CustomCategoryButton = styled.div`
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: opacity 0.3s;
-  background-image: ${({ icon }) => `url(${icon})`};
   background-repeat: no-repeat;
   background-position: center;
   padding: 20px;
@@ -340,6 +346,7 @@ const ProfileUrl = styled.span`
 export const Div = styled.div`
   height: 100vh;
   overflow-x: hidden;
+  
   &::-webkit-scrollbar {
     width: 8px;
   }

@@ -26,15 +26,19 @@ function Router() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/main/PostDetailsPage" element={<PostDetailsPage />} />
-        {!isLoggedIn && <Route path="/sociallogin" element={<SocialLogin />} />}
-        <Route path="/kakao/callback" element={<RedirectKakao />} />/
+  <Route path="/sociallogin" element={<SocialLogin />} />
+        <Route path="/kakao/callback" element={<RedirectKakao />} />
         <Route path="/google/callback" element={<RedirectGoogle />} />
         <Route path="/naver/callback" element={<RedirectNaver />} />
-        <Route path="/thxkakaomap" element={<Location />} />,
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/thxkakaomap" element={<Location />} />
+        {/* <Route path="/mypage" element={<Mypage />} /> */}
+        <Route
+          path="/search/:keyword"
+          // element={<SearchDetail match={undefined} />}
+        />
         <Route path="/mylist" element={<MyList />} />
-        {/* {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
-        {isLoggedIn && <Route path="/mylist" element={<MyList />} />} */}
+        {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
+        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
         <Route path="/Details/:rentalId/edit" element={<Edit />} />
         <Route path="/details/:rentalId" element={<Details />} />
         <Route path={`/comm/:chatRoom`} element={<Chat />} />
