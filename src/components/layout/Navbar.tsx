@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FiPlus } from 'react-icons/fi';
 import message from '../../../public/assets/message.svg';
 import home from '../../../public/assets/home.svg';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 
 function Navbar() {
@@ -16,7 +16,8 @@ function Navbar() {
   const handlePostButtonClick = () => {
     console.log(isLoggedIn);
     if (isLoggedIn === true) {
-      navigate('/main/PostDetailsPage');
+      console.log('postdetail 호출');
+      navigate('/PostDetailsPage');
     } else {
       // 모달 열기
       openModal('로그인 후에 게시글을 생성할 수 있습니다.');
@@ -33,7 +34,9 @@ function Navbar() {
   };
 
   return (
+    <>
     <Container>
+   
       <img
         className={'home'}
         src={home}
@@ -51,13 +54,15 @@ function Navbar() {
       </div>
       <img className={'bar'} src={bar} />
     </Container>
+       <Outlet/>
+       </>
   );
 }
 
 export default Navbar;
 
 const Container = styled.div`
-  width: 100%;
+  width: 420px;
   height: 100px;
   position: absolute;
   z-index: 1000;

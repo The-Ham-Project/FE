@@ -10,8 +10,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
-      <Router />
-      {/*<Outlet />*/}
+            <Router />
     </QueryClientProvider>
   );
 }
