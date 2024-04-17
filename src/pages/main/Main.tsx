@@ -4,7 +4,7 @@ import { IoPersonOutline } from 'react-icons/io5';
 
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
-import Modal from '../../components/Main/Modal';
+import Modal from '../../components/modal/Modal.tsx';
 // import Details from './Details';
 import MainHeder from '../../components/layout/MainHeder';
 import Navbar from '../../components/layout/Navbar.tsx';

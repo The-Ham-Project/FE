@@ -13,6 +13,7 @@ export const MenuBox = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   > div {
     cursor: pointer;
   }
@@ -26,7 +27,7 @@ export const MenuBox = styled.div`
 export const Center = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: calc(100% - 130px);
+  height: calc(100% - 246px);
   overflow-y: auto;
   background-color: #f5f5f5;
 `;
@@ -67,7 +68,7 @@ export const Message = styled.div<{ $active: boolean }>(
     padding: 13px;
     margin: ${$active ? `0 5px 0 10px` : `0 10px 0 5px`};
     align-items: center;
-    border-radius: 9px;
+    border-radius: 7px;
     color: ${$active ? 'black' : 'white'};
 
     background-color: ${$active ? '#fff' : '#1689F3'};
@@ -107,16 +108,49 @@ export const Box = styled.div`
 export const DateSpanBox = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
     display: ${$active ? 'flex' : 'none'};
-    margin: 22px 0;
+    margin: 24px 0;
     justify-content: center;
     align-items: center;
     width: 100%;
     > span {
       font-size: 13px;
-      background-color: rgba(151, 147, 147, 0.4);
-      color: #fff;
-      padding: 8px 17px;
+      background-color: #ffffff;
+      color: #9e9e9e;
+      padding: 8px 16px;
       border-radius: 30px;
+      > img {
+        padding: 0 6px 0 0;
+      }
     }
   `,
 );
+
+export const RentalItemBox = styled.div`
+  height: 116px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  > img {
+    height: 80px;
+    width: 80px;
+    border-radius: 7px;
+    margin: 0 29px 0 0;
+  }
+`;
+export const Cloum = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 70%;
+  > h6 {
+  }
+`;
+export const Flex = styled.div`
+  display: flex;
+  margin-top: 29px;
+  > .rentalFee {
+    color: #1689f3;
+    margin: 0 12px 0 0;
+  }
+`;

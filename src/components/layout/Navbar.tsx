@@ -7,28 +7,34 @@ import { useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 
 function Navbar() {
-  const navigate = useNavigate();
   const isLoggedIn = useStore((state) => state.isLoggedIn);
+  const navigate = useNavigate();
 
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { openModal } = useErrorModalStore();
 
-  const handleButtonClick = () => {
+  const handlePostButtonClick = () => {
     console.log(isLoggedIn);
     if (isLoggedIn === true) {
       console.log('postdetail 호출');
       navigate('/PostDetailsPage');
     } else {
       // 모달 열기
-      openModal('로그인 후에 게시글을 생성할 수 있습니다');
-      // navigate('/sociallogin');
+      openModal('로그인 후에 게시글을 생성할 수 있습니다.');
+    }
+  };
+
+  const handleChatButtonClick = () => {
+    console.log(isLoggedIn);
+    if (isLoggedIn === true) {
+      navigate('/commlist');
+    } else {
+      openModal('로그인 후 이용하실 수 있습니다.');
     }
   };
 
   return (
-    <Container
-    // style={{ backgroundColor: 'rgb(239, 239, 239, 0.9)', paddingTop: '10px' }}
-    >
+    <Container>
       <img
         className={'home'}
         src={home}
@@ -39,11 +45,9 @@ function Navbar() {
       <img
         className={'message'}
         src={message}
-        onClick={() => {
-          navigate('/commlist');
-        }}
+        onClick={handleChatButtonClick}
       />
-      <div onClick={handleButtonClick}>
+      <div onClick={handlePostButtonClick}>
         <FiPlus fontSize={'40px'} />
       </div>
       <img className={'bar'} src={bar} />
@@ -59,7 +63,6 @@ const Container = styled.div`
   position: absolute;
   z-index: 1000;
   bottom: 0;
-
   > .bar {
     width: 100%;
     margin: 0;
@@ -77,7 +80,7 @@ const Container = styled.div`
   .home {
     position: absolute;
     bottom: 21px;
-    z-index: 100;
+    zindex: 100;
     left: 63px;
     z-index: 103;
     width: 27px;

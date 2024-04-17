@@ -14,6 +14,7 @@ import {
   PaddingBox,
   TextBox,
 } from './ChatList.style.tsx';
+import moment from 'moment/moment';
 function ChatList() {
   const navigate = useNavigate();
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,7 @@ function ChatList() {
 
   if (isLoading) return <div>로딩주웅 ~.~</div>;
   const handleClickNavigate = () => {
-    navigate('/');
+    navigate(-1);
   };
 
   return (
@@ -75,12 +76,16 @@ function ChatList() {
                   <img src={item.toMemberProfileUrl} />
                 </ImgBox>
                 <TextBox>
-                  <FlexBox>
-                    <span>{item?.toMemberNickName}</span>
-                    {/*<span>동네</span>*/}
-                  </FlexBox>
                   <Btween $active={isUnread}>
-                    <span>{item?.lastMessage}</span>
+                    <span className={'toMemberNickName'}>
+                      {item?.toMemberNickName}
+                    </span>
+                    <span className={'lastMessageTime'}>
+                      {moment(new Date(item.lastMessageTime)).format('hh:mm')}
+                    </span>
+                  </Btween>
+                  <Btween $active={isUnread}>
+                    <span className={'lastMessage'}>{item?.lastMessage}</span>
                     <div>{item.unreadCount}</div>
                   </Btween>
                 </TextBox>

@@ -49,3 +49,8 @@ export const readChatRoom = async (
   );
   return data;
 };
+
+export const leaveChatRoom = async (chatRoomId: number) => {
+  const { data } = await authInstance.patch(`api/v1/chat-rooms/${chatRoomId}`);
+  return data;
+};
