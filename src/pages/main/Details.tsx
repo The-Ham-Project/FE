@@ -15,8 +15,10 @@ import {
 } from '../../styles/Details-Styles';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
+import useStore, { useErrorModalStore } from '../../store/store.ts';
+import { authInstance } from '../../api/axios.ts';
 
 interface RentalImage {
   imageUrl: string;
@@ -40,12 +42,14 @@ interface RentalData {
   deposit: number;
   latitude: number;
   longitude: number;
+  isChatButton: boolean;
   rentalImageList: RentalImage[];
 }
 
 function Details() {
   const navigate = useNavigate();
   const { rentalId } = useParams();
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
   const [item, setItem] = useState<RentalData | null>(null);
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -58,15 +62,17 @@ function Details() {
       console.log('error');
     },
   });
-
+  console.log('로긍ㄴ햇니', isLoggedIn);
   const handleCreateChat = () => {
-    if (item) {
+    if (isLoggedIn === true && item) {
       mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
+    } else {
+      navigate('/sociallogin');
     }
   };
 
   useEffect(() => {
-    axios
+    authInstance
       .get<ApiResponse>(`https://api.openmpy.com/api/v1/rentals/${rentalId}`)
       .then((response) => {
         console.log('API 호출 후 데이터:', response.data);
@@ -149,6 +155,8 @@ function Details() {
         ))}
       </Slider>
     );
+  console.log(' isChatButton', item.isChatButton);
+  const isChatButton = item.isChatButton;
 
   return (
     <DetailsContainer>
@@ -177,8 +185,17 @@ function Details() {
         <Title>{item.title}</Title>
       </Contentitem>
       <p>{item.content}</p>
-
-      <button onClick={handleCreateChat}>채팅하기</button>
+      {isLoggedIn ? (
+        <Chat $active={isChatButton}>
+          <button className={'chatButton'} onClick={handleCreateChat}>
+            채팅하기
+          </button>
+        </Chat>
+      ) : (
+        <button className={'chatButton'} onClick={handleCreateChat}>
+          채팅하기
+        </button>
+      )}
     </DetailsContainer>
   );
 }
@@ -190,6 +207,32 @@ const DetailsContainer = styled.div`
   overflow-y: scroll;
   height: 100vh;
 `;
+
+const Chat = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
+    height: 12%;
+    justify-content: center;
+    align-items: flex-end;
+    display: ${$active ? 'flex' : 'none'};
+
+    .chatButton {
+      display: ${$active ? 'flex' : 'none'};
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 52px;
+      background-color: #1689f3;
+      border-radius: 31.14px;
+      color: white;
+      font-size: 15.45px;
+      font-family: 'Pretendard';
+      font-weight: 500;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+    }
+  `,
+);
 
 const ImageContainer = styled.div`
   width: 100%;
