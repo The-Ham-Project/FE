@@ -98,8 +98,8 @@ const Bubble = styled.div`
 
   > div {
     width: 790px;
-    height: 50px;
-    padding: 75px 80px;
+    height: 200px;
+    padding: 85px 82px;
     background-color: #fff;
     border-radius: 166px;
     color: #1689f3;
