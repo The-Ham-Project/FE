@@ -141,7 +141,7 @@ const Chat = () => {
     if (queryChatRoom.data) {
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
       setTestMessges((prev) => {
-        console.log([...prev, ...messagesToAdd]);
+        console.log([...messagesToAdd, ...prev]);
         return [...messagesToAdd, ...prev];
       });
     }
@@ -168,7 +168,8 @@ const Chat = () => {
 
   if (error) return <div>죄송합니다. 다시 접속해주세요</div>;
 
-  if (!isFetchedAfterMount) return <div>로딩중입니다. ~.~</div>;
+  if (!isFetchedAfterMount)
+    return <div style={{ backgroundColor: '#fff' }}>로딩중입니다.</div>;
 
   const handleClickNavigate = () => {
     navigate(-1);
