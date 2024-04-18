@@ -32,6 +32,11 @@ function Search() {
     enabled: keyword !== '', // keyword가 변경되면 쿼리를 다시 실행합니다.
   });
 
+  // const toggleInput = () => {
+  //   setShowInput(!showInput); // showInput 상태를 토글하여 인풋 창 보이기 여부 변경
+  // };
+
+
   const handleChange = (e) => {
     setKeyword(e.target.value);
     console.log(e.target.value);
