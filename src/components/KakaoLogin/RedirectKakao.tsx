@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
-import styled from 'styled-components';
-import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { instance } from '../../api/axios';
+import NotFound from '../../pages/NotFound/NotFound';
 // const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
@@ -50,46 +49,7 @@ function RedirectKakao() {
     }
   }, [KAKAO_CODE]);
 
-  return (
-    <ErrorPage>
-      <img src={donotcrythehamzzang} />
-      <MSG>
-        페이지를 찾을 수 없습니다. <br />
-        <br />
-        잠시후 다시 시도해주세요.
-      </MSG>
-    </ErrorPage>
-  );
+  return <NotFound />;
 }
 
 export default RedirectKakao;
-
-const ErrorPage = styled.div`
-  @media screen and (max-width: 430px) {
-    /* Group 1394 */
-
-    position: absolute;
-    width: 141.1px;
-    height: 193.64px;
-    left: 125.29px;
-    top: 280.25px;
-  }
-`;
-
-const MSG = styled.div`
-  @media screen and (max-width: 430px) {
-    /* 페이지를 찾을 수 없습니다. 잠시 후 다시 시도해주세요. */
-    position: absolute;
-    width: 230px;
-    height: 56px;
-    left: calc(50% - 230px / 2);
-    top: calc(50% + 56px / 2 + 113.25px);
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    color: #505050;
-  }
-`;

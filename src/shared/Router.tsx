@@ -11,7 +11,7 @@ import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
 import useStore from '../store/store.ts';
 import MyList from '../pages/Mypage/MyList.tsx';
-// import SearchDetail from '../components/Main/SearchDetail.tsx';
+import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
 import Edit from '../pages/Mypage/Edit.tsx';
 import Layout from '../components/layout/Layout.tsx';
@@ -54,8 +54,12 @@ function Router() {
 
        
         <Route
-          path="/search/:keyword"
-          // element={<SearchDetail match={undefined} />}
+          path="/search"
+          element={
+            <SearchDetail
+            // match={undefined}
+            />
+          }
         />
       </Routes>
     </BrowserRouter>

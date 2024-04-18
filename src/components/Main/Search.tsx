@@ -40,7 +40,10 @@ function Search() {
   const handleChange = (e) => {
     setKeyword(e.target.value);
     console.log(e.target.value);
+<<<<<<< HEAD
     //서치디테일페이지에전해줌
+=======
+>>>>>>> dev
   };
 
   const handleSearch = () => {
@@ -50,8 +53,11 @@ function Search() {
     navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
   };
 
+<<<<<<< HEAD
  
 
+=======
+>>>>>>> dev
   const activeEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleSearch();
@@ -79,7 +85,10 @@ function Search() {
         </AnimatedInputContainer>
         <SearchButton
           onClick={() => {
+<<<<<<< HEAD
            
+=======
+>>>>>>> dev
             handleSearch();
           }}
           style={{
@@ -96,8 +105,11 @@ function Search() {
             src={searchIcon}
           />
         </SearchButton>
+<<<<<<< HEAD
 
         {/* 검색 결과 표시 */}
+=======
+>>>>>>> dev
         <SearchResults>
           {isLoading && <li>Loading...</li>}
           {isError && <li>Error occurred while fetching data</li>}

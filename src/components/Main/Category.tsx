@@ -164,7 +164,6 @@ function Category() {
                         <ProfileImage src={item.profileUrl} alt="Profile" />
                         <Nickname>{item.nickname}</Nickname>
                       </ProfileUrl>
-
                       <H1>
                         {item.title.length > 20
                           ? item.title.slice(0, 22) + '···'
