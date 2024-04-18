@@ -1,15 +1,15 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import { RxExit } from 'react-icons/rx';
 import { IoArrowUpCircleOutline } from 'react-icons/io5';
-import { readChatRoom } from '../../api/chat.ts';
-import { useQuery } from '@tanstack/react-query';
+import { leaveChatRoom, readChatRoom } from '../../api/chat.ts';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { MdOutlineCalendarMonth } from 'react-icons/md';
 import SockJS from 'sockjs-client';
 import { Client, Stomp } from '@stomp/stompjs';
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import * as ChatStyle from './Chat.styled.tsx';
+import calender from '/public/assets/calender.svg';
 
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -20,6 +20,8 @@ const Chat = () => {
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
 
+  const [isFirst, setIsFirst] = useState(false);
+
   const navigate = useNavigate();
   const queryChatRoom = useQuery({
     queryKey: ['chatRoom', currentPageNo],
@@ -28,20 +30,23 @@ const Chat = () => {
     enabled: !!params.chatRoom,
   });
 
-  const { data, error, isLoading } = queryChatRoom;
+  const { data, error, isLoading, isFetchedAfterMount } = queryChatRoom;
+
+  const { mutate } = useMutation({
+    mutationFn: leaveChatRoom,
+    onSuccess: () => {
+      navigate(-1);
+    },
+  });
 
   useEffect(() => {
     if (params.chatRoom) {
-      const fetchData = async () => {
+      let socket;
+      let client;
+      const fetchData = () => {
         try {
-          const response = await readChatRoom(
-            parseInt(params?.chatRoom),
-            currentPageNo,
-          );
-          const chatRoomData = response.data;
-
-          const socket = new SockJS('https://api.openmpy.com/chat');
-          const client = Stomp.over(socket);
+          socket = new SockJS('https://api.openmpy.com/chat');
+          client = Stomp.over(socket);
 
           client.connectHeaders = {
             Authorization: `${localStorage.getItem('accessToken')}`,
@@ -75,35 +80,32 @@ const Chat = () => {
           });
 
           setStompClient(client);
-          setTestMessges(chatRoomData.chatReadResponseDtoList);
-          // .reverse();
         } catch (error) {
           console.error('Error fetching chat room data:', error);
         }
       };
 
       fetchData();
+      return () => {
+        socket.close();
+        client.disconnect();
+      };
     }
   }, [params.chatRoom]);
+
+  // useEffect(() => {
+  //   if (data && !isFirst && scrollRef.current) {
+  //     console.log('is trigger first scrollT');
+  //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  //     setIsFirst(true);
+  //   }
+  // }, [data, isFirst, scrollRef.current]);
 
   // useEffect(() => {
   //   if (scrollRef.current) {
   //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   //   }
-  // }, [testMessges]);
-  const isFirstRun = useRef(true);
-
-  useEffect(() => {
-    if (!isFirstRun.current) {
-      if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
-    }
-  }, [currentPageNo]);
-
-  useEffect(() => {
-    isFirstRun.current = false;
-  }, []);
+  // }, [currentPageNo, scrollRef.current, queryChatRoom.data]);
 
   const handleMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -125,25 +127,23 @@ const Chat = () => {
 
       setMessage('');
       // setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
+    }
+  };
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     } else {
       console.error('STOMP connection is not established.');
     }
-  };
+  }, [testMessges]);
 
-  // useEffect(() => {
-  //   if (queryChatRoom.data) {
-  //     const reversedMessages = [...queryChatRoom.data.chatReadResponseDtoList];
-  //     // ].reverse();
-  //
-  //     //  moment(new Date(queryData.createdAt)).format('hh:mm');
-  //     setTestMessges((prev) => [...reversedMessages, ...prev]);
-  //   }
-  // }, [queryChatRoom.data]);
   useEffect(() => {
     if (queryChatRoom.data) {
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
-
-      setTestMessges((prev) => [...prev, ...messagesToAdd]);
+      setTestMessges((prev) => {
+        console.log([...prev, ...messagesToAdd]);
+        return [...messagesToAdd, ...prev];
+      });
     }
   }, [queryChatRoom.data]);
 
@@ -168,10 +168,13 @@ const Chat = () => {
 
   if (error) return <div>죄송합니다. 다시 접속해주세요</div>;
 
-  if (isLoading) return <div>로딩중입니다. ~.~</div>;
+  if (!isFetchedAfterMount) return <div>로딩중입니다. ~.~</div>;
 
   const handleClickNavigate = () => {
-    navigate('/commlist');
+    navigate(-1);
+  };
+  const handelLeaveButton = () => {
+    mutate(parseInt(params?.chatRoom));
   };
 
   return (
@@ -181,10 +184,25 @@ const Chat = () => {
           <IoIosArrowBack size={'24px'} />
         </div>
         <span>{data?.toUserNickname}</span>
-        <RxExit size={'22px'} />
+        <RxExit size={'22px'} onClick={handelLeaveButton} />
       </ChatStyle.MenuBox>
-      <ChatStyle.Center ref={scrollRef}>
+      <ChatStyle.RentalItemBox
+        onClick={() => {
+          navigate(`/details/${data.rentalId}`);
+        }}
+      >
+        <img src={data.rentalThumbnailUrl} />
+        <ChatStyle.Cloum>
+          <h6>{data.rentalTitle}</h6>
+          <ChatStyle.Flex>
+            <span className={'rentalFee'}>대여비{data.rentalFee}</span>
+            <span>보증금{data.deposit}</span>
+          </ChatStyle.Flex>
+        </ChatStyle.Cloum>
+      </ChatStyle.RentalItemBox>
+      <ChatStyle.Center ref={scrollRef} id={'scrollRef'}>
         <div ref={indicatorRef} className={'indicator'} />
+
         <ChatStyle.ChatBox>
           {testMessges.map((item, index) => {
             const previousMessageDate =
@@ -199,7 +217,8 @@ const Chat = () => {
               <div key={index}>
                 <ChatStyle.DateSpanBox $active={isDifferentDate}>
                   <span>
-                    <MdOutlineCalendarMonth style={{ margin: '0 6px 0 0' }} />
+                    {/*<MdOutlineCalendarMonth style={{ margin: '0 6px 0 0' }} />*/}
+                    <img src={calender} />
                     {moment(new Date(item.createdAt)).format('YYYY-MM-DD')}
                   </span>
                 </ChatStyle.DateSpanBox>

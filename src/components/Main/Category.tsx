@@ -13,6 +13,9 @@ import OTHER from '/public/assets/OTHER.svg';
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
+import { authInstance } from '../../api/axios';
+import Header from '../layout/MainHeder';
+import axios from 'axios';
 
 export type Category =
   | 'ALL'
@@ -46,17 +49,39 @@ function Category() {
   const { data, isLoading } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      const response = await fetch(
+      const response = await authInstance.get(
         `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
       );
-      if (!response.ok) {
+      if (!response) {
         throw new Error('Network response was not ok');
       }
-      const jsonData = await response.json(); // await을 사용하여 데이터를 얻음
-      console.log(jsonData); // 데이터를 콘솔에 출력
-      return jsonData;
+      return response.data;
     },
   });
+
+  const fetchMoreData = () => {
+    setPage(page + 1);
+  };
+
+  const handleDifferentLocationClick = async () => {
+    const response = await axios.get(
+      `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=6`,
+    );
+    if (!response) {
+      throw new Error('Network response was not ok');
+    }
+    const newData = response.data.data;
+    // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
+    const uniqueRentals = [...rentals, ...newData].reduce((acc, current) => {
+      // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
+      if (!acc.find((item) => item.rentalId === current.rentalId)) {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+    setRentals(uniqueRentals);
+    setPage(99); // 첫 페이지 이후에 데이터를 불러오기 위해 페이지를 2로 설정합니다.
+  };
 
   useEffect(() => {
     if (data) {
@@ -73,10 +98,6 @@ function Category() {
     }
   }, [isLoading]);
 
-  const fetchMoreData = () => {
-    setPage(page + 1);
-  };
-
   const handleCategoryChange = (category: Category) => {
     if (selectedCategory === category) {
       return;
@@ -84,20 +105,24 @@ function Category() {
     setSelectedCategory(category);
     setPage(1);
     setRentals([]);
-    console.log(rentals);
   };
 
   return (
     <Div id="ScrollableCategoryContainer">
       <ScrollableCategoryContainer>
+      <ScrollableCategoryContainer style={{ width: '380px' }}>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
           dataLength={rentals.length}
-          next={fetchMoreData}
+          next={
+            selectedCategory === 'ALL'
+              ? fetchMoreData
+              : handleDifferentLocationClick
+          }
           hasMore={hasMore}
           loader={
             <LoadingMessage>
-              {isLoading ? 'Loading more...' : ''}
+              {isLoading && rentals.length > 0 && 'Loading more...'}
             </LoadingMessage>
           }
           scrollableTarget="ScrollableCategoryContainer"
@@ -159,13 +184,17 @@ function Category() {
           </CategoryContainer>
         </InfiniteScroll>
       </ScrollableCategoryContainer>
+      <div>
+        <button onClick={handleDifferentLocationClick}>
+          다른 지역 게시물 보기
+        </button>
+      </div>
+      <Contents />
     </Div>
   );
 }
 
 export default Category;
-
-// 이하 스타일 정의 코드 생략
 
 const ScrollableCategoryContainer = styled.div``;
 
@@ -180,7 +209,7 @@ const Layout = styled.div`
   padding-bottom: 10px;
 `;
 const Layout2 = styled.div`
-  width: 150px;
+  width: 160px;
 `;
 
 const Layout1 = styled.div`
@@ -243,7 +272,7 @@ const CategoryButtonsContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 20px;
   flex-wrap: wrap;
-  padding: 10px 50px 10px 50px;
+  padding: 0px 20px 0px 20px;
   background-color: white;
 `;
 
@@ -258,7 +287,6 @@ const CustomCategoryButton = styled.div`
   transition: opacity 0.3s;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 20px;
 `;
 
 const LoadingMessage = styled.div`
@@ -341,24 +369,18 @@ const ProfileUrl = styled.span`
 
 export const Div = styled.div`
   height: 100vh;
-  overflow-x: hidden;
+  width: 390px;
+  overflow-x: scroll;
+  position: relative;
   &::-webkit-scrollbar {
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(103, 126, 255, 0.3);
+    background-color: #1900ff;
     border-radius: 4px;
+    position: absolute;
   }
   &::-webkit-scrollbar-track {
     background: transparent;
   }
-
-  @media screen and (min-width: 668px) {
-    width: 430px;
-  }
-`;
-
-export const DetailsLink = styled.div`
-  overflow: hidden;
-  max-height: 100px;
 `;

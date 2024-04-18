@@ -14,6 +14,10 @@ import MyList from '../pages/Mypage/MyList.tsx';
 import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
 import Edit from '../pages/Mypage/Edit.tsx';
+import Layout from '../components/layout/Layout.tsx';
+import App from '../App.tsx';
+import { createBrowserRouter } from 'react-router-dom';
+import Navbar from '../components/layout/Navbar';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -21,28 +25,75 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/main/PostDetailsPage" element={<PostDetailsPage />} />
-        {!isLoggedIn && <Route path="/sociallogin" element={<SocialLogin />} />}
-        <Route path="/kakao/callback" element={<RedirectKakao />} />
-        <Route path="/google/callback" element={<RedirectGoogle />} />
-        <Route path="/naver/callback" element={<RedirectNaver />} />
-        <Route path="/thxkakaomap" element={<Location />} />
+        <Route element={<Layout />}>
+          <Route element={<Navbar />} />
+          <Route path="/" element={<Main />} />
+          <Route path={'/commlist'} element={<ChatList />} />
+          <Route path="/mylist" element={<MyList />} />
+          <Route path={`/comm/:chatRoom`} element={<Chat />} />
+          <Route path="/details/:rentalId" element={<Details />} />
+          <Route path="/sociallogin" element={<SocialLogin />} />
+          <Route path="/kakao/callback" element={<RedirectKakao />} />
+          <Route path="/google/callback" element={<RedirectGoogle />} />
+          <Route path="/naver/callback" element={<RedirectNaver />} />
+          <Route path="/thxkakaomap" element={<Location />} />
+          {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
+          {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
+          <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
+          <Route path="/Details/:rentalId/edit" element={<Edit />} />
+        </Route>
+
+        {/*</Route>*/}
+
         {/* <Route path="/mypage" element={<Mypage />} /> */}
         <Route
           path="/search/:keyword"
           element={<SearchDetail match={undefined} />}
         />
-        <Route path="/mylist" element={<MyList />} />
-        {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
-        {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
-        <Route path="/Details/:rentalId/edit" element={<Edit />} />
-        <Route path="/details/:rentalId" element={<Details />} />
-        <Route path={`/comm/:chatRoom`} element={<Chat />} />
-        <Route path={'/commlist'} element={<ChatList />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default Router;
+// export const router = createBrowserRouter([
+//   {
+//     element: <App />,
+//     children: [
+//       {
+//         path: '/',
+//         element: <Layout />,
+//         children: [
+//           {
+//             index: true,
+//             element: <Main />,
+//           },
+//           {
+//             path: '/main/PostDetailsPage',
+//             element: <PostDetailsPage />,
+//           },
+//           {
+//             path: '/kakao/callback',
+//             element: <RedirectKakao />,
+//           },
+//           {
+//             path: '/google/callback',
+//             element: <RedirectGoogle />,
+//           },
+//           {
+//             path: '/naver/callback',
+//             element: <RedirectNaver />,
+//           },
+//           {
+//             path: '/thxkakaomap',
+//             element: <Location />,
+//           },
+//           {
+//             path: '/mypage',
+//             element: <Mypage />,
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ]);

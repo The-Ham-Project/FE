@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
@@ -6,7 +7,7 @@ import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useErrorModalStore } from '../../store/store';
-import Modal from '../../components/Main/Modal';
+import Modal from '../../components/modal/Modal.tsx';
 import { removeItemPost } from '../../api/itemAPI';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
@@ -39,13 +40,10 @@ function MyList() {
   //   deleteMutation.mutate(rentalId);
   // };
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
-  const handleDeleteClick = () => {
-    openModal('님아 리얼루다가 삭제?');
-  };
   const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['rentals', { page }],
     queryFn: async () => {
       const response = await authInstance.get('/api/v1/rentals/my/posts', {
@@ -72,6 +70,11 @@ function MyList() {
       </ErrorPage>
     );
   }
+  const handleDeleteClick = (e) => {
+    e.stopPropagation();
+    openModal('게시글을 삭제하시겠습니까?');
+  };
+
   return (
     <Wrapper>
       {!data || data.length === 0 ? (
@@ -83,43 +86,43 @@ function MyList() {
             <span>내가 쓴 글</span>
           </MenuBox>
           {data.map((data) => (
-            <Ao>
-              <Link
-                to={`/Details/${data.rentalId}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-              >
-                <Container key={data.rentalId}>
-                  <IMG>
-                    <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
-                  </IMG>
-                  <Box>
-                    <Box1>
-                      <Custom>
-                        <Link to={`/Details/${data.rentalId}/edit`}>
-                          <img src={modification} />
-                        </Link>
-                        <Modal
-                          isOpen={isOpen}
-                          message={errorMessage}
-                          onClose={closeModal}
-                          // rentalId={rentalId}
-                        />
-                      </Custom>
-                      <Button
-                        style={{ zIndex: '4' }}
-                        onClick={handleDeleteClick}
-                      >
-                        <img src={trashbin} />
-                      </Button>
-                    </Box1>
-                    <Title>{data.title}</Title>
-                    <Box2>
-                      <Fee>대여비 {data.rentalFee}원</Fee>
-                      <Deposit>보증금 {data.deposit}원</Deposit>
-                    </Box2>
-                  </Box>
-                </Container>
-              </Link>
+            <Ao
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/Details/${data.rentalId}`);
+              }}
+            >
+              <Container key={data.rentalId}>
+                <IMG>
+                  <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
+                </IMG>
+                <Box>
+                  <Box1>
+                    <Custom>
+                      <Link to={`/Details/${data.rentalId}/edit`}>
+                        <img src={modification} />
+                      </Link>
+                      <Modal
+                        isOpen={isOpen}
+                        message={errorMessage}
+                        onClose={closeModal}
+                        rentalId={data.rentalId}
+                        successCallback={() => {
+                          refetch();
+                        }}
+                      />
+                    </Custom>
+                    <Button style={{ zIndex: '4' }} onClick={handleDeleteClick}>
+                      <img src={trashbin} />
+                    </Button>
+                  </Box1>
+                  <Title>{data.title}</Title>
+                  <Box2>
+                    <Fee>대여비 {data.rentalFee}원</Fee>
+                    <Deposit>보증금 {data.deposit}원</Deposit>
+                  </Box2>
+                </Box>
+              </Container>
             </Ao>
           ))}
         </>
