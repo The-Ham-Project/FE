@@ -190,6 +190,9 @@ function Category() {
         </button>
       </div>
       <Contents />
+
+
+
     </Div>
   );
 }
@@ -206,7 +209,7 @@ const Layout = styled.div`
   width: 150px;
   padding: 0px;
   gap: 6px;
-  padding: 10px;
+  padding-bottom: 10px;
 `;
 const Layout2 = styled.div`
   width: 160px;
@@ -264,7 +267,7 @@ const H3 = styled.div`
 const ALLLayout = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 const CategoryButtonsContainer = styled.div`
@@ -314,7 +317,7 @@ const CategoryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  padding: 24px;
+  padding: 24px 5px 20px 20px;
   justify-content: center;
 `;
 
@@ -368,34 +371,28 @@ const ProfileUrl = styled.span`
 `;
 
 export const Div = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: 100vh;
+  width: 370px;
+
+  overflow: overlay; // 스크롤바가 컨텐츠 위에 겹쳐서 나타남
   position: relative;
-  scroll-padding: 800px;
-  -ms-overflow-style: none;
+
+  /* 스크롤바 스타일 */
   &::-webkit-scrollbar {
     width: 8px;
   }
+
   &::-webkit-scrollbar-thumb {
-    background-color: #57a0ff;
-
-    
-
-    border-radius: 5px; /* Border radius of the thumb */
-}
-
- 
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0);
+  }
 
   &::-webkit-scrollbar-track {
-    background: none;
+    /* 스크롤바 트랙 스타일링 */
   }
-  &::-webkit-scrollbar-button {
-background-color:  rgba(0, 0, 0, 0);
-    height: 350px;
-  }
-  &::-webkit-scrollbar-button:vertical:end {
-    display: none;
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+    }
   }
 `;

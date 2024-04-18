@@ -35,7 +35,7 @@ function Navbar() {
 
   return (
     <>
-    <div>
+ 
       <Container>
         <img
           className={'home'}
@@ -55,7 +55,7 @@ function Navbar() {
         <img className={'bar'} src={bar} />
       </Container>
       <Outlet />
-      </div>
+   
     </>
   );
 }
