@@ -44,7 +44,16 @@ function Search() {
 
   const handleSearch = () => {
     setShowInput(true);
-    if (!showInput) return;
+    // 인풋 창이 보이지 않는 경우
+    if (!showInput) {
+      setShowInput(true); // 인풋 창을 보이도록 설정
+      return;
+    }
+    // 인풋 창이 보이고 검색어가 비어있는 경우
+    if (keyword.trim() === '') {
+      setShowInput(false); 
+      return;// 인풋 창을 숨기도록 설정
+    }
     if (keyword.trim() === '') return alert('검색어를 적어주세요');
     navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
   };
@@ -126,11 +135,13 @@ const SearchContainer = styled.div`
 `;
 
 const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
-  width: ${({ showInput }) =>
-    showInput ? '100%' : '0'}; /* 입력 창의 너비를 조정합니다. */
-  opacity: ${({ showInput }) => (showInput ? 1 : 0)};
-  overflow: hidden; /* 애니메이션 중 내용물이 넘치는 것을 방지합니다. */
-  transition: width 0.3s ease-in-out; /* 너비 변경에 대한 애니메이션 효과를 적용합니다. */
+  width: ${({ showInput }) => (showInput ? '100%' : '0')};
+  opacity: ${({ showInput }) => (showInput ? 1 : 1)};
+  overflow: hidden;
+  transition: ${({ showInput }) =>
+    showInput
+      ? 'width 0.5s ease-in-out, opacity 0.5s ease-in-out' // 인풋창이 들어갈 때의 transition
+      : 'width 0.5s ease-in-out, opacity 0.3s ease-in-out'}; // 인풋창이 나올 때의 transition
 `;
 
 const Input = styled.input``;
