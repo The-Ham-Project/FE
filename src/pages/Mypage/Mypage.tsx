@@ -100,6 +100,8 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
+background-color: white;
+    height: 100%;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -189,7 +191,7 @@ const Nickname = styled.div`
 `;
 
 const Title1 = styled.div`
-  width: 70px;
+  width: 100px;
   height: 24px;
   margin-left: 8%;
   font-family: 'Pretendard';
@@ -216,7 +218,7 @@ const MyInfo = styled.div`
 
 const Account = styled.div`
   /* 로그인 계정 */
-  width: 80px;
+  width: 100px;
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
