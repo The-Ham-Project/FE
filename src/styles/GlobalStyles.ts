@@ -17,7 +17,7 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 16px;
+	font-size: 14px;
 	font-family: 'Pretendard-Regular';
 	vertical-align: baseline;
     box-sizing: border-box;
@@ -91,9 +91,10 @@ input[type="text"] {
    textarea {
 	
 	background: #F5F5F5;
-	border-radius: 24px;
-	font-size: 16px;
-	
+    border-radius: 24px;
+    font-size: 14px;
+    padding: 10px;
+    width: 93%;
 }
    html, body, #root {width:100%; height:100%;
    margin: 0;

@@ -20,6 +20,7 @@ import Navbar from '../../components/layout/Navbar';
 import { IoIosArrowBack } from 'react-icons/io';
 import { MenuBox } from '../Mypage/Mypage';
 import { Container } from '../../components/layout/DefaultLayout';
+import Header from '../../components/layout/Header';
 
 // 카테고리 타입 정의
 type Category =
@@ -139,11 +140,9 @@ const formattedDeposit = removeComma(deposit?.toLocaleString());
   return (
     <>
     <Container>
-    <MenuBox>
-        <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
-      </MenuBox>
-      <div>
-        <Container>
+   <Header/>
+      <Wrappe >    
+      
           <CustomDropzone>
             <Dropzone
               onChangeStatus={(meta, status) => {
@@ -172,7 +171,18 @@ const formattedDeposit = removeComma(deposit?.toLocaleString());
               maxFiles={3}
             />
           </CustomDropzone>
-          물품의 카테고리를 선택해주세요
+       <div style={{
+
+width: '300px',
+height: '17px',
+fontFamily: 'Pretendard',
+fontStyle: 'normal',
+fontWeight: '900',
+fontSize: '14px',
+lineHeight: '17px',
+
+
+}}> 물품의 카테고리를 선택해주세요</div>  
           <Group>
             <div>
               <Image>
@@ -181,9 +191,9 @@ const formattedDeposit = removeComma(deposit?.toLocaleString());
                     key={key}
                     onClick={() => handleCategoryClick(key as Category)}
                     style={{
-                      backgroundColor:
-                        selectedCategory === key ? '' : '#F5F5F5',
-
+                      backgroundColor: selectedCategory === key ? '' : '#F5F5F5',
+                      color: selectedCategory === key ? '#F5F5F5' : '#000000',
+                    
                       cursor: 'pointer',
                       width: '80px',
                       height: '30px',
@@ -209,7 +219,7 @@ const formattedDeposit = removeComma(deposit?.toLocaleString());
             <div>내용</div>
             <div>
               <textarea
-                style={{ resize: 'none' }}
+                style={{ resize: 'none'}}
                 rows={10}
                 cols={50}
                 placeholder="게시글의 내용을 작성해주세요.부적절한 단어 사용 혹은 금지 물품을 작성할 경우 이용이 제한될 수 있습니다.원활한 쉐어를 위해 내용을 상세하게 작성해주세요."
@@ -241,8 +251,8 @@ const formattedDeposit = removeComma(deposit?.toLocaleString());
           <Rectangle>
             <Text onClick={handleButtonClick}>게시글 작성</Text>
           </Rectangle>
-        </Container>
-      </div>
+   
+      </Wrappe>
       </Container>
     </>
   );
@@ -260,10 +270,35 @@ const CustomDropzone = styled.div`
 
 
 
-const ItemContainer = styled.div`
-  position: relative;
-  width: 300px;
-  height: 120px;
+const Wrappe = styled.div`
+padding: 20px 7px 20px 30px;
+    gap: 30px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow: overlay;
+    position: relative;
+    width: 98%;
+    height: 650px;
+    overflow-x: hidden;
+&::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  &::-webkit-scrollbar-track {
+    /* 스크롤바 트랙 스타일링 */
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+
 `;
 
 const Image = styled.div`
@@ -287,15 +322,16 @@ const Counter = styled.div`
 const Group = styled.div`
   display: flex;
   flex-direction: column;
-  width: 88%;
+  width: 100%;
+  gap: 16px;
 `;
 
 const Imagine = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 16px;
+  font-size: 14px;
   word-break: break-all;
-  color: black;
+
 
   justify-content: center; /* 텍스트를 버튼 세로 가운데 정렬합니다. */
   align-items: center; /* 텍스트를 버튼 가로 가운데 정렬합니다. */
