@@ -42,7 +42,8 @@ function MyList() {
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
   const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
-
+  const priceDot = (num: number) =>
+    num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['rentals', { page }],
     queryFn: async () => {
@@ -118,8 +119,8 @@ function MyList() {
                   </Box1>
                   <Title>{data.title}</Title>
                   <Box2>
-                    <Fee>대여비 {data.rentalFee}원</Fee>
-                    <Deposit>보증금 {data.deposit}원</Deposit>
+                    <Fee>대여비 {priceDot(data.rentalFee)}원</Fee>
+                    <Deposit>보증금 {priceDot(data.deposit)}원</Deposit>
                   </Box2>
                 </Box>
               </Container>

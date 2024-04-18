@@ -28,6 +28,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 import { instance } from '../../api/axios';
+import NotFound from '../../pages/NotFound/NotFound';
 
 // const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
@@ -74,11 +75,7 @@ function RedirectGoogle() {
     }
   }, [GOOGLE_CODE]);
 
-  return (
-    <>
-      <button>구글 로긴 꼴백</button>
-    </>
-  );
+  return <NotFound />;
 }
 
 export default RedirectGoogle;
