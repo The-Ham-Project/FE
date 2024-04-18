@@ -39,24 +39,24 @@ function SearchDetail() {
     },
     enabled: keyword !== '', // keyword가 변경되면 쿼리를 다시 실행합니다.
   });
-  console.log(data.count);
+  // console.log(data.count);
   return (
     <>
       <Search />
       <Result>
-        {data && data.count !== 0 ? (
+        {data?.count !== 0 ? (
           <>
-            검색 결과 <span>{data.count}</span>개의 글을 찾았습니다!
+            검색 결과 총 <span>{data?.count}</span>개의 글을 찾았습니다!
           </>
         ) : (
           <>
-            검색 결과 <span>0</span>개의 글을 찾았습니다.
+            검색 결과 총 <span>0</span>개의 글을 찾았습니다.
           </>
         )}
       </Result>
       {isLoading && <li>Loading...</li>}
       {isError && <li>Error occurred while fetching data</li>}
-      {data.count !== 0 ? (
+      {data?.count !== 0 ? (
         <>
           {data.searchResponseList?.map((rental) => (
             <Ao
@@ -94,7 +94,34 @@ function SearchDetail() {
 export default SearchDetail;
 
 const NoData = styled.div``;
-const Result = styled.div``;
+const Result = styled.div`
+  width: 290px;
+  height: 17px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 25px;
+  text-align: center;
+  color: #737373;
+  > span {
+    height: 17px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 25px;
+    text-align: center;
+    color: #737373;
+  }
+  @media screen and (max-width: 430px) {
+  }
+`;
 const Image = styled.div``;
 const MSG = styled.div``;
 const Ao = styled.div`
