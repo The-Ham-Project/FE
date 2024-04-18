@@ -109,7 +109,6 @@ function Category() {
 
   return (
     <Div id="ScrollableCategoryContainer">
-      <ScrollableCategoryContainer>
       <ScrollableCategoryContainer style={{ width: '380px' }}>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
