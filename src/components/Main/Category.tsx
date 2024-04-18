@@ -371,7 +371,7 @@ const ProfileUrl = styled.span`
 
 export const Div = styled.div`
   height: 100vh;
-  width: 370px;
+  width: 100%;
 
   overflow: overlay; // 스크롤바가 컨텐츠 위에 겹쳐서 나타남
   position: relative;
