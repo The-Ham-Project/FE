@@ -109,7 +109,7 @@ function Category() {
 
   return (
     <Div id="ScrollableCategoryContainer">
-      <ScrollableCategoryContainer style={{ width: '380px' }}>
+      <ScrollableCategoryContainer style={{ width: '100%' }}>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
           dataLength={rentals.length}
@@ -155,7 +155,7 @@ function Category() {
                         <Image src={item.firstThumbnailUrl} alt="no img" />
                       ) : (
                         <PlaceholderImage>
-                          <FaCamera size={24} color="#B1B1B1" />
+                          <FaCamera size={24} color="#f0f0f0" />
                         </PlaceholderImage>
                       )}
                     </ImageWrapper>
@@ -206,7 +206,7 @@ const Layout = styled.div`
   width: 150px;
   padding: 0px;
   gap: 6px;
-  padding-bottom: 10px;
+  padding: 10px;
 `;
 const Layout2 = styled.div`
   width: 160px;
@@ -264,15 +264,15 @@ const H3 = styled.div`
 const ALLLayout = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const CategoryButtonsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  padding: 0px 20px 0px 20px;
+  width: 100%;
+  padding: 0px 0px 0px 30px;
   background-color: white;
 `;
 
@@ -314,7 +314,7 @@ const CategoryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  padding: 20px;
+  padding: 24px;
   justify-content: center;
 `;
 
@@ -336,7 +336,7 @@ const PlaceholderImage = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -368,19 +368,34 @@ const ProfileUrl = styled.span`
 `;
 
 export const Div = styled.div`
-  height: 100vh;
-  width: 390px;
-  overflow-x: scroll;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
+  scroll-padding: 800px;
+  -ms-overflow-style: none;
   &::-webkit-scrollbar {
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #1900ff;
-    border-radius: 4px;
-    position: absolute;
-  }
+    background-color: #57a0ff;
+
+    
+
+    border-radius: 5px; /* Border radius of the thumb */
+}
+
+ 
+
   &::-webkit-scrollbar-track {
-    background: transparent;
+    background: none;
+  }
+  &::-webkit-scrollbar-button {
+background-color:  rgba(0, 0, 0, 0);
+    height: 350px;
+  }
+  &::-webkit-scrollbar-button:vertical:end {
+    display: none;
   }
 `;
