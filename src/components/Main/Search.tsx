@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Link, useNavigate } from 'react-router-dom';
-import search from '../../../public/assets/search.svg';
+import { Link, useNavigate, useNavigate } from 'react-router-dom';
+import searchIcon from '/public/assets/search.svg';
 import { getKeywordList } from '../../api/search';
+import lgoo from '/public/assets/lgoo.svg';
+import { IoPersonOutline } from 'react-icons/io5';
+import styled from 'styled-components';
 
 // 디바운싱하기
 function Search() {
   const [keyword, setKeyword] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate();  const [showInput, setShowInput] = useState(false); // 인풋 창 보이기 여부를 관리하는 상태
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', keyword],
     queryFn: async () => {
@@ -64,8 +68,8 @@ function Search() {
       <button
         style={{
           backgroundColor: '#F5F5F5',
-          maxWidth: '22px',
-          maxHeight: '22px',
+          maxWidth: '59px',
+          maxHeight: '59px',
         }}
         onClick={handleSearch}
       >
@@ -74,10 +78,12 @@ function Search() {
             maxWidth: '22px',
             maxHeight: '22px',
           }}
-          src={search}
+          src={searchIcon}
         />
-      </button>
-      <ul>
+      </SearchButton>
+
+      {/* 검색 결과 표시 */}
+      <SearchResults>
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
         {data &&
@@ -86,9 +92,46 @@ function Search() {
               <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
             </li>
           ))}
-      </ul>
+      </SearchResults>
+ 
+      <IoPersonOutline
+        size={'22px'}
+        onClick={() => {
+          navigate('/mypage');
+        }}
+      />
+    </SearchContainer>
     </div>
   );
 }
 
 export default Search;
+
+// 스타일드 컴포넌트 정의
+const SearchContainer = styled.div`
+  display: flex;
+  width: 320px;
+  align-items: center;
+  background-color: white;
+  justify-content: flex-end;
+  
+`;
+
+const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
+  width: ${({ showInput }) => (showInput ? '100%' : '0')}; /* 입력 창의 너비를 조정합니다. */
+  opacity: ${({ showInput }) => (showInput ? 1 : 0)};
+  overflow: hidden; /* 애니메이션 중 내용물이 넘치는 것을 방지합니다. */
+  transition: width 0.3s ease-in-out; /* 너비 변경에 대한 애니메이션 효과를 적용합니다. */
+`;
+
+const Input = styled.input`
+  
+`;
+
+const SearchButton = styled.button`
+  
+`;
+
+const SearchResults = styled.ul`
+  /* 검색 결과 스타일 */
+`;

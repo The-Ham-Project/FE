@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Category from '../../components/Main/Category';
-import { IoPersonOutline } from 'react-icons/io5';
+
 
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
@@ -31,22 +31,14 @@ function Main() {
 
   return (
     <>
-      {/* <Navbar /> */}
-      <Modal
-        isOpen={isOpen}
-        message={errorMessage}
-        onClose={closeModal}
-        rentalId={0}
-      />
+      <Navbar />
 
-      <IoPersonOutline
-        size={'30px'}
-        onClick={() => {
-          navigate('/mypage');
-        }}
-      />
+      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
+
+     
       {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
-      <Search />
+<Search/>
+
 
       <Container>
         <Category />

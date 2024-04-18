@@ -96,7 +96,7 @@ function ChatList() {
           );
         })}
       </List>
-      <Navbar />
+   
     </Contaier>
   );
 }

@@ -203,9 +203,10 @@ function Details() {
 export default Details;
 
 const DetailsContainer = styled.div`
-  padding: 50px;
+  padding: 30px;
   overflow-y: scroll;
   height: 100vh;
+  background-color: white;
 `;
 
 const Chat = styled.div<{ $active: boolean }>(

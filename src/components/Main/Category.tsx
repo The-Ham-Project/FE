@@ -109,7 +109,7 @@ function Category() {
 
   return (
     <Div id="ScrollableCategoryContainer">
-      <ScrollableCategoryContainer style={{ width: '380px' }}>
+      <ScrollableCategoryContainer style={{ width: '100%' }}>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
           dataLength={rentals.length}
@@ -155,7 +155,7 @@ function Category() {
                         <Image src={item.firstThumbnailUrl} alt="no img" />
                       ) : (
                         <PlaceholderImage>
-                          <FaCamera size={24} color="#B1B1B1" />
+                          <FaCamera size={24} color="#f0f0f0" />
                         </PlaceholderImage>
                       )}
                     </ImageWrapper>
@@ -189,6 +189,9 @@ function Category() {
         </button>
       </div>
       <Contents />
+
+
+
     </Div>
   );
 }
@@ -268,10 +271,10 @@ const ALLLayout = styled.div`
 
 const CategoryButtonsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  padding: 0px 20px 0px 20px;
+  width: 100%;
+  padding: 0px 0px 0px 30px;
   background-color: white;
 `;
 
@@ -313,7 +316,7 @@ const CategoryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  padding: 20px;
+  padding: 24px 5px 20px 20px;
   justify-content: center;
 `;
 
@@ -335,7 +338,7 @@ const PlaceholderImage = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -368,18 +371,27 @@ const ProfileUrl = styled.span`
 
 export const Div = styled.div`
   height: 100vh;
-  width: 390px;
-  overflow-x: scroll;
+  width: 370px;
+
+  overflow: overlay; // 스크롤바가 컨텐츠 위에 겹쳐서 나타남
   position: relative;
+
+  /* 스크롤바 스타일 */
   &::-webkit-scrollbar {
     width: 8px;
   }
+
   &::-webkit-scrollbar-thumb {
-    background-color: #1900ff;
     border-radius: 4px;
-    position: absolute;
+    background: rgba(0, 0, 0, 0);
   }
+
   &::-webkit-scrollbar-track {
-    background: transparent;
+    /* 스크롤바 트랙 스타일링 */
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+    }
   }
 `;
