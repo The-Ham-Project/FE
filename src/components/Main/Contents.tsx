@@ -14,8 +14,8 @@ export default Contents;
 const Box = styled.div`
   width: 100%;
   height: 150px;
-  background-color: #1879ff;
-  border: 1px solid #7c40ff;
+  background-color: #ffffff;
+
   border-radius: 15px;
 
   display: flex;

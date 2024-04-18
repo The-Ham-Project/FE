@@ -36,13 +36,12 @@ export const Containerrelative = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 390px;
-  height: 829px;
-  background-color: #eeeeee;
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
   overflow-y: hidden;
   overflow-x: hidden;
   position: relative;
-  border-radius: 50px;
 `;
 
 export const Div = styled.div`

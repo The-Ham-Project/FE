@@ -187,23 +187,25 @@ export default function Location(): JSX.Element {
           )} */}
           {/* <Box> */}
           {/* <button onClick={getCurrentPosBtn}> */}
+          <div style={{width: '320px', position: 'relative', top: '330px'}}>
           <IMG onClick={getCurrentPosBtn} $active={address}>
             위치설정하기
           </IMG>
           {address && (
-            <IMG onClick={getCurrentPosBtn} $active={address}>
+            <IMG onClick={getCurrentPosBtn} $active={address} >
               위치 다시 설정하기
             </IMG>
           )}
           {/* </button> */}
           {address && (
             // <button onClick={getMainBtn}>
-            <IMG2 onClick={getMainBtn} $active={address}>
+            <IMG2 onClick={getMainBtn} $active={address} >
               설정 완료
             </IMG2>
+            
             // </button>
           )}
-
+</div>
           {/* <button onClick={getCurrentPosBtn}>
             <IMG src={locationButton} alt="위치인증하기" address={address} />
           </button>
@@ -220,25 +222,26 @@ export default function Location(): JSX.Element {
 }
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
+  background-color: #ffffff;
   @media screen and (max-width: 430px) {
   }
 `;
 
 const MenuBox = styled.div`
   position: absolute;
-  width: 430px;
+  width: 380px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: #f5f5f5;
-  height: 60px;
+  background-color: #ffffff;
+  height: 90px;
   align-items: center;
-  background-color: #f5f5f5;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   z-index: 5;
   > span {
-    width: 69px;
+    width: 100px;
+    margin-top: 32px;
     height: 17px;
     font-family: 'Pretendard';
     font-style: normal;
@@ -247,6 +250,7 @@ const MenuBox = styled.div`
     line-height: 17px;
     text-align: center;
     color: #000000;
+   
     @media screen and (max-width: 430px) {
     }
   }
@@ -295,11 +299,11 @@ const MenuBox = styled.div`
 
 const IMG = styled.button<{ $active: string }>(
   ({ $active }) => css`
-    position: absolute;
-    width: 350px;
+        position: absolute;
+    width: 320px;
     height: 52px;
     z-index: 100;
-    bottom: ${$active ? '88px' : '20px'}; /* 조건부 위치 설정 */
+    bottom: ${$active ? '88px' : '40px'}; /* 조건부 위치 설정 */
     background-color: ${$active ? '#D1D1D1' : '#1689F3'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
     }
@@ -309,7 +313,7 @@ const IMG = styled.button<{ $active: string }>(
 const IMG2 = styled.button<{ $active: string }>(
   ({ $active }) => css`
     position: absolute;
-    width: 350px;
+    width: 320px;
     height: 52px;
     z-index: 100;
     bottom: ${$active ? '20px' : '88px'}; /* 조건부 위치 설정 */

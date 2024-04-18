@@ -35,7 +35,8 @@ function SocialLogin() {
 export default SocialLogin;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
+  background-color: #ffffff;
   padding: 6vh;
   display: flex;
   flex-direction: column;

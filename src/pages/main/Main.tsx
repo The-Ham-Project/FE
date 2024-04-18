@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Category from '../../components/Main/Category';
-import { IoPersonOutline } from 'react-icons/io5';
+
 
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
@@ -15,7 +15,7 @@ import Search from '../../components/Main/Search.tsx';
 
 function Main() {
 
-  const navigate = useNavigate();
+
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
@@ -32,18 +32,15 @@ function Main() {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
+
       <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
 
-      <IoPersonOutline
-        size={'30px'}
-        onClick={() => {
-          navigate('/mypage');
-        }}
-      />
+     
       {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
 <Search/>
-      
+
+
       <Container>
    
       <Category />
