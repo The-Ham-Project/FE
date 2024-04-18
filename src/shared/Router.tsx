@@ -47,8 +47,12 @@ function Router() {
 
         {/* <Route path="/mypage" element={<Mypage />} /> */}
         <Route
-          path="/search/:keyword"
-          element={<SearchDetail match={undefined} />}
+          path="/search"
+          element={
+            <SearchDetail
+            // match={undefined}
+            />
+          }
         />
       </Routes>
     </BrowserRouter>

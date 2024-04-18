@@ -14,7 +14,6 @@ import Header from '../../components/layout/MainHeder';
 import Search from '../../components/Main/Search.tsx';
 
 function Main() {
-
   const navigate = useNavigate();
   // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
@@ -33,7 +32,12 @@ function Main() {
   return (
     <>
       {/* <Navbar /> */}
-      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
+      <Modal
+        isOpen={isOpen}
+        message={errorMessage}
+        onClose={closeModal}
+        rentalId={0}
+      />
 
       <IoPersonOutline
         size={'30px'}
@@ -42,24 +46,16 @@ function Main() {
         }}
       />
       {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
-<Search/>
-      
+      <Search />
+
       <Container>
-   
-      <Category />
+        <Category />
       </Container>
- 
     </>
   );
 }
 
 export default Main;
-
-
-
-
-
-
 
 export const Flex = styled.div`
   display: flex;
@@ -70,24 +66,19 @@ export const Flex2 = styled.div`
   display: flex;
   justify-content: center;
   padding-left: 870px;
-
-
 `;
 
 export const Div1 = styled.div`
-
   height: 100vh;
   display: flex;
   background-color: #6b8ec0;
 
   background-position: center;
-
 `;
 export const Div3 = styled.div`
   width: 10vh;
   height: 100vh;
   background-color: wheat;
-
 `;
 export const Div4 = styled.div`
   overflow-y: hidden;
@@ -95,7 +86,6 @@ export const Div4 = styled.div`
 
   border-radius: 20px;
   max-height: 100vh;
-
 `;
 
 export const ContentContainer = styled.div`

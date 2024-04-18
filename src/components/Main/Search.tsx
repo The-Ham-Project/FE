@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import search from '../../../public/assets/search.svg';
+import { getKeywordList } from '../../api/search';
 
-const Search = () => {
+// 디바운싱하기
+function Search() {
   const [keyword, setKeyword] = useState('');
-
+  const navigate = useNavigate();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', keyword],
     queryFn: async () => {
@@ -27,23 +29,37 @@ const Search = () => {
     enabled: keyword !== '', // keyword가 변경되면 쿼리를 다시 실행합니다.
   });
 
+  const searchKeywordMutation = useMutation({
+    mutationFn: getKeywordList,
+    onSuccess: (response) => setKeyword(response.data),
+  });
+
   const handleChange = (e) => {
     setKeyword(e.target.value);
     console.log(e.target.value);
     //서치디테일페이지에전해줌
   };
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+  const handleSearch = async () => {
+    searchKeywordMutation.mutate(keyword);
     if (search.trim() === '') return alert('검색어를 적어주세요');
+    navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
   };
 
+  const activeEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
   return (
     <div style={{ display: 'nowrap' }}>
       <input
+        onKeyDown={activeEnter}
         type="text"
         placeholder="검색..."
         value={keyword}
         onChange={handleChange}
+        // onClick={handleSearch}
       />
       <button
         style={{
@@ -65,7 +81,7 @@ const Search = () => {
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
         {data &&
-          data.searchResponseList.map((rental) => (
+          data.searchResponseList?.map((rental) => (
             <li key={rental.rentalId}>
               <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
             </li>
@@ -73,6 +89,6 @@ const Search = () => {
       </ul>
     </div>
   );
-};
+}
 
 export default Search;
