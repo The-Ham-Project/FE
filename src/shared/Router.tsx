@@ -11,7 +11,7 @@ import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
 import useStore from '../store/store.ts';
 import MyList from '../pages/Mypage/MyList.tsx';
-// import SearchDetail from '../components/Main/SearchDetail.tsx';
+import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
 import Edit from '../pages/Mypage/Edit.tsx';
 import Layout from '../components/layout/Layout.tsx';
@@ -25,30 +25,41 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
+     
         <Route element={<Layout />}>
-          <Route element={<Navbar />} />
-          <Route path="/" element={<Main />} />
-          <Route path={'/commlist'} element={<ChatList />} />
-          <Route path="/mylist" element={<MyList />} />
-          <Route path={`/comm/:chatRoom`} element={<Chat />} />
-          <Route path="/details/:rentalId" element={<Details />} />
-          <Route path="/sociallogin" element={<SocialLogin />} />
-          <Route path="/kakao/callback" element={<RedirectKakao />} />
+             <Route element={<Navbar />}>  
+             <Route path="/" element={<Main />} />
+             {isLoggedIn &&  <Route path="/mypage" element={<Mypage />} />}
+             {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
+             <Route path="/details/:rentalId" element={<Details />} />
+             <Route path={'/commlist'} element={<ChatList />} />
+             <Route path="/kakao/callback" element={<RedirectKakao />} />
           <Route path="/google/callback" element={<RedirectGoogle />} />
           <Route path="/naver/callback" element={<RedirectNaver />} />
-          <Route path="/thxkakaomap" element={<Location />} />
-          {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
-          {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
           <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
           <Route path="/Details/:rentalId/edit" element={<Edit />} />
+             </Route>
+          <Route path={`/comm/:chatRoom`} element={<Chat />} />
+   
+          <Route path="/sociallogin" element={<SocialLogin />} />
+
+          <Route path="/thxkakaomap" element={<Location />} />
+
+         
+          
+         
         </Route>
 
         {/*</Route>*/}
 
-        {/* <Route path="/mypage" element={<Mypage />} /> */}
+       
         <Route
-          path="/search/:keyword"
-          // element={<SearchDetail match={undefined} />}
+          path="/search"
+          element={
+            <SearchDetail
+            // match={undefined}
+            />
+          }
         />
       </Routes>
     </BrowserRouter>

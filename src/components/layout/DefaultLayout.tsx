@@ -6,13 +6,9 @@ import { Outlet } from 'react-router-dom';
 function DefaultLayout() {
   return (
     <>
-      <Flex>
-        <Div></Div>
-        <Container>
-          <Navbar />
-          <Outlet />
-        </Container>
-      </Flex>
+    
+        <Container/>
+    
     </>
   );
 }
@@ -36,13 +32,12 @@ export const Containerrelative = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 390px;
+  width: 100%;
   height: 829px;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   overflow-y: hidden;
   overflow-x: hidden;
   position: relative;
-  border-radius: 50px;
 `;
 
 export const Div = styled.div`

@@ -81,7 +81,17 @@ function Mypage() {
               }}
             />
           </Box1>
-          <Box2 onClick={LogoutHandler}>
+          <Box2 onClick={GotoListHandler}>
+            <Policy>위치정보이용동의 약관</Policy>
+            <img
+              src={gogo}
+              style={{
+                maxWidth: '10px',
+                maxHeight: '16px',
+              }}
+            />
+          </Box2>
+          <Box3 onClick={LogoutHandler}>
             <Logout>로그아웃</Logout>
             <img
               src={logout}
@@ -90,7 +100,7 @@ function Mypage() {
                 maxHeight: '16px',
               }}
             />
-          </Box2>
+          </Box3>
         </Container2>
       </PaddingBox>
     </Wrapper>
@@ -100,6 +110,8 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
+background-color: white;
+    height: 100%;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -189,7 +201,7 @@ const Nickname = styled.div`
 `;
 
 const Title1 = styled.div`
-  width: 70px;
+  width: 100px;
   height: 24px;
   margin-left: 8%;
   font-family: 'Pretendard';
@@ -216,7 +228,7 @@ const MyInfo = styled.div`
 
 const Account = styled.div`
   /* 로그인 계정 */
-  width: 80px;
+  width: 100px;
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
@@ -288,8 +300,33 @@ const GotoMyList = styled.div`
   @media screen and (max-width: 430px) {
   }
 `;
+const Policy = styled.div`
+  width: 130px;
+  height: 14.79px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  z-index: 1000000000000;
+  @media screen and (max-width: 430px) {
+  }
+`;
 
 const Box2 = styled.div`
+  display: flex;
+  background: #f5f5f5;
+  height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10%;
+  margin-left: 10%;
+  padding-right: 29px;
+  padding-left: 29px;
+  border-radius: 7px;
+`;
+const Box3 = styled.div`
   display: flex;
   background: #f5f5f5;
   height: 40px;
