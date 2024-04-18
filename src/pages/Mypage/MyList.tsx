@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';

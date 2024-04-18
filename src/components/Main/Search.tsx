@@ -30,6 +30,7 @@ const Search = () => {
   const handleChange = (e) => {
     setKeyword(e.target.value);
     console.log(e.target.value);
+    //서치디테일페이지에전해줌
   };
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,7 +51,7 @@ const Search = () => {
           maxWidth: '22px',
           maxHeight: '22px',
         }}
-        // onClick={handleSearch}
+        onClick={handleSearch}
       >
         <img
           style={{

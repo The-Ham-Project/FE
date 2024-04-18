@@ -11,7 +11,7 @@ import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
 import useStore from '../store/store.ts';
 import MyList from '../pages/Mypage/MyList.tsx';
-// import SearchDetail from '../components/Main/SearchDetail.tsx';
+import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
 import Edit from '../pages/Mypage/Edit.tsx';
 
@@ -31,7 +31,7 @@ function Router() {
         {/* <Route path="/mypage" element={<Mypage />} /> */}
         <Route
           path="/search/:keyword"
-          // element={<SearchDetail match={undefined} />}
+          element={<SearchDetail match={undefined} />}
         />
         <Route path="/mylist" element={<MyList />} />
         {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}

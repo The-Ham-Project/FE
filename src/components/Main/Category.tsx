@@ -88,9 +88,7 @@ function Category() {
   };
 
   return (
-    
     <Div id="ScrollableCategoryContainer">
-      
       <ScrollableCategoryContainer>
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
@@ -113,7 +111,7 @@ function Category() {
                 onClick={() => handleCategoryChange(index as Category)}
               >
                 <CustomCategoryButton>
-                  <img src={categories[index].icon}/>
+                  <img src={categories[index].icon} />
                 </CustomCategoryButton>
                 <CategoryLabel>{categories[index].label}</CategoryLabel>
               </CategoryButtonWrapper>
@@ -142,7 +140,6 @@ function Category() {
                         <ProfileImage src={item.profileUrl} alt="Profile" />
                         <Nickname>{item.nickname}</Nickname>
                       </ProfileUrl>
-
                       <H1>
                         {item.title.length > 20
                           ? item.title.slice(0, 22) + '···'
