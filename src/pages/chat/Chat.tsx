@@ -88,9 +88,9 @@ const Chat = () => {
       fetchData();
       return () => {
         const headers = { chatRoomId: `${params?.chatRoom}` };
-        socket.close();
         client.unsubscribe({}, headers);
         client.disconnect();
+        socket.close();
       };
     }
   }, []);
