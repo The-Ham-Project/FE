@@ -12,6 +12,8 @@ import Modal from '../../components/modal/Modal.tsx';
 import { removeItemPost } from '../../api/itemAPI';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
+import DeleteModal from '../../components/modal/DeleteModal.tsx';
+
 
 interface Rental {
   rentalId: number;
@@ -40,7 +42,8 @@ function MyList() {
   // const deleteitemClick = (rentalId): void => {
   //   deleteMutation.mutate(rentalId);
   // };
-  const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
+  const { rentalId } = useParams();
+  const { isOpen, errorMessage, openModal, closeModal  } = useErrorModalStore();
   const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
   const priceDot = (num: number) =>
@@ -73,8 +76,33 @@ function MyList() {
     );
   }
   const handleDeleteClick = (e) => {
+
     e.stopPropagation();
     openModal('게시글을 삭제하시겠습니까?');
+  };
+  
+ 
+
+  const handleConfirmDelete = (rentalId) => {
+    closeModal()
+    const deleteMutation = useMutation({
+      mutationFn: async (rentalId: number) => {
+        await removeItemPost(rentalId);
+      },
+      onSuccess: () => {
+        // 삭제 성공 후 로직
+        console.log('게시물이 성공적으로 삭제되었습니다.');
+        closeModal(); // 모달 닫기
+        refetch(); // 데이터 다시 불러오기
+        navigate('/mylist'); // 페이지 이동
+      },
+      onError: (error) => {
+        // 삭제 실패 시 로직
+        console.error('게시물 삭제 중 오류가 발생했습니다:', error);
+      },
+    });
+    
+    deleteMutation.mutate(rentalId);
   };
 
   return (
@@ -113,14 +141,13 @@ function MyList() {
                       <Link to={`/details/${data.rentalId}/edit`}>
                         <img src={modification} />
                       </Link>
-                      <Modal
+                      <DeleteModal
                         isOpen={isOpen}
-                        message={errorMessage}
+
                         onClose={closeModal}
                         rentalId={data.rentalId}
-                        successCallback={() => {
-                          refetch();
-                        }}
+              // 페이지 이동
+                     
                       />
                     </Custom>
                     <Button style={{ zIndex: '4' }} onClick={handleDeleteClick}>

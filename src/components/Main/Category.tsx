@@ -85,7 +85,7 @@ function Category() {
     }
     const newData = response.data.data;
     // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [...rentals, ...newData].reduce((acc, current) => {
+    const uniqueRentals = [...newData, ...rentals ].reduce((acc, current) => {
       // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
       if (!acc.find((item: { rentalId: any; }) => item.rentalId === current.rentalId)) {
         acc.push(current);
@@ -134,9 +134,8 @@ function Category() {
      
           dataLength={rentals.length}
           next={
-            selectedCategory === 'ALL'
-              ? fetchMoreData
-              : handleDifferentLocationClick
+          fetchMoreData
+         
           }
           hasMore={hasMore}
           loader={
