@@ -46,7 +46,7 @@ function Category() {
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading ,refetch } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
       const response = await authInstance.get(
@@ -63,6 +63,10 @@ function Category() {
     setPage(page + 1);
   };
 
+  useEffect(() => {
+    refetch(); // 컴포넌트가 처음 마운트될 때 데이터를 새로고침합니다.
+  }, []);
+  
   const handleDifferentLocationClick = async () => {
     const response = await axios.get(
       `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=6`,
@@ -80,7 +84,7 @@ function Category() {
       return acc;
     }, []);
     setRentals(uniqueRentals);
-    setPage(99); // 첫 페이지 이후에 데이터를 불러오기 위해 페이지를 2로 설정합니다.
+    setPage(page + 1); // 첫 페이지 이후에 데이터를 불러오기 위해 페이지를 2로 설정합니다.
   };
 
   useEffect(() => {
@@ -96,7 +100,7 @@ function Category() {
     if (!isLoading && rentals.length === 0) {
       setHasMore(true);
     }
-  }, [isLoading]);
+  }, [data]);
 
   const handleCategoryChange = (category: Category) => {
     if (selectedCategory === category) {
@@ -208,7 +212,7 @@ const Layout = styled.div`
   padding-bottom: 10px;
 `;
 const Layout2 = styled.div`
-  width: 160px;
+  width: 140px;
 `;
 
 const Layout1 = styled.div`
@@ -236,7 +240,7 @@ const Nickname = styled.div`
 `;
 
 const H1 = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   line-height: 14px;
   font-weight: 600;
   height: 40px;
@@ -261,9 +265,10 @@ const H3 = styled.div`
 `;
 
 const ALLLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 `;
 
 const CategoryButtonsContainer = styled.div`
@@ -313,7 +318,7 @@ const CategoryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  padding: 24px 5px 20px 20px;
+  padding: 24px 20px 20px 20px;
   justify-content: center;
 `;
 
@@ -368,7 +373,7 @@ const ProfileUrl = styled.span`
 
 export const Div = styled.div`
   height: 100vh;
-  width: 370px;
+  width: 99%;
 
   overflow: overlay; // 스크롤바가 컨텐츠 위에 겹쳐서 나타남
   position: relative;

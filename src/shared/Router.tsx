@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Main from '../pages/main/Main';
 import Location from '../pages/Location/Location';
 import RedirectKakao from '../components/KakaoLogin/RedirectKakao.tsx';
@@ -43,7 +43,10 @@ function Router() {
           <Route path="/sociallogin" element={<SocialLogin />} />
 
           <Route path="/thxkakaomap" element={<Location />} />
-          <Route path="/search" element={<SearchDetail />} />
+
+         
+          <Route path="*" element={<Navigate to="/" replace />} />
+         
         </Route>
 
         {/*</Route>*/}
