@@ -33,7 +33,6 @@ function Navbar() {
 
   return (
     <>
- 
       <Container>
         <img
           className={'home'}
@@ -53,7 +52,6 @@ function Navbar() {
         <img className={'bar'} src={bar} />
       </Container>
       <Outlet />
-   
     </>
   );
 }
@@ -61,45 +59,45 @@ function Navbar() {
 export default Navbar;
 
 const Container = styled.div`
-width: 100%;
-height: 100px;
-position: absolute;
-z-index: 10;
-bottom: 0;
-> .bar {
-width: 100%;
-margin: 0;
-position: absolute;
-bottom: 0;
-//box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-> .message {
-position: absolute;
-right: 63px;
-bottom: 21px;
-z-index: 10;
-width: 34px;
-}
-.home {
-position: absolute;
-bottom: 21px;
-zindex: 10;
-left: 63px;
-z-index: 103;
-width: 27px;
-}
-> div {
-z-index: 10;
-background-color: #1689f3;
-color: #fff;
-position: absolute;
-display: flex;
-align-items: center;
-justify-content: center;
-bottom: 43px;
-left: calc(50% - 27px);
-height: 54px;
-width: 54px;
-border-radius: 100%;
-}
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  > .bar {
+    width: 100%;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    //box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  > .message {
+    position: absolute;
+    right: 63px;
+    bottom: 21px;
+    z-index: 10;
+    width: 34px;
+  }
+  .home {
+    position: absolute;
+    bottom: 21px;
+    zindex: 10;
+    left: 63px;
+    z-index: 103;
+    width: 27px;
+  }
+  > div {
+    z-index: 10;
+    background-color: #1689f3;
+    color: #fff;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 43px;
+    left: calc(50% - 27px);
+    height: 54px;
+    width: 54px;
+    border-radius: 100%;
+  }
 `;

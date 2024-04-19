@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({
   const onConfirm = () => {
     navigate('/sociallogin');
   };
-  const { mutate } = useMutation({
+  const { mutate, reset } = useMutation({
     mutationFn: deleteRental,
     onSuccess: () => {
       successCallback && successCallback();
