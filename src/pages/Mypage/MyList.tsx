@@ -100,7 +100,7 @@ function MyList() {
                 <Box>
                   <Box1>
                     <Custom>
-                      <Link to={`/Details/${data.rentalId}/edit`}>
+                      <Link to={`/details/${data.rentalId}/edit`}>
                         <img src={modification} />
                       </Link>
                       <Modal

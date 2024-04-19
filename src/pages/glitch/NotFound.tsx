@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import donotcrythehamzzang from '/public/assets/donotcrythehamzzang.svg';
+import magnifyingtheham from '/public/assets/magnifyingtheham.svg';
 
 function NotFound() {
   const navigate = useNavigate();
   const mainBtn = () => navigate('/');
   return (
     <ErrorPage>
-      <img src={donotcrythehamzzang} />
+      <img src={magnifyingtheham} />
       <MSG>
         페이지를 찾을 수 없습니다. <br />
         <br />

@@ -18,7 +18,7 @@ export default DefaultLayout;
 export const Phone = styled.div`
   position: absolute;
   left: -20px;
-  height: 869px;
+
   width: 420px;
 top: -50px;;
   z-index: 9999;
@@ -32,12 +32,16 @@ export const Containerrelative = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 100%;
-  height: 829px;
-  background-color: #ffffff;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  position: relative;
+ overflow: scroll;
+display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: relative;
+
+    flex-direction: column;
 `;
 
 export const Div = styled.div`

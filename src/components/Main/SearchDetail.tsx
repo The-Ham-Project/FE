@@ -9,19 +9,21 @@ import sweattheham from '../../../public/assets/sweattheham.svg';
 import { getKeywordList } from '../../api/search';
 import Search from './Search';
 import { useSearchParams } from 'react-router-dom';
+import lgoo from '../../../public/assets/lgoo.svg';
+import searchIcon from '/public/assets/search.svg';
 
 function SearchDetail() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [data, setData] = useState(null);
   const keyword = searchParams.get('keyword');
-console.log('keyword',keyword)
+  console.log('keyword', keyword);
   const priceDot = (num) => {
     return num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  const { isLoading, isError ,refetch } = useQuery({
-    queryKey: ['rentals', keyword,], 
+  const { isLoading, isError, refetch } = useQuery({
+    queryKey: ['rentals', keyword],
     queryFn: async () => {
       try {
         const { data } = await instance.get(
@@ -37,21 +39,11 @@ console.log('keyword',keyword)
       }
     },
     enabled: keyword !== '',
-    
   });
-  
-
-
 
   useEffect(() => {
     refetch();
-  }, [keyword, ]);
-
-
-
-
-
-
+  }, [keyword]);
 
   return (
     <>
@@ -63,40 +55,64 @@ console.log('keyword',keyword)
       )}
       {isLoading && <li>Loading...</li>}
       {isError && <li>Error occurred while fetching data</li>}
-      {data && data.data.count !== 0 ? (data.data.searchResponseList.map((rental:any) => (
-          <Ao
-            key={rental.rentalId}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/Details/${rental.rentalId}`);
-            }}
-          >
-            <Container>
-              <IMG>
-                <img src={rental.rentalImageList} alt="Rental Thumbnail" />
-              </IMG>
-              <Box>
-                <Title>{rental.title}</Title>
-                <Box2>
-                  <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
-                  <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
-                </Box2>
-              </Box>
-            </Container>
-          </Ao>
-        ))
-      ) : (
-        !isLoading && (
-          <NoData>
-            <Image>{sweattheham}</Image>
-            <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
-          </NoData>
-        )
-      )}
+      {data && data.data.count !== 0
+        ? data.data.searchResponseList.map((rental: any) => (
+            <Ao
+              key={rental.rentalId}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/Details/${rental.rentalId}`);
+              }}
+            >
+              <Container>
+                <IMG>
+                  <img src={rental.rentalImageList} alt="Rental Thumbnail" />
+                </IMG>
+                <Box>
+                  <Title>{rental.title}</Title>
+                  <Box2>
+                    <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
+                    <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
+                  </Box2>
+                </Box>
+              </Container>
+            </Ao>
+          ))
+        : !isLoading && (
+            <NoData>
+              <Image>{sweattheham}</Image>
+              <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
+            </NoData>
+          )}
     </>
   );
 }
 export default SearchDetail;
+
+// 스타일드 컴포넌트 정의
+const SearchContainer = styled.div`
+  display: flex;
+  width: 320px;
+  align-items: center;
+  background-color: white;
+  justify-content: flex-end;
+`;
+
+const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
+  width: ${({ showInput }) =>
+    showInput ? '100%' : '0'}; /* 입력 창의 너비를 조정합니다. */
+  opacity: ${({ showInput }) => (showInput ? 1 : 0)};
+  overflow: hidden; /* 애니메이션 중 내용물이 넘치는 것을 방지합니다. */
+  transition: width 0.3s ease-in-out; /* 너비 변경에 대한 애니메이션 효과를 적용합니다. */
+`;
+
+const Input = styled.input``;
+
+const SearchButton = styled.button``;
+
+const SearchResults = styled.ul`
+  /* 검색 결과 스타일 */
+`;
 
 const NoData = styled.div``;
 const Result = styled.div`
@@ -130,8 +146,9 @@ const Image = styled.div``;
 const MSG = styled.div``;
 const Ao = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
   margin-top: 13px;
   margin-bottom: 12px;
 `;

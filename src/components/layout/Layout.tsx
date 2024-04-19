@@ -46,7 +46,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #1689f3;
-  position: relative;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,7 +181,6 @@ const Phone = styled.div`
   .outlet {
     height: 100%;
     width: calc(100% - 8px);
-    padding: 5px;
   }
 
   @media (max-width: 700px) {

@@ -7,8 +7,8 @@ function Header() {
   const handleBackClick = () => navigate(-1);
   return (
     <MenuBox>
-      <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
-      <span>내가 쓴 글</span>
+      <IoIosArrowBack onClick={handleBackClick} size={'24px'} style={{marginTop: '25px'}} />
+      <span style={{marginTop: '25px'}}>내가 쓴 글</span>
     </MenuBox>
   );
 }
@@ -18,7 +18,7 @@ const MenuBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 6vh;
+  height: 10vh;
   padding: 0 7%;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
