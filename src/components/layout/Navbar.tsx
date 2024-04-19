@@ -10,7 +10,6 @@ function Navbar() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const navigate = useNavigate();
 
-  // useErrorModalStore 훅을 사용하여 모달 관련 상태와 메서드 가져오기
   const { openModal } = useErrorModalStore();
 
   const handlePostButtonClick = () => {
@@ -19,7 +18,6 @@ function Navbar() {
       console.log('postdetail 호출');
       navigate('/PostDetailsPage');
     } else {
-      // 모달 열기
       openModal('로그인 후에 게시글을 생성할 수 있습니다.');
     }
   };

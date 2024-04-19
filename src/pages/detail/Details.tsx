@@ -12,14 +12,29 @@ import {
   Flexnickname,
   Rental,
   Title,
-} from '../../styles/Details-Styles';
+} from '../../styles/Details-Styles.ts';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
 import styled, { css } from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { authInstance } from '../../api/axios.ts';
-import Header from '../../components/layout/Header.tsx';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import arrow from '/public/assets/arrow.svg';
+import {
+  Container,
+  ImgBox,
+  Img,
+  ContentsBox,
+  Contents,
+  TitleBox,
+  Between,
+  PriceBox,
+  TextBox,
+  Text,
+  Chat,
+  Catting,
+} from './Details.style.tsx';
 
 interface RentalImage {
   imageUrl: string;
@@ -63,7 +78,6 @@ function Details() {
       console.log('error');
     },
   });
-  console.log('로긍ㄴ햇니', isLoggedIn);
   const handleCreateChat = () => {
     if (isLoggedIn === true && item) {
       mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
@@ -120,38 +134,19 @@ function Details() {
         />
       </div>
     ) : item.rentalImageList.length === 1 ? (
-      <div>
-        <img
-          src={item.rentalImageList[0].imageUrl}
-          alt={`Image 1`}
-          style={{
-            maxWidth: '330px',
-            maxHeight: '330px',
-            width: '100%',
-            height: '330px',
-            objectFit: 'contain',
-            borderRadius: '20px',
-            paddingBottom: '10px',
-          }}
-        />
-      </div>
+      <img
+        src={item.rentalImageList[0].imageUrl}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+        alt={`Image 1`}
+      />
     ) : (
       <Slider {...settings}>
         {item.rentalImageList.map((image, index) => (
           <div key={index}>
-            <img
-              src={image.imageUrl}
-              alt={`Image ${index + 1}`}
-              style={{
-                maxWidth: '330px',
-                maxHeight: '330px',
-                width: '100%',
-                height: '330px',
-                objectFit: 'contain',
-                borderRadius: '20px',
-                paddingBottom: '10px',
-              }}
-            />
+            <img src={image.imageUrl} alt={`Image ${index + 1}`} />
           </div>
         ))}
       </Slider>
@@ -160,87 +155,57 @@ function Details() {
   const isChatButton = item.isChatButton;
 
   return (
-    <DetailsContainer>
-      <Header/>
-      <div>
-      <ImageContainer>{images}</ImageContainer>
-
-      <Flexbetween>
-        <Flexnickname>
-          <img
-            src={item.profileUrl}
-            alt="Profile"
-            style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }}
-          />
-          <p>{item.nickname}</p>
-        </Flexnickname>
-        <div>
-          <p>{item.district}</p>
-        </div>
-      </Flexbetween>
-
-      <Flex>
-        <Rental>대여비 {priceDot(item.rentalFee)}원</Rental>
-        <Deposit>보증금 {priceDot(item.deposit)}원</Deposit>
-      </Flex>
-
-      <Contentitem>
-        <Title>{item.title}</Title>
-      </Contentitem>
-      <p>{item.content}</p>
-      {isLoggedIn ? (
-        <Chat $active={isChatButton}>
-          <button className={'chatButton'} onClick={handleCreateChat}>
-            채팅하기
-          </button>
-        </Chat>
-      ) : (
-        <button className={'chatButton'} onClick={handleCreateChat}>
-          채팅하기
-        </button>
-      )}
-      </div>
-    </DetailsContainer>
-    
+    <Container>
+      <ImgBox>
+        <Img>{images}</Img>
+        <img
+          onClick={() => {
+            navigate(-1);
+          }}
+          src={arrow}
+        />
+      </ImgBox>
+      <ContentsBox>
+        <Contents>
+          <TitleBox>
+            <Between>
+              <img src={item.profileUrl} alt="Profile" />
+              <span>{item.nickname}</span>
+            </Between>
+            <Between>
+              <FaMapMarkerAlt style={{ fontSize: '12px', color: '#1689F3' }} />
+              <span className={'district'}>{item.district}</span>
+            </Between>
+          </TitleBox>
+          <PriceBox>
+            <span className={'rentalFee'}>
+              대여비 {priceDot(item.rentalFee)}원
+            </span>
+            <span className={'deposit'}>보증금 {priceDot(item.deposit)}원</span>
+          </PriceBox>
+          <TextBox>
+            <h5>{item.title}</h5>
+          </TextBox>
+          <Text>
+            <span>{item.content}</span>
+          </Text>
+          {isLoggedIn ? (
+            <Chat $active={isChatButton}>
+              <button className={'chatButton'} onClick={handleCreateChat}>
+                채팅하기
+              </button>
+            </Chat>
+          ) : (
+            <Catting>
+              <button className={'chatButton'} onClick={handleCreateChat}>
+                채팅하기
+              </button>
+            </Catting>
+          )}
+        </Contents>
+      </ContentsBox>
+    </Container>
   );
 }
 
 export default Details;
-
-const DetailsContainer = styled.div`
-  overflow-y: scroll;
-  height: 100vh;
-  background-color: white;
-`;
-
-const Chat = styled.div<{ $active: boolean }>(
-  ({ $active }) => css`
-    height: 12%;
-    justify-content: center;
-    align-items: flex-end;
-    display: ${$active ? 'flex' : 'none'};
-
-    .chatButton {
-      display: ${$active ? 'flex' : 'none'};
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 52px;
-      background-color: #1689f3;
-      border-radius: 31.14px;
-      color: white;
-      font-size: 15.45px;
-      font-family: 'Pretendard';
-      font-weight: 500;
-      text-align: center;
-      border: none;
-      cursor: pointer;
-    }
-  `,
-);
-
-const ImageContainer = styled.div`
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-`;
