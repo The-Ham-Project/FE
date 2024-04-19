@@ -69,8 +69,12 @@ function Search() {
             height: '59px',
             position: 'absolute',
             left: '25px',
+            cursor: 'pointer',
           }}
           src={lgoo}
+          onClick={() => {
+            navigate('/');
+          }}
         />
         <div
           style={{
