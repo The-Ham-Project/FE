@@ -28,7 +28,11 @@ function Layout() {
           <Phone>
             <img
               src={phone}
-              style={{ position: 'absolute', pointerEvents: 'none' }}
+              style={{
+                position: 'absolute',
+                pointerEvents: 'none',
+                zIndex: '999990',
+              }}
             />
             <div className={'outlet'}>
               <Outlet />

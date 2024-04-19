@@ -6,7 +6,6 @@ import MainHeder from '../../components/layout/MainHeder';
 import Category from '../../components/Main/Category';
 import Modal from '../../components/modal/Modal';
 
-
 const Chat = styled.div`
   display: flex;
   position: fixed;
@@ -66,8 +65,13 @@ export default function NavigationBar() {
 
   return (
     <>
-    <Outlet/>
-      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
+      <Outlet />
+      <Modal
+        isOpen={isOpen}
+        message={errorMessage}
+        onClose={closeModal}
+        rentalId={0}
+      />
       <Home onClick={() => navigate('/')}>
         {' '}
         <img src="../../../public/assets/home.svg" alt="Home" />

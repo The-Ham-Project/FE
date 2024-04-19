@@ -188,7 +188,8 @@ export default function Location(): JSX.Element {
           <Ao>
             <Map id="map"></Map>
           </Ao>
-          <MSG>현재 위치에 있는 동네는 아래와 같나요?</MSG>
+          <MSG1>현재 위치에 있는 동네는 아래와 같나요?</MSG1>
+          <MSG2>마커를 이동해 내 위치를 직접 변경할 수도 있어요!</MSG2>
           <Address>{address}</Address>
           {/* <button onClick={getCurrentPosBtn}>
             <IMG src={locationButton} alt="위치인증하기" />
@@ -210,7 +211,7 @@ export default function Location(): JSX.Element {
             </IMG>
             {address && (
               <IMG onClick={getCurrentPosBtn} $active={address}>
-                위치 다시 설정하기
+                자동으로 위치 다시 설정하기
               </IMG>
             )}
             {/* </button> */}
@@ -246,7 +247,21 @@ const Wrapper = styled.div`
 `;
 
 const MenuBox = styled.div`
-  position: absolute;
+  display: flex;
+  position: relative;
+  background-color: #f5f5f5;
+  height: 60px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+  z-index: 888888;
+  > span {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  /* position: absolute;
   width: 430px;
   display: flex;
   flex-direction: row;
@@ -266,14 +281,14 @@ const MenuBox = styled.div`
     font-size: 14.1085px;
     line-height: 17px;
     text-align: center;
-    color: #000000;
-    @media screen and (max-width: 430px) {
-      height: 60px;
-      > span {
-        width: 100px;
-      }
+    color: #000000; */
+  @media screen and (max-width: 430px) {
+    height: 60px;
+    > span {
+      width: 100px;
     }
   }
+  /* } */
 `;
 // const Box = styled.div`
 //   @media screen and (max-width: 430px) {
@@ -323,7 +338,7 @@ const IMG = styled.button<{ $active: string }>(
     width: 320px;
     height: 52px;
     z-index: 100;
-    bottom: ${$active ? '88px' : '40px'}; /* 조건부 위치 설정 */
+    bottom: ${$active ? '113px' : '40px'}; /* 조건부 위치 설정 */
     background-color: ${$active ? '#D1D1D1' : '#1689F3'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
     }
@@ -336,7 +351,7 @@ const IMG2 = styled.button<{ $active: string }>(
     width: 320px;
     height: 52px;
     z-index: 100;
-    bottom: ${$active ? '20px' : '88px'}; /* 조건부 위치 설정 */
+    bottom: ${$active ? '40px' : '113px'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
     }
   `,
@@ -401,7 +416,7 @@ const Map = styled.div`
   }
 `;
 
-const MSG = styled.div`
+const MSG1 = styled.div`
   position: absolute;
   width: 280px;
   height: 17px;
@@ -414,7 +429,24 @@ const MSG = styled.div`
   text-align: center;
   color: #000000;
   z-index: 100;
-  bottom: 250.26px;
+  bottom: 278.26px;
+  @media screen and (max-width: 430px) {
+  }
+`;
+const MSG2 = styled.div`
+  position: absolute;
+  width: 280px;
+  height: 17px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  color: #000000;
+  z-index: 100;
+  bottom: 257.26px;
   @media screen and (max-width: 430px) {
   }
 `;
