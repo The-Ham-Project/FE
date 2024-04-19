@@ -44,9 +44,7 @@ function Router() {
 
           <Route path="/thxkakaomap" element={<Location />} />
 
-         
           <Route path="*" element={<Navigate to="/" replace />} />
-         
         </Route>
 
         {/*</Route>*/}
