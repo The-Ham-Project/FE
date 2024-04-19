@@ -23,20 +23,20 @@ const Modal: React.FC<ModalProps> = ({
   successCallback,
 }) => {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
-  const navigate = useNavigate();
-  const { errorMessage, openModal, closeModal } = useErrorModalStore();
-  
-  const { mutate } = useMutation({
+  const navigate = useNavigate(); // useNavigate 훅은 함수 컴포넌트 내에서 사용
+  console.log(rentalId);
+
+  const onConfirm = () => {
+    navigate('/sociallogin');
+  };
+  const { mutate, reset } = useMutation({
     mutationFn: deleteRental,
     onSuccess: () => {
       successCallback && successCallback();
     },
   });
 
-  const onConfirm = () => {
-    closeModal();
-    navigate('/sociallogin');
-  };
+ 
 
   const handelDeleteButton = (e) => {
     mutate(rentalId);
@@ -71,7 +71,7 @@ const Modal: React.FC<ModalProps> = ({
             취소
           </ModalCloseButton>
           {isLoggedIn ? (
-            <ModalOKButton onClick={closeModal}>확인</ModalOKButton>
+            <ModalOKButton onClick={handelDeleteButton}>확인</ModalOKButton>
           ) : (
             <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
           )}

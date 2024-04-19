@@ -47,7 +47,7 @@ function Search() {
       return;
     }
     if (keyword.trim() === '') {
-      setShowInput(false); 
+      setShowInput(false);
       return;
     }
 
@@ -81,14 +81,25 @@ function Search() {
             width: '59px',
             height: '59px',
             position: 'absolute',
-            left: '25px'
+            left: '25px',
+            cursor: 'pointer',
           }}
           src={lgoo}
+          onClick={() => {
+            navigate('/');
+          }}
         />
-        <div  style={{ display: 'flex', justifyContent: 'flex-end' , alignItems: 'center', width: '72%%'}}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            width: '72%%',
+          }}
+        >
           <AnimatedInputContainer showInput={showInput}>
             <input
-            style={{borderRadius: '20px 0 0 20px'}}
+              style={{ borderRadius: '20px 0 0 20px' }}
               onKeyDown={activeEnter}
               type="text"
               placeholder="검색..."
@@ -153,7 +164,7 @@ const SearchContainer = styled.div`
 const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
   width: ${({ showInput }) => (showInput ? '100%' : '0')};
   opacity: ${({ showInput }) => (showInput ? 1 : 1)};
-  
+
   overflow: hidden;
   transition: ${({ showInput }) =>
     showInput
@@ -161,9 +172,8 @@ const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
       : 'width 0.5s ease-in-out, opacity 0.3s ease-in-out'}; // 인풋창이 나올 때의 transition
 `;
 
-
 const PersonButton = styled.button`
-background-color: #ffffff;
+  background-color: #ffffff;
   max-width: 29px;
   max-height: 59px;
   padding: 0;
@@ -172,14 +182,14 @@ background-color: #ffffff;
 `;
 
 const SearchButton = styled.button<SearchButtonProps>`
-background-color: ${({ isActive }) => (isActive ? '#F5F5F5' : '#ffffff')};
+  background-color: ${({ isActive }) => (isActive ? '#F5F5F5' : '#ffffff')};
   width: 30px;
   height: 50px;
   padding: 0;
   border: none;
   cursor: pointer;
   border-radius: 0 10px 10px 0;
-  transition: background-color 0.7s ease-in-out; 
+  transition: background-color 0.7s ease-in-out;
 `;
 
 const SearchResults = styled.ul`
@@ -197,6 +207,6 @@ const SearchResults = styled.ul`
 
 const Searchli = styled.li`
   background-color: #fafafa;
-  border-bottom:  1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
   padding: 10px;
 `;

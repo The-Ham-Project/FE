@@ -28,6 +28,7 @@ function Router() {
         <Route element={<Layout />}>
           <Route element={<Navbar />}>
             <Route path="/" element={<Main />} />
+            <Route path="/search" element={<SearchDetail />} />
             {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
             {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
             <Route path="/details/:rentalId" element={<Details />} />
