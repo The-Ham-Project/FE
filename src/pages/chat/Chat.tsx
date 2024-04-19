@@ -89,7 +89,8 @@ const Chat = () => {
       return () => {
         const headers = { chatRoomId: `${params?.chatRoom}` };
         socket.close();
-        client.disconnect({}, headers);
+        client.unsubscribe({}, headers);
+        client.disconnect();
       };
     }
   }, []);

@@ -12,7 +12,7 @@ import {
   Flexnickname,
   Rental,
   Title,
-} from '../../styles/Details-Styles';
+} from '../../styles/Details-Styles.ts';
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
 import styled, { css } from 'styled-components';
@@ -21,6 +21,20 @@ import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { authInstance } from '../../api/axios.ts';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import arrow from '/public/assets/arrow.svg';
+import {
+  Container,
+  ImgBox,
+  Img,
+  ContentsBox,
+  Contents,
+  TitleBox,
+  Between,
+  PriceBox,
+  TextBox,
+  Text,
+  Chat,
+  Catting,
+} from './Details.style.tsx';
 
 interface RentalImage {
   imageUrl: string;
@@ -64,7 +78,6 @@ function Details() {
       console.log('error');
     },
   });
-  console.log('로긍ㄴ햇니', isLoggedIn);
   const handleCreateChat = () => {
     if (isLoggedIn === true && item) {
       mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
@@ -196,171 +209,3 @@ function Details() {
 }
 
 export default Details;
-
-export const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-export const ImgBox = styled.div`
-  width: 100%;
-  height: 47%;
-  position: relative;
-  > img {
-    height: 18px;
-    width: 20px;
-    z-index: 1000;
-    position: absolute;
-    top: 22px;
-    left: 20px;
-    cursor: pointer;
-  }
-`;
-
-export const Img = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-export const ContentsBox = styled.div`
-  width: 100%;
-  height: 53%;
-  padding: 0 20px;
-  > img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-export const Contents = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-export const TitleBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 82px;
-  position: relative;
-
-  &:after {
-    content: '';
-    border-bottom: 1px solid #d1d1d1;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-  }
-`;
-export const Between = styled.div`
-  display: flex;
-  align-items: center;
-  > img {
-    border-radius: 100%;
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
-  }
-  > span {
-    font-size: 20px;
-  }
-  > .district {
-    color: #606060;
-    font-size: 15px;
-    margin-left: 6px;
-  }
-`;
-
-export const PriceBox = styled.div`
-  height: 69px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  > .rentalFee {
-    color: #1689f3;
-    font-size: 19px;
-    margin-right: 12px;
-  }
-  .deposit {
-    color: #808080;
-    font-size: 14px;
-  }
-
-  &:after {
-    content: '';
-    border-bottom: 1px solid #d1d1d1;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-  }
-`;
-
-export const TextBox = styled.div`
-  margin: 25px 0 25px 0;
-  display: flex;
-  align-items: center;
-  > h5 {
-    font-size: 25px;
-  }
-`;
-
-const Text = styled.div`
-  margin-bottom: 46px;
-  width: 100%;
-  > span {
-    font-size: 16px;
-  }
-`;
-
-const Chat = styled.div<{ $active: boolean }>(
-  ({ $active }) => css`
-    height: 170px;
-    display: ${$active ? 'flex' : 'none'};
-
-    .chatButton {
-      display: ${$active ? 'flex' : 'none'};
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 52px;
-      background-color: #1689f3;
-      border-radius: 31.14px;
-      color: white;
-      font-size: 15.45px;
-      font-family: 'Pretendard';
-      font-weight: 500;
-      text-align: center;
-      border: none;
-      cursor: pointer;
-    }
-  `,
-);
-
-const Catting = styled.div`
-  height: 170px;
-
-  .chatButton {
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 52px;
-    background-color: #1689f3;
-    border-radius: 31.14px;
-    color: white;
-    font-size: 15.45px;
-    font-family: 'Pretendard';
-    font-weight: 500;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-  }
-`;
