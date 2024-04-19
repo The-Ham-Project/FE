@@ -43,6 +43,7 @@ function SocialLogin() {
 export default SocialLogin;
 
 const Wrapper = styled.div`
+  width: 100%;
   height: 100%;
   background-color: #ffffff;
   /* padding: 6vh; */
@@ -124,7 +125,7 @@ const Container = styled.div`
   padding: 6vh;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
@@ -136,5 +137,19 @@ const Container = styled.div`
   margin: 0;
   padding: 0;
   @media screen and (max-width: 430px) {
+    padding: 6vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    gap: 25px;
+    color: #000000;
+    margin: 0;
+    padding: 0;
   }
 `;

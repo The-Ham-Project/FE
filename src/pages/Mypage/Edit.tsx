@@ -84,17 +84,17 @@ function Edit() {
 
     formData.append('requestDto', JSON.stringify(requestDto));
     formData.append('multipartFileList', JSON.stringify(Files));
-console.log(formData)
+    console.log(formData);
 
-  console.log("기존 이미지 파일 추가:", formData);
+    console.log('기존 이미지 파일 추가:', formData);
 
-// 새로 추가된 이미지 파일들만 FormData에 추가 (이미지가 변경되었을 때만 추가)
-if (selectedFiles) {
-  Array.from(selectedFiles).forEach((file) => {
-    console.log("새로 추가된 이미지 파일 추가:", file);
-    formData.append('multipartFileList', file);
-  });
-}
+    // 새로 추가된 이미지 파일들만 FormData에 추가 (이미지가 변경되었을 때만 추가)
+    if (selectedFiles) {
+      Array.from(selectedFiles).forEach((file) => {
+        console.log('새로 추가된 이미지 파일 추가:', file);
+        formData.append('multipartFileList', file);
+      });
+    }
 
     try {
       await updatePost({ rentalId: rentalId, formData: formData });
@@ -106,11 +106,12 @@ if (selectedFiles) {
 
   const handleValueChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    setter: React.Dispatch<React.SetStateAction<number | string>>
+    setter: React.Dispatch<React.SetStateAction<number | string>>,
   ) => {
     let value = e.target.value.replace(/\D/g, '').slice(0, 6);
     const numericValue: number | '' = value === '' ? '' : +value;
-    const formattedValue: number | string = numericValue === '' ? '' : numericValue.toLocaleString();
+    const formattedValue: number | string =
+      numericValue === '' ? '' : numericValue.toLocaleString();
     setter(formattedValue);
   };
 
@@ -123,7 +124,9 @@ if (selectedFiles) {
   };
 
   const handleDeleteImage = (indexToRemove: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+    setFiles((prevFiles) =>
+      prevFiles.filter((_, index) => index !== indexToRemove),
+    );
   };
 
   return (
@@ -131,7 +134,11 @@ if (selectedFiles) {
       <div>
         {Files.map((file, index) => (
           <div key={index}>
-            <img src={file.imageUrl} alt={`Image ${index + 1}`} style={{ maxWidth: '100px', maxHeight: '100px' }} />
+            <img
+              src={file.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{ maxWidth: '100px', maxHeight: '100px' }}
+            />
             <button onClick={() => handleDeleteImage(index)}>삭제</button>
           </div>
         ))}
@@ -153,7 +160,12 @@ if (selectedFiles) {
           </div>
         )}
       </div>
-      <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        onChange={handleFileChange}
+      />
       <div>
         {Object.entries(categories).map(([key, value]) => (
           <button
@@ -161,7 +173,10 @@ if (selectedFiles) {
             onClick={() => setSelectedCategory(key as Category)}
             style={{
               backgroundColor:
-                String(selectedCategory) === String(key) || String(selectedCategory) === value ? '#258bff' : '#F5F5F5',
+                String(selectedCategory) === String(key) ||
+                String(selectedCategory) === value
+                  ? '#258bff'
+                  : '#F5F5F5',
               color: selectedCategory === key ? 'white' : 'black',
               cursor: 'pointer',
               width: '80px',
@@ -175,7 +190,12 @@ if (selectedFiles) {
         ))}
       </div>
       <div>제목</div>
-      <input type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input
+        type="text"
+        placeholder="제목을 입력하세요"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
       <div>내용</div>
       <textarea
         style={{ resize: 'none' }}
@@ -186,9 +206,19 @@ if (selectedFiles) {
         onChange={(e) => setContent(e.target.value)}
       />
       <div>대여비</div>
-      <input type="text" placeholder="대여비를 입력해주세요" value={rentalFee} onChange={handleRentalFeeChange} />
+      <input
+        type="text"
+        placeholder="대여비를 입력해주세요"
+        value={rentalFee}
+        onChange={handleRentalFeeChange}
+      />
       <div>보증금</div>
-      <input type="text" placeholder="보증금을 입력해주세요" value={deposit} onChange={handleDepositChange} />
+      <input
+        type="text"
+        placeholder="보증금을 입력해주세요"
+        value={deposit}
+        onChange={handleDepositChange}
+      />
       <Rectangle>
         <button onClick={handleSubmit}>게시글 수정</button>
       </Rectangle>

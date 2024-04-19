@@ -9,12 +9,16 @@ import sweattheham from '../../../public/assets/sweattheham.svg';
 import { getKeywordList } from '../../api/search';
 import Search from './Search';
 import { useSearchParams } from 'react-router-dom';
+import lgoo from '../../../public/assets/lgoo.svg';
+import searchIcon from '/public/assets/search.svg';
 
 function SearchDetail() {
   // 매치가 사용자 입력값(키워드)
   // URL 파라미터에서 대여 상품 ID를 가져옵니다.
   // const rentalId = match.params.id;
+  const [userInput, setUserInput] = useState('');
   const navigate = useNavigate();
+  const [showInput, setShowInput] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
   console.log('searchDetail', keyword);
@@ -40,9 +44,74 @@ function SearchDetail() {
     enabled: keyword !== '', // keyword가 변경되면 쿼리를 다시 실행합니다.
   });
   // console.log(data.count);
+  const handleChange = (e) => {
+    setUserInput(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const handleSearch = () => {
+    setShowInput(true);
+    if (!showInput) return;
+    if (keyword.trim() === '') return alert('검색어를 적어주세요');
+    navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
+  };
+
+  const activeEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
-    <>
-      <Search />
+    <Wrapper>
+      <div style={{ display: 'flex', backgroundColor: 'white' }}>
+        <img
+          style={{
+            width: '59px',
+            height: '59px',
+          }}
+          src={lgoo}
+        />
+        <SearchContainer>
+          <AnimatedInputContainer showInput={showInput}>
+            <input
+              onKeyDown={activeEnter}
+              type="text"
+              placeholder="검색..."
+              value={userInput}
+              onChange={handleChange}
+            />
+          </AnimatedInputContainer>
+          <SearchButton
+            onClick={() => {
+              handleSearch();
+            }}
+            style={{
+              backgroundColor: '#F5F5F5',
+              maxWidth: '59px',
+              maxHeight: '59px',
+            }}
+          >
+            <img
+              style={{
+                maxWidth: '22px',
+                maxHeight: '22px',
+              }}
+              src={searchIcon}
+            />
+          </SearchButton>
+          <SearchResults>
+            {isLoading && <li>Loading...</li>}
+            {isError && <li>Error occurred while fetching data</li>}
+            {data &&
+              data.searchResponseList?.map((rental) => (
+                <li key={rental.rentalId}>
+                  <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
+                </li>
+              ))}
+          </SearchResults>
+        </SearchContainer>
+      </div>
       <Result>
         {data?.count !== 0 ? (
           <>
@@ -87,11 +156,36 @@ function SearchDetail() {
           <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
         </NoData>
       )}
-    </>
+    </Wrapper>
   );
 }
 
 export default SearchDetail;
+
+// 스타일드 컴포넌트 정의
+const SearchContainer = styled.div`
+  display: flex;
+  width: 320px;
+  align-items: center;
+  background-color: white;
+  justify-content: flex-end;
+`;
+
+const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
+  width: ${({ showInput }) =>
+    showInput ? '100%' : '0'}; /* 입력 창의 너비를 조정합니다. */
+  opacity: ${({ showInput }) => (showInput ? 1 : 0)};
+  overflow: hidden; /* 애니메이션 중 내용물이 넘치는 것을 방지합니다. */
+  transition: width 0.3s ease-in-out; /* 너비 변경에 대한 애니메이션 효과를 적용합니다. */
+`;
+
+const Input = styled.input``;
+
+const SearchButton = styled.button``;
+
+const SearchResults = styled.ul`
+  /* 검색 결과 스타일 */
+`;
 
 const NoData = styled.div``;
 const Result = styled.div`
@@ -126,8 +220,9 @@ const Image = styled.div``;
 const MSG = styled.div``;
 const Ao = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
   margin-top: 13px;
   margin-bottom: 12px;
   @media screen and (max-width: 430px) {
@@ -135,12 +230,12 @@ const Ao = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  background-color: white;
   display: flex;
   flex-direction: column;
+  /* justify-content: center; */
   align-items: center;
-  justify-content: flex-start;
-  /* height: 100vh; */
+  height: 100%;
   @media screen and (max-width: 430px) {
   }
 `;
