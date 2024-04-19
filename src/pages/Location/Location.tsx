@@ -229,12 +229,11 @@ const Wrapper = styled.div`
 `;
 
 const MenuBox = styled.div`
-  /* position: absolute; */
+  position: absolute;
   width: 430px;
   display: flex;
   flex-direction: row;
-  /* justify-content: center; */
-  margin-left: 140px;
+  padding-left: 140px;
   background-color: #ffffff;
   height: 60px;
   align-items: center;
@@ -307,7 +306,7 @@ const IMG = styled.button<{ $active: string }>(
     width: 320px;
     height: 52px;
     z-index: 100;
-    bottom: ${$active ? '124px' : '54px'}; /* 조건부 위치 설정 */
+    bottom: ${$active ? '88px' : '40px'}; /* 조건부 위치 설정 */
     background-color: ${$active ? '#D1D1D1' : '#1689F3'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
     }
@@ -320,7 +319,7 @@ const IMG2 = styled.button<{ $active: string }>(
     width: 320px;
     height: 52px;
     z-index: 100;
-    bottom: ${$active ? '54px' : '124px'}; /* 조건부 위치 설정 */
+    bottom: ${$active ? '20px' : '88px'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
     }
   `,
@@ -400,19 +399,6 @@ const MSG = styled.div`
   z-index: 100;
   bottom: 250.26px;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 280px;
-    height: 17px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    margin-bottom: 58.84px;
-    text-align: center;
-    color: #000000;
-    z-index: 100;
-    bottom: 250.26px;
   }
 `;
 
@@ -430,19 +416,6 @@ const Address = styled.div`
   z-index: 100;
   bottom: 205.4px;
   @media screen and (max-width: 430px) {
-    position: absolute;
-    width: 300px;
-    height: 26px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 26px;
-    text-align: center;
-    color: #000000;
-    z-index: 100;
-    bottom: 205.4px;
-    margin-bottom: 42.84px;
   }
 `;
 
