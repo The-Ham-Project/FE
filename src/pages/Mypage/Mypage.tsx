@@ -285,6 +285,7 @@ const Box1 = styled.div`
   padding-right: 29px;
   padding-left: 29px;
   border-radius: 7px;
+  cursor: pointer;
 `;
 
 const GotoMyList = styled.div`
@@ -325,6 +326,9 @@ const Box2 = styled.div`
   padding-right: 29px;
   padding-left: 29px;
   border-radius: 7px;
+  cursor: pointer;
+  @media screen and (max-width: 430px) {
+  }
 `;
 const Box3 = styled.div`
   display: flex;
@@ -337,6 +341,9 @@ const Box3 = styled.div`
   padding-right: 29px;
   padding-left: 29px;
   border-radius: 7px;
+  cursor: pointer;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Logout = styled.div`
@@ -346,6 +353,7 @@ const Logout = styled.div`
   font-size: 12px;
   line-height: 14px;
   color: #000000;
+  cursor: pointer;
   @media screen and (max-width: 430px) {
   }
 `;
