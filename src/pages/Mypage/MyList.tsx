@@ -3,6 +3,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
+import magnifyingtheham from '../../../public/assets/magnifyingtheham.svg';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -62,7 +63,7 @@ function MyList() {
   if (isError) {
     return (
       <ErrorPage>
-        <img src={donotcrythehamzzang} />
+        <img src={magnifyingtheham} />
         <MSG>
           페이지를 찾을 수 없습니다. <br />
           <br />
@@ -79,7 +80,16 @@ function MyList() {
   return (
     <Wrapper>
       {!data || data.length === 0 ? (
-        <p>No rentals found.</p>
+        <>
+          <MenuBox>
+            <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+            <span>내가 쓴 글</span>
+          </MenuBox>
+          <NoData>
+            <img src={donotcrythehamzzang} />
+            <NoDataMSG>아직 쓰신 글이 없네용</NoDataMSG>
+          </NoData>
+        </>
       ) : (
         <>
           <MenuBox>
@@ -147,6 +157,7 @@ const MenuBox = styled.div`
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
   z-index: 1;
+  margin-top: 10px;
   > span {
     width: 69px;
     height: 17px;
@@ -157,6 +168,7 @@ const MenuBox = styled.div`
     line-height: 17px;
     text-align: center;
     color: #000000;
+    margin-left: 110px;
   }
   @media screen and (max-width: 430px) {
     height: 60px;
@@ -219,8 +231,35 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  /* height: 100vh; */
+  /* justify-content: flex-start; */
+  background-color: white;
+  @media screen and (max-width: 430px) {
+  }
+`;
+const NoData = styled.div`
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 33px;
+  @media screen and (max-width: 430px) {
+  }
+`;
+
+const NoDataMSG = styled.div`
+  width: 300px;
+  height: 19px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+
+  text-align: center;
+
+  color: #282828;
+
   @media screen and (max-width: 430px) {
   }
 `;

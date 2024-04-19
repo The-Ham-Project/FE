@@ -46,45 +46,45 @@ function SearchDetail() {
   }, [keyword]);
 
   return (
-    <>
+    <Wrapper>
       <Search />
-      {data && data.count !== 0 && (
-        <Result>
-          검색 결과 총 <span>{data.data.count}</span>개의 글을 찾았습니다!
-        </Result>
-      )}
-      {isLoading && <li>Loading...</li>}
-      {isError && <li>Error occurred while fetching data</li>}
-      {data && data.data.count !== 0
-        ? data.data.searchResponseList.map((rental: any) => (
-            <Ao
-              key={rental.rentalId}
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/Details/${rental.rentalId}`);
-              }}
-            >
-              <Container>
-                <IMG>
-                  <img src={rental.rentalImageList} alt="Rental Thumbnail" />
-                </IMG>
-                <Box>
-                  <Title>{rental.title}</Title>
-                  <Box2>
-                    <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
-                    <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
-                  </Box2>
-                </Box>
-              </Container>
-            </Ao>
-          ))
-        : !isLoading && (
-            <NoData>
-              <Image>{sweattheham}</Image>
-              <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
-            </NoData>
-          )}
-    </>
+      <Detail>
+        {data && data.count !== 0 && (
+          <Result>검색 결과 총 {data.data.count}개의 글을 찾았습니다!</Result>
+        )}
+        {isLoading && <li>Loading...</li>}
+        {isError && <li>Error occurred while fetching data</li>}
+        {data && data.data.count !== 0
+          ? data.data.searchResponseList.map((rental: any) => (
+              <Ao
+                key={rental.rentalId}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/details/${rental.rentalId}`);
+                }}
+              >
+                <Container>
+                  <IMG>
+                    <img src={rental.rentalImageList} alt="Rental Thumbnail" />
+                  </IMG>
+                  <Box>
+                    <Title>{rental.title}</Title>
+                    <Box2>
+                      <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
+                      <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
+                    </Box2>
+                  </Box>
+                </Container>
+              </Ao>
+            ))
+          : !isLoading && (
+              <NoData>
+                <Image>{sweattheham}</Image>
+                <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
+              </NoData>
+            )}
+      </Detail>
+    </Wrapper>
   );
 }
 export default SearchDetail;
@@ -114,6 +114,22 @@ const SearchResults = styled.ul`
   /* 검색 결과 스타일 */
 `;
 
+const Wrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media screen and (max-width: 430px) {
+  }
+`;
+const Detail = styled.div`
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media screen and (max-width: 430px) {
+  }
+`;
 const NoData = styled.div``;
 const Result = styled.div`
   width: 290px;
@@ -129,16 +145,7 @@ const Result = styled.div`
   margin-top: 25px;
   text-align: center;
   color: #737373;
-  > span {
-    height: 17px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    margin-top: 25px;
-    text-align: center;
-    color: #737373;
+  @media screen and (max-width: 430px) {
   }
 `;
 
@@ -151,6 +158,8 @@ const Ao = styled.div`
   justify-content: center;
   margin-top: 13px;
   margin-bottom: 12px;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Container = styled.div`
@@ -162,12 +171,16 @@ const Container = styled.div`
   box-shadow: 0px 4px 10.4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   justify-content: space-between;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Box = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Box2 = styled.div`
@@ -176,6 +189,8 @@ const Box2 = styled.div`
   justify-content: space-between;
   gap: 30px;
   text-align: center;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Title = styled.div`
@@ -187,6 +202,8 @@ const Title = styled.div`
   line-height: 19px;
   margin-bottom: 25px;
   color: #000000;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Fee = styled.div`
@@ -209,6 +226,8 @@ const Fee = styled.div`
   z-index: 1;
   background: rgba(31, 147, 255, 0.1);
   border-radius: 16.623px;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Deposit = styled.div`
@@ -222,6 +241,8 @@ const Deposit = styled.div`
   line-height: 14px;
   text-align: right;
   color: #595959;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const IMG = styled.div`
@@ -233,5 +254,7 @@ const IMG = styled.div`
     height: 130px;
     border-radius: 6.71835px;
     object-fit: contain;
+  }
+  @media screen and (max-width: 430px) {
   }
 `;
