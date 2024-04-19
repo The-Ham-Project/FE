@@ -17,13 +17,13 @@ function SearchDetail() {
   const [searchParams] = useSearchParams();
   const [data, setData] = useState(null);
   const keyword = searchParams.get('keyword');
-console.log('keyword',keyword)
+  console.log('keyword', keyword);
   const priceDot = (num) => {
     return num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  const { isLoading, isError ,refetch } = useQuery({
-    queryKey: ['rentals', keyword,], 
+  const { isLoading, isError, refetch } = useQuery({
+    queryKey: ['rentals', keyword],
     queryFn: async () => {
       try {
         const { data } = await instance.get(
@@ -39,21 +39,11 @@ console.log('keyword',keyword)
       }
     },
     enabled: keyword !== '',
-    
   });
-  
-
-
 
   useEffect(() => {
     refetch();
-  }, [keyword, ]);
-
-
-
-
-
-
+  }, [keyword]);
 
   return (
     <>
@@ -65,37 +55,36 @@ console.log('keyword',keyword)
       )}
       {isLoading && <li>Loading...</li>}
       {isError && <li>Error occurred while fetching data</li>}
-      {data && data.data.count !== 0 ? (data.data.searchResponseList.map((rental:any) => (
-          <Ao
-            key={rental.rentalId}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/Details/${rental.rentalId}`);
-            }}
-          >
-            <Container>
-              <IMG>
-                <img src={rental.rentalImageList} alt="Rental Thumbnail" />
-              </IMG>
-              <Box>
-                <Title>{rental.title}</Title>
-                <Box2>
-                  <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
-                  <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
-                </Box2>
-              </Box>
-            </Container>
-          </Ao>
-        ))
-      ) : (
-        !isLoading && (
-          <NoData>
-            <Image>{sweattheham}</Image>
-            <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
-          </NoData>
-        )
-      )}
-    </Wrapper>
+      {data && data.data.count !== 0
+        ? data.data.searchResponseList.map((rental: any) => (
+            <Ao
+              key={rental.rentalId}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/Details/${rental.rentalId}`);
+              }}
+            >
+              <Container>
+                <IMG>
+                  <img src={rental.rentalImageList} alt="Rental Thumbnail" />
+                </IMG>
+                <Box>
+                  <Title>{rental.title}</Title>
+                  <Box2>
+                    <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
+                    <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
+                  </Box2>
+                </Box>
+              </Container>
+            </Ao>
+          ))
+        : !isLoading && (
+            <NoData>
+              <Image>{sweattheham}</Image>
+              <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
+            </NoData>
+          )}
+    </>
   );
 }
 export default SearchDetail;
