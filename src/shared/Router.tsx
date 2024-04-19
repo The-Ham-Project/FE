@@ -3,7 +3,7 @@ import Main from '../pages/main/Main';
 import Location from '../pages/Location/Location';
 import RedirectKakao from '../components/KakaoLogin/RedirectKakao.tsx';
 import PostDetailsPage from '../pages/main/PostDetailsPage';
-import Details from '../pages/main/Details';
+import Details from '../pages/detail/Details.tsx';
 import Chat from '../pages/chat/Chat.tsx';
 import ChatList from '../pages/chatlist/ChatList.tsx';
 import RedirectGoogle from '../components/GoogleLogin/RedirectGoogle.tsx';

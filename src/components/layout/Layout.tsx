@@ -3,7 +3,7 @@ import thehamlogo from '../../../public/assets/thehamlogo.svg';
 import phone from '../../../public/assets/phone.svg';
 import { Outlet } from 'react-router-dom';
 import phontheham from '../../../public/assets/phontheham.svg';
-import bubble from '../../../public/assets/bubble.svg';
+import bubble from '/public/assets/bubble.svg';
 
 function Layout() {
   return (
@@ -46,7 +46,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #1689f3;
-  position: fixed;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +67,7 @@ const Explanation = styled.div`
   display: flex;
 
   z-index: 300;
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 700px) {
     height: 100%;
   }
 `;
@@ -76,7 +76,7 @@ const ContentsBox = styled.div`
   //width: 50%;
   flex: 1;
   height: 100%;
-  @media (max-width: 640px) {
+  @media (max-width: 700px) {
     display: none;
   }
 `;
@@ -152,12 +152,12 @@ const PhoneBox = styled.div`
     width: 380px;
     height: 496px;
     z-index: 10000;
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       display: none;
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 700px) {
     width: 100%;
   }
 `;
@@ -180,10 +180,10 @@ const Phone = styled.div`
   }
   .outlet {
     height: 100%;
-    width: calc(100% - 8px);
+    width: calc(97% - 8px);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 700px) {
     width: 100%;
     > img {
       display: none;
