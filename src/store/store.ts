@@ -85,9 +85,7 @@ export const useErrorModalStore = create<ErrorModalState>((set) => ({
   },
   closeModal: () => set({ isOpen: false, errorMessage: '' }),
   // 로그인 페이지로 이동하는 함수 추가
-  goToLoginPage: () => {
-  
-  },
+  goToLoginPage: () => {},
 }));
 
 export default useStore;

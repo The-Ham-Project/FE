@@ -110,8 +110,8 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
-background-color: white;
-    height: 100%;
+  background-color: white;
+  height: 100%;
   @media screen and (max-width: 430px) {
   }
 `;

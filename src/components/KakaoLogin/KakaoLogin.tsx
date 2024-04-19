@@ -33,9 +33,9 @@ export default KakaoLogin;
 
 const Button = styled.button`
   background-color: white;
+  width: 350px;
+  height: 45px;
   @media screen and (max-width: 430px) {
-    width: 350px;
-    height: 45px;
   }
 `;
 

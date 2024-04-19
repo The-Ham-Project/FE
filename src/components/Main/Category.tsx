@@ -193,9 +193,6 @@ function Category() {
         </button>
       </div>
       <Contents />
-
-
-
     </Div>
   );
 }
