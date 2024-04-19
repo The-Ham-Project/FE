@@ -243,7 +243,7 @@ const Nickname = styled.div`
 `;
 
 const H1 = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   line-height: 14px;
   font-weight: 600;
   height: 40px;

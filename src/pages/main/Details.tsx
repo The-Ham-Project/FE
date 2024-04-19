@@ -19,6 +19,7 @@ import styled, { css } from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { authInstance } from '../../api/axios.ts';
+import Header from '../../components/layout/Header.tsx';
 
 interface RentalImage {
   imageUrl: string;
@@ -160,6 +161,8 @@ function Details() {
 
   return (
     <DetailsContainer>
+      <Header/>
+      <div>
       <ImageContainer>{images}</ImageContainer>
 
       <Flexbetween>
@@ -196,14 +199,15 @@ function Details() {
           채팅하기
         </button>
       )}
+      </div>
     </DetailsContainer>
+    
   );
 }
 
 export default Details;
 
 const DetailsContainer = styled.div`
-  padding: 30px;
   overflow-y: scroll;
   height: 100vh;
   background-color: white;

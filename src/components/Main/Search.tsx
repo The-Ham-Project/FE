@@ -3,9 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import searchIcon from '/public/assets/search.svg';
 import lgoo from '/public/assets/lgoo.svg';
-import { IoPersonOutline } from 'react-icons/io5';
+import person from '/public/assets/person.svg';
 import styled from 'styled-components';
 
+interface SearchButtonProps {
+  isActive: boolean;
+}
 function Search() {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
@@ -32,11 +35,6 @@ function Search() {
     enabled: keyword !== '', // keyword가 변경되면 쿼리를 다시 실행합니다.
   });
 
-  // const toggleInput = () => {
-  //   setShowInput(!showInput); // showInput 상태를 토글하여 인풋 창 보이기 여부 변경
-  // };
-
-
   const handleChange = (e) => {
     setKeyword(e.target.value);
     console.log(e.target.value);
@@ -44,15 +42,13 @@ function Search() {
 
   const handleSearch = () => {
     setShowInput(true);
-    // 인풋 창이 보이지 않는 경우
     if (!showInput) {
-      setShowInput(true); // 인풋 창을 보이도록 설정
+      setShowInput(true);
       return;
     }
-    // 인풋 창이 보이고 검색어가 비어있는 경우
     if (keyword.trim() === '') {
       setShowInput(false); 
-      return;// 인풋 창을 숨기도록 설정
+      return;
     }
     if (keyword.trim() === '') return alert('검색어를 적어주세요');
     navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
@@ -66,58 +62,62 @@ function Search() {
 
   return (
     <div style={{ display: 'flex', backgroundColor: 'white' }}>
-      <img
-        style={{
-          width: '59px',
-          height: '59px',
-        }}
-        src={lgoo}
-      />
       <SearchContainer>
-        <AnimatedInputContainer showInput={showInput}>
-          <input
-            onKeyDown={activeEnter}
-            type="text"
-            placeholder="검색..."
-            value={keyword}
-            onChange={handleChange}
-          />
-        </AnimatedInputContainer>
-        <SearchButton
-          onClick={() => {
-            handleSearch();
-          }}
+        <img
           style={{
-            backgroundColor: '#F5F5F5',
-            maxWidth: '59px',
-            maxHeight: '59px',
+            width: '59px',
+            height: '59px',
+            position: 'absolute',
+            left: '25px'
           }}
-        >
-          <img
-            style={{
-              maxWidth: '22px',
-              maxHeight: '22px',
-            }}
-            src={searchIcon}
-          />
-        </SearchButton>
-        <SearchResults>
-          {isLoading && <li>Loading...</li>}
-          {isError && <li>Error occurred while fetching data</li>}
-          {data &&
-            data.searchResponseList?.map((rental) => (
-              <li key={rental.rentalId}>
-                <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
-              </li>
-            ))}
-        </SearchResults>
-
-        <IoPersonOutline
-          size={'22px'}
-          onClick={() => {
-            navigate('/mypage');
-          }}
+          src={lgoo}
         />
+        <div  style={{ display: 'flex', justifyContent: 'flex-end' , alignItems: 'center', width: '72%%'}}>
+          <AnimatedInputContainer showInput={showInput}>
+            <input
+            style={{borderRadius: '20px 0 0 20px'}}
+              onKeyDown={activeEnter}
+              type="text"
+              placeholder="검색..."
+              value={keyword}
+              onChange={handleChange}
+            />
+          </AnimatedInputContainer>
+          <SearchButton
+            isActive={showInput}
+            onClick={() => {
+              handleSearch();
+            }}
+          >
+            <img
+              style={{
+                maxWidth: '40px',
+                maxHeight: '22px',
+              }}
+              src={searchIcon}
+            />
+          </SearchButton>
+          <SearchResults>
+            {isError && <li>Error occurred while fetching data</li>}
+            {data &&
+              data.searchResponseList?.map((rental) => (
+                <Searchli key={rental.rentalId}>
+                  <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
+                </Searchli>
+              ))}
+          </SearchResults>
+        </div>
+        <PersonButton  onClick={() => {
+            navigate('/mypage');
+          }} >
+            <img
+              style={{
+                maxWidth: '22px',
+                maxHeight: '22px',
+              }}
+              src={person}
+            />
+          </PersonButton>
       </SearchContainer>
     </div>
   );
@@ -128,15 +128,21 @@ export default Search;
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
   display: flex;
-  width: 320px;
-  align-items: center;
-  background-color: white;
+  width: 100%;
+  height: 114px;
+  align-items: flex-end;
+  background-color: #ffffff;
   justify-content: flex-end;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  z-index: 99;
+  padding: 10px 30px 10px 30px;
 `;
 
 const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
   width: ${({ showInput }) => (showInput ? '100%' : '0')};
   opacity: ${({ showInput }) => (showInput ? 1 : 1)};
+  
   overflow: hidden;
   transition: ${({ showInput }) =>
     showInput
@@ -144,10 +150,42 @@ const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
       : 'width 0.5s ease-in-out, opacity 0.3s ease-in-out'}; // 인풋창이 나올 때의 transition
 `;
 
-const Input = styled.input``;
 
-const SearchButton = styled.button``;
+const PersonButton = styled.button`
+background-color: #ffffff;
+  max-width: 29px;
+  max-height: 59px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+`;
+
+const SearchButton = styled.button<SearchButtonProps>`
+background-color: ${({ isActive }) => (isActive ? '#F5F5F5' : '#ffffff')};
+  width: 30px;
+  height: 50px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 0 10px 10px 0;
+  transition: background-color 0.7s ease-in-out; 
+`;
 
 const SearchResults = styled.ul`
-  /* 검색 결과 스타일 */
+  width: 200px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  left: 100px;
+  top: 100px;
+
+  flex-direction: column;
+`;
+
+const Searchli = styled.li`
+  background-color: #fafafa;
+  border-bottom:  1px solid #dddddd;
+  padding: 10px;
 `;
