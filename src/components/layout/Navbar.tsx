@@ -18,7 +18,7 @@ function Navbar() {
       console.log('postdetail 호출');
       navigate('/PostDetailsPage');
     } else {
-      openModal('로그인 후에 게시글을 생성할 수 있습니다.');
+      openModal('로그인 후에 게시글을 생성할 수 있습니다.',);
     }
   };
 

@@ -22,9 +22,11 @@ interface State {
 interface ErrorModalState {
   isOpen: boolean;
   errorMessage: string;
-  openModal: (errorMessage: string) => void;
+
+  openModal: (errorMessage: string) => void; // openModal 함수 수정
   closeModal: () => void;
 }
+
 
 export type Category =
   | 'ALL'
@@ -79,13 +81,11 @@ const useStore = create<State>((set) => ({
 export const useErrorModalStore = create<ErrorModalState>((set) => ({
   isOpen: false,
   errorMessage: '',
-  openModal: (errorMessage) => {
-    console.log('openModal is called');
-    set({ isOpen: true, errorMessage });
+
+  openModal: (errorMessage, ) => {
+    set({ isOpen: true, errorMessage,  }); // confirmCallback 저장
   },
-  closeModal: () => set({ isOpen: false, errorMessage: '' }),
-  // 로그인 페이지로 이동하는 함수 추가
-  goToLoginPage: () => {},
+  closeModal: () => set({ isOpen: false, errorMessage: ''}), // closeModal 함수 수정
 }));
 
 export default useStore;
