@@ -3,7 +3,7 @@ import thehamlogo from '../../../public/assets/thehamlogo.svg';
 import phone from '../../../public/assets/phone.svg';
 import { Outlet } from 'react-router-dom';
 import phontheham from '../../../public/assets/phontheham.svg';
-import bubble from '../../../public/assets/bubble.svg';
+import bubble from '/public/assets/bubble.svg';
 
 function Layout() {
   return (

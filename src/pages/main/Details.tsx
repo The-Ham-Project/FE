@@ -19,6 +19,8 @@ import styled, { css } from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { authInstance } from '../../api/axios.ts';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import arrow from '/public/assets/arrow.svg';
 
 interface RentalImage {
   imageUrl: string;
@@ -119,38 +121,19 @@ function Details() {
         />
       </div>
     ) : item.rentalImageList.length === 1 ? (
-      <div>
-        <img
-          src={item.rentalImageList[0].imageUrl}
-          alt={`Image 1`}
-          style={{
-            maxWidth: '330px',
-            maxHeight: '330px',
-            width: '100%',
-            height: '330px',
-            objectFit: 'contain',
-            borderRadius: '20px',
-            paddingBottom: '10px',
-          }}
-        />
-      </div>
+      <img
+        src={item.rentalImageList[0].imageUrl}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+        alt={`Image 1`}
+      />
     ) : (
       <Slider {...settings}>
         {item.rentalImageList.map((image, index) => (
           <div key={index}>
-            <img
-              src={image.imageUrl}
-              alt={`Image ${index + 1}`}
-              style={{
-                maxWidth: '330px',
-                maxHeight: '330px',
-                width: '100%',
-                height: '330px',
-                objectFit: 'contain',
-                borderRadius: '20px',
-                paddingBottom: '10px',
-              }}
-            />
+            <img src={image.imageUrl} alt={`Image ${index + 1}`} />
           </div>
         ))}
       </Slider>
@@ -159,61 +142,188 @@ function Details() {
   const isChatButton = item.isChatButton;
 
   return (
-    <DetailsContainer>
-      <ImageContainer>{images}</ImageContainer>
-
-      <Flexbetween>
-        <Flexnickname>
-          <img
-            src={item.profileUrl}
-            alt="Profile"
-            style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%' }}
-          />
-          <p>{item.nickname}</p>
-        </Flexnickname>
-        <div>
-          <p>{item.district}</p>
-        </div>
-      </Flexbetween>
-
-      <Flex>
-        <Rental>대여비 {priceDot(item.rentalFee)}원</Rental>
-        <Deposit>보증금 {priceDot(item.deposit)}원</Deposit>
-      </Flex>
-
-      <Contentitem>
-        <Title>{item.title}</Title>
-      </Contentitem>
-      <p>{item.content}</p>
-      {isLoggedIn ? (
-        <Chat $active={isChatButton}>
-          <button className={'chatButton'} onClick={handleCreateChat}>
-            채팅하기
-          </button>
-        </Chat>
-      ) : (
-        <button className={'chatButton'} onClick={handleCreateChat}>
-          채팅하기
-        </button>
-      )}
-    </DetailsContainer>
+    <Container>
+      <ImgBox>
+        <Img>{images}</Img>
+        <img
+          onClick={() => {
+            navigate(-1);
+          }}
+          src={arrow}
+        />
+      </ImgBox>
+      <ContentsBox>
+        <Contents>
+          <TitleBox>
+            <Between>
+              <img src={item.profileUrl} alt="Profile" />
+              <span>{item.nickname}</span>
+            </Between>
+            <Between>
+              <FaMapMarkerAlt style={{ fontSize: '12px', color: '#1689F3' }} />
+              <span className={'district'}>{item.district}</span>
+            </Between>
+          </TitleBox>
+          <PriceBox>
+            <span className={'rentalFee'}>
+              대여비 {priceDot(item.rentalFee)}원
+            </span>
+            <span className={'deposit'}>보증금 {priceDot(item.deposit)}원</span>
+          </PriceBox>
+          <TextBox>
+            <h5>{item.title}</h5>
+          </TextBox>
+          <Text>
+            <span>{item.content}</span>
+          </Text>
+          {isLoggedIn ? (
+            <Chat $active={isChatButton}>
+              <button className={'chatButton'} onClick={handleCreateChat}>
+                채팅하기
+              </button>
+            </Chat>
+          ) : (
+            <Catting>
+              <button className={'chatButton'} onClick={handleCreateChat}>
+                채팅하기
+              </button>
+            </Catting>
+          )}
+        </Contents>
+      </ContentsBox>
+    </Container>
   );
 }
 
 export default Details;
 
-const DetailsContainer = styled.div`
-  padding: 30px;
+export const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
   overflow-y: scroll;
-  height: 100vh;
-  background-color: white;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const ImgBox = styled.div`
+  width: 100%;
+  height: 47%;
+  position: relative;
+  > img {
+    height: 18px;
+    width: 20px;
+    z-index: 1000;
+    position: absolute;
+    top: 22px;
+    left: 20px;
+    cursor: pointer;
+  }
+`;
+
+export const Img = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const ContentsBox = styled.div`
+  width: 100%;
+  height: 53%;
+  padding: 0 20px;
+  > img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const Contents = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const TitleBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 82px;
+  position: relative;
+
+  &:after {
+    content: '';
+    border-bottom: 1px solid #d1d1d1;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+  }
+`;
+export const Between = styled.div`
+  display: flex;
+  align-items: center;
+  > img {
+    border-radius: 100%;
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+  }
+  > span {
+    font-size: 20px;
+  }
+  > .district {
+    color: #606060;
+    font-size: 15px;
+    margin-left: 6px;
+  }
+`;
+
+export const PriceBox = styled.div`
+  height: 69px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  > .rentalFee {
+    color: #1689f3;
+    font-size: 19px;
+    margin-right: 12px;
+  }
+  .deposit {
+    color: #808080;
+    font-size: 14px;
+  }
+
+  &:after {
+    content: '';
+    border-bottom: 1px solid #d1d1d1;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+  }
+`;
+
+export const TextBox = styled.div`
+  margin: 25px 0 25px 0;
+  display: flex;
+  align-items: center;
+  > h5 {
+    font-size: 25px;
+  }
+`;
+
+const Text = styled.div`
+  margin-bottom: 46px;
+  width: 100%;
+  > span {
+    font-size: 16px;
+  }
 `;
 
 const Chat = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
-    height: 12%;
-    justify-content: center;
-    align-items: flex-end;
+    height: 170px;
     display: ${$active ? 'flex' : 'none'};
 
     .chatButton {
@@ -235,8 +345,22 @@ const Chat = styled.div<{ $active: boolean }>(
   `,
 );
 
-const ImageContainer = styled.div`
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
+const Catting = styled.div`
+  height: 170px;
+
+  .chatButton {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    background-color: #1689f3;
+    border-radius: 31.14px;
+    color: white;
+    font-size: 15.45px;
+    font-family: 'Pretendard';
+    font-weight: 500;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+  }
 `;

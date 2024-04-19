@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import * as ChatStyle from './Chat.styled.tsx';
 import calender from '/public/assets/calender.svg';
+import Loading from '../glitch/Loading.tsx';
 
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -20,7 +21,7 @@ const Chat = () => {
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
 
-  const [isFirst, setIsFirst] = useState(false);
+  // const [isFirst, setIsFirst] = useState(false);
 
   const navigate = useNavigate();
   const queryChatRoom = useQuery({
@@ -30,7 +31,7 @@ const Chat = () => {
     enabled: !!params.chatRoom,
   });
 
-  const { data, error, isLoading, isFetchedAfterMount } = queryChatRoom;
+  const { data, error, isFetchedAfterMount } = queryChatRoom;
 
   const { mutate } = useMutation({
     mutationFn: leaveChatRoom,
@@ -69,7 +70,6 @@ const Chat = () => {
                 console.log(receivedMessage);
 
                 setTestMessges((prevMessages) => {
-                  console.log([...prevMessages, receivedMessage]);
                   return [...prevMessages, receivedMessage];
                 });
               },
@@ -87,11 +87,12 @@ const Chat = () => {
 
       fetchData();
       return () => {
+        const headers = { chatRoomId: `${params?.chatRoom}` };
         socket.close();
-        client.disconnect();
+        client.disconnect({}, headers);
       };
     }
-  }, [params.chatRoom]);
+  }, []);
 
   // useEffect(() => {
   //   if (data && !isFirst && scrollRef.current) {
@@ -126,7 +127,7 @@ const Chat = () => {
       // chatMessage.sender = '';
 
       setMessage('');
-      // setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
+      //   setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
     }
   };
   useEffect(() => {
@@ -141,11 +142,18 @@ const Chat = () => {
     if (queryChatRoom.data) {
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
       setTestMessges((prev) => {
-        console.log([...messagesToAdd, ...prev]);
         return [...messagesToAdd, ...prev];
       });
     }
   }, [queryChatRoom.data]);
+
+  useEffect(() => {
+    console.log('testMessges:', testMessges);
+  }, [testMessges]);
+
+  useEffect(() => {
+    setTestMessges([]);
+  }, []);
 
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
@@ -168,8 +176,7 @@ const Chat = () => {
 
   if (error) return <div>죄송합니다. 다시 접속해주세요</div>;
 
-  if (!isFetchedAfterMount)
-    return <div style={{ backgroundColor: '#fff' }}>로딩중입니다.</div>;
+  if (!isFetchedAfterMount) return <Loading />;
 
   const handleClickNavigate = () => {
     navigate(-1);
