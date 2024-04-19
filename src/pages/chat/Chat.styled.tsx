@@ -30,8 +30,21 @@ export const Center = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: calc(100% - 246px);
-  overflow-y: auto;
+  overflow-y: scroll;
   background-color: #f5f5f5;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #1689f3; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+  }
+
+  //&::-webkit-scrollbar-track {
+  //  background: rgba(220, 20, 60, 0.1); /*스크롤바 뒷 배경 색상*/
+  //}
 `;
 export const ChatBox = styled.div`
   box-sizing: border-box;

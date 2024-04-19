@@ -33,7 +33,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 import { instance } from '../../api/axios';
-import NotFound from '../../pages/NotFound/NotFound';
+import NotFound from '../../pages/glitch/NotFound';
 
 // const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
