@@ -39,11 +39,8 @@ function Router() {
             <Route path="/details/:rentalId/edit" element={<Edit />} />
           </Route>
           <Route path={`/comm/:chatRoom`} element={<Chat />} />
-
           <Route path="/sociallogin" element={<SocialLogin />} />
-
           <Route path="/thxkakaomap" element={<Location />} />
-
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
 

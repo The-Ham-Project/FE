@@ -72,7 +72,6 @@ function Category() {
   };
 
   useEffect(() => {
-    refetch(); 
     console.log("컴포넌트가 처음 마운트될 때 데이터를 새로고침합니다.");
   }, []);
   
@@ -125,6 +124,7 @@ function Category() {
     setSelectedCategory(category);
     setPage(1);
     setRentals([]);
+    refetch();
   };
 
   return (
@@ -134,9 +134,8 @@ function Category() {
      
           dataLength={rentals.length}
           next={
-            selectedCategory === 'ALL'
-              ? fetchMoreData
-              : handleDifferentLocationClick
+          fetchMoreData
+              
           }
           hasMore={hasMore}
           loader={
@@ -175,7 +174,7 @@ function Category() {
     lineHeight: '24px',
     color: '#000000',
     flex: 'none',
-    margin: '42px 25px 24px 0px'
+    margin: '24px 25px 24px 0px'
 }}>
     함께 사용할 물품을 선택해보세요.
 </div>
@@ -227,7 +226,7 @@ function Category() {
           </CategoryContainer>
           </div>
           {rentals.length === 0 && (
-  <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', alignItems: 'center', width: '350px', gap: '20px'}}>
+  <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', alignItems: 'center', width: '100%', gap: '20px'}}>
     <img style={{marginRight: '10px', width: '80px'}} src={donotcrythehamzzang} alt=" donotcrythehamzzang" />
     <p>주변에 함께 사용할 물품이 없나요?</p>
     <Button style={{backgroundColor: 'F5F5F5'}} onClick={handleDifferentLocationClick}>
@@ -264,12 +263,12 @@ const Layout2 = styled.div`
 `;
 
 const Layout1 = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0px;
+    gap: 6px
 `;
 
 const Nickname = styled.div`
@@ -322,8 +321,19 @@ const ALLLayout = styled.div`
 const CategoryButtonsContainer = styled.div`
     display: grid;
     width: 100%;
+    margin-top: 10px;
     grid-template-columns: repeat(4, 0fr);
     justify-content: center;
+    @media screen and (max-width: 700px) {
+    grid-template-columns: repeat(5, 0fr);
+    padding-bottom: 20px;
+    row-gap: 20px;
+  }
+  @media screen and (max-width: 430px) {
+    grid-template-columns: repeat(4, 0fr);
+    padding-bottom: 20px;
+    row-gap: 20px;
+  }
 `;
 
 interface CustomCategoryButtonProps {
@@ -362,16 +372,19 @@ const CategoryButtonWrapper = styled.div`
 
 const CategoryContainer = styled.div`
   display: grid;
+      padding-bottom: 20px;
   overflow: hidden;
   grid-template-columns: repeat(2, 0fr);
   gap: 12px;
   row-gap: 20px;
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 700px) {
     grid-template-columns: repeat(3, 0fr);
+    padding-bottom: 20px;
     row-gap: 20px;
   }
   @media screen and (max-width: 430px) {
     grid-template-columns: repeat(2, 0fr);
+    padding-bottom: 20px;
     row-gap: 20px;
   }
 `;

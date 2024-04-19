@@ -35,6 +35,7 @@ function Navbar() {
     <>
  
       <Container>
+        
         <img
           className={'home'}
           src={home}
@@ -42,6 +43,7 @@ function Navbar() {
             navigate('/');
           }}
         />
+        
         <img
           className={'message'}
           src={message}
@@ -50,7 +52,8 @@ function Navbar() {
         <div onClick={handlePostButtonClick}>
           <FiPlus fontSize={'40px'} />
         </div>
-        <img className={'bar'} src={bar} />
+        <img style={{filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))'}} className="bar" src={bar} />
+
       </Container>
       <Outlet />
    

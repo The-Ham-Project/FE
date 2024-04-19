@@ -5,7 +5,7 @@ import searchIcon from '/public/assets/search.svg';
 import lgoo from '/public/assets/lgoo.svg';
 import person from '/public/assets/person.svg';
 import styled from 'styled-components';
-
+import useStore, { useErrorModalStore } from '../../store/store';
 interface SearchButtonProps {
   isActive: boolean;
 }
@@ -50,7 +50,7 @@ function Search() {
       setShowInput(false); 
       return;
     }
-    if (keyword.trim() === '') return alert('검색어를 적어주세요');
+
     navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
   };
 
@@ -59,7 +59,20 @@ function Search() {
       handleSearch();
     }
   };
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
+  const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
+  const handlePersonButtonClick = () => {
+    console.log(isLoggedIn);
+    if (isLoggedIn === true) {
+      navigate('/mypage');
+    } else {
+      // 모달 열기
+      openModal('로그인 페이지로 이동합니다');
+    }
+  };
+ 
+  
   return (
     <div style={{ display: 'flex', backgroundColor: 'white' }}>
       <SearchContainer>
@@ -107,9 +120,7 @@ function Search() {
               ))}
           </SearchResults>
         </div>
-        <PersonButton  onClick={() => {
-            navigate('/mypage');
-          }} >
+        <PersonButton  onClick={(handlePersonButtonClick) } >
             <img
               style={{
                 maxWidth: '22px',
