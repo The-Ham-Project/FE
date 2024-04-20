@@ -11,6 +11,8 @@ import moment from 'moment';
 import * as ChatStyle from './Chat.styled.tsx';
 import calender from '/public/assets/calender.svg';
 import Loading from '../glitch/Loading.tsx';
+import { FaCamera } from 'react-icons/fa';
+import NotFound from '../glitch/NotFound.tsx';
 
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -46,7 +48,7 @@ const Chat = () => {
       let client;
       const fetchData = () => {
         try {
-          socket = new SockJS('https://api.openmpy.com/chat');
+          socket = new SockJS(import.meta.env.VITE_SERVER_URL + '/chat');
           client = Stomp.over(socket);
 
           client.connectHeaders = {
@@ -148,9 +150,9 @@ const Chat = () => {
     }
   }, [queryChatRoom.data]);
 
-  useEffect(() => {
-    console.log('testMessges:', testMessges);
-  }, [testMessges]);
+  // useEffect(() => {
+  //   console.log('testMessges:', testMessges);
+  // }, [testMessges]);
 
   useEffect(() => {
     setTestMessges([]);
@@ -175,7 +177,7 @@ const Chat = () => {
     }
   }, [data?.totalPage, indicatorRef, currentPageNo]);
 
-  if (error) return <div>죄송합니다. 다시 접속해주세요</div>;
+  if (error) return <NotFound />;
 
   if (!isFetchedAfterMount) return <Loading />;
 
@@ -185,7 +187,7 @@ const Chat = () => {
   const handelLeaveButton = () => {
     mutate(parseInt(params?.chatRoom));
   };
-
+  console.log(data.rentalThumbnailUrl);
   return (
     <ChatStyle.Container>
       <ChatStyle.MenuBox>
@@ -200,7 +202,23 @@ const Chat = () => {
           navigate(`/details/${data.rentalId}`);
         }}
       >
-        <img src={data.rentalThumbnailUrl} />
+        {data.rentalThumbnailUrl ? (
+          <img src={data.rentalThumbnailUrl} />
+        ) : (
+          <FaCamera
+            size={24}
+            color="#B1B1B1"
+            style={{
+              height: '20px',
+              width: '20px',
+              objectFit: 'cover',
+              padding: '30px 30px',
+              backgroundColor: '#ececec',
+              marginRight: '29px',
+              borderRadius: '7px',
+            }}
+          />
+        )}
         <ChatStyle.Cloum>
           <h6>{data.rentalTitle}</h6>
           <ChatStyle.Flex>
@@ -268,9 +286,10 @@ const Chat = () => {
             placeholder={'메세지를 입력해주세요.'}
             onChange={handleMessage}
             value={message}
-            onKeyPress={(e) => {
+            onKeyUp={(e) => {
               if (e.key === 'Enter') {
                 sendMessage();
+                setMessage('');
               }
             }}
           />
