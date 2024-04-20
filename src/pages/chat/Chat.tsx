@@ -285,9 +285,10 @@ const Chat = () => {
             placeholder={'메세지를 입력해주세요.'}
             onChange={handleMessage}
             value={message}
-            onKeyPress={(e) => {
+            onKeyUp={(e) => {
               if (e.key === 'Enter') {
                 sendMessage();
+                setMessage('');
               }
             }}
           />
