@@ -14,9 +14,10 @@ export const Container = styled.div`
 
 export const ImgBox = styled.div`
   width: 100%;
-  height: 47%;
+  height: 400px;
   position: relative;
   > img {
+
     height: 18px;
     width: 20px;
     z-index: 1000;
