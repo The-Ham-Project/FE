@@ -2,7 +2,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
-import magnifyingtheham from '../../../public/assets/magnifyingtheham.svg';
+import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';

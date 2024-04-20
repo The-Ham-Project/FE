@@ -15,6 +15,9 @@ function Mypage() {
   const GotoListHandler = () => {
     navigate('/mylist');
   };
+  const GotoPolicyHandler = () => {
+    navigate('https://www.kakao.com/policy/location');
+  };
 
   const LogoutHandler = () => {
     removeTokensFromLocalStorage();
@@ -81,7 +84,7 @@ function Mypage() {
               }}
             />
           </Box1>
-          <Box2 onClick={GotoListHandler}>
+          <Box2 onClick={GotoPolicyHandler}>
             <Policy>위치정보이용동의 약관</Policy>
             <img
               src={gogo}
@@ -112,8 +115,8 @@ export default Mypage;
 const Wrapper = styled.div`
   background-color: white;
   height: 100%;
-  overflow: scroll;
   @media screen and (max-width: 430px) {
+    overflow: scroll;
   }
 `;
 
@@ -126,7 +129,7 @@ export const MenuBox = styled.div`
   padding: 0 7%;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
-  z-index: 1;
+  z-index: 4;
   @media screen and (max-width: 430px) {
     display: flex;
     flex-direction: row;
@@ -166,7 +169,8 @@ const Profile = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 15% 0;
+  margin: 0 0 15% 0;
+  padding-top: 6vh;
   @media screen and (max-width: 430px) {
   }
 `;
