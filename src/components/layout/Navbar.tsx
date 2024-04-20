@@ -18,7 +18,7 @@ function Navbar() {
       console.log('postdetail 호출');
       navigate('/PostDetailsPage');
     } else {
-      openModal('로그인 후에 게시글을 생성할 수 있습니다.');
+      openModal('로그인 후에 게시글을 생성할 수 있습니다.',);
     }
   };
 
@@ -33,8 +33,8 @@ function Navbar() {
 
   return (
     <>
- 
       <Container>
+        
         <img
           className={'home'}
           src={home}
@@ -42,6 +42,7 @@ function Navbar() {
             navigate('/');
           }}
         />
+        
         <img
           className={'message'}
           src={message}
@@ -50,10 +51,10 @@ function Navbar() {
         <div onClick={handlePostButtonClick}>
           <FiPlus fontSize={'40px'} />
         </div>
-        <img className={'bar'} src={bar} />
+        <img style={{filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))'}} className="bar" src={bar} />
+
       </Container>
       <Outlet />
-   
     </>
   );
 }
@@ -61,45 +62,45 @@ function Navbar() {
 export default Navbar;
 
 const Container = styled.div`
-width: 100%;
-height: 100px;
-position: absolute;
-z-index: 10;
-bottom: 0;
-> .bar {
-width: 100%;
-margin: 0;
-position: absolute;
-bottom: 0;
-//box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-> .message {
-position: absolute;
-right: 63px;
-bottom: 21px;
-z-index: 10;
-width: 34px;
-}
-.home {
-position: absolute;
-bottom: 21px;
-zindex: 10;
-left: 63px;
-z-index: 103;
-width: 27px;
-}
-> div {
-z-index: 10;
-background-color: #1689f3;
-color: #fff;
-position: absolute;
-display: flex;
-align-items: center;
-justify-content: center;
-bottom: 43px;
-left: calc(50% - 27px);
-height: 54px;
-width: 54px;
-border-radius: 100%;
-}
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  > .bar {
+    width: 100%;
+    margin: 0;
+    position: absolute;
+    bottom: 5px;
+    //box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  > .message {
+    position: absolute;
+    right: 63px;
+    bottom: 31px;
+    z-index: 10;
+    width: 34px;
+  }
+  .home {
+    position: absolute;
+    bottom: 31px;
+    z-index: 10;
+    left: 63px;
+    z-index: 103;
+    width: 27px;
+  }
+  > div {
+    z-index: 10;
+    background-color: #1689f3;
+    color: #fff;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 43px;
+    left: calc(50% - 27px);
+    height: 54px;
+    width: 54px;
+    border-radius: 100%;
+  }
 `;

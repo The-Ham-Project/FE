@@ -28,6 +28,7 @@ function Router() {
         <Route element={<Layout />}>
           <Route element={<Navbar />}>
             <Route path="/" element={<Main />} />
+            <Route path="/search" element={<SearchDetail />} />
             {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
             {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
             <Route path="/details/:rentalId" element={<Details />} />
@@ -39,11 +40,8 @@ function Router() {
             <Route path="/details/:rentalId/edit" element={<Edit />} />
           </Route>
           <Route path={`/comm/:chatRoom`} element={<Chat />} />
-
           <Route path="/sociallogin" element={<SocialLogin />} />
-
           <Route path="/thxkakaomap" element={<Location />} />
-
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
 

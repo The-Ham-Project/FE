@@ -96,7 +96,6 @@ function ChatList() {
           );
         })}
       </List>
-   
     </Contaier>
   );
 }

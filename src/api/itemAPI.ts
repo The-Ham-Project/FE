@@ -123,13 +123,3 @@ export async function updatePost(postData) {
     throw new Error('게시글을 수정하는 중 오류가 발생했습니다.');
   }
 }
-
-export async function deletePost(rentalId) {
-  const response = await authInstance.put(
-    `http://localhost:3000/posts/${rentalId}`,
-    {
-      method: 'DELETE',
-    },
-  );
-  return response;
-}

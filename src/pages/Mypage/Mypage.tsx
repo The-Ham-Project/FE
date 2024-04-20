@@ -112,11 +112,13 @@ export default Mypage;
 const Wrapper = styled.div`
   background-color: white;
   height: 100%;
+  overflow: scroll;
   @media screen and (max-width: 430px) {
   }
 `;
 
 export const MenuBox = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -147,7 +149,6 @@ const PaddingBox = styled.div`
     /* box-shadow: inset 0 5px 5px -5px #333; */
 
     width: 100%;
-    height: 463px;
   }
 `;
 
@@ -166,37 +167,40 @@ const Profile = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 15% 0;
-
   @media screen and (max-width: 430px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 `;
 
 const Picture = styled.div`
-  @media screen and (max-width: 430px) {
-    width: 130px;
-    height: 130px;
+  display: flex;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 130px;
 
-    border-radius: 50%;
+  border-radius: 50%;
+  @media screen and (max-width: 430px) {
     /* margin-left: 40px; */
   }
 `;
 
 const Nickname = styled.div`
-  font-size: 26px;
-  @media screen and (max-width: 430px) {
-    width: 140px;
-    height: 31px;
+  width: 140px;
+  height: 31px;
 
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 26px;
-    line-height: 31px;
-    text-align: center;
-    color: #000000;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 31px;
+  text-align: center;
+  color: #000000;
+  @media screen and (max-width: 430px) {
   }
 `;
 
@@ -285,6 +289,7 @@ const Box1 = styled.div`
   padding-right: 29px;
   padding-left: 29px;
   border-radius: 7px;
+  cursor: pointer;
 `;
 
 const GotoMyList = styled.div`
@@ -309,7 +314,6 @@ const Policy = styled.div`
   font-size: 12px;
   line-height: 14px;
   color: #000000;
-  z-index: 1000000000000;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -325,6 +329,9 @@ const Box2 = styled.div`
   padding-right: 29px;
   padding-left: 29px;
   border-radius: 7px;
+  cursor: pointer;
+  @media screen and (max-width: 430px) {
+  }
 `;
 const Box3 = styled.div`
   display: flex;
@@ -337,6 +344,9 @@ const Box3 = styled.div`
   padding-right: 29px;
   padding-left: 29px;
   border-radius: 7px;
+  cursor: pointer;
+  @media screen and (max-width: 430px) {
+  }
 `;
 
 const Logout = styled.div`
@@ -346,6 +356,7 @@ const Logout = styled.div`
   font-size: 12px;
   line-height: 14px;
   color: #000000;
+  cursor: pointer;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -360,7 +371,7 @@ const Container = styled.div`
   }
 `;
 const Container2 = styled.div`
-  margin-top: 50px;
+  margin: 50px 0 120px 0;
   display: flex;
   flex-direction: column;
   width: 100%;

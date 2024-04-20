@@ -121,7 +121,7 @@ function Details() {
           size={24}
           color="#B1B1B1"
           style={{
-            maxWidth: '330px',
+            maxWidth: '100%',
             maxHeight: '330px',
             width: '100%',
             height: '50px',

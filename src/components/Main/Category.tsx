@@ -10,6 +10,10 @@ import CLOSET from '/public/assets/CLOSET.svg';
 import BOOK from '/public/assets/BOOK.svg';
 import PLACE from '/public/assets/PLACE.svg';
 import OTHER from '/public/assets/OTHER.svg';
+import position from '/public/assets/position.svg';
+import banner from '/public/assets/banner.svg';
+import donotcrythehamzzang from '/public/assets/donotcrythehamzzang.svg';
+
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
@@ -46,16 +50,19 @@ function Category() {
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-  const { data, isLoading ,refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['rentals', selectedCategory, page],
     queryFn: async () => {
-      const response = await authInstance.get(
-        `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
-      );
-      if (!response) {
+      try {
+        const response = await authInstance.get(
+          `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
+        );
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching data:', error);
         throw new Error('Network response was not ok');
       }
-      return response.data;
     },
   });
 
@@ -64,9 +71,10 @@ function Category() {
   };
 
   useEffect(() => {
-    refetch(); // 컴포넌트가 처음 마운트될 때 데이터를 새로고침합니다.
+    refetch();
+    console.log('컴포넌트가 처음 마운트될 때 데이터를 새로고침합니다.');
   }, []);
-  
+
   const handleDifferentLocationClick = async () => {
     const response = await axios.get(
       `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=6`,
@@ -76,20 +84,31 @@ function Category() {
     }
     const newData = response.data.data;
     // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [...rentals, ...newData].reduce((acc, current) => {
+    const uniqueRentals = [...newData, ...rentals ].reduce((acc, current) => {
       // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
-      if (!acc.find((item) => item.rentalId === current.rentalId)) {
+      if (
+        !acc.find(
+          (item: { rentalId: any }) => item.rentalId === current.rentalId,
+        )
+      ) {
         acc.push(current);
       }
       return acc;
     }, []);
     setRentals(uniqueRentals);
-    setPage(page + 1); // 첫 페이지 이후에 데이터를 불러오기 위해 페이지를 2로 설정합니다.
+    setPage(page + 1);
   };
 
   useEffect(() => {
     if (data) {
-      setRentals((prevRentals) => [...prevRentals, ...data.data]);
+      // 중복된 데이터 제거 후 새로운 데이터 추가
+      setRentals((prevRentals) => {
+        const newRentals = [...prevRentals, ...data.data];
+        return newRentals.filter(
+          (rental, index, self) =>
+            index === self.findIndex((t) => t.rentalId === rental.rentalId),
+        );
+      });
       if (data.data.length === 0) {
         setHasMore(false);
       }
@@ -113,85 +132,172 @@ function Category() {
 
   return (
     <Div id="ScrollableCategoryContainer">
-      <ScrollableCategoryContainer style={{ width: '100%' }}>
+      <ScrollableCategoryContainer
+        style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+      >
         <InfiniteScroll
-          style={{ overflow: 'hidden' }}
           dataLength={rentals.length}
           next={
-            selectedCategory === 'ALL'
-              ? fetchMoreData
-              : handleDifferentLocationClick
+          fetchMoreData
+         
           }
           hasMore={hasMore}
           loader={
             <LoadingMessage>
-              {isLoading && rentals.length > 0 && 'Loading more...'}
+              {isLoading && rentals.length > 0 && ''}
             </LoadingMessage>
           }
           scrollableTarget="ScrollableCategoryContainer"
           scrollThreshold={0.95}
         >
           <Contents />
-          <CategoryButtonsContainer>
-            {Object.keys(categories).map((index) => (
-              <CategoryButtonWrapper
-                key={index}
-                onClick={() => handleCategoryChange(index as Category)}
-              >
-                <CustomCategoryButton>
-                  <img src={categories[index].icon} />
-                </CustomCategoryButton>
-                <CategoryLabel>{categories[index].label}</CategoryLabel>
-              </CategoryButtonWrapper>
-            ))}
-          </CategoryButtonsContainer>
-
-          <CategoryContainer>
-            {rentals.map((item) => (
-              <CategoryItem key={item.rentalId}>
-                <Link
-                  to={`/Details/${item.rentalId}`}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              paddingLeft: '12px',
+            }}
+          >
+            <img src={banner} alt="Top Banner" />
+            <CategoryButtonsContainer>
+              {Object.keys(categories).map((category) => (
+                <CategoryButtonWrapper
+                  style={{
+                    backgroundColor:
+                      selectedCategory === category ? '#E8F4FE' : 'transparent',
+                  }}
+                  key={category}
+                  onClick={() => handleCategoryChange(category as Category)}
                 >
-                  <ALLLayout>
-                    <ImageWrapper>
-                      {item.firstThumbnailUrl ? (
-                        <Image src={item.firstThumbnailUrl} alt="no img" />
-                      ) : (
-                        <PlaceholderImage>
-                          <FaCamera size={24} color="#f0f0f0" />
-                        </PlaceholderImage>
-                      )}
-                    </ImageWrapper>
-                    <Layout>
-                      <ProfileUrl>
-                        <ProfileImage src={item.profileUrl} alt="Profile" />
-                        <Nickname>{item.nickname}</Nickname>
-                      </ProfileUrl>
-                      <H1>
-                        {item.title.length > 20
-                          ? item.title.slice(0, 22) + '···'
-                          : item.title}
-                      </H1>
-                      <Layout2>
-                        <Layout1>
-                          <H2>보증금 {priceDot(item.rentalFee)}원</H2>
-                          <H3>대여비 {priceDot(item.deposit)}원</H3>
-                        </Layout1>
-                      </Layout2>
-                    </Layout>
-                  </ALLLayout>
-                </Link>
-              </CategoryItem>
-            ))}
-          </CategoryContainer>
+                  <CustomCategoryButton>
+                    <img src={categories[category].icon} />
+                  </CustomCategoryButton>
+                  <CategoryLabel>{categories[category].label}</CategoryLabel>
+                </CategoryButtonWrapper>
+              ))}
+            </CategoryButtonsContainer>
+            <div
+              style={{
+                width: '308px',
+                height: '24px',
+                fontFamily: 'Pretendard',
+                fontStyle: 'normal',
+                fontWeight: 700,
+                fontSize: '20px',
+                lineHeight: '24px',
+                color: '#000000',
+                flex: 'none',
+                margin: '42px 25px 24px 0px',
+              }}
+            >
+              함께 사용할 물품을 선택해보세요.
+            </div>
+            <div>
+              <CategoryContainer>
+                {rentals.map((item) => (
+                  <CategoryItem key={item.rentalId}>
+                    <Link
+                      to={`/Details/${item.rentalId}`}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <ALLLayout>
+                        <ImageWrapper>
+                          {item.firstThumbnailUrl ? (
+                            <Image src={item.firstThumbnailUrl} alt="no img" />
+                          ) : (
+                            <PlaceholderImage>
+                              <FaCamera size={24} color="#f0f0f0" />
+                            </PlaceholderImage>
+                          )}
+                        </ImageWrapper>
+                        <Layout>
+                          <ProfileUrl>
+                            <div style={{ display: 'flex' }}>
+                              <ProfileImage
+                                src={item.profileUrl}
+                                alt="Profile"
+                              />
+                              <Nickname>{item.nickname} </Nickname>
+                            </div>
+                            <div>
+                              {' '}
+                              <div
+                                style={{
+                                  fontFamily: 'Pretenda',
+                                  fontStyle: 'normal',
+                                  fontWeight: '400',
+                                  fontSize: '9.0041px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '2px',
+                                }}
+                              >
+                                <img src={position} /> {item.district}
+                              </div>
+                            </div>
+                          </ProfileUrl>
+
+                          <H1>
+                            {item.title.length > 20
+                              ? item.title.slice(0, 19) + '···'
+                              : item.title}
+                          </H1>
+                          <Layout2>
+                            <Layout1>
+                              <H2
+                                style={{
+                                  fontSize:
+                                    item.deposit >= 10000 ? '9px' : '10px',
+                                }}
+                              >
+                                보증금 {priceDot(item.rentalFee)}원
+                              </H2>
+                              <H3
+                                style={{
+                                  fontSize:
+                                    item.deposit >= 10000 ? '10px' : '12px',
+                                }}
+                              >
+                                대여비 {priceDot(item.deposit)}원
+                              </H3>
+                            </Layout1>
+                          </Layout2>
+                        </Layout>
+                      </ALLLayout>
+                    </Link>
+                  </CategoryItem>
+                ))}
+              </CategoryContainer>
+            </div>
+            {rentals.length === 0 && (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignContent: 'center',
+                  alignItems: 'center',
+                  width: '350px',
+                  gap: '20px',
+                }}
+              >
+                <img
+                  style={{ marginRight: '10px', width: '80px' }}
+                  src={donotcrythehamzzang}
+                  alt=" donotcrythehamzzang"
+                />
+                <p>주변에 함께 사용할 물품이 없나요?</p>
+                <Button
+                  style={{ backgroundColor: 'F5F5F5' }}
+                  onClick={handleDifferentLocationClick}
+                >
+                  다른 지역 게시물 보기
+                </Button>
+              </div>
+            )}
+          </div>
         </InfiniteScroll>
       </ScrollableCategoryContainer>
-      <div>
-        <button onClick={handleDifferentLocationClick}>
-          다른 지역 게시물 보기
-        </button>
-      </div>
+
       <Contents />
     </Div>
   );
@@ -200,16 +306,15 @@ function Category() {
 export default Category;
 
 const ScrollableCategoryContainer = styled.div``;
-
+const Button = styled.button`
+  background-color: #f5f5f5;
+  color: gray;
+`;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: flex-start;
-  width: 150px;
-  padding: 0px;
-  gap: 6px;
-  padding-bottom: 10px;
+  width: 137px;
 `;
 const Layout2 = styled.div`
   width: 140px;
@@ -219,7 +324,7 @@ const Layout1 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   padding: 0px;
   gap: 6px;
 `;
@@ -236,16 +341,15 @@ const Nickname = styled.div`
   flex: none;
   order: 1;
   flex-grow: 0;
-  padding-left: 10px;
+  padding-left: 4px;
 `;
 
 const H1 = styled.div`
   font-size: 13px;
   line-height: 14px;
   font-weight: 600;
-  height: 40px;
-  align-content: center;
-  letter-spacing: -0.1em;
+  height: 30px;
+  margin-bottom: 2px;
 `;
 const H2 = styled.div`
   font-size: 10px;
@@ -265,19 +369,18 @@ const H3 = styled.div`
 `;
 
 const ALLLayout = styled.div`
-    margin-left: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  margin: 0px 16px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CategoryButtonsContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  width: 100%;
-  padding: 0px 0px 0px 30px;
-  background-color: white;
+    display: grid;
+    margin-top: 20px;
+    width: 100%;
+    grid-template-columns: repeat(4, 0fr);
+    justify-content: center;
 `;
 
 interface CustomCategoryButtonProps {
@@ -316,16 +419,28 @@ const CategoryButtonWrapper = styled.div`
 
 const CategoryContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  overflow: hidden;
+  grid-template-columns: repeat(2, 0fr);
+  padding-bottom: 20px;
   gap: 12px;
-  padding: 24px 20px 20px 20px;
-  justify-content: center;
+  row-gap: 20px;
+  @media screen and (max-width: 700px) {
+    grid-template-columns: repeat(3, 0fr);
+    padding-bottom: 20px;
+    row-gap: 20px;
+  }
+  @media screen and (max-width: 430px) {
+    grid-template-columns: repeat(2, 0fr);
+    padding-bottom: 20px;
+    row-gap: 20px;
+  }
 `;
 
 const CategoryItem = styled.div`
+  height: 208.32px;
   width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const ImageWrapper = styled.div`
@@ -365,18 +480,17 @@ const ProfileImage = styled.img`
 
 const ProfileUrl = styled.span`
   display: flex;
-  align-items: center;
-  width: 169px;
-  height: 16px;
-  margin-top: 10px;
+  align-items: flex-start;
+  width: 137px;
+  margin: 12px 0px 12px 0px;
+  justify-content: space-between;
 `;
 
 export const Div = styled.div`
   height: 100vh;
-  width: 99%;
+  width: 100%;
 
-  overflow: overlay; // 스크롤바가 컨텐츠 위에 겹쳐서 나타남
-  position: relative;
+  overflow: scroll;
 
   /* 스크롤바 스타일 */
   &::-webkit-scrollbar {

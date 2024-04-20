@@ -53,6 +53,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 0;
   gap: 16.97px;
+  overflow: scroll;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -122,7 +123,6 @@ const MSG = styled.div`
   }
 `;
 const Container = styled.div`
-  padding: 6vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -134,22 +134,8 @@ const Container = styled.div`
   text-align: center;
   gap: 25px;
   color: #000000;
-  margin: 0;
+  margin-right: 10px;
   padding: 0;
   @media screen and (max-width: 430px) {
-    padding: 6vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    gap: 25px;
-    color: #000000;
-    margin: 0;
-    padding: 0;
   }
 `;

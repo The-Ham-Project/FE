@@ -28,7 +28,11 @@ function Layout() {
           <Phone>
             <img
               src={phone}
-              style={{ position: 'absolute', pointerEvents: 'none' }}
+              style={{
+                position: 'absolute',
+                pointerEvents: 'none',
+                zIndex: '999990',
+              }}
             />
             <div className={'outlet'}>
               <Outlet />
@@ -46,7 +50,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #1689f3;
-  position: fixed;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,7 +184,7 @@ const Phone = styled.div`
   }
   .outlet {
     height: 100%;
-    width: calc(100% - 8px);
+    width: calc(97% - 8px);
   }
 
   @media (max-width: 700px) {
