@@ -220,7 +220,7 @@ function Category() {
                               {' '}
                               <div
                                 style={{
-                                  fontFamily: 'Pretenda',
+                                  fontFamily: 'Pretendard',
                                   fontStyle: 'normal',
                                   fontWeight: '400',
                                   fontSize: '9.0041px',

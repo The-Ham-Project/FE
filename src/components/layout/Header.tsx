@@ -7,8 +7,12 @@ function Header() {
   const handleBackClick = () => navigate(-1);
   return (
     <MenuBox>
-      <IoIosArrowBack onClick={handleBackClick} size={'24px'} style={{marginTop: '25px'}} />
-      <span style={{marginTop: '25px'}}>내가 쓴 글</span>
+      <IoIosArrowBack
+        onClick={handleBackClick}
+        size={'24px'}
+        style={{ marginTop: '25px' }}
+      />
+      <span style={{ marginTop: '25px' }}>내가 쓴 글</span>
     </MenuBox>
   );
 }
@@ -33,6 +37,8 @@ const MenuBox = styled.div`
     line-height: 17px;
     text-align: center;
     color: #000000;
+    font-family: 'Pretendard';
+    font-style: normal;
   }
   @media screen and (max-width: 430px) {
     height: 60px;
