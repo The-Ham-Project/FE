@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import magnifyingtheham from '/public/assets/magnifyingtheham.svg';
+import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 
 function NotFound() {
   const navigate = useNavigate();

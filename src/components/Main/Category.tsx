@@ -84,7 +84,7 @@ function Category() {
     }
     const newData = response.data.data;
     // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [...newData, ...rentals ].reduce((acc, current) => {
+    const uniqueRentals = [...newData, ...rentals].reduce((acc, current) => {
       // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
       if (
         !acc.find(
@@ -137,10 +137,7 @@ function Category() {
       >
         <InfiniteScroll
           dataLength={rentals.length}
-          next={
-          fetchMoreData
-         
-          }
+          next={fetchMoreData}
           hasMore={hasMore}
           loader={
             <LoadingMessage>
@@ -197,7 +194,7 @@ function Category() {
                 {rentals.map((item) => (
                   <CategoryItem key={item.rentalId}>
                     <Link
-                      to={`/Details/${item.rentalId}`}
+                      to={`/details/${item.rentalId}`}
                       style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                       <ALLLayout>
@@ -315,6 +312,7 @@ const Layout = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 137px;
+  margin: 0 16px;
 `;
 const Layout2 = styled.div`
   width: 140px;
@@ -369,18 +367,18 @@ const H3 = styled.div`
 `;
 
 const ALLLayout = styled.div`
-  margin: 0px 16px 16px 16px;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const CategoryButtonsContainer = styled.div`
-    display: grid;
-    margin-top: 20px;
-    width: 100%;
-    grid-template-columns: repeat(4, 0fr);
-    justify-content: center;
+  display: grid;
+  margin-top: 20px;
+  width: 100%;
+  grid-template-columns: repeat(4, 0fr);
+  justify-content: center;
 `;
 
 interface CustomCategoryButtonProps {
@@ -468,6 +466,7 @@ const Image = styled.img`
   height: 111px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  /* object-fit: contain; */
   object-fit: cover;
 `;
 
