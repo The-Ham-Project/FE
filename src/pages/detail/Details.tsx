@@ -146,7 +146,14 @@ function Details() {
       <Slider {...settings}>
         {item.rentalImageList.map((image, index) => (
           <div key={index}>
-            <img src={image.imageUrl} alt={`Image ${index + 1}`} />
+            <img
+              src={image.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+            />
           </div>
         ))}
       </Slider>

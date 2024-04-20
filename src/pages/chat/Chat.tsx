@@ -46,7 +46,7 @@ const Chat = () => {
       let client;
       const fetchData = () => {
         try {
-          socket = new SockJS('https://api.openmpy.com/chat');
+          socket = new SockJS(import.meta.env.VITE_SERVER_URL + '/chat');
           client = Stomp.over(socket);
 
           client.connectHeaders = {
