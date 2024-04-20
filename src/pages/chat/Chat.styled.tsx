@@ -162,6 +162,14 @@ export const Cloum = styled.div`
   justify-content: center;
   width: 70%;
   > h6 {
+    text-overflow: ellipsis;
+    height: 27px;
+    width: 100%;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    word-break: break-word;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
   }
 `;
 export const Flex = styled.div`

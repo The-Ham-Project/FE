@@ -129,7 +129,6 @@ function Details() {
             paddingTop: '150px',
             paddingBottom: '150px',
             backgroundColor: '#ececec',
-            borderRadius: '20px',
           }}
         />
       </div>
@@ -138,7 +137,7 @@ function Details() {
         src={item.rentalImageList[0].imageUrl}
         style={{
           width: '100%',
-          height: '400px',
+          height: '100%',
         }}
         alt={`Image 1`}
       />
@@ -146,7 +145,14 @@ function Details() {
       <Slider {...settings}>
         {item.rentalImageList.map((image, index) => (
           <div key={index}>
-            <img style={{height: '400px', width: '100%'}} src={image.imageUrl} alt={`Image ${index + 1}`} />
+            <img
+              src={image.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+            />
           </div>
         ))}
       </Slider>
