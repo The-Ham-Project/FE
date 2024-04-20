@@ -1,29 +1,3 @@
-// const client_id = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
-// // const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
-// const redirect_uri = import.meta.env.VITE_APP_GOOGLE_REDIRECT_URI;
-// function RedirectGoogle() {
-//   const googleURL = `https://accounts.google.com/o/oauth2/auth?client_id=${client_id}&scope=email&redirect_uri=${redirect_uri}&response_type=code`;
-//   //https://accounts.google.com/o/oauth2/auth?client_id=410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com&scope=email&redirect_uri=https://api.openmpy.com/api/v1/members/google/callback&response_type=code
-
-//   const google = () => {
-//     window.location.href = googleURL;
-//   };
-//   return (
-//     <>
-//       <button onClick={google}>꾸글 로긴</button>
-//     </>
-//   );
-// }
-
-// export default RedirectGoogle;
-
-//https://accounts.google.com/o/oauth2/auth?client_id=410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com&scope=email&redirect_uri=http://localhost:5173/google/callback&response_type=code'
-
-// &scope=email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
-
-//https://api.openmpy.com/api/v1/members/google/callback?code={code}&scope=email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
-
-// 김수환무거북이와두루미
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';

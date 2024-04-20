@@ -1,17 +1,3 @@
-// VITE_APP_KAKAO_REST_API_KEY="1df8e00ba19cbaf3ed39000226e2e4c8"
-// VITE_APP_KAKAO_CLIENT_ID="86e1404c807c52cb2261fa208ef88d27"
-// VITE_APP_KAKAO_JAVASCRIPT_KEY="a10dff590e44c0b8a20d68095fbb3dbf"
-// VITE_APP_KAKAO_REDIRECT_URI="http://localhost:5173/kakao/callback"
-
-// VITE_APP_GOOGLE_CLIENT_ID="410095691528-h2c6l3kv771u82sh50uv7gmi66cjaov8.apps.googleusercontent.com"
-// VITE_APP_GOOGLE_REDIRECT_URI="http://localhost:5173/google/callback"
-
-// VITE_APP_NAVER_CLIENT_ID="FDNapTSIjIsNa0YGULsx"
-// VITE_APP_NAVER_REDIRECT_URI="http://localhost:5173/naver/callback"
-
-// # VITE_SERVER_URL="http://localhost:5173/"
-// VITE_SERVER_URL="https://api.openmpy.com"
-
 import startwithnaver from '../../../public/assets/startwithnaver.svg';
 import styled from 'styled-components';
 

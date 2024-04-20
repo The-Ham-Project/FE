@@ -144,12 +144,12 @@ const SearchContainer = styled.div`
   width: 100%;
   height: 114px;
   align-items: flex-end;
-  background-color: #ffffff;
+  background-color: rgb(255, 255, 255);
   justify-content: flex-end;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;
   position: absolute;
   z-index: 99;
-  padding: 10px 30px 10px 30px;
+  padding: 10px 15px 10px 30px;
 `;
 
 const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
@@ -170,6 +170,8 @@ const PersonButton = styled.button`
   padding: 0;
   border: none;
   cursor: pointer;
+  margin-left: 20px;
+  /* padding-left: 25px; */
 `;
 
 const SearchButton = styled.button<SearchButtonProps>`

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.svg';
@@ -9,7 +8,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useErrorModalStore } from '../../store/store';
 import Modal from '../../components/modal/Modal.tsx';
-import { removeItemPost } from '../../api/itemAPI';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
 

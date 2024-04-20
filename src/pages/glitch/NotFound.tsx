@@ -23,7 +23,7 @@ export default NotFound;
 const ErrorPage = styled.div`
   @media screen and (max-width: 430px) {
     /* Group 1394 */
-
+    background-color: white;
     position: absolute;
     width: 141.1px;
     height: 193.64px;

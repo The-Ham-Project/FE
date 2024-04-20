@@ -53,6 +53,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 0;
   gap: 16.97px;
+  overflow: scroll;
   @media screen and (max-width: 430px) {
   }
 `;

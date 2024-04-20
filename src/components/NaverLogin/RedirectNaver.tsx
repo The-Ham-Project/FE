@@ -48,23 +48,6 @@ function RedirectNaver() {
 
   console.log('NAVER_CODE:', NAVER_CODE);
 
-  // // 컴포넌트가 마운트되면 로그인 로직 실행
-  // useEffect(() => {
-  //   async function NaverLogin() {
-  //     // setAccessTokenFetching(true); // Set fetching to true
-  //     const response = await axios.get(
-  //       `https://api.openmpy.com/api/v1/members/naver/callback?code=${NAVER_CODE}&state=false`,
-  //     );
-  //     const accessToken = response.headers.authorization;
-  //     console.log('accessToken:', accessToken);
-  //     saveTokensToLocalStorage(accessToken);
-  //     // localStorage.setItem('accessToken', accessToken);
-  //     // setAccessTokenFetching(false); // Reset fetching to false
-  //   }
-  //   NaverLogin();
-  //   navigate('/thxkakaomap'); // 로그인 완료시 메인으로 이동
-  // }, []);
-
   // Access Token 받아오기
   const getAccessToken = async () => {
     if (accessTokenFetching) return; // Return early if fetching
