@@ -412,7 +412,9 @@ const Map = styled.div`
   top: 60px;
   width: 430px;
   height: 463px;
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 375px) {
+    width: 375px;
+    height: 320px;
   }
 `;
 
@@ -431,6 +433,7 @@ const MSG1 = styled.div`
   z-index: 100;
   bottom: 278.26px;
   @media screen and (max-width: 430px) {
+    bottom: 258.26px;
   }
 `;
 const MSG2 = styled.div`
@@ -448,6 +451,7 @@ const MSG2 = styled.div`
   z-index: 100;
   bottom: 257.26px;
   @media screen and (max-width: 430px) {
+    bottom: 237.26px;
   }
 `;
 
@@ -465,6 +469,7 @@ const Address = styled.div`
   z-index: 100;
   bottom: 205.4px;
   @media screen and (max-width: 430px) {
+    bottom: 190.4px;
   }
 `;
 

@@ -5,12 +5,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { instance } from '../../api/axios';
-import sweattheham from '../../../public/assets/sweattheham.svg';
+import magnifyingtheham from '../../../public/assets/magnifyingtheham.svg';
 import { getKeywordList } from '../../api/search';
 import Search from './Search';
 import { useSearchParams } from 'react-router-dom';
-import lgoo from '../../../public/assets/lgoo.svg';
-import searchIcon from '/public/assets/search.svg';
 
 function SearchDetail() {
   const navigate = useNavigate();
@@ -29,7 +27,7 @@ function SearchDetail() {
         const { data } = await instance.get(
           `/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`,
         );
-        setData(data);
+        // setData(data);
         console.log('검색 결과:', data);
         console.log('data.count:', data.data.count);
         return data;
@@ -46,6 +44,53 @@ function SearchDetail() {
   }, [keyword]);
 
   return (
+    // <Wrapper>
+    //   <Search />
+    //   <Result>
+    //     {data?.count !== 0 ? (
+    //       <>
+    //         검색 결과 총 <span>{data?.count}</span>개의 글을 찾았습니다!
+    //       </>
+    //     ) : (
+    //       <>
+    //         검색 결과 총 <span>0</span>개의 글을 찾았습니다.
+    //       </>
+    //     )}
+    //   </Result>
+    //   {isLoading && <li>Loading...</li>}
+    //   {isError && <li>Error occurred while fetching data</li>}
+    //   {data?.count !== 0 ? (
+    //     <>
+    //       {data.searchResponseList?.map((rental) => (
+    //         <Ao
+    //           key={rental.rentalId}
+    //           onClick={(e) => {
+    //             e.stopPropagation();
+    //             navigate(`/details/${rental.rentalId}`);
+    //           }}
+    //         >
+    //           <Container>
+    //             <IMG>
+    //               <img src={rental.rentalImageList} alt="Rental Thumbnail" />
+    //             </IMG>
+    //             <Box>
+    //               <Title>{rental.title}</Title>
+    //               <Box2>
+    //                 <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
+    //                 <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
+    //               </Box2>
+    //             </Box>
+    //           </Container>
+    //         </Ao>
+    //       ))}
+    //     </>
+    //   ) : (
+    //     <NoData>
+    //       <Image>{magnifyingtheham}</Image>
+    //       <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
+    //     </NoData>
+    //   )}
+    // </Wrapper>
     <Wrapper>
       <Search />
       <Detail>
@@ -54,7 +99,7 @@ function SearchDetail() {
         )}
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
-        {data && data.data.count !== 0
+        {data && data.count !== 0
           ? data.data.searchResponseList.map((rental: any) => (
               <Ao
                 key={rental.rentalId}
@@ -79,7 +124,9 @@ function SearchDetail() {
             ))
           : !isLoading && (
               <NoData>
-                <Image>{sweattheham}</Image>
+                <Image>
+                  <img src={magnifyingtheham} />
+                </Image>
                 <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
               </NoData>
             )}
@@ -106,14 +153,6 @@ const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
   transition: width 0.3s ease-in-out; /* 너비 변경에 대한 애니메이션 효과를 적용합니다. */
 `;
 
-const Input = styled.input``;
-
-const SearchButton = styled.button``;
-
-const SearchResults = styled.ul`
-  /* 검색 결과 스타일 */
-`;
-
 const Wrapper = styled.div`
   height: 100vh;
   display: flex;
@@ -123,14 +162,21 @@ const Wrapper = styled.div`
   }
 `;
 const Detail = styled.div`
-  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   @media screen and (max-width: 430px) {
   }
 `;
-const NoData = styled.div``;
+const NoData = styled.div`
+  height: 100vh;
+  width: 375px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Result = styled.div`
   width: 290px;
   height: 17px;
@@ -149,7 +195,11 @@ const Result = styled.div`
   }
 `;
 
-const Image = styled.div``;
+const Image = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
 const MSG = styled.div``;
 const Ao = styled.div`
   display: flex;
