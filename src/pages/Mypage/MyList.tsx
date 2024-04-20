@@ -119,43 +119,48 @@ function MyList() {
             <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
             <span>내가 쓴 글</span>
           </MenuBox>
-          {data.map((data) => (
-            <Ao
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/details/${data.rentalId}`);
-              }}
-            >
-              <Container key={data.rentalId}>
-                <IMG>
-                  <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
-                </IMG>
-                <Box>
-                  <Box1>
-                    <Custom>
-                      <Link to={`/details/${data.rentalId}/edit`}>
-                        <img src={modification} />
-                      </Link>
-                      <DeleteModal
-                        isOpen={isOpen}
-                        onClose={closeModal}
-                        rentalId={data.rentalId}
-                        // 페이지 이동
-                      />
-                    </Custom>
-                    <Button style={{ zIndex: '4' }} onClick={handleDeleteClick}>
-                      <img src={trashbin} />
-                    </Button>
-                  </Box1>
-                  <Title>{data.title}</Title>
-                  <Box2>
-                    <Fee>대여비 {priceDot(data.rentalFee)}원</Fee>
-                    <Deposit>보증금 {priceDot(data.deposit)}원</Deposit>
-                  </Box2>
-                </Box>
-              </Container>
-            </Ao>
-          ))}
+          <SB>
+            {data.map((data) => (
+              <Ao
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/details/${data.rentalId}`);
+                }}
+              >
+                <Container key={data.rentalId}>
+                  <IMG>
+                    <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
+                  </IMG>
+                  <Box>
+                    <Box1>
+                      <Custom>
+                        <Link to={`/details/${data.rentalId}/edit`}>
+                          <img src={modification} />
+                        </Link>
+                        <DeleteModal
+                          isOpen={isOpen}
+                          onClose={closeModal}
+                          rentalId={data.rentalId}
+                          // 페이지 이동
+                        />
+                      </Custom>
+                      <Button
+                        style={{ zIndex: '4' }}
+                        onClick={handleDeleteClick}
+                      >
+                        <img src={trashbin} />
+                      </Button>
+                    </Box1>
+                    <Title>{data.title}</Title>
+                    <Box2>
+                      <Fee>대여비 {priceDot(data.rentalFee)}원</Fee>
+                      <Deposit>보증금 {priceDot(data.deposit)}원</Deposit>
+                    </Box2>
+                  </Box>
+                </Container>
+              </Ao>
+            ))}
+          </SB>
         </>
       )}
     </Wrapper>
@@ -172,12 +177,13 @@ const MenuBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 60px;
   padding: 0 7%;
+  margin-top: 10px;
+  height: 6vh;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
   z-index: 1;
-  margin-top: 10px;
+  position: absolute;
   > span {
     width: 69px;
     height: 17px;
@@ -245,14 +251,20 @@ const Custom = styled.div`
   @media screen and (max-width: 430px) {
   }
 `;
+const SB = styled.div`
+  margin-top: 73px;
+  @media screen and (max-width: 430px) {
+  }
+`;
 
 const Wrapper = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: flex-start; */
+  overflow: scroll;
   background-color: white;
+  padding-bottom: 120px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -275,11 +287,8 @@ const NoDataMSG = styled.div`
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-
   text-align: center;
-
   color: #282828;
-
   @media screen and (max-width: 430px) {
   }
 `;
@@ -292,7 +301,6 @@ const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 10.4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  justify-content: space-between;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -302,6 +310,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-content: space-between;
+  margin-left: 16px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -318,7 +327,7 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 30px;
+  gap: 13px;
   text-align: center;
   @media screen and (max-width: 430px) {
   }

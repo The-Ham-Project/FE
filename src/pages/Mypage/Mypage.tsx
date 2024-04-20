@@ -118,6 +118,7 @@ const Wrapper = styled.div`
 `;
 
 export const MenuBox = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: row;
   align-items: center;
