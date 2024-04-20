@@ -162,6 +162,7 @@ const Wrapper = styled.div`
   }
 `;
 const Detail = styled.div`
+margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
