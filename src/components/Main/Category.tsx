@@ -84,7 +84,7 @@ function Category() {
     }
     const newData = response.data.data;
     // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [...rentals, ...newData].reduce((acc, current) => {
+    const uniqueRentals = [...newData, ...rentals ].reduce((acc, current) => {
       // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
       if (
         !acc.find(
@@ -138,9 +138,8 @@ function Category() {
         <InfiniteScroll
           dataLength={rentals.length}
           next={
-            selectedCategory === 'ALL'
-              ? fetchMoreData
-              : handleDifferentLocationClick
+          fetchMoreData
+         
           }
           hasMore={hasMore}
           loader={
@@ -377,11 +376,11 @@ const ALLLayout = styled.div`
 `;
 
 const CategoryButtonsContainer = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(4, 0fr);
-  justify-content: center;
-  padding: 28.5px 0;
+    display: grid;
+    margin-top: 20px;
+    width: 100%;
+    grid-template-columns: repeat(4, 0fr);
+    justify-content: center;
 `;
 
 interface CustomCategoryButtonProps {
@@ -422,14 +421,17 @@ const CategoryContainer = styled.div`
   display: grid;
   overflow: hidden;
   grid-template-columns: repeat(2, 0fr);
+  padding-bottom: 20px;
   gap: 12px;
   row-gap: 20px;
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 700px) {
     grid-template-columns: repeat(3, 0fr);
+    padding-bottom: 20px;
     row-gap: 20px;
   }
   @media screen and (max-width: 430px) {
     grid-template-columns: repeat(2, 0fr);
+    padding-bottom: 20px;
     row-gap: 20px;
   }
 `;

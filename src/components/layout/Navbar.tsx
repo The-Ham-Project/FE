@@ -18,7 +18,7 @@ function Navbar() {
       console.log('postdetail 호출');
       navigate('/PostDetailsPage');
     } else {
-      openModal('로그인 후에 게시글을 생성할 수 있습니다.');
+      openModal('로그인 후에 게시글을 생성할 수 있습니다.',);
     }
   };
 
@@ -34,6 +34,7 @@ function Navbar() {
   return (
     <>
       <Container>
+        
         <img
           className={'home'}
           src={home}
@@ -41,6 +42,7 @@ function Navbar() {
             navigate('/');
           }}
         />
+        
         <img
           className={'message'}
           src={message}
@@ -49,7 +51,8 @@ function Navbar() {
         <div onClick={handlePostButtonClick}>
           <FiPlus fontSize={'40px'} />
         </div>
-        <img className={'bar'} src={bar} />
+        <img style={{filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))'}} className="bar" src={bar} />
+
       </Container>
       <Outlet />
     </>
@@ -68,20 +71,20 @@ const Container = styled.div`
     width: 100%;
     margin: 0;
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     //box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   > .message {
     position: absolute;
     right: 63px;
-    bottom: 21px;
+    bottom: 31px;
     z-index: 10;
     width: 34px;
   }
   .home {
     position: absolute;
-    bottom: 21px;
-    zindex: 10;
+    bottom: 31px;
+    z-index: 10;
     left: 63px;
     z-index: 103;
     width: 27px;
