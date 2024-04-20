@@ -1,5 +1,5 @@
 import { IoIosArrowBack } from 'react-icons/io';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.svg';
@@ -11,7 +11,7 @@ import Modal from '../../components/modal/Modal.tsx';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
 import DeleteModal from '../../components/modal/DeleteModal.tsx';
-
+import { removeItemPost } from '../../api/itemAPI.ts';
 
 interface Rental {
   rentalId: number;
@@ -41,7 +41,7 @@ function MyList() {
   //   deleteMutation.mutate(rentalId);
   // };
   const { rentalId } = useParams();
-  const { isOpen, errorMessage, openModal, closeModal  } = useErrorModalStore();
+  const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
   const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
   const priceDot = (num: number) =>
@@ -74,15 +74,12 @@ function MyList() {
     );
   }
   const handleDeleteClick = (e) => {
-
     e.stopPropagation();
     openModal('게시글을 삭제하시겠습니까?');
   };
-  
- 
 
   const handleConfirmDelete = (rentalId) => {
-    closeModal()
+    closeModal();
     const deleteMutation = useMutation({
       mutationFn: async (rentalId: number) => {
         await removeItemPost(rentalId);
@@ -99,7 +96,7 @@ function MyList() {
         console.error('게시물 삭제 중 오류가 발생했습니다:', error);
       },
     });
-    
+
     deleteMutation.mutate(rentalId);
   };
 
@@ -141,11 +138,9 @@ function MyList() {
                       </Link>
                       <DeleteModal
                         isOpen={isOpen}
-
                         onClose={closeModal}
                         rentalId={data.rentalId}
-              // 페이지 이동
-                     
+                        // 페이지 이동
                       />
                     </Custom>
                     <Button style={{ zIndex: '4' }} onClick={handleDeleteClick}>
