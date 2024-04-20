@@ -320,6 +320,7 @@ const ALLLayout = styled.div`
 
 const CategoryButtonsContainer = styled.div`
     display: grid;
+    margin-top: 20px;
     width: 100%;
     grid-template-columns: repeat(4, 0fr);
     justify-content: center;
@@ -363,14 +364,17 @@ const CategoryContainer = styled.div`
   display: grid;
   overflow: hidden;
   grid-template-columns: repeat(2, 0fr);
+  padding-bottom: 20px;
   gap: 12px;
   row-gap: 20px;
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 700px) {
     grid-template-columns: repeat(3, 0fr);
+    padding-bottom: 20px;
     row-gap: 20px;
   }
   @media screen and (max-width: 430px) {
     grid-template-columns: repeat(2, 0fr);
+    padding-bottom: 20px;
     row-gap: 20px;
   }
 `;

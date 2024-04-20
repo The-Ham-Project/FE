@@ -71,20 +71,20 @@ const Container = styled.div`
     width: 100%;
     margin: 0;
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     //box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   > .message {
     position: absolute;
     right: 63px;
-    bottom: 21px;
+    bottom: 31px;
     z-index: 10;
     width: 34px;
   }
   .home {
     position: absolute;
-    bottom: 21px;
-    zindex: 10;
+    bottom: 31px;
+    z-index: 10;
     left: 63px;
     z-index: 103;
     width: 27px;
