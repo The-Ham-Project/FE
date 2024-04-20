@@ -95,7 +95,7 @@ function SearchDetail() {
       <Search />
       <Detail>
         {data && data.data.count !== 0 && (
-          <Result>검색 결과 총 {data.data.count}개의 글을 찾았습니다!</Result>
+          <Result>검색 결과 : 총 {data.data.count}개의 글을 찾았습니다!</Result>
         )}
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
@@ -110,7 +110,10 @@ function SearchDetail() {
               >
                 <Container>
                   <IMG>
-                    <img src={rental.rentalImageList} alt="Rental Thumbnail" />
+                    <img
+                      src={rental.firstThumbnailUrl}
+                      alt="Rental Thumbnail"
+                    />
                   </IMG>
                   <Box>
                     <Title>{rental.title}</Title>
@@ -162,7 +165,7 @@ const Wrapper = styled.div`
   }
 `;
 const Detail = styled.div`
-margin-top: 100px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;

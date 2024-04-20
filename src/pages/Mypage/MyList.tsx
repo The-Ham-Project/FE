@@ -123,7 +123,7 @@ function MyList() {
             <Ao
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/Details/${data.rentalId}`);
+                navigate(`/details/${data.rentalId}`);
               }}
             >
               <Container key={data.rentalId}>
