@@ -7,13 +7,15 @@ function NotFound() {
   const mainBtn = () => navigate('/');
   return (
     <ErrorPage>
-      <img src={magnifyingtheham} />
-      <MSG>
-        페이지를 찾을 수 없습니다. <br />
-        <br />
-        잠시후 다시 시도해주세요.
-      </MSG>
-      <NotButton onClick={() => mainBtn()}>홈으로 이동하기</NotButton>
+      <ContentsBox>
+        <MSG>
+          <img src={magnifyingtheham} />
+          페이지를 찾을 수 없습니다. <br />
+          <br />
+          잠시후 다시 시도해주세요.
+          <NotButton onClick={() => mainBtn()}>홈으로 이동하기</NotButton>
+        </MSG>
+      </ContentsBox>
     </ErrorPage>
   );
 }
@@ -21,38 +23,40 @@ function NotFound() {
 export default NotFound;
 
 const ErrorPage = styled.div`
-  @media screen and (max-width: 430px) {
-    /* Group 1394 */
-    background-color: white;
-    position: absolute;
-    width: 141.1px;
-    height: 193.64px;
-    left: 125.29px;
-    top: 280.25px;
-  }
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+`;
+
+const ContentsBox = styled.div`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 `;
 
 const MSG = styled.div`
-  @media screen and (max-width: 430px) {
-    /* 페이지를 찾을 수 없습니다. 잠시 후 다시 시도해주세요. */
-    position: absolute;
-    width: 230px;
-    height: 56px;
-    left: calc(50% - 230px / 2);
-    top: calc(50% + 56px / 2 + 113.25px);
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    color: #505050;
+  width: 170px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  > img {
+    width: 138px;
+    height: 168px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin-bottom: 25px;
   }
 `;
 
 const NotButton = styled.button`
-  width: 170px;
-  height: 60px;
+  margin-top: 20px;
+  width: 160px;
+  height: 55px;
   outline: 0;
   border-radius: 10px;
 `;

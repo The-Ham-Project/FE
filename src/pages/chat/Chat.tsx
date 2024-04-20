@@ -12,6 +12,7 @@ import * as ChatStyle from './Chat.styled.tsx';
 import calender from '/public/assets/calender.svg';
 import Loading from '../glitch/Loading.tsx';
 import { FaCamera } from 'react-icons/fa';
+import NotFound from '../glitch/NotFound.tsx';
 
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -176,7 +177,7 @@ const Chat = () => {
     }
   }, [data?.totalPage, indicatorRef, currentPageNo]);
 
-  if (error) return <div>죄송합니다. 다시 접속해주세요</div>;
+  if (error) return <NotFound />;
 
   if (!isFetchedAfterMount) return <Loading />;
 
