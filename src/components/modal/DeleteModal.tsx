@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useMutation } from '@tanstack/react-query';
 import { removeItemPost } from '../../api/itemAPI';
 import sweattheham from '../../../public/assets/sweattheham.svg';
+import { deleteRental } from '../../api/mylist';
 
 interface ModalProps {
   isOpen: boolean;
@@ -18,7 +19,7 @@ const DeleteModal: React.FC<ModalProps> = ({ isOpen, onClose, rentalId }) => {
     onSuccess: () => {
       console.log('게시물이 성공적으로 삭제되었습니다.');
       onClose(); // 모달 닫기
-      window.location.href = '/'; // 메인 페이지로 이동
+      window.location.href = '/mylist'; // 메인 페이지로 이동
     },
     onError: (error) => {
       console.error('게시물 삭제 중 오류가 발생했습니다:', error);

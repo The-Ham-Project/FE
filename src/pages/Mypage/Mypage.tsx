@@ -126,7 +126,7 @@ export const MenuBox = styled.div`
   flex-direction: row;
   align-items: center;
   height: 6vh;
-  padding: 0 7%;
+  padding: 0 90% 0 7%;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
   z-index: 4;

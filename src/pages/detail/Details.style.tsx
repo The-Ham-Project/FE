@@ -17,7 +17,6 @@ export const ImgBox = styled.div`
   height: 400px;
   position: relative;
   > img {
-
     height: 18px;
     width: 20px;
     z-index: 1000;

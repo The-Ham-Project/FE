@@ -80,6 +80,8 @@ const ContentsBox = styled.div`
   //width: 50%;
   flex: 1;
   height: 100%;
+  font-family: 'Pretendard';
+  font-style: normal;
   @media (max-width: 700px) {
     display: none;
   }
@@ -89,6 +91,8 @@ const Title = styled.div`
   margin-bottom: 38px;
   display: flex;
   flex-direction: column;
+  font-family: 'Pretendard';
+  font-style: normal;
   > span {
     color: #fff;
     font-size: 37px;
@@ -104,6 +108,8 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 86px;
+  font-family: 'Pretendard';
+  font-style: normal;
   > span {
     margin-top: 20px;
     font-size: 25px;

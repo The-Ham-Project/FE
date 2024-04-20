@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
@@ -8,10 +9,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useErrorModalStore } from '../../store/store';
 import Modal from '../../components/modal/Modal.tsx';
+import { removeItemPost } from '../../api/itemAPI';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
 import DeleteModal from '../../components/modal/DeleteModal.tsx';
-import { removeItemPost } from '../../api/itemAPI.ts';
 
 interface Rental {
   rentalId: number;
@@ -23,6 +24,7 @@ interface Rental {
 }
 
 function MyList() {
+  const [selectedRentalId, setSelectedRentalId] = useState<number | null>(null);
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
   // const { rentalId } = useParams;
@@ -40,12 +42,13 @@ function MyList() {
   // const deleteitemClick = (rentalId): void => {
   //   deleteMutation.mutate(rentalId);
   // };
-  const { rentalId } = useParams();
+  // const { rentalId } = useParams();
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
   const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['rentals', { page }],
     queryFn: async () => {
@@ -137,16 +140,23 @@ function MyList() {
                         <Link to={`/details/${data.rentalId}/edit`}>
                           <img src={modification} />
                         </Link>
-                        <DeleteModal
+                        <Modal
                           isOpen={isOpen}
+                          message={errorMessage}
                           onClose={closeModal}
-                          rentalId={data.rentalId}
-                          // 페이지 이동
+                          rentalId={selectedRentalId}
+                          successCallback={() => {
+                            refetch();
+                          }}
                         />
                       </Custom>
                       <Button
                         style={{ zIndex: '4' }}
-                        onClick={handleDeleteClick}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openModal('게시글을 삭제하시겠습니까?');
+                          setSelectedRentalId(data.rentalId);
+                        }}
                       >
                         <img src={trashbin} />
                       </Button>

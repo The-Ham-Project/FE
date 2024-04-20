@@ -6,9 +6,7 @@ import { Outlet } from 'react-router-dom';
 function DefaultLayout() {
   return (
     <>
-    
-        <Container/>
-    
+      <Container />
     </>
   );
 }
@@ -20,7 +18,7 @@ export const Phone = styled.div`
   left: -20px;
 
   width: 420px;
-top: -50px;;
+  top: -50px;
   z-index: 9999;
   pointer-events: none;
   background-repeat: no-repeat;
@@ -32,16 +30,16 @@ export const Containerrelative = styled.div`
 `;
 
 export const Container = styled.div`
- overflow: scroll;
-display: flex;
-    width: 100%;
-    height: 100%;
-    background-color: #ffffff;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    position: relative;
+  overflow: scroll;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  position: relative;
 
-    flex-direction: column;
+  flex-direction: column;
 `;
 
 export const Div = styled.div`
@@ -56,7 +54,6 @@ export const Div = styled.div`
   @media screen and (max-width: 500px) {
     width: 10%;
     background-color: #178cf3;
-    
   }
 `;
 

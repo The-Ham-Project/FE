@@ -43,10 +43,11 @@ export const createItem = async (newItem: any) => {
 
 export const removeItemPost = async (rentalId: number) => {
   // 게시글 삭제
-  console.log(`Removing ${rentalId}`);
-  // const res =
-  await authInstance.delete(`api/v1/rentals/${rentalId}`);
+  // console.log(`Removing ${rentalId}`);
+  // const res = await authInstance.delete(`/api/v1/rentals/${rentalId}`);
   // return res.data;
+  const { data } = await authInstance.delete(`/api/v1/rentals/${rentalId}`);
+  return data;
 };
 
 // const getMeetingDetail = async (
