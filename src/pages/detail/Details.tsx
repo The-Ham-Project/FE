@@ -129,7 +129,6 @@ function Details() {
             paddingTop: '150px',
             paddingBottom: '150px',
             backgroundColor: '#ececec',
-            borderRadius: '20px',
           }}
         />
       </div>
