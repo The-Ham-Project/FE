@@ -27,9 +27,9 @@ function SearchDetail() {
         const { data } = await instance.get(
           `/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`,
         );
-        // setData(data);
+        setData(data);
         console.log('검색 결과:', data);
-        console.log('data.count:', data.data.count);
+        console.log('data.data.count:', data.data.count);
         return data;
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -94,12 +94,12 @@ function SearchDetail() {
     <Wrapper>
       <Search />
       <Detail>
-        {data && data.count !== 0 && (
+        {data && data.data.count !== 0 && (
           <Result>검색 결과 총 {data.data.count}개의 글을 찾았습니다!</Result>
         )}
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
-        {data && data.count !== 0
+        {data && data.data.count !== 0
           ? data.data.searchResponseList.map((rental: any) => (
               <Ao
                 key={rental.rentalId}

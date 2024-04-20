@@ -71,8 +71,7 @@ function Search() {
       openModal('로그인 페이지로 이동합니다');
     }
   };
- 
-  
+
   return (
     <div style={{ display: 'flex', backgroundColor: 'white' }}>
       <SearchContainer>
@@ -131,15 +130,15 @@ function Search() {
               ))}
           </SearchResults>
         </div>
-        <PersonButton  onClick={(handlePersonButtonClick) } >
-            <img
-              style={{
-                maxWidth: '22px',
-                maxHeight: '22px',
-              }}
-              src={person}
-            />
-          </PersonButton>
+        <PersonButton onClick={handlePersonButtonClick}>
+          <img
+            style={{
+              maxWidth: '22px',
+              maxHeight: '22px',
+            }}
+            src={person}
+          />
+        </PersonButton>
       </SearchContainer>
     </div>
   );
@@ -158,7 +157,7 @@ const SearchContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;
   position: absolute;
   z-index: 99;
-  padding: 10px 15px 10px 30px;
+  padding: 10px 20px 10px 30px;
 `;
 
 const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
