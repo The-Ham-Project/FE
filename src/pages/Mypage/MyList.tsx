@@ -11,7 +11,7 @@ import Modal from '../../components/modal/Modal.tsx';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
 import DeleteModal from '../../components/modal/DeleteModal.tsx';
-import { removeItemPost } from '../../api/itemAPI.ts';
+import { deleteRental } from '../../api/mylist.ts';
 
 interface Rental {
   rentalId: number;
@@ -82,7 +82,7 @@ function MyList() {
     closeModal();
     const deleteMutation = useMutation({
       mutationFn: async (rentalId: number) => {
-        await removeItemPost(rentalId);
+        await deleteRental(rentalId);
       },
       onSuccess: () => {
         // 삭제 성공 후 로직
