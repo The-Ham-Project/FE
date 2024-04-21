@@ -27,22 +27,7 @@ function MyList() {
   const [selectedRentalId, setSelectedRentalId] = useState<number | null>(null);
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
-  // const { rentalId } = useParams;
-  // const deleteMutation = useMutation<any, number>({
-  //   mutationFn: async (rentalId) => await removeItemPost(Number(rentalId)),
-  //   onSuccess: (res) => {
-  //     console.log('res', res);
-  //     navigate('/mylist');
-  //   },
-  //   onError: (error) => {
-  //     console.log('error', error);
-  //   },
-  // });
-  // const deleteMutation = removeItemPost()
-  // const deleteitemClick = (rentalId): void => {
-  //   deleteMutation.mutate(rentalId);
-  // };
-  // const { rentalId } = useParams();
+
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
   const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
@@ -76,10 +61,6 @@ function MyList() {
       </ErrorPage>
     );
   }
-  const handleDeleteClick = (e) => {
-    e.stopPropagation();
-    openModal('게시글을 삭제하시겠습니까?');
-  };
 
   const handleConfirmDelete = (rentalId) => {
     closeModal();
@@ -137,7 +118,11 @@ function MyList() {
                   <Box>
                     <Box1>
                       <Custom>
-                        <Link to={`/details/${data.rentalId}/edit`}>
+                        <Link  to={`/details/${data.rentalId}/edit`} 
+                         onClick={(e) => e.stopPropagation()}
+                         >
+                          
+                         
                           <img src={modification} />
                         </Link>
                         <Modal

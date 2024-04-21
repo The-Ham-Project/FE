@@ -21,7 +21,8 @@ time, mark, audio, video {
 	/* font-family: 'Pretendard-Regular'; */
 	vertical-align: baseline;
     font-family: 'Pretendard';
-    font-style: normal;    box-sizing: border-box;
+    font-style: normal;    
+    box-sizing: border-box;
 
 
 }

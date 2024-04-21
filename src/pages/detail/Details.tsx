@@ -164,7 +164,7 @@ function Details() {
     <Container>
       <ImgBox>
         <Img>{images}</Img>
-        <img
+        <img 
           onClick={() => {
             navigate(-1);
           }}
