@@ -257,7 +257,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: scroll;
+  overflow: auto;
   background-color: white;
   padding-bottom: 120px;
   @media screen and (max-width: 430px) {
