@@ -56,7 +56,7 @@ function PostDetailsPage() {
     e: React.ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<number | string>>,
   ) => {
-    let value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    const value = e.target.value.replace(/\D/g, '').slice(0, 6);
     const numericValue: number | '' = value === '' ? '' : +value;
     const formattedValue: number | string =
       numericValue === '' ? '' : numericValue.toLocaleString();
