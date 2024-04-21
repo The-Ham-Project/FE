@@ -25,6 +25,7 @@ export default function Location(): JSX.Element {
   const [map, setMap] = useState<any>(null);
   const [address, setAddress] = useState('');
   const [newAddress, setNewAddress] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수
   // const [results, setResults] = useState([]);
   // const [currentPosState, setCurrentPosState] = useState();
 
@@ -53,9 +54,13 @@ export default function Location(): JSX.Element {
 
   // 2. 현재 위치
   const getCurrentPosBtn = () => {
+    setIsLoading(true); // API 요청 전 로딩 상태를 true로 변경
     navigator.geolocation.getCurrentPosition(
       getPosSuccess,
-      () => alert('위치 정보 가져오기 실패'),
+      () => {
+        setIsLoading(false); // 위치 정보 가져오기 실패 시 로딩 상태를 false로 변경
+        alert('위치 정보 가져오기 실패');
+      },
       {
         enableHighAccuracy: true,
         maximumAge: 30000,
@@ -105,13 +110,14 @@ export default function Location(): JSX.Element {
     marker.setMap(null);
     circle.setMap(map);
     marker.setMap(map);
+    setIsLoading(false); // API 요청 후 로딩 상태를 false로 변경
 
     const geocoder = new window.kakao.maps.services.Geocoder();
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     window.kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
       // // 클릭한 위도, 경도 정보를 가져옵니다
-      // const latlng = mouseEvent.latLng;
+      const latlng = mouseEvent.latLng;
 
       // // 마커 위치를 클릭한 위치로 옮깁니다
       // marker.setPosition(latlng);
@@ -155,6 +161,10 @@ export default function Location(): JSX.Element {
           // infowindow.setContent(content);
           // infowindow.open(map, marker);
         }
+        geolocationMutation.mutate({
+          lon: latlng.getLng(),
+          lat: latlng.getLat(),
+        });
       });
     });
 
@@ -286,6 +296,7 @@ export default function Location(): JSX.Element {
   //   queryKey: ['location'],
   //   queryFn: () => geolocation(CurrentPos),
   // });
+
   return (
     <>
       <Wrapper>
@@ -293,11 +304,18 @@ export default function Location(): JSX.Element {
           <span>내 위치 인증</span>
         </MenuBox>
         <PaddingBox>
+          {isLoading && (
+            <LoadingContainer>
+              로딩중입니다. 잠시만 기다려주세요!
+            </LoadingContainer>
+          )}
           <Ao>
             <Map id="map"></Map>
           </Ao>
           <MSG1>현재 위치에 있는 동네는 아래와 같나요?</MSG1>
-          <MSG2>마커를 이동해 내 위치를 직접 변경할 수도 있어요!</MSG2>
+          <MSG2>
+            내 위치를 수정하고 싶다면 해당 위치로 지도를 터치해주세요!
+          </MSG2>
           {address && !newAddress && <Address>{address}</Address>}
           {address && newAddress && <NewAddress>{newAddress}</NewAddress>}
           {/* <button onClick={getCurrentPosBtn}>
@@ -507,6 +525,11 @@ const PaddingBox = styled.div`
     /* box-shadow: inset 0 -5px 5px -5px #333; */
   }
 `;
+const LoadingContainer = styled.div`
+  z-index: 5;
+  @media screen and (max-width: 430px) {
+  }
+`;
 
 const Ao = styled.div`
   box-shadow: inset 0 5px 5px -5px #333;
@@ -548,7 +571,7 @@ const MSG1 = styled.div`
 `;
 const MSG2 = styled.div`
   position: absolute;
-  width: 280px;
+  width: 340px;
   height: 17px;
   font-family: 'Pretendard';
   font-style: normal;
