@@ -1,5 +1,6 @@
 import startwithkakao from '../../../public/assets/startwithkakaotalk.svg';
 import styled from 'styled-components';
+import useStore from '../../store/store';
 // import Header from '../layout/Header';
 
 const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
@@ -7,7 +8,7 @@ const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
 function KakaoLogin() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
-
+  const { login } = useStore();
   const kakao = async () => {
     window.location.href = kakaoURL;
   };
@@ -16,7 +17,7 @@ function KakaoLogin() {
     <>
       {/* <Header></Header> */}
       <Button onClick={kakao}>
-        <IMG src={startwithkakao} alt="카카오 로그인 버튼" />
+        <IMG onClick={login} src={startwithkakao} alt="카카오 로그인 버튼" />
       </Button>
     </>
   );

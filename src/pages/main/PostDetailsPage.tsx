@@ -267,7 +267,7 @@ const CustomDropzone = styled.div`
   gap: 69px;
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   padding: 20px 7px 20px 30px;
   gap: 30px;
   display: flex;
