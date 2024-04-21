@@ -1,10 +1,12 @@
 import startwithgoogle from '../../../public/assets/startwithgoogle.svg';
 import styled from 'styled-components';
+import useStore from '../../store/store';
 
 const client_id = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 // const redirect_uri = 'http://localhost:5173/oauth/kakaologin';
 const redirect_uri = import.meta.env.VITE_APP_GOOGLE_REDIRECT_URI;
 function GoogleLogin() {
+  const { login } = useStore();
   const googleURL = `https://accounts.google.com/o/oauth2/auth?client_id=${client_id}&scope=email&redirect_uri=${redirect_uri}&response_type=code`;
 
   const google = () => {
@@ -13,7 +15,7 @@ function GoogleLogin() {
   return (
     <>
       <Button onClick={google}>
-        <IMG src={startwithgoogle} alt="구글 로그인 버튼" />
+        <IMG onClick={login} src={startwithgoogle} alt="구글 로그인 버튼" />
       </Button>
     </>
   );
