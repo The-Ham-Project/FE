@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, QueryClient } from '@tanstack/react-query';
+// import { injectMutation } from '@tanstack/angular-query-experimental'
 import { geolocation } from '../../api/geolocation';
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { log } from 'console';
 
 declare global {
   interface Window {
@@ -15,11 +17,14 @@ declare const window: typeof globalThis & {
   kakao;
 };
 
+const queryClient = new QueryClient();
+
 export default function Location(): JSX.Element {
   const navigate = useNavigate();
   // const handleBackClick = () => navigate(-2);
   const [map, setMap] = useState<any>(null);
   const [address, setAddress] = useState('');
+  const [newAddress, setNewAddress] = useState('');
   // const [results, setResults] = useState([]);
   // const [currentPosState, setCurrentPosState] = useState();
 
@@ -68,6 +73,7 @@ export default function Location(): JSX.Element {
     );
 
     console.log(currentPos);
+
     geolocationMutation.mutate({
       lon: currentPos.La,
       lat: currentPos.Ma,
@@ -80,6 +86,7 @@ export default function Location(): JSX.Element {
     const marker = new window.kakao.maps.Marker({
       position: currentPos,
     });
+
     // 지도를 현재 위치로 이동
     map.panTo(currentPos);
 
@@ -98,30 +105,96 @@ export default function Location(): JSX.Element {
     marker.setMap(null);
     circle.setMap(map);
     marker.setMap(map);
+
+    const geocoder = new window.kakao.maps.services.Geocoder();
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     window.kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-      // 클릭한 위도, 경도 정보를 가져옵니다
-      const latlng = mouseEvent.latLng;
+      // // 클릭한 위도, 경도 정보를 가져옵니다
+      // const latlng = mouseEvent.latLng;
 
-      // 마커 위치를 클릭한 위치로 옮깁니다
-      marker.setPosition(latlng);
-      circle.setPosition(latlng);
+      // // 마커 위치를 클릭한 위치로 옮깁니다
+      // marker.setPosition(latlng);
+      // circle.setPosition(latlng);
 
-      let message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-      message += '경도는 ' + latlng.getLng() + ' 입니다';
-      console.log(message);
-      console.log('위도', latlng.getLat());
-      console.log('경도는', latlng.getLng());
+      // let message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+      // message += '경도는 ' + latlng.getLng() + ' 입니다';
+      // console.log(message);
+      // console.log('위도', latlng.getLat());
+      // console.log('경도는', latlng.getLng());
 
       // const resultDiv = document.getElementById('clickLatlng');
       // resultDiv.innerHTML = message;
+
+      searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {
+        if (status === window.kakao.maps.services.Status.OK) {
+          let detailAddr = result[0].road_address
+            ? '<div>도로명주소 : ' +
+              result[0].road_address.address_name +
+              '</div>'
+            : '';
+          detailAddr +=
+            '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+
+          const content =
+            '<div class="bAddr">' +
+            '<span class="title">법정동 주소정보</span>' +
+            detailAddr +
+            '</div>';
+          console.log(content);
+          console.log(result[0].address.address_name);
+          const new_address = result[0].address.address_name;
+          setNewAddress(new_address);
+
+          // 마커를 클릭한 위치에 표시합니다
+          marker.setPosition(mouseEvent.latLng);
+          circle.setPosition(mouseEvent.latLng);
+          // marker.setMap(map);
+
+          // // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+          // infowindow.setContent(content);
+          // infowindow.open(map, marker);
+        }
+      });
     });
+
+    // // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+    // window.kakao.maps.event.addListener(map, 'idle', function () {
+    //   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+    // });
+
+    // function searchAddrFromCoords(coords, callback) {
+    //   // 좌표로 행정동 주소 정보를 요청합니다
+    //   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    // }
+
+    function searchDetailAddrFromCoords(coords, callback) {
+      // 좌표로 법정동 상세 주소 정보를 요청합니다
+      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+    }
 
     navigator.geolocation.getCurrentPosition((pos) => {
       alterAddress(pos);
     });
+    // geolocationMutation.mutate({
+    //   lon: latlng.getLat(),
+    //   lat: latlng.getLng(),
+    // });
   };
+
+  // const new_alterAddress = async (latlng) => {
+  //   try  {
+  //     const data = {
+  //       lat: latlng.getLat(),
+  //       lon: latlng.getLng(),
+  //     }
+  //   }
+  // }
+
+  // geolocationMutation.mutate({
+  //   lon: latlng.getLat(),,
+  //   lat: latlng.getLng(),
+  // });
 
   /* 카카오지도 API로 현재 유저 좌표를 동단위로 변환 */
   const alterAddress = async (pos: GeolocationPosition) => {
@@ -167,19 +240,52 @@ export default function Location(): JSX.Element {
   //   setAddress(selectedAddress);
   //   setResults([]);
   // };
-  const getMainBtn = () => {
+  const getMainBtn = (mouseEvent) => {
     navigate('/');
+    const latlng = mouseEvent.latLng;
+    geolocationMutation.mutate({
+      lon: latlng.getLng(),
+      lat: latlng.getLat(),
+    });
   };
+
   const geolocationMutation = useMutation({
+    mutationKey: ['location'],
     mutationFn: geolocation,
     onSuccess: (res) => {
       console.log('res', res);
+      queryClient.invalidateQueries({ queryKey: ['location'] });
     },
-    onError: (error) => {
-      console.log('error', error);
+    // onError: (error) => {
+    //   console.log('error', error);
+    // },
+    onMutate: async (newLocation) => {
+      // optimistic update 한 것이 덮어써지지 않도록 호출한 쿼리를 취소합니다.
+      await queryClient.cancelQueries({ queryKey: ['location'] });
+
+      // 에러 발생시 복원을 위해 기존 데이터를 저장합니다.
+      const previousLocation = queryClient.getQueryData(['location']);
+
+      // 예상되는 변경 값으로 쿼리를 업데이트 합니다.
+      // queryClient.setQueryData(['location'], (prev) => [...prev, newLocation]);
+
+      // 복원을 위한 기존 데이터를 반환합니다.
+      return { previousLocation };
+    },
+    // mutate에 에러가 발생하면 실행됩니다.
+    onError: (err, newLocation, context) => {
+      // context를 통해 기존 값으로 쿼리를 업데이트 합니다.
+      queryClient.setQueryData(['location'], context.previousLocation);
+    },
+    // mutate가 끝나면(성공, 실패 모두) 호출됩니다.
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['location'] });
     },
   });
-
+  // const { data, isLoading, isError, refetch } = useQuery({
+  //   queryKey: ['location'],
+  //   queryFn: () => geolocation(CurrentPos),
+  // });
   return (
     <>
       <Wrapper>
@@ -192,7 +298,8 @@ export default function Location(): JSX.Element {
           </Ao>
           <MSG1>현재 위치에 있는 동네는 아래와 같나요?</MSG1>
           <MSG2>마커를 이동해 내 위치를 직접 변경할 수도 있어요!</MSG2>
-          <Address>{address}</Address>
+          {address && !newAddress && <Address>{address}</Address>}
+          {address && newAddress && <NewAddress>{newAddress}</NewAddress>}
           {/* <button onClick={getCurrentPosBtn}>
             <IMG src={locationButton} alt="위치인증하기" />
           </button>
@@ -211,13 +318,13 @@ export default function Location(): JSX.Element {
             <IMG onClick={getCurrentPosBtn} $active={address}>
               위치설정하기
             </IMG>
-            {address && (
+            {(address || newAddress) && (
               <IMG onClick={getCurrentPosBtn} $active={address}>
                 자동으로 위치 다시 설정하기
               </IMG>
             )}
             {/* </button> */}
-            {address && (
+            {(address || newAddress) && (
               // <button onClick={getMainBtn}>
               <IMG2 onClick={getMainBtn} $active={address}>
                 설정 완료
@@ -461,6 +568,23 @@ const MSG2 = styled.div`
 const Address = styled.div`
   position: absolute;
   width: 300px;
+  height: 26px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: center;
+  color: #000000;
+  z-index: 100;
+  bottom: 205.4px;
+  @media screen and (max-width: 430px) {
+    bottom: 190.4px;
+  }
+`;
+const NewAddress = styled.div`
+  position: absolute;
+  width: 340px;
   height: 26px;
   font-family: 'Pretendard';
   font-style: normal;
