@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { getMyPage } from '../../api/mypage';
 import gogo from '../../../public/assets/gogo.svg';
-import logout from '../../../public/assets/logout.svg';
+import logoutimage from '../../../public/assets/logoutimage.svg';
 import { removeTokensFromLocalStorage } from '../../util/localStorage/localStorage';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -100,7 +100,7 @@ function Mypage() {
           <Box3 onClick={LogoutHandler}>
             <Logout>로그아웃</Logout>
             <img
-              src={logout}
+              src={logoutimage}
               style={{
                 maxWidth: '10px',
                 maxHeight: '16px',
