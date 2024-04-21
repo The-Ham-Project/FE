@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import sweattheham from '../../../public/assets/sweattheham.svg';
@@ -28,6 +28,8 @@ const Modal: React.FC<ModalProps> = ({
 
   const onConfirm = () => {
     navigate('/sociallogin');
+    console.log('로그인 페이지로 이동')
+    onClose()
   };
   const { mutate } = useMutation({
     mutationFn: deleteRental,
@@ -40,7 +42,10 @@ const Modal: React.FC<ModalProps> = ({
     mutate(rentalId);
     e.stopPropagation();
     console.log('아이디디디ㅣ이디ㅣㄷ', rentalId);
+    onClose()
   };
+
+
 
   if (!isOpen) return null;
   console.log(isLoggedIn);
@@ -65,7 +70,7 @@ const Modal: React.FC<ModalProps> = ({
           {isLoggedIn ? (
             <ModalOKButton onClick={handelDeleteButton}>확인</ModalOKButton>
           ) : (
-            <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
+            <ModalOKButton onClick={onConfirm} >확인</ModalOKButton>
           )}
           {/* 확인 버튼 */}
         </Button>

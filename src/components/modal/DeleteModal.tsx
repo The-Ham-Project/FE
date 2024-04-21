@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useMutation } from '@tanstack/react-query';
 import { removeItemPost } from '../../api/itemAPI';
 import sweattheham from '../../../public/assets/sweattheham.svg';
-import { deleteRental } from '../../api/mylist';
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,7 +10,7 @@ interface ModalProps {
   rentalId: number;
 }
 
-const DeleteModal: React.FC<ModalProps> = ({ isOpen, onClose, rentalId }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, rentalId }) => {
   const deleteMutation = useMutation({
     mutationFn: async (rentalId: number) => {
       await removeItemPost(rentalId);
@@ -34,10 +33,10 @@ const DeleteModal: React.FC<ModalProps> = ({ isOpen, onClose, rentalId }) => {
 
   return (
     <ModalOverlay>
-      <ModalHeader>
-        <img src={sweattheham} />
-      </ModalHeader>
       <ModalBody>
+        <ModalHeader>
+          <img src={sweattheham} alt="Sweat The Ham" />
+        </ModalHeader>
         <MSG>게시글을 삭제하시겠습니까?</MSG>
         <Button>
           <ModalCloseButton onClick={onClose}>취소</ModalCloseButton>
@@ -48,10 +47,10 @@ const DeleteModal: React.FC<ModalProps> = ({ isOpen, onClose, rentalId }) => {
   );
 };
 
-export default DeleteModal;
+export default Modal;
 
 const ModalOverlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -61,11 +60,6 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 100;
-`;
-
-const ModalHeader = styled.div`
-  margin-bottom: 155.39px;
-  position: absolute;
 `;
 
 const ModalBody = styled.div`
@@ -80,6 +74,10 @@ const ModalBody = styled.div`
   height: 170px;
   justify-content: flex-end;
   gap: 23px;
+`;
+
+const ModalHeader = styled.div`
+  margin-bottom: 155.39px;
 `;
 
 const MSG = styled.div`

@@ -223,7 +223,7 @@ function Category() {
                                   fontFamily: 'Pretendard',
                                   fontStyle: 'normal',
                                   fontWeight: '400',
-                                  fontSize: '9.0041px',
+                                  fontSize: '8px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   gap: '2px',
