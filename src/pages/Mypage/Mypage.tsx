@@ -170,7 +170,7 @@ const Profile = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 0 15% 0;
-  padding-top: 6vh;
+  padding-top: 9vh;
   @media screen and (max-width: 430px) {
   }
 `;
