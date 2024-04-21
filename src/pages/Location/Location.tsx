@@ -267,7 +267,7 @@ export default function Location(): JSX.Element {
       const previousLocation = queryClient.getQueryData(['location']);
 
       // 예상되는 변경 값으로 쿼리를 업데이트 합니다.
-      queryClient.setQueryData(['location'], (prev) => [...prev, newLocation]);
+      // queryClient.setQueryData(['location'], (prev) => [...prev, newLocation]);
 
       // 복원을 위한 기존 데이터를 반환합니다.
       return { previousLocation };
