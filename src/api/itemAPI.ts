@@ -9,11 +9,7 @@ export interface ItemDataRes {
   contents: string;
   price: number;
 }
-// export interface RemoveResponse {
-//   resultCode: Result;
-//   data: ChatDataProps;
-//   message: string;
-// }
+
 export const createItem = async (newItem: any) => {
   // 게시글 작성
   try {

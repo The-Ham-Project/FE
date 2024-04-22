@@ -22,6 +22,7 @@ export default function Location(): JSX.Element {
   const navigate = useNavigate();
   // const handleBackClick = () => navigate(-2);
   const [map, setMap] = useState<any>(null);
+  const [pin, setPin] = useState();
   const [address, setAddress] = useState('');
   const [newAddress, setNewAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수
@@ -233,6 +234,7 @@ export default function Location(): JSX.Element {
             //법정동 기준으로 동단위의 값을 가져온다
             const location = result.data.documents[0].address_name;
             setAddress(location);
+            setNewAddress(location);
             console.log(result);
             console.log('location: ', location);
             console.log('address: ', address);
@@ -251,7 +253,7 @@ export default function Location(): JSX.Element {
   //   setResults([]);
   // };
   const getMainBtn = (mouseEvent) => {
-    navigate('/');
+    navigate('/splash');
     const latlng = mouseEvent.latLng;
     geolocationMutation.mutate({
       lon: latlng.getLng(),
