@@ -64,7 +64,7 @@ const Chat = () => {
               '/user/queue/error',
               (message) => {
                 const receivedMessage = JSON.parse(message.body);
-                console.log(receivedMessage);
+                alert(JSON.stringify(receivedMessage.data.message));
               },
               { chatRoomId: `${params.chatRoom}` },
             ),
@@ -91,7 +91,7 @@ const Chat = () => {
 
           setStompClient(client);
         } catch (error) {
-          console.error('Error fetching chat room data:', error);
+          console.log('다시시도');
         }
       };
 
@@ -130,7 +130,7 @@ const Chat = () => {
   const sendMessage = () => {
     if (message.trim() && !!stompClient?.connected) {
       const chatMessage = {
-        message: message,
+        // message: message,
         createAt: new Date(),
       };
 
@@ -157,20 +157,11 @@ const Chat = () => {
   useEffect(() => {
     if (queryChatRoom.data) {
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
-      if (isFirst) {
-        setTestMessges(messagesToAdd);
-        setIsFirst(false);
-      } else {
-        setTestMessges((prev) => {
-          if (prev.length === 0) {
-            return [...messagesToAdd, ...prev];
-          } else {
-            return [...messagesToAdd];
-          }
-        });
-      }
+      setTestMessges((prev) => {
+        return [...messagesToAdd, ...prev];
+      });
     }
-  }, [queryChatRoom.data, isFirst]);
+  }, [queryChatRoom.data]);
 
   // useEffect(() => {
   //   setTestMessges([]);
@@ -198,13 +189,17 @@ const Chat = () => {
 
   if (!isFetchedAfterMount) return <Loading />;
 
+  if (queryChatRoom.error) {
+    return <NotFound />;
+  }
+
   const handleClickNavigate = () => {
     navigate(-1);
   };
   const handelLeaveButton = () => {
     mutate(parseInt(params?.chatRoom));
   };
-  console.log(data.rentalThumbnailUrl);
+
   return (
     <ChatStyle.Container>
       <ChatStyle.MenuBox>
@@ -239,13 +234,15 @@ const Chat = () => {
         <ChatStyle.Cloum>
           <h6>{data.rentalTitle}</h6>
           <ChatStyle.Flex>
-            <span className={'rentalFee'}>대여비{data.rentalFee}</span>
-            <span>보증금{data.deposit}</span>
+            <span className={'rentalFee'}>
+              대여비{data.rentalFee.toLocaleString()}원
+            </span>
+            <span>보증금{data.deposit.toLocaleString()}원</span>
           </ChatStyle.Flex>
         </ChatStyle.Cloum>
       </ChatStyle.RentalItemBox>
       <ChatStyle.Center ref={scrollRef} id={'scrollRef'}>
-        {/*<div ref={indicatorRef} className={'indicator'} />*/}
+        <div ref={indicatorRef} className={'indicator'} />
 
         <ChatStyle.ChatBox>
           {testMessges.map((item, index) => {
@@ -287,7 +284,7 @@ const Chat = () => {
                     </ChatStyle.Message>
 
                     <span>
-                      {moment(new Date(item.createdAt)).format('hh:mm')}
+                      {moment(new Date(item.createdAt)).format('HH:mm')}
                     </span>
                   </ChatStyle.Seserve>
                 </ChatStyle.Chatting>
@@ -295,7 +292,6 @@ const Chat = () => {
             );
           })}
         </ChatStyle.ChatBox>
-        {/*<div ref={indicatorRef} className={'indicator'} />*/}
       </ChatStyle.Center>
       <ChatStyle.InputBox>
         <ChatStyle.Box>
