@@ -75,7 +75,7 @@ function Edit() {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-  
+
     const requestDto = {
       title,
       category: selectedCategory,
@@ -83,21 +83,21 @@ function Edit() {
       rentalFee,
       deposit,
     };
-  
+
     formData.append('requestDto', JSON.stringify(requestDto));
-  
+
     // 이미지 파일 데이터를 FormData에 추가
     if (selectedFiles) {
       Array.from(selectedFiles).forEach((file) => {
         formData.append('multipartFileList', file);
       });
     }
-  
+
     // 기존 이미지 파일 데이터를 FormData에 추가
     Files.forEach((file) => {
       formData.append('rentalImageList', JSON.stringify(file));
     });
-  
+
     try {
       await updatePost({ rentalId: rentalId, formData: formData });
       navigate('/mylist');
@@ -105,7 +105,7 @@ function Edit() {
       console.error('게시글 수정 오류:', error);
     }
   };
-  
+
   const handleValueChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<number | string>>,
@@ -133,28 +133,13 @@ function Edit() {
 
   return (
     <>
-       <Container>
+      <Container>
         <Wrapper1>
-      <div>
-        {Files.map((file, index) => (
-          <div key={index}>
-            <img
-              src={file.imageUrl}
-              alt={`Image ${index + 1}`}
-              style={{ maxWidth: '100px', maxHeight: '100px' }}
-            />
-            <button onClick={() => handleDeleteImage(index)}>삭제</button>
-          </div>
-        ))}
-      </div>
-      <div>
-        {selectedFiles && (
           <div>
-            {Array.from(selectedFiles).map((file, index) => (
+            {Files.map((file, index) => (
               <div key={index}>
-                <span>{file.name}</span>
                 <img
-                  src={URL.createObjectURL(file)}
+                  src={file.imageUrl}
                   alt={`Image ${index + 1}`}
                   style={{ maxWidth: '100px', maxHeight: '100px' }}
                 />
@@ -162,72 +147,89 @@ function Edit() {
               </div>
             ))}
           </div>
-        )}
-      </div>
-      <input
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={handleFileChange}
-      />
-      <div>
-        {Object.entries(categories).map(([key, value]) => (
-          <button
-            key={key}
-            onClick={() => setSelectedCategory(key as Category)}
-            style={{
-              backgroundColor:
-                String(selectedCategory) === String(key) ||
-                String(selectedCategory) === value
-                  ? '#258bff'
-                  : '#F5F5F5',
-              color: selectedCategory === key ? 'white' : 'black',
-              cursor: 'pointer',
-              width: '80px',
-              height: '30px',
-              fontSize: '14px',
-              fontWeight: selectedCategory === key ? 'bold' : 'normal',
-            }}
-          >
-            {value}
-          </button>
-        ))}
-      </div>
-      <div>제목</div>
-      <input
-        type="text"
-        placeholder="제목을 입력하세요"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <div>내용</div>
-      <textarea
-        style={{ resize: 'none' }}
-        rows={10}
-        cols={50}
-        placeholder="게시글의 내용을 작성해주세요."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
-      <div>대여비</div>
-      <input
-        type="text"
-        placeholder="대여비를 입력해주세요"
-        value={rentalFee}
-        onChange={handleRentalFeeChange}
-      />
-      <div>보증금</div>
-      <input
-        type="text"
-        placeholder="보증금을 입력해주세요"
-        value={deposit}
-        onChange={handleDepositChange}
-      />
-      <Rectangle>
-        <button onClick={handleSubmit}>게시글 수정</button>
-      </Rectangle>
-      </Wrapper1>
-   </Container>
+          <div>
+            {selectedFiles && (
+              <div>
+                {Array.from(selectedFiles).map((file, index) => (
+                  <div key={index}>
+                    <span>{file.name}</span>
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={`Image ${index + 1}`}
+                      style={{ maxWidth: '100px', maxHeight: '100px' }}
+                    />
+                    <button onClick={() => handleDeleteImage(index)}>
+                      삭제
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+          <div>
+            {Object.entries(categories).map(([key, value]) => (
+              <button
+                key={key}
+                onClick={() => setSelectedCategory(key as Category)}
+                style={{
+                  backgroundColor:
+                    String(selectedCategory) === String(key) ||
+                    String(selectedCategory) === value
+                      ? '#258bff'
+                      : '#F5F5F5',
+                  color: selectedCategory === key ? 'white' : 'black',
+                  cursor: 'pointer',
+                  width: '80px',
+                  height: '30px',
+                  fontSize: '14px',
+                  fontWeight: selectedCategory === key ? 'bold' : 'normal',
+                }}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+          <div>제목</div>
+          <input
+            type="text"
+            placeholder="제목을 입력하세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <div>내용</div>
+          <textarea
+            style={{ resize: 'none' }}
+            rows={10}
+            cols={50}
+            placeholder="게시글의 내용을 작성해주세요."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+          <div>대여비</div>
+          <input
+            type="text"
+            placeholder="대여비를 입력해주세요"
+            value={rentalFee}
+            onChange={handleRentalFeeChange}
+          />
+          <div>보증금</div>
+          <input
+            type="text"
+            placeholder="보증금을 입력해주세요"
+            value={deposit}
+            onChange={handleDepositChange}
+          />
+          <Rectangle>
+            <button onClick={handleSubmit}>게시글 수정</button>
+          </Rectangle>
+        </Wrapper1>
+      </Container>
     </>
   );
 }
