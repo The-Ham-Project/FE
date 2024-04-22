@@ -43,7 +43,7 @@ const Chat = () => {
   });
 
   useEffect(() => {
-    if (params.chatRoom) {
+    if (params.chatRoom && !stompClient) {
       let socket;
       let client;
       const fetchData = () => {
@@ -92,6 +92,7 @@ const Chat = () => {
         const headers = { chatRoomId: `${params?.chatRoom}` };
         client.unsubscribe(`/sub/chat/chatRoom/${params.chatRoom}`, headers);
         client.disconnect();
+        (client as Client).deactivate();
         socket.close();
 
         setStompClient(undefined);
