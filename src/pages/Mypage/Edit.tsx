@@ -42,6 +42,7 @@ function Edit() {
   const [Files, setFiles] = useState<RentalImage[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [imageChanged, setImageChanged] = useState<boolean>(false); // Track if images changed
+  const [fileBlobs, setFileBlobs] = useState([]);
   const { rentalId } = useParams();
   const navigate = useNavigate();
 
@@ -75,37 +76,39 @@ function Edit() {
 
   const handleSubmit = async () => {
     const formData = new FormData();
+    const imageUrlList = Files.map(file => file.imageUrl);
 
+  console.log(imageUrlList)
     const requestDto = {
       title,
       category: selectedCategory,
       content,
       rentalFee,
       deposit,
-    };
-
-    formData.append('requestDto', JSON.stringify(requestDto));
-
-    // 이미지 파일 데이터를 FormData에 추가
-    if (selectedFiles) {
-      Array.from(selectedFiles).forEach((file) => {
-        formData.append('multipartFileList', file);
-      });
-    }
-
-    // 기존 이미지 파일 데이터를 FormData에 추가
-    Files.forEach((file) => {
-      formData.append('rentalImageList', JSON.stringify(file));
-    });
-
-    try {
-      await updatePost({ rentalId: rentalId, formData: formData });
-      navigate('/mylist');
-    } catch (error) {
-      console.error('게시글 수정 오류:', error);
-    }
+      beforeImageUrlList: imageUrlList
+    
   };
 
+  const multipartFileList = { Files: imageUrlList };
+
+  formData.append('requestDto', JSON.stringify(requestDto));
+  formData.append('multipartFileList', JSON.stringify(multipartFileList));
+
+  // multipartFileList에 파일 추가
+  if (selectedFiles) {
+    Array.from(selectedFiles).forEach((file) => {
+      formData.append('multipartFileList', file);
+    });
+  }
+
+
+  try {
+    await updatePost({ rentalId: rentalId, formData: formData });
+    navigate('/mylist');
+  } catch (error) {
+    console.error('게시글 수정 오류:', error);
+  }
+};
   const handleValueChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<number | string>>,

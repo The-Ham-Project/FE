@@ -103,7 +103,7 @@ function Category() {
     if (data) {
       // 중복된 데이터 제거 후 새로운 데이터 추가
       setRentals((prevRentals) => {
-        const newRentals = [...prevRentals, ...data.data];
+        const newRentals = [...data.data, ...prevRentals ];
         return newRentals.filter(
           (rental, index, self) =>
             index === self.findIndex((t) => t.rentalId === rental.rentalId),

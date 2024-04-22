@@ -9,40 +9,28 @@ import { useEffect, useState } from 'react';
 
 function Navbar() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
-  const [isLoggedIn1, setLoggedIn1] = useState(localStorage.getItem('isLoggedIn') === 'true');
+  const [isLoggedIn1, setLoggedIn1] = useState(
+    localStorage.getItem('isLoggedIn') === 'true',
+  );
   const navigate = useNavigate();
 
-  const { openModal,closeModal } = useErrorModalStore();
+  const { openModal, closeModal } = useErrorModalStore();
 
   const handlePostButtonClick = () => {
-    console.log(isLoggedIn);
-    if (isLoggedIn1 === true) {
-      console.log('postdetail 호출');
-      navigate('/PostDetailsPage');
-    } else {
+    if (localStorage.getItem('accessToken')) {
+      navigate("/postdetailspage");
+    } else if (localStorage.getItem('accessToken') === null || undefined) {
       openModal('로그인 후에 게시글을 생성할 수 있습니다.');
     }
   };
 
   const handleChatButtonClick = () => {
-    console.log(isLoggedIn);
-    if (isLoggedIn1 === true) {
+    if (localStorage.getItem('accessToken')) {
       navigate('/commlist');
-    } else {
+    } else if (localStorage.getItem('accessToken') === null || undefined) {
       openModal('로그인 후 이용하실 수 있습니다.');
     }
   };
-
-  useEffect(() => {
-    const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    setLoggedIn1(storedIsLoggedIn);
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn1 === true) {
-      closeModal(); // 로그인하면 모달을 닫음
-    }
-  }, [isLoggedIn1, closeModal]);
 
   return (
     <>
@@ -64,7 +52,11 @@ function Navbar() {
           <FiPlus fontSize={'40px'} />
         </div>
         <img
-          style={{ filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))', objectFit: 'cover', height: '80%',}}
+          style={{
+            filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))',
+            objectFit: 'cover',
+            height: '80%',
+          }}
           className="bar"
           src={bar}
         />
