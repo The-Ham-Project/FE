@@ -58,7 +58,9 @@ table {
 input { 
     box-sizing: border-box;
     border: none;
-    outline:none
+    outline-color: rgba(22, 137, 243, 1);
+    
+    
 	
 }
 input:checked {
@@ -91,21 +93,44 @@ input[type="text"] {
         width: 100%;
         height: 50px;
         background: #F5F5F5;
-        border-radius: 20px;
+        border-radius: 6px;
         font-size: 16px;
         padding: 10px; /* Add padding for text inside the input */
-    }
+        
 
+    }
+    input::placeholder {
+    font-family: 'Pretendard-Regular', sans-serif; /* placeholder 폰트 변경 */
+    font-size: 14px; /* placeholder 폰트 크기 변경 */
+    color: #999; /* placeholder 색상 변경 */
+}
+textarea::placeholder {
+    font-family: 'Pretendard-Regular', sans-serif; /* placeholder 폰트 변경 */
+    font-size: 14px; /* placeholder 폰트 크기 변경 */
+    color: #999; /* placeholder 색상 변경 */
+}
    /* Custom style for textarea */
    textarea {
-	
+      outline-color: rgba(22, 137, 243, 1);
 	background: #F5F5F5;
-    border-radius: 24px;
+    border-radius: 6px;
     font-size: 14px;
     padding: 10px;
-    width: 93%;
+    width: 96%;
+    border: none;
+    @media screen and (max-width: 700px) {
+
+        width: 96%;
+
+  }
+  @media screen and (max-width: 500px) {
+
+width: 94%;
+
 }
-   html, body, #root {width:100%; height:100%;
+
+}
+   html, body, #root {width:100%; height:100vh;
    margin: 0;
    }
 

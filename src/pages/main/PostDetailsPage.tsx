@@ -172,9 +172,9 @@ function PostDetailsPage() {
           </CustomDropzone>
           <div
             style={{
+              marginTop: '20px',
               width: '300px',
               height: '17px',
-              fontFamily: 'Pretendard',
               fontStyle: 'normal',
               fontWeight: '900',
               fontSize: '14px',
@@ -207,7 +207,7 @@ function PostDetailsPage() {
                 ))}
               </Image>
             </div>
-
+<div style={{marginBottom: '50px', display: 'flex', flexDirection: 'column', gap: '16px'}}>
             <div>제목</div>
             <div>
               <input
@@ -247,11 +247,14 @@ function PostDetailsPage() {
                 onChange={handleDepositChange}
               />
             </div>
+            </div>
           </Group>
           <Rectangle>
             <Text onClick={handleButtonClick}>게시글 작성</Text>
           </Rectangle>
+          
         </Wrapper>
+        
       </Container>
     </>
   );
@@ -268,7 +271,7 @@ const CustomDropzone = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  padding: 20px 7px 20px 30px;
+  padding: 40px 7px 20px 30px;
   gap: 30px;
   display: flex;
   justify-content: flex-start;
@@ -276,7 +279,7 @@ export const Wrapper = styled.div`
   overflow: overlay;
   position: relative;
   width: 98%;
-  height: 650px;
+  height: 100%;
   overflow-x: hidden;
   padding-bottom: 120px;
   &::-webkit-scrollbar {
@@ -300,6 +303,10 @@ export const Wrapper = styled.div`
 
 const Image = styled.div`
   width: 360px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 50px;
 `;
 
 const Counter = styled.div`

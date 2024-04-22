@@ -209,7 +209,7 @@ function Category() {
                         </ImageWrapper>
                         <Layout>
                           <ProfileUrl>
-                            <div style={{ display: 'flex' }}>
+                            <div style={{ display: 'flex', alignItems: 'center'}}>
                               <ProfileImage
                                 src={item.profileUrl}
                                 alt="Profile"
@@ -223,7 +223,7 @@ function Category() {
                                   fontFamily: 'Pretendard',
                                   fontStyle: 'normal',
                                   fontWeight: '400',
-                                  fontSize: '8px',
+                                  fontSize: '9px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   gap: '2px',
@@ -483,6 +483,7 @@ const ProfileUrl = styled.span`
   width: 137px;
   margin: 12px 0px 12px 0px;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const Div = styled.div`
