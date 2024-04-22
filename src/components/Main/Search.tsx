@@ -13,7 +13,7 @@ function Search() {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
   const [showInput, setShowInput] = useState(false); // 인풋 창 보이기 여부를 관리하는 상태
-
+  const { login } = useStore();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', keyword],
     queryFn: async () => {
@@ -63,13 +63,10 @@ function Search() {
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
   const handlePersonButtonClick = () => {
-    console.log(isLoggedIn);
-    if (isLoggedIn === true) {
+  
+      login();
       navigate('/mypage');
-    } else {
-      // 모달 열기
-      openModal('로그인 페이지로 이동합니다');
-    }
+ 
   };
 
   return (
@@ -130,7 +127,7 @@ function Search() {
               ))}
           </SearchResults>
         </div>
-        <PersonButton onClick={handlePersonButtonClick}>
+        <PersonButton  onClick={handlePersonButtonClick} >
           <img
             style={{
               maxWidth: '22px',
