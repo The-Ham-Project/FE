@@ -18,9 +18,12 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 14px;
-	font-family: 'Pretendard-Regular';
+	/* font-family: 'Pretendard-Regular'; */
 	vertical-align: baseline;
+    font-family: 'Pretendard';
+    font-style: normal;    
     box-sizing: border-box;
+
 
 }
 /* HTML5 display-role reset for older browsers */

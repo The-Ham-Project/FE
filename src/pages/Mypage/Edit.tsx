@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import { instance } from '../../api/axios';
 import { updatePost } from '../../api/itemAPI';
+import { Container } from '../../components/layout/DefaultLayout';
+import { Wrapper } from '../main/PostDetailsPage';
 
 // 카테고리 타입 정의
 type Category =
@@ -73,7 +75,7 @@ function Edit() {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-
+  
     const requestDto = {
       title,
       category: selectedCategory,
@@ -81,21 +83,21 @@ function Edit() {
       rentalFee,
       deposit,
     };
-
+  
     formData.append('requestDto', JSON.stringify(requestDto));
-    formData.append('multipartFileList', JSON.stringify(Files));
-    console.log(formData);
-
-    console.log('기존 이미지 파일 추가:', formData);
-
-    // 새로 추가된 이미지 파일들만 FormData에 추가 (이미지가 변경되었을 때만 추가)
+  
+    // 이미지 파일 데이터를 FormData에 추가
     if (selectedFiles) {
       Array.from(selectedFiles).forEach((file) => {
-        console.log('새로 추가된 이미지 파일 추가:', file);
         formData.append('multipartFileList', file);
       });
     }
-
+  
+    // 기존 이미지 파일 데이터를 FormData에 추가
+    Files.forEach((file) => {
+      formData.append('rentalImageList', JSON.stringify(file));
+    });
+  
     try {
       await updatePost({ rentalId: rentalId, formData: formData });
       navigate('/mylist');
@@ -103,7 +105,7 @@ function Edit() {
       console.error('게시글 수정 오류:', error);
     }
   };
-
+  
   const handleValueChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<number | string>>,
@@ -131,6 +133,8 @@ function Edit() {
 
   return (
     <>
+       <Container>
+        <Wrapper1>
       <div>
         {Files.map((file, index) => (
           <div key={index}>
@@ -222,6 +226,8 @@ function Edit() {
       <Rectangle>
         <button onClick={handleSubmit}>게시글 수정</button>
       </Rectangle>
+      </Wrapper1>
+   </Container>
     </>
   );
 }
@@ -230,10 +236,15 @@ export default Edit;
 
 const Rectangle = styled.div`
   width: 371px;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #1689f3;
   border-radius: 85px;
+`;
+
+const Wrapper1 = styled.div`
+  height: 100vh;
+  overflow-y: scroll;
+  padding-bottom: 50px;
 `;

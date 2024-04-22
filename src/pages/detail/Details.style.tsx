@@ -17,7 +17,6 @@ export const ImgBox = styled.div`
   height: 400px;
   position: relative;
   > img {
-
     height: 18px;
     width: 20px;
     z-index: 1000;
@@ -31,6 +30,10 @@ export const ImgBox = styled.div`
 export const Img = styled.div`
   width: 100%;
   height: 100%;
+      height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `;
 
 export const ContentsBox = styled.div`

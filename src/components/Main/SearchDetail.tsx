@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { instance } from '../../api/axios';
-import magnifyingtheham from '../../../public/assets/magnifyingtheham.svg';
+import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 import { getKeywordList } from '../../api/search';
 import Search from './Search';
 import { useSearchParams } from 'react-router-dom';
@@ -175,12 +175,13 @@ const Detail = styled.div`
   }
 `;
 const NoData = styled.div`
+  position: relative;
   height: 100vh;
   width: 375px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  top: 27vh;
 `;
 
 const Result = styled.div`
@@ -205,6 +206,14 @@ const Image = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 138px;
+  height: 160px;
+  > img {
+    width: 138px;
+    height: 160px;
+  }
+  @media screen and (max-width: 430px) {
+  }
 `;
 const MSG = styled.div``;
 const Ao = styled.div`

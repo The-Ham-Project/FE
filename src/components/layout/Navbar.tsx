@@ -5,16 +5,18 @@ import message from '../../../public/assets/message.svg';
 import home from '../../../public/assets/home.svg';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
+import { useEffect, useState } from 'react';
 
 function Navbar() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
+  const [isLoggedIn1, setLoggedIn1] = useState(localStorage.getItem('isLoggedIn') === 'true');
   const navigate = useNavigate();
 
-  const { openModal } = useErrorModalStore();
+  const { openModal,closeModal } = useErrorModalStore();
 
   const handlePostButtonClick = () => {
     console.log(isLoggedIn);
-    if (isLoggedIn === true) {
+    if (isLoggedIn1 === true) {
       console.log('postdetail 호출');
       navigate('/PostDetailsPage');
     } else {
@@ -24,12 +26,23 @@ function Navbar() {
 
   const handleChatButtonClick = () => {
     console.log(isLoggedIn);
-    if (isLoggedIn === true) {
+    if (isLoggedIn1 === true) {
       navigate('/commlist');
     } else {
       openModal('로그인 후 이용하실 수 있습니다.');
     }
   };
+
+  useEffect(() => {
+    const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setLoggedIn1(storedIsLoggedIn);
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn1 === true) {
+      closeModal(); // 로그인하면 모달을 닫음
+    }
+  }, [isLoggedIn1, closeModal]);
 
   return (
     <>
@@ -51,7 +64,7 @@ function Navbar() {
           <FiPlus fontSize={'40px'} />
         </div>
         <img
-          style={{ filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))' }}
+          style={{ filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))', objectFit: 'cover', height: '80%',}}
           className="bar"
           src={bar}
         />

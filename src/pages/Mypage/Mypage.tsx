@@ -3,20 +3,26 @@ import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { getMyPage } from '../../api/mypage';
 import gogo from '../../../public/assets/gogo.svg';
-import logout from '../../../public/assets/logout.svg';
+import logoutimage from '../../../public/assets/logoutimage.svg';
 import { removeTokensFromLocalStorage } from '../../util/localStorage/localStorage';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
+import useStore from '../../store/store.ts';
 
 function Mypage() {
   const navigate = useNavigate();
+  const { logout } = useStore();
   const handleBackClick = () => navigate(-1);
   const GotoListHandler = () => {
     navigate('/mylist');
   };
+  const GotoPolicyHandler = () => {
+    navigate('https://www.kakao.com/policy/location');
+  };
 
   const LogoutHandler = () => {
+    logout();
     removeTokensFromLocalStorage();
     alert('로그아웃되었습니다');
     navigate('/');
@@ -81,7 +87,7 @@ function Mypage() {
               }}
             />
           </Box1>
-          <Box2 onClick={GotoListHandler}>
+          <Box2 onClick={GotoPolicyHandler}>
             <Policy>위치정보이용동의 약관</Policy>
             <img
               src={gogo}
@@ -94,7 +100,7 @@ function Mypage() {
           <Box3 onClick={LogoutHandler}>
             <Logout>로그아웃</Logout>
             <img
-              src={logout}
+              src={logoutimage}
               style={{
                 maxWidth: '10px',
                 maxHeight: '16px',
@@ -112,8 +118,8 @@ export default Mypage;
 const Wrapper = styled.div`
   background-color: white;
   height: 100%;
-  overflow: scroll;
   @media screen and (max-width: 430px) {
+    overflow: scroll;
   }
 `;
 
@@ -123,10 +129,10 @@ export const MenuBox = styled.div`
   flex-direction: row;
   align-items: center;
   height: 6vh;
-  padding: 0 7%;
+  padding: 0 90% 0 7%;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
-  z-index: 1;
+  z-index: 4;
   @media screen and (max-width: 430px) {
     display: flex;
     flex-direction: row;
@@ -166,7 +172,8 @@ const Profile = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 15% 0;
+  margin: 0 0 15% 0;
+  padding-top: 9vh;
   @media screen and (max-width: 430px) {
   }
 `;

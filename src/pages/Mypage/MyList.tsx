@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
+import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -11,6 +12,7 @@ import Modal from '../../components/modal/Modal.tsx';
 import { removeItemPost } from '../../api/itemAPI';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
+import DeleteModal from '../../components/modal/DeleteModal.tsx';
 
 interface Rental {
   rentalId: number;
@@ -25,24 +27,12 @@ function MyList() {
   const [selectedRentalId, setSelectedRentalId] = useState<number | null>(null);
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
-  // const { rentalId } = useParams;
-  // const deleteMutation = useMutation<any, number>({
-  //   mutationFn: async (rentalId) => await removeItemPost(Number(rentalId)),
-  //   onSuccess: (res) => {
-  //     console.log('res', res);
-  //     navigate('/mylist');
-  //   },
-  //   onError: (error) => {
-  //     console.log('error', error);
-  //   },
-  // });
-  // const deleteMutation = removeItemPost()
-  // const deleteitemClick = (rentalId): void => {
-  //   deleteMutation.mutate(rentalId);
-  // };
+
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
   const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
+  const priceDot = (num: number) =>
+    num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['rentals', { page }],
@@ -62,7 +52,7 @@ function MyList() {
   if (isError) {
     return (
       <ErrorPage>
-        <img src={donotcrythehamzzang} />
+        <img src={magnifyingtheham} />
         <MSG>
           페이지를 찾을 수 없습니다. <br />
           <br />
@@ -72,63 +62,100 @@ function MyList() {
     );
   }
 
+  const handleConfirmDelete = (rentalId) => {
+    closeModal();
+    const deleteMutation = useMutation({
+      mutationFn: async (rentalId: number) => {
+        await removeItemPost(rentalId);
+      },
+      onSuccess: () => {
+        // 삭제 성공 후 로직
+        console.log('게시물이 성공적으로 삭제되었습니다.');
+        closeModal(); // 모달 닫기
+        refetch(); // 데이터 다시 불러오기
+        navigate('/mylist'); // 페이지 이동
+      },
+      onError: (error) => {
+        // 삭제 실패 시 로직
+        console.error('게시물 삭제 중 오류가 발생했습니다:', error);
+      },
+    });
+
+    deleteMutation.mutate(rentalId);
+  };
+
   return (
     <Wrapper>
       {!data || data.length === 0 ? (
-        <p>No rentals found.</p>
+        <>
+          <MenuBox>
+            <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+            <span>내가 쓴 글</span>
+          </MenuBox>
+          <NoData>
+            <img src={donotcrythehamzzang} />
+            <NoDataMSG>아직 쓰신 글이 없네용</NoDataMSG>
+          </NoData>
+        </>
       ) : (
         <>
           <MenuBox>
             <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
             <span>내가 쓴 글</span>
           </MenuBox>
-          {data.map((data) => (
-            <Ao
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/Details/${data.rentalId}`);
-              }}
-            >
-              <Container key={data.rentalId}>
-                <IMG>
-                  <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
-                </IMG>
-                <Box>
-                  <Box1>
-                    <Custom>
-                      <Link to={`/Details/${data.rentalId}/edit`}>
-                        <img src={modification} />
-                      </Link>
-                      <Modal
-                        isOpen={isOpen}
-                        message={errorMessage}
-                        onClose={closeModal}
-                        rentalId={selectedRentalId}
-                        successCallback={() => {
-                          refetch();
+          <SB>
+            {data.map((data) => (
+              <Ao
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/details/${data.rentalId}`);
+                }}
+              >
+                <Container key={data.rentalId}>
+                  <IMG>
+                    <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
+                  </IMG>
+                  <Box>
+                    <Box1>
+                      <Custom>
+                        <Link  to={`/details/${data.rentalId}/edit`} 
+                         onClick={(e) => e.stopPropagation()}
+                         >
+                          
+                         
+                          <img src={modification} />
+                        </Link>
+                        <Modal
+                          isOpen={isOpen}
+                          message={errorMessage}
+                          onClose={closeModal}
+                          rentalId={selectedRentalId}
+                          successCallback={() => {
+                            refetch();
+                          }}
+                        />
+                      </Custom>
+                      <Button
+                        style={{ zIndex: '4' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openModal('게시글을 삭제하시겠습니까?');
+                          setSelectedRentalId(data.rentalId);
                         }}
-                      />
-                    </Custom>
-                    <Button
-                      style={{ zIndex: '4' }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openModal('게시글을 삭제하시겠습니까?');
-                        setSelectedRentalId(data.rentalId);
-                      }}
-                    >
-                      <img src={trashbin} />
-                    </Button>
-                  </Box1>
-                  <Title>{data.title}</Title>
-                  <Box2>
-                    <Fee>대여비 {data.rentalFee}원</Fee>
-                    <Deposit>보증금 {data.deposit}원</Deposit>
-                  </Box2>
-                </Box>
-              </Container>
-            </Ao>
-          ))}
+                      >
+                        <img src={trashbin} />
+                      </Button>
+                    </Box1>
+                    <Title>{data.title}</Title>
+                    <Box2>
+                      <Fee>대여비 {priceDot(data.rentalFee)}원</Fee>
+                      <Deposit>보증금 {priceDot(data.deposit)}원</Deposit>
+                    </Box2>
+                  </Box>
+                </Container>
+              </Ao>
+            ))}
+          </SB>
         </>
       )}
     </Wrapper>
@@ -145,11 +172,13 @@ const MenuBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 60px;
   padding: 0 7%;
+  margin-top: 10px;
+  height: 6vh;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
   z-index: 1;
+  position: absolute;
   > span {
     width: 69px;
     height: 17px;
@@ -160,6 +189,7 @@ const MenuBox = styled.div`
     line-height: 17px;
     text-align: center;
     color: #000000;
+    margin-left: 110px;
   }
   @media screen and (max-width: 430px) {
     height: 60px;
@@ -216,14 +246,44 @@ const Custom = styled.div`
   @media screen and (max-width: 430px) {
   }
 `;
+const SB = styled.div`
+  margin-top: 73px;
+  @media screen and (max-width: 430px) {
+  }
+`;
 
 const Wrapper = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  /* height: 100vh; */
+  overflow: auto;
+  background-color: white;
+  padding-bottom: 120px;
+  @media screen and (max-width: 430px) {
+  }
+`;
+const NoData = styled.div`
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 33px;
+  @media screen and (max-width: 430px) {
+  }
+`;
+
+const NoDataMSG = styled.div`
+  width: 300px;
+  height: 19px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #282828;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -236,7 +296,6 @@ const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 10.4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  justify-content: space-between;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -246,6 +305,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-content: space-between;
+  margin-left: 16px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -262,7 +322,7 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 30px;
+  gap: 13px;
   text-align: center;
   @media screen and (max-width: 430px) {
   }
