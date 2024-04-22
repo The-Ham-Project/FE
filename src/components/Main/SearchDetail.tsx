@@ -110,10 +110,16 @@ function SearchDetail() {
               >
                 <Container>
                   <IMG>
-                    <img
-                      src={rental.firstThumbnailUrl}
-                      alt="Rental Thumbnail"
-                    />
+                    {data.firstThumbnailUrl ? (
+                      <img
+                        src={data.firstThumbnailUrl}
+                        alt="Rental Thumbnail"
+                      />
+                    ) : (
+                      <PlaceholderImage>
+                        <FaCamera size={24} color="#f0f0f0" />
+                      </PlaceholderImage>
+                    )}
                   </IMG>
                   <Box>
                     <Title>{rental.title}</Title>
@@ -140,12 +146,13 @@ function SearchDetail() {
 export default SearchDetail;
 
 // 스타일드 컴포넌트 정의
-const SearchContainer = styled.div`
+const PlaceholderImage = styled.div`
+  background-color: #ffffff;
   display: flex;
-  width: 320px;
+  justify-content: center;
   align-items: center;
-  background-color: white;
-  justify-content: flex-end;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 const AnimatedInputContainer = styled.div<{ showInput: boolean }>`

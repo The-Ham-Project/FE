@@ -23,7 +23,7 @@ const Chat = () => {
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
 
-  // const [isFirst, setIsFirst] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
 
   const navigate = useNavigate();
   const queryChatRoom = useQuery({
@@ -43,7 +43,7 @@ const Chat = () => {
   });
 
   useEffect(() => {
-    if (params.chatRoom) {
+    if (params.chatRoom && !stompClient) {
       let socket;
       let client;
       const fetchData = () => {
@@ -61,38 +61,50 @@ const Chat = () => {
           };
           client.connect(headers, () => {
             client.subscribe(
-              `/sub/chat/chatRoom/${params.chatRoom}`,
+              '/user/queue/error',
               (message) => {
                 const receivedMessage = JSON.parse(message.body);
-
-                // receivedMessage.sender = receivedMessage.nickname;
-                receivedMessage.createdAt = new Date();
-                // moment(new Date()).format('hh:mm');
-                //YYYY-MM-DD hh:mm:ss
-                console.log(receivedMessage);
-
-                setTestMessges((prevMessages) => {
-                  return [...prevMessages, receivedMessage];
-                });
+                alert(JSON.stringify(receivedMessage.data.message));
               },
-              {
-                chatRoomId: `${params.chatRoom}`,
-              },
-            );
+              { chatRoomId: `${params.chatRoom}` },
+            ),
+              client.subscribe(
+                `/sub/chat/chatRoom/${params.chatRoom}`,
+                (message) => {
+                  const receivedMessage = JSON.parse(message.body);
+
+                  // receivedMessage.sender = receivedMessage.nickname;
+                  receivedMessage.createdAt = new Date();
+                  // moment(new Date()).format('hh:mm');
+                  //YYYY-MM-DD hh:mm:ss
+                  console.log(receivedMessage);
+
+                  setTestMessges((prevMessages) => {
+                    return [...prevMessages, receivedMessage];
+                  });
+                },
+                {
+                  chatRoomId: `${params.chatRoom}`,
+                },
+              );
           });
 
           setStompClient(client);
         } catch (error) {
-          console.error('Error fetching chat room data:', error);
+          console.log('다시시도');
         }
       };
 
       fetchData();
       return () => {
         const headers = { chatRoomId: `${params?.chatRoom}` };
-        client.unsubscribe({}, headers);
+        client.unsubscribe(`/sub/chat/chatRoom/${params.chatRoom}`, headers);
         client.disconnect();
+        (client as Client).deactivate();
         socket.close();
+
+        setStompClient(undefined);
+        setTestMessges([]);
       };
     }
   }, []);
@@ -116,9 +128,9 @@ const Chat = () => {
   };
 
   const sendMessage = () => {
-    if (message.trim() && stompClient && stompClient.connected) {
+    if (message.trim() && !!stompClient?.connected) {
       const chatMessage = {
-        message: message,
+        // message: message,
         createAt: new Date(),
       };
 
@@ -130,9 +142,10 @@ const Chat = () => {
       // chatMessage.sender = '';
 
       setMessage('');
-      //   setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
+      // setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
     }
   };
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -151,20 +164,15 @@ const Chat = () => {
   }, [queryChatRoom.data]);
 
   // useEffect(() => {
-  //   console.log('testMessges:', testMessges);
-  // }, [testMessges]);
-
-  useEffect(() => {
-    setTestMessges([]);
-  }, []);
+  //   setTestMessges([]);
+  // }, []);
 
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (!isFirst && entry.isIntersecting) {
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
-
           if (!isPageEnd) {
             setCurrentPageNo(nextPageNo);
           }
@@ -175,11 +183,15 @@ const Chat = () => {
       const io = new IntersectionObserver(updateIndicator);
       io.observe(indicatorRef.current);
     }
-  }, [data?.totalPage, indicatorRef, currentPageNo]);
+  }, [data?.totalPage, indicatorRef, currentPageNo, isFirst]);
 
   if (error) return <NotFound />;
 
   if (!isFetchedAfterMount) return <Loading />;
+
+  if (queryChatRoom.error) {
+    return <NotFound />;
+  }
 
   const handleClickNavigate = () => {
     navigate(-1);
@@ -187,7 +199,7 @@ const Chat = () => {
   const handelLeaveButton = () => {
     mutate(parseInt(params?.chatRoom));
   };
-  console.log(data.rentalThumbnailUrl);
+
   return (
     <ChatStyle.Container>
       <ChatStyle.MenuBox>
@@ -222,8 +234,10 @@ const Chat = () => {
         <ChatStyle.Cloum>
           <h6>{data.rentalTitle}</h6>
           <ChatStyle.Flex>
-            <span className={'rentalFee'}>대여비{data.rentalFee}</span>
-            <span>보증금{data.deposit}</span>
+            <span className={'rentalFee'}>
+              대여비{data.rentalFee.toLocaleString()}원
+            </span>
+            <span>보증금{data.deposit.toLocaleString()}원</span>
           </ChatStyle.Flex>
         </ChatStyle.Cloum>
       </ChatStyle.RentalItemBox>
@@ -270,7 +284,7 @@ const Chat = () => {
                     </ChatStyle.Message>
 
                     <span>
-                      {moment(new Date(item.createdAt)).format('hh:mm')}
+                      {moment(new Date(item.createdAt)).format('HH:mm')}
                     </span>
                   </ChatStyle.Seserve>
                 </ChatStyle.Chatting>
@@ -278,7 +292,6 @@ const Chat = () => {
             );
           })}
         </ChatStyle.ChatBox>
-        {/*<div ref={indicatorRef} className={'indicator'} />*/}
       </ChatStyle.Center>
       <ChatStyle.InputBox>
         <ChatStyle.Box>

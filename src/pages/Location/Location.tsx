@@ -5,7 +5,6 @@ import { useMutation, useQuery, QueryClient } from '@tanstack/react-query';
 import { geolocation } from '../../api/geolocation';
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { log } from 'console';
 
 declare global {
   interface Window {
@@ -23,9 +22,11 @@ export default function Location(): JSX.Element {
   const navigate = useNavigate();
   // const handleBackClick = () => navigate(-2);
   const [map, setMap] = useState<any>(null);
+  const [pin, setPin] = useState();
   const [address, setAddress] = useState('');
   const [newAddress, setNewAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수
+  const [isShowingNewAddress, setIsShowingNewAddress] = useState(false);
   // const [results, setResults] = useState([]);
   // const [currentPosState, setCurrentPosState] = useState();
 
@@ -233,6 +234,7 @@ export default function Location(): JSX.Element {
             //법정동 기준으로 동단위의 값을 가져온다
             const location = result.data.documents[0].address_name;
             setAddress(location);
+            setNewAddress(location);
             console.log(result);
             console.log('location: ', location);
             console.log('address: ', address);
@@ -251,14 +253,16 @@ export default function Location(): JSX.Element {
   //   setResults([]);
   // };
   const getMainBtn = (mouseEvent) => {
-    navigate('/');
+    navigate('/splash');
     const latlng = mouseEvent.latLng;
     geolocationMutation.mutate({
       lon: latlng.getLng(),
       lat: latlng.getLat(),
     });
   };
-
+  // const toggleNewAddress = () => {
+  //   setIsShowingNewAddress(!isShowingNewAddress);
+  // };
   const geolocationMutation = useMutation({
     mutationKey: ['location'],
     mutationFn: geolocation,
@@ -278,6 +282,10 @@ export default function Location(): JSX.Element {
 
       // 예상되는 변경 값으로 쿼리를 업데이트 합니다.
       // queryClient.setQueryData(['location'], (prev) => [...prev, newLocation]);
+
+      console.log(previousLocation);
+      console.log(newLocation);
+      // setAddress(newLocation);
 
       // 복원을 위한 기존 데이터를 반환합니다.
       return { previousLocation };
@@ -305,9 +313,28 @@ export default function Location(): JSX.Element {
         </MenuBox>
         <PaddingBox>
           {isLoading && (
-            <LoadingContainer>
-              로딩중입니다. 잠시만 기다려주세요!
-            </LoadingContainer>
+            <>
+              <LoadingMap
+                // style={{
+                //   position: 'absolute',
+                //   zIndex: '88888',
+                //   backgroundColor: 'rgba(225, 225, 225, 0.5)',
+                // }}
+                id="map"
+              >
+                <LoadingContainer
+                  style={{
+                    width: '430px',
+                    height: '463px',
+                    position: 'absolute',
+                    zIndex: '888888',
+                    backgroundColor: 'rgba(225, 225, 225, 0.5)',
+                  }}
+                >
+                  <LoadingMSG>로딩중입니다. 잠시만 기다려주세요!</LoadingMSG>
+                </LoadingContainer>
+              </LoadingMap>
+            </>
           )}
           <Ao>
             <Map id="map"></Map>
@@ -316,22 +343,19 @@ export default function Location(): JSX.Element {
           <MSG2>
             내 위치를 수정하고 싶다면 해당 위치로 지도를 터치해주세요!
           </MSG2>
-          {address && !newAddress && <Address>{address}</Address>}
-          {address && newAddress && <NewAddress>{newAddress}</NewAddress>}
-          {/* <button onClick={getCurrentPosBtn}>
-            <IMG src={locationButton} alt="위치인증하기" />
-          </button>
-          {address && <button onClick={getMainBtn}><IMG2 src={locationButton} alt="설정완료" /></button>} */}
-          {/* <button onClick={getCurrentPosBtn}>
-            <IMG src={locationButton} alt="위치인증하기" />
-          </button>
-          {address && (
-            <button onClick={getMainBtn}>
-              <IMG2 src={locationButton} alt="설정완료" />
-            </button>
-          )} */}
-          {/* <Box> */}
-          {/* <button onClick={getCurrentPosBtn}> */}
+          {
+            // isShowingNewAddress &&
+            address && newAddress && <NewAddress>{newAddress}</NewAddress>
+          }
+          {
+            // !isShowingNewAddress &&
+            address && !newAddress && <Address>{address}</Address>
+          }
+          {/* {isShowingNewAddress ? (
+        <NewAddress>{newAddress}</NewAddress>
+      ) : (
+        <Address>{address}</Address>
+      )} */}
           <div style={{ width: '320px', marginBottom: '34px' }}>
             <IMG onClick={getCurrentPosBtn} $active={address}>
               위치설정하기
@@ -525,8 +549,53 @@ const PaddingBox = styled.div`
     /* box-shadow: inset 0 -5px 5px -5px #333; */
   }
 `;
+const LoadingMSG = styled.div`
+  width: 340px;
+  height: 24px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.0015em;
+  text-transform: uppercase;
+  color: #282828;
+  @media screen and (max-width: 430px) {
+  }
+`;
 const LoadingContainer = styled.div`
-  z-index: 5;
+  width: 285px;
+  height: 24px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.0015em;
+  text-transform: uppercase;
+  background-color: rgba(225, 225, 225, 0.5);
+  color: #282828;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  z-index: 5000000;
+  padding: 50% 18%;
+
+  /* display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.0015em;
+  text-transform: uppercase;
+  color: #282828;
+  order: 1;
+  flex-grow: 0;
+  z-index: 5000000; */
   @media screen and (max-width: 430px) {
   }
 `;
@@ -536,10 +605,21 @@ const Ao = styled.div`
   /* z-index: 1; */
   width: 100%;
   height: 463px;
+  display: contents;
   @media screen and (max-width: 430px) {
   }
 `;
 
+const LoadingMap = styled.div`
+  position: absolute;
+  top: 60px;
+  width: 430px;
+  height: 463px;
+  @media screen and (max-width: 390px) {
+    width: 390px;
+    height: 320px;
+  }
+`;
 const Map = styled.div`
   position: absolute;
   top: 60px;
