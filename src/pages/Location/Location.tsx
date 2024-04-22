@@ -613,7 +613,7 @@ const Ao = styled.div`
 const LoadingMap = styled.div`
   position: absolute;
   top: 60px;
-  width: 100%;
+  width: 430px;
   height: 463px;
   @media screen and (max-width: 390px) {
     width: 390px;
@@ -623,7 +623,7 @@ const LoadingMap = styled.div`
 const Map = styled.div`
   position: absolute;
   top: 60px;
-  width: 100%;
+  width: 430px;
   height: 463px;
   @media screen and (max-width: 390px) {
     width: 390px;
