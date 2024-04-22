@@ -61,24 +61,32 @@ const Chat = () => {
           };
           client.connect(headers, () => {
             client.subscribe(
-              `/sub/chat/chatRoom/${params.chatRoom}`,
+              '/user/queue/error',
               (message) => {
                 const receivedMessage = JSON.parse(message.body);
-
-                // receivedMessage.sender = receivedMessage.nickname;
-                receivedMessage.createdAt = new Date();
-                // moment(new Date()).format('hh:mm');
-                //YYYY-MM-DD hh:mm:ss
                 console.log(receivedMessage);
+              },
+              { chatRoomId: `${params.chatRoom}` },
+            ),
+              client.subscribe(
+                `/sub/chat/chatRoom/${params.chatRoom}`,
+                (message) => {
+                  const receivedMessage = JSON.parse(message.body);
 
-                setTestMessges((prevMessages) => {
-                  return [...prevMessages, receivedMessage];
-                });
-              },
-              {
-                chatRoomId: `${params.chatRoom}`,
-              },
-            );
+                  // receivedMessage.sender = receivedMessage.nickname;
+                  receivedMessage.createdAt = new Date();
+                  // moment(new Date()).format('hh:mm');
+                  //YYYY-MM-DD hh:mm:ss
+                  console.log(receivedMessage);
+
+                  setTestMessges((prevMessages) => {
+                    return [...prevMessages, receivedMessage];
+                  });
+                },
+                {
+                  chatRoomId: `${params.chatRoom}`,
+                },
+              );
           });
 
           setStompClient(client);
@@ -148,22 +156,21 @@ const Chat = () => {
 
   useEffect(() => {
     if (queryChatRoom.data) {
-      console.log('너여기들어왔늬');
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
-      setTestMessges((prev) => {
+      if (isFirst) {
+        setTestMessges(messagesToAdd);
         setIsFirst(false);
-        console.log('prev:', prev);
-        return [...messagesToAdd, ...prev];
-      });
+      } else {
+        setTestMessges((prev) => {
+          if (prev.length === 0) {
+            return [...messagesToAdd, ...prev];
+          } else {
+            return [...messagesToAdd];
+          }
+        });
+      }
     }
-  }, [queryChatRoom.data]);
-
-  // useEffect(() => {
-  //   console.log('testMessges:', testMessges);
-  // }, [testMessges]);
-  // useEffect(() => {
-  //   console.log(' 너무래ㅠ', currentPageNo);
-  // }, [currentPageNo]);
+  }, [queryChatRoom.data, isFirst]);
 
   // useEffect(() => {
   //   setTestMessges([]);
@@ -173,10 +180,8 @@ const Chat = () => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (!isFirst && entry.isIntersecting) {
-          console.log('감지되었니?');
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
-
           if (!isPageEnd) {
             setCurrentPageNo(nextPageNo);
           }

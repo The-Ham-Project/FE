@@ -64,8 +64,11 @@ interface RentalData {
 
 function Details() {
   const navigate = useNavigate();
-  const { rentalId } = useParams();
   const isLoggedIn = useStore((state) => state.isLoggedIn);
+  const [isLoggedIn1, setLoggedIn1] = useState(
+    localStorage.getItem('isLoggedIn') === 'true',
+  );
+  const { rentalId } = useParams();
   const [item, setItem] = useState<RentalData | null>(null);
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -164,7 +167,7 @@ function Details() {
     <Container>
       <ImgBox>
         <Img>{images}</Img>
-        <img 
+        <img
           onClick={() => {
             navigate(-1);
           }}
@@ -195,7 +198,7 @@ function Details() {
           <Text>
             <span>{item.content}</span>
           </Text>
-          {isLoggedIn ? (
+          {isLoggedIn1 ? (
             <Chat $active={isChatButton}>
               <button className={'chatButton'} onClick={handleCreateChat}>
                 채팅하기
