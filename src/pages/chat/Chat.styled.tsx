@@ -68,6 +68,7 @@ export const Seserve = styled.div<{ $active: boolean }>(
       width: 44px;
       height: 44px;
       border-radius: 100%;
+      display: ${$active ? 'flex' : 'none'};
     }
     > span {
       display: flex;
