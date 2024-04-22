@@ -88,7 +88,6 @@ const Container = styled.div`
     bottom: 31px;
     z-index: 10;
     left: 63px;
-    z-index: 103;
     width: 27px;
   }
   > div {

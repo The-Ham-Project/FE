@@ -23,7 +23,7 @@ const Chat = () => {
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
 
-  // const [isFirst, setIsFirst] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
 
   const navigate = useNavigate();
   const queryChatRoom = useQuery({
@@ -90,9 +90,12 @@ const Chat = () => {
       fetchData();
       return () => {
         const headers = { chatRoomId: `${params?.chatRoom}` };
-        client.unsubscribe({}, headers);
+        client.unsubscribe(`/sub/chat/chatRoom/${params.chatRoom}`, headers);
         client.disconnect();
         socket.close();
+
+        setStompClient(undefined);
+        setTestMessges([]);
       };
     }
   }, []);
@@ -116,7 +119,7 @@ const Chat = () => {
   };
 
   const sendMessage = () => {
-    if (message.trim() && stompClient && stompClient.connected) {
+    if (message.trim() && !!stompClient?.connected) {
       const chatMessage = {
         message: message,
         createAt: new Date(),
@@ -130,9 +133,10 @@ const Chat = () => {
       // chatMessage.sender = '';
 
       setMessage('');
-      //   setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
+      // setTestMessges((prevMessages) => [...prevMessages, chatMessage]);
     }
   };
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -143,8 +147,11 @@ const Chat = () => {
 
   useEffect(() => {
     if (queryChatRoom.data) {
+      console.log('너여기들어왔늬');
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
       setTestMessges((prev) => {
+        setIsFirst(false);
+        console.log('prev:', prev);
         return [...messagesToAdd, ...prev];
       });
     }
@@ -153,15 +160,19 @@ const Chat = () => {
   // useEffect(() => {
   //   console.log('testMessges:', testMessges);
   // }, [testMessges]);
+  // useEffect(() => {
+  //   console.log(' 너무래ㅠ', currentPageNo);
+  // }, [currentPageNo]);
 
-  useEffect(() => {
-    setTestMessges([]);
-  }, []);
+  // useEffect(() => {
+  //   setTestMessges([]);
+  // }, []);
 
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (!isFirst && entry.isIntersecting) {
+          console.log('감지되었니?');
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
 
@@ -175,7 +186,7 @@ const Chat = () => {
       const io = new IntersectionObserver(updateIndicator);
       io.observe(indicatorRef.current);
     }
-  }, [data?.totalPage, indicatorRef, currentPageNo]);
+  }, [data?.totalPage, indicatorRef, currentPageNo, isFirst]);
 
   if (error) return <NotFound />;
 
@@ -228,7 +239,7 @@ const Chat = () => {
         </ChatStyle.Cloum>
       </ChatStyle.RentalItemBox>
       <ChatStyle.Center ref={scrollRef} id={'scrollRef'}>
-        <div ref={indicatorRef} className={'indicator'} />
+        {/*<div ref={indicatorRef} className={'indicator'} />*/}
 
         <ChatStyle.ChatBox>
           {testMessges.map((item, index) => {
