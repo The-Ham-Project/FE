@@ -18,7 +18,7 @@ import Layout from '../components/layout/Layout.tsx';
 import App from '../App.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
-import Splash from '../components/Splash/Splash.tsx';
+// import Splash from '../components/Splash/Splash.tsx';
 
 function Router() {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
