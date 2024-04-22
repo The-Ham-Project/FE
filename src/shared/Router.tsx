@@ -31,7 +31,7 @@ function Router() {
             <Route path="/" element={<Main />} />
             <Route path="/search" element={<SearchDetail />} />
             <Route path="/mypage" element={<Mypage />} />
-            {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
+             <Route path="/mylist" element={<MyList />} />
             <Route path="/details/:rentalId" element={<Details />} />
             <Route path={'/commlist'} element={<ChatList />} />
             <Route path="/kakao/callback" element={<RedirectKakao />} />
