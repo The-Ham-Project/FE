@@ -36,7 +36,9 @@ function Router() {
             <Route path="/kakao/callback" element={<RedirectKakao />} />
             <Route path="/google/callback" element={<RedirectGoogle />} />
             <Route path="/naver/callback" element={<RedirectNaver />} />
-            <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
+            {isLoggedIn && (
+              <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
+            )}
             <Route path="/details/:rentalId/edit" element={<Edit />} />
           </Route>
           <Route path={`/comm/:chatRoom`} element={<Chat />} />

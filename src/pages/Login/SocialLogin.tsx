@@ -33,7 +33,7 @@ function SocialLogin() {
       </MSG>
       <Container>
         <KakaoLogin />
-        <NaverLogin /> {/* 네이버는 나중에 */}
+        <NaverLogin />
         <GoogleLogin />
       </Container>
     </Wrapper>
