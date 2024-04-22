@@ -27,7 +27,6 @@ interface ErrorModalState {
   closeModal: () => void;
 }
 
-
 export type Category =
   | 'ALL'
   | 'ELECTRONIC'
@@ -88,13 +87,10 @@ export const useErrorModalStore = create<ErrorModalState>((set) => ({
   isOpen: false,
   errorMessage: '',
 
-  openModal: (errorMessage, ) => {
-    set({ isOpen: true, errorMessage,  }); // confirmCallback 저장
+  openModal: (errorMessage) => {
+    set({ isOpen: true, errorMessage }); // confirmCallback 저장
   },
-  closeModal: () => set({ isOpen: false, errorMessage: ''}), // closeModal 함수 수정
+  closeModal: () => set({ isOpen: false, errorMessage: '' }), // closeModal 함수 수정
 }));
-
-
-
 
 export default useStore;

@@ -13,6 +13,7 @@ import { removeItemPost } from '../../api/itemAPI';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
 import DeleteModal from '../../components/modal/DeleteModal.tsx';
+import { FaCamera } from 'react-icons/fa';
 
 interface Rental {
   rentalId: number;
@@ -113,16 +114,24 @@ function MyList() {
               >
                 <Container key={data.rentalId}>
                   <IMG>
-                    <img src={data.firstThumbnailUrl} alt="Rental Thumbnail" />
+                    {data.firstThumbnailUrl ? (
+                      <img
+                        src={data.firstThumbnailUrl}
+                        alt="Rental Thumbnail"
+                      />
+                    ) : (
+                      <PlaceholderImage>
+                        <FaCamera size={24} color="#f0f0f0" />
+                      </PlaceholderImage>
+                    )}
                   </IMG>
                   <Box>
                     <Box1>
                       <Custom>
-                        <Link  to={`/details/${data.rentalId}/edit`} 
-                         onClick={(e) => e.stopPropagation()}
-                         >
-                          
-                         
+                        <Link
+                          to={`/details/${data.rentalId}/edit`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <img src={modification} />
                         </Link>
                         <Modal
@@ -163,10 +172,15 @@ function MyList() {
 }
 
 export default MyList;
-// const Button = styled.button`
-// width: 100px;
-// height: 20px;
-// `
+
+const PlaceholderImage = styled.div`
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+`;
 const MenuBox = styled.div`
   width: 100%;
   display: flex;
@@ -177,7 +191,7 @@ const MenuBox = styled.div`
   height: 6vh;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
-  z-index: 1;
+  z-index: 666666;
   position: absolute;
   > span {
     width: 69px;
@@ -394,6 +408,8 @@ const IMG = styled.div`
   width: 130px;
   height: 130px;
   border-radius: 6.71835px;
+  display: flex;
+  justify-content: center;
   > img {
     width: 130px;
     height: 130px;
