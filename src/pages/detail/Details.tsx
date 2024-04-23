@@ -68,6 +68,7 @@ function Details() {
   const [item, setItem] = useState<RentalData | null>(null);
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   const { mutate } = useMutation({
     mutationFn: createChat,
     onSuccess: (response) => {
@@ -77,9 +78,10 @@ function Details() {
       console.log('error');
     },
   });
+
   const handleCreateChat = () => {
     if (localStorage.getItem('accessToken')) {
-      mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
+      mutate(item!.rentalId);
     } else if (localStorage.getItem('accessToken') === null || undefined) {
       navigate('/sociallogin');
     }
