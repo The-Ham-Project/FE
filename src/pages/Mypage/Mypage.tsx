@@ -9,10 +9,10 @@ import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg'
 import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
 import useStore from '../../store/store.ts';
+import NotFound from '../glitch/NotFound.tsx';
 
 function Mypage() {
   const navigate = useNavigate();
-  const { logout } = useStore();
   const handleBackClick = () => navigate(-1);
   const GotoListHandler = () => {
     navigate('/mylist');
@@ -22,7 +22,6 @@ function Mypage() {
   };
 
   const LogoutHandler = () => {
-    logout();
     removeTokensFromLocalStorage();
     alert('로그아웃되었습니다');
     navigate('/');
@@ -35,16 +34,12 @@ function Mypage() {
   if (isLoading) {
     return (
       <Container>
-        <Loading></Loading>
+        <Loading/> 
       </Container>
     );
   }
   if (isError) {
-    return (
-      <ErrorPage>
-        <img src={donotcrythehamzzang} />
-      </ErrorPage>
-    );
+    return <NotFound />;
   }
 
   return (
