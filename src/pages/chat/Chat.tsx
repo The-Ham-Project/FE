@@ -130,7 +130,7 @@ const Chat = () => {
   const sendMessage = () => {
     if (message.trim() && !!stompClient?.connected) {
       const chatMessage = {
-        // message: message,
+        message: message,
         createAt: new Date(),
       };
 
