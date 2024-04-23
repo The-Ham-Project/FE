@@ -38,7 +38,7 @@ function Router() {
             <Route path="/google/callback" element={<RedirectGoogle />} />
             <Route path="/naver/callback" element={<RedirectNaver />} />
     
-              <Route path="/postdetailspage" element={<PostDetailsPage />} />
+          <Route path="/postdetailspage" element={<PostDetailsPage />} />
         
             <Route path="/details/:rentalId/edit" element={<Edit />} />
           </Route>

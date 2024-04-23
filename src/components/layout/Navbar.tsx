@@ -6,15 +6,17 @@ import home from '../../../public/assets/home.svg';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { useEffect, useState } from 'react';
+import Modal from '../modal/Modal.tsx';
 
 function Navbar() {
+  
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const [isLoggedIn1, setLoggedIn1] = useState(
     localStorage.getItem('isLoggedIn') === 'true',
   );
   const navigate = useNavigate();
 
-  const { openModal, closeModal } = useErrorModalStore();
+  const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
   const handlePostButtonClick = () => {
     if (localStorage.getItem('accessToken')) {
@@ -34,6 +36,7 @@ function Navbar() {
 
   return (
     <>
+     <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
       <Container>
         <img
           className={'home'}

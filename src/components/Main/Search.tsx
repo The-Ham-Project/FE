@@ -151,7 +151,7 @@ export default Search;
 const SearchContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 114px;
+  height: 60px;
   align-items: flex-end;
   background-color: rgb(255, 255, 255);
   justify-content: flex-end;
