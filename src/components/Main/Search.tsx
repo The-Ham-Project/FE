@@ -152,7 +152,7 @@ const SearchContainer = styled.div`
   display: flex;
   width: 100%;
   height: 60px;
-  align-items: flex-end;
+  align-items: center;
   background-color: rgb(255, 255, 255);
   justify-content: flex-end;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;

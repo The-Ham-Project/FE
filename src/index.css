@@ -69,8 +69,6 @@ body,html,#root{
   height: 100%;
 } */
 
-body,html,#root{
-  margin: 0;
-}
+
 
 /* 전역 스타일 */

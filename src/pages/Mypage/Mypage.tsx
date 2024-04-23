@@ -10,6 +10,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
 import useStore from '../../store/store.ts';
 import NotFound from '../glitch/NotFound.tsx';
+import Header from '../../components/layout/Header.tsx';
 
 function Mypage() {
   const navigate = useNavigate();
@@ -44,9 +45,7 @@ function Mypage() {
 
   return (
     <Wrapper>
-      <MenuBox>
-        <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
-      </MenuBox>
+     <Header text="마이페이지" />
       <PaddingBox>
         <Profile>
           <Picture>
