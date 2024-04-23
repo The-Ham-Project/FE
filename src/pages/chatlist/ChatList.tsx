@@ -1,4 +1,3 @@
-import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery } from '@tanstack/react-query';
 import { readChatList } from '../../api/chat.ts';
 import { useNavigate } from 'react-router-dom';

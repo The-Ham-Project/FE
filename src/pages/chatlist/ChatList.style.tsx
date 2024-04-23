@@ -13,6 +13,7 @@ export const MenuBox = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
+  position: relative;
   > span {
     display: flex;
     justify-content: center;
@@ -22,6 +23,8 @@ export const MenuBox = styled.div`
   > .arrow {
     width: 10px;
     height: 16px;
+    position: absolute;
+    left: 0;
   }
 `;
 export const PaddingBox = styled.div`
