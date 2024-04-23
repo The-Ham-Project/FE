@@ -13,6 +13,8 @@ import calender from '/public/assets/calender.svg';
 import Loading from '../glitch/Loading.tsx';
 import { FaCamera } from 'react-icons/fa';
 import NotFound from '../glitch/NotFound.tsx';
+import arrow from '/public/assets/arrow.svg';
+import exit from '/public/assets/exit.svg';
 
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -23,7 +25,7 @@ const Chat = () => {
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
 
-  const [isFirst, setIsFirst] = useState(true);
+  // const [isFirst, setIsFirst] = useState(true);
 
   const navigate = useNavigate();
   const queryChatRoom = useQuery({
@@ -170,7 +172,7 @@ const Chat = () => {
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (!isFirst && entry.isIntersecting) {
+        if (entry.isIntersecting) {
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
           if (!isPageEnd) {
@@ -183,7 +185,7 @@ const Chat = () => {
       const io = new IntersectionObserver(updateIndicator);
       io.observe(indicatorRef.current);
     }
-  }, [data?.totalPage, indicatorRef, currentPageNo, isFirst]);
+  }, [data?.totalPage, indicatorRef, currentPageNo]);
 
   if (error) return <NotFound />;
 
@@ -204,10 +206,10 @@ const Chat = () => {
     <ChatStyle.Container>
       <ChatStyle.MenuBox>
         <div id={'test'} onClick={handleClickNavigate}>
-          <IoIosArrowBack size={'24px'} />
+          <img src={arrow} className={'arrow'} />
         </div>
         <span>{data?.toUserNickname}</span>
-        <RxExit size={'22px'} onClick={handelLeaveButton} />
+        <img src={exit} className={'exit'} onClick={handelLeaveButton} />
       </ChatStyle.MenuBox>
       <ChatStyle.RentalItemBox
         onClick={() => {
