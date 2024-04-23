@@ -70,8 +70,9 @@ function Edit() {
       }
     };
     fetchData();
-  }, [rentalId]);
 
+  }, [rentalId]);
+  console.log( selectedCategory)
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
