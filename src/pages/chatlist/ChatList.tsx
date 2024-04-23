@@ -14,7 +14,9 @@ import {
   PaddingBox,
   TextBox,
 } from './ChatList.style.tsx';
+import arrow from '/public/assets/arrow.svg';
 import moment from 'moment/moment';
+
 function ChatList() {
   const navigate = useNavigate();
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -57,10 +59,7 @@ function ChatList() {
     <Contaier>
       <PaddingBox>
         <MenuBox>
-          <IoIosArrowBack
-            onClick={handleClickNavigate}
-            style={{ width: '24px', height: '24px' }}
-          />
+          <img src={arrow} className={'arrow'} onClick={handleClickNavigate} />
           <span>메세지</span>
         </MenuBox>
       </PaddingBox>

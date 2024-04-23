@@ -64,10 +64,6 @@ interface RentalData {
 
 function Details() {
   const navigate = useNavigate();
-  const isLoggedIn = useStore((state) => state.isLoggedIn);
-  const [isLoggedIn1, setLoggedIn1] = useState(
-    localStorage.getItem('isLoggedIn') === 'true',
-  );
   const { rentalId } = useParams();
   const [item, setItem] = useState<RentalData | null>(null);
   const priceDot = (num: number) =>
@@ -82,9 +78,9 @@ function Details() {
     },
   });
   const handleCreateChat = () => {
-    if (isLoggedIn === true && item) {
+    if (localStorage.getItem('accessToken')) {
       mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
-    } else {
+    } else if (localStorage.getItem('accessToken') === null || undefined) {
       navigate('/sociallogin');
     }
   };
@@ -198,7 +194,7 @@ function Details() {
           <Text>
             <span>{item.content}</span>
           </Text>
-          {isLoggedIn1 ? (
+          {localStorage.getItem('accessToken') ? (
             <Chat $active={isChatButton}>
               <button className={'chatButton'} onClick={handleCreateChat}>
                 채팅하기

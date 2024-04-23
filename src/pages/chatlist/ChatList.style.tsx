@@ -19,6 +19,10 @@ export const MenuBox = styled.div`
     width: 100%;
     font-size: 17px;
   }
+  > .arrow {
+    width: 10px;
+    height: 16px;
+  }
 `;
 export const PaddingBox = styled.div`
   padding: 0 20px;
