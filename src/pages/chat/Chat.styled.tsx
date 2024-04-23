@@ -18,11 +18,19 @@ export const MenuBox = styled.div`
   z-index: 100;
   > div {
     cursor: pointer;
+    > .arrow {
+      width: 10px;
+      height: 16px;
+    }
   }
   > span {
     display: flex;
     font-size: 18px;
     justify-content: center;
+  }
+  > .exit {
+    width: 18px;
+    height: 18px;
   }
 `;
 
