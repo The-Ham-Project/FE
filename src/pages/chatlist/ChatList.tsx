@@ -84,7 +84,7 @@ function ChatList() {
                       {item?.toMemberNickName}
                     </span>
                     <span className={'lastMessageTime'}>
-                      {moment(new Date(item.lastMessageTime)).format('hh:mm')}
+                      {moment(new Date(item.lastMessageTime)).format('HH:mm')}
                     </span>
                   </Btween>
                   <Btween $active={isUnread}>
