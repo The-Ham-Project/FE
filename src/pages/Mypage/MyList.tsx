@@ -72,8 +72,8 @@ function MyList() {
       onSuccess: () => {
         // 삭제 성공 후 로직
         console.log('게시물이 성공적으로 삭제되었습니다.');
-        closeModal(); // 모달 닫기
         refetch(); // 데이터 다시 불러오기
+        closeModal(); // 모달 닫기
         navigate('/mylist'); // 페이지 이동
       },
       onError: (error) => {
