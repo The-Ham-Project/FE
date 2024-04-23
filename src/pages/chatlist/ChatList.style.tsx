@@ -18,7 +18,7 @@ export const MenuBox = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
-    font-size: 17px;
+    font-size: 14px;
   }
   > .arrow {
     width: 10px;

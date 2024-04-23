@@ -51,9 +51,9 @@ function Navbar() {
           src={message}
           onClick={handleChatButtonClick}
         />
-        <div onClick={handlePostButtonClick}>
+        <Div onClick={handlePostButtonClick}>
           <FiPlus fontSize={'40px'} />
-        </div>
+        </Div>
         <img
           style={{
             filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))',
@@ -70,6 +70,13 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+
+const Div = styled.div`
+
+`
+
 
 const Container = styled.div`
   width: 100%;
@@ -111,5 +118,16 @@ const Container = styled.div`
     height: 54px;
     width: 54px;
     border-radius: 100%;
+
+
+
+
+
+
+
+
+    filter: drop-shadow(0px 3.69509px 8.39793px rgba(0, 0, 0, 0.2));
+
   }
+
 `;

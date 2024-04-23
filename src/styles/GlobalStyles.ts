@@ -73,9 +73,9 @@ height: 52px;
 background-color: #1689f3;
 border-radius: 31.14px;
 color: white;
-font-size: 15.45px;
+font-size: 16px;
 font-family: 'Pretendard';
-font-weight: 500;
+font-weight: 600;
 text-align: center;
 border: none;
 cursor: pointer;
@@ -91,7 +91,7 @@ a {
 }
 input[type="text"] {
         width: 100%;
-        height: 50px;
+        height: 40px;
         background: #F5F5F5;
         border-radius: 6px;
         font-size: 16px;
@@ -100,37 +100,34 @@ input[type="text"] {
 
     }
     input::placeholder {
-    font-family: 'Pretendard-Regular', sans-serif; /* placeholder 폰트 변경 */
+    font-family: 'Pretendard-Regular'; /* placeholder 폰트 변경 */
     font-size: 14px; /* placeholder 폰트 크기 변경 */
-    color: #999; /* placeholder 색상 변경 */
+    color: #878787; /* placeholder 색상 변경 */
+
 }
 textarea::placeholder {
-    font-family: 'Pretendard-Regular', sans-serif; /* placeholder 폰트 변경 */
+    font-family: 'Pretendard-Regular'; /* placeholder 폰트 변경 */
     font-size: 14px; /* placeholder 폰트 크기 변경 */
     color: #999; /* placeholder 색상 변경 */
+    line-height: 2;
+    padding: 10px;
 }
    /* Custom style for textarea */
    textarea {
+    height: 190px;
       outline-color: rgba(22, 137, 243, 1);
 	background: #F5F5F5;
     border-radius: 6px;
     font-size: 14px;
-    padding: 10px;
-    width: 96%;
+    padding: 0px;
+    width: 100%;
     border: none;
-    @media screen and (max-width: 700px) {
 
-        width: 96%;
-
-  }
-  @media screen and (max-width: 500px) {
-
-width: 94%;
 
 }
-
-}
-   html, body, #root {width:100%; height:100vh;
+   html, body, #root {
+    position: fixed;
+    width:100%; height:100vh;
    margin: 0;
    }
 
