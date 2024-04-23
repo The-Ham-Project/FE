@@ -112,8 +112,9 @@ export default Mypage;
 const Wrapper = styled.div`
   background-color: white;
   height: 100%;
-  @media screen and (max-width: 430px) {
-    overflow: scroll;
+
+  @media screen and (max-width: 700px) {
+  
   }
 `;
 
@@ -167,7 +168,7 @@ const Profile = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 0 15% 0;
-  padding-top: 15vh;
+  padding-top: 50px;
 
   @media screen and (max-width: 430px) {
   }

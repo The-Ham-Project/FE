@@ -461,7 +461,7 @@ const CategoryContainer = styled.div`
     padding-bottom: 20px;
     row-gap: 20px;
   }
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 530px) {
     grid-template-columns: repeat(2, 0fr);
     padding-bottom: 20px;
     row-gap: 20px;
