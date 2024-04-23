@@ -33,7 +33,7 @@ function Main() {
     <>
       <Navbar />
 
-      <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
+     
 
      
       {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
