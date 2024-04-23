@@ -5,6 +5,7 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: #fff;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -13,9 +14,12 @@ export const Container = styled.div`
 `;
 
 export const ImgBox = styled.div`
-  width: 100%;
+  width: 90%;
   height: 400px;
   position: relative;
+  display: flex;
+  justify-content: center; /* 이미지를 수평으로 가운데 정렬 */
+  align-items: center; /* 이미지를 수직으로 가운데 정렬 */
   > img {
     height: 10px;
     width: 16px;
@@ -24,8 +28,11 @@ export const ImgBox = styled.div`
     top: 22px;
     left: 20px;
     cursor: pointer;
+    outline: none; /* 이미지 클릭시 외곽선 제거 */
   }
+
 `;
+
 
 export const Img = styled.div`
   width: 100%;
@@ -39,10 +46,6 @@ export const ContentsBox = styled.div`
   width: 100%;
   height: 53%;
   padding: 0 20px;
-  > img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export const Contents = styled.div`

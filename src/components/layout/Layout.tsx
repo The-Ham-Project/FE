@@ -67,6 +67,8 @@ const Explanation = styled.div`
   z-index: 300;
   @media screen and (max-width: 700px) {
     height: 100%;
+    width: 100%;
+    display: contents;
   }
 `;
 const ContentsBox = styled.div`
@@ -146,6 +148,10 @@ const PhoneBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 700px) {
+    height: 100%;
+    width: 100%;
+    display: contents;}
   &:before {
     background-image: url(${phontheham});
     background-repeat: no-repeat;
@@ -156,14 +162,12 @@ const PhoneBox = styled.div`
     width: 380px;
     height: 496px;
     z-index: 10000;
-    @media (max-width: 700px) {
+    @media (width: 700px) {
       display: none;
     }
   }
 
-  @media (max-width: 700px) {
-    width: 100%;
-  }
+
 `;
 
 const Phone = styled.div`

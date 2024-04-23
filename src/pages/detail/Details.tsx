@@ -116,16 +116,15 @@ function Details() {
 
   const images =
     item.rentalImageList.length === 0 ? (
-      <div>
+      <div >
         {/* 이미지가 없는 경우에 보여줄 요소 */}
         <FaCamera
           size={24}
           color="#B1B1B1"
           style={{
             maxWidth: '100%',
-            maxHeight: '330px',
-            width: '100%',
-            height: '50px',
+            maxHeight: '390px',
+            outline: 'none',
             objectFit: 'cover',
             paddingTop: '150px',
             paddingBottom: '150px',
@@ -137,21 +136,24 @@ function Details() {
       <img
         src={item.rentalImageList[0].imageUrl}
         style={{
-          width: '100%',
-          height: '100%',
+          outline: 'none',
+          maxWidth: '60%',
+          maxHeight: '390px',
         }}
         alt={`Image 1`}
       />
     ) : (
-      <Slider {...settings}>
+      <Slider  {...settings}>
         {item.rentalImageList.map((image, index) => (
-          <div key={index}>
-            <img
+          <div style={{display:'flex',  justifyContent: 'center' , alignItems : 'center'}} key={index}>
+            <img  key={index}
               src={image.imageUrl}
               alt={`Image ${index + 1}`}
               style={{
                 width: '100%',
-                height: '100%',
+                objectFit: 'cover',
+                maxHeight: '350px',
+                outline: 'none'
               }}
             />
           </div>
