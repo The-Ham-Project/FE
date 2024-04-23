@@ -30,16 +30,16 @@ function Router() {
           <Route element={<Navbar />}>
             <Route path="/" element={<Main />} />
             <Route path="/search" element={<SearchDetail />} />
-            {isLoggedIn && <Route path="/mypage" element={<Mypage />} />}
-            {isLoggedIn && <Route path="/mylist" element={<MyList />} />}
+            <Route path="/mypage" element={<Mypage />} />
+             <Route path="/mylist" element={<MyList />} />
             <Route path="/details/:rentalId" element={<Details />} />
             <Route path={'/commlist'} element={<ChatList />} />
             <Route path="/kakao/callback" element={<RedirectKakao />} />
             <Route path="/google/callback" element={<RedirectGoogle />} />
             <Route path="/naver/callback" element={<RedirectNaver />} />
-            {isLoggedIn && (
-              <Route path="/PostDetailsPage" element={<PostDetailsPage />} />
-            )}
+    
+              <Route path="/postdetailspage" element={<PostDetailsPage />} />
+        
             <Route path="/details/:rentalId/edit" element={<Edit />} />
           </Route>
           {/* <Route path={`/splash`} element={<Splash />} /> */}

@@ -63,10 +63,14 @@ function Search() {
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
   const handlePersonButtonClick = () => {
-  
-      login();
+    console.log();
+    if (localStorage.getItem('accessToken')) {
       navigate('/mypage');
- 
+    } else if ( localStorage.getItem('accessToken') === null || undefined) {
+      // 모달 열기
+      console.log(isLoggedIn);
+      openModal('로그인 페이지로 이동합니다');
+    }
   };
 
   return (
