@@ -7,14 +7,10 @@ import { ChatListType } from '../types/chat/chatList.type.ts';
 import { ServerResponse } from '../types/chat/common.type.ts';
 import { ChatRoomResponse } from '../types/chat/chatRoom.ts';
 
-export const createChat = async ({
-  sellerNickname,
-  rentalId,
-}: createChatItem) => {
+export const createChat = async (rentalId: number) => {
   const { data } = await authInstance.post<ServerResponse<CreateChatResponse>>(
     '/api/v1/chat-rooms',
     {
-      sellerNickname,
       rentalId,
     },
   );
