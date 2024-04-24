@@ -122,10 +122,11 @@ function Details() {
           size={24}
           color="#B1B1B1"
           style={{
+            width: '100%',
             maxWidth: '100%',
             maxHeight: '390px',
             outline: 'none',
-            objectFit: 'cover',
+            objectFit: 'contain',
             paddingTop: '150px',
             paddingBottom: '150px',
             backgroundColor: '#ececec',
@@ -137,7 +138,6 @@ function Details() {
         src={item.rentalImageList[0].imageUrl}
         style={{
           outline: 'none',
-          maxWidth: '60%',
           maxHeight: '390px',
         }}
         alt={`Image 1`}
@@ -151,7 +151,7 @@ function Details() {
               alt={`Image ${index + 1}`}
               style={{
                 width: '100%',
-                objectFit: 'cover',
+                objectFit: 'contain',
                 maxHeight: '350px',
                 outline: 'none'
               }}

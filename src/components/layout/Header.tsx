@@ -39,6 +39,7 @@ export const MenuBox = styled.div`
   }
 `;
 export const PaddingBox = styled.div`
+width: 100%;
 position: relative;
   padding: 0 20px;
   background-color: #fff;
