@@ -1,42 +1,8 @@
-// 리다이렉트 화면
-// import { useEffect } from "react";
-// import { useNavigate, useParams } from "react-router-dom";
-// import styled from "styled-components";
-
-// const RedirectURI = (props) => {
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     // 백엔드로 코드값을 넘겨주는 로직
-//     // 요청 성공 코드값
-//     let code = new URL(window.location.href).searchParams.get("code");
-//     console.log(code);
-
-//     // 요청이 성공하면 navigate('/main')
-//   });
-
-//   return (
-//     <Wrap>
-//       {/* 로그인중이라는 것을 표시할 수 있는 로딩중 화면 */}
-//     </Wrap>
-//   );
-// };
-
-// const Wrap = styled.div`
-//   margin-top: 200px;
-//   min-height: 1100px;
-// `;
-
-// export default RedirectURI;
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 import { instance } from '../../api/axios';
 import NotFound from '../../pages/glitch/NotFound';
-
-// const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
-// const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
 function RedirectNaver() {
   // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;

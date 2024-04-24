@@ -14,7 +14,6 @@ function NaverLogin() {
 
   return (
     <>
-      {/* <Header></Header> */}
       <Button onClick={naver}>
         <IMG onClick={login} src={startwithnaver} alt="네이버 로그인 버튼" />
       </Button>
