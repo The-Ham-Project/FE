@@ -23,7 +23,7 @@ export default function Location(): JSX.Element {
   const [map, setMap] = useState(null); // Map 객체
   const [marker, setMarker] = useState(null); // Marker 객체
   const [currentLatLng, setCurrentLatLng] = useState(null);
-
+  const [circle, setCircle] = useState(null);
   const [address, setAddress] = useState('');
   const [newAddress, setNewAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수
@@ -66,9 +66,24 @@ export default function Location(): JSX.Element {
     // 지도를 현재 위치로 이동
     map.panTo(currentPos);
 
+    const circle = new window.kakao.maps.Circle({
+      center: currentPos,
+      radius: 8000,
+      strokeWeight: 1,
+      strokeColor: 'rgb(22,137,243)',
+      strokeOpacity: 0.5,
+      fillColor: 'rgb(0,26,255)',
+      fillOpacity: 0.05,
+    });
+
     // 마커를 생성합니다
     marker.setMap(map);
     marker.setPosition(currentPos);
+    circle.setMap(map);
+    circle.setPosition(currentPos);
+
+    // setCircle(map);
+    // setCircle(currentPos);
 
     setIsLoading(false); // API 요청 후 로딩 상태를 false로 변경
   };
@@ -110,7 +125,7 @@ export default function Location(): JSX.Element {
   };
 
   const getMainBtn = (mouseEvent) => {
-    navigate('/splash');
+    navigate('/');
     const latlng = mouseEvent.latLng;
     geolocationMutation.mutate({
       lon: latlng.getLng(),
@@ -177,6 +192,37 @@ export default function Location(): JSX.Element {
   }, []);
 
   useEffect(() => {
+    (async () => {
+      const script = document.createElement('script');
+      script.src =
+        '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
+      document.head.appendChild(script);
+      script.onload = () => {
+        window.kakao.maps.load(async function () {
+          const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+          const options = {
+            //지도를 생성할 때 필요한 기본 옵션
+            center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 7, //지도의 레벨(확대, 축소 정도)
+          };
+          const circle = new window.kakao.maps.Circle({
+            center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+            radius: 8000,
+            strokeWeight: 1,
+            strokeColor: 'rgb(22,137,243)',
+            strokeOpacity: 0.5,
+            fillColor: 'rgb(0,26,255)',
+            fillOpacity: 0.05,
+          });
+          console.log(circle);
+          setMap(new window.kakao.maps.Map(container, options));
+          setCircle(new window.kakao.maps.Circle());
+        });
+      };
+    })();
+  }, []);
+
+  useEffect(() => {
     if (map) {
       window.kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
         // // 클릭한 위도, 경도 정보를 가져옵니다
@@ -203,6 +249,40 @@ export default function Location(): JSX.Element {
             }
           },
         );
+      });
+    }
+  }, [map]);
+
+  useEffect(() => {
+    if (map) {
+      window.kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+        // // 클릭한 위도, 경도 정보를 가져옵니다
+        const latlng = mouseEvent.latLng;
+
+        geolocationMutation.mutate({
+          lon: latlng.La,
+          lat: latlng.Ma,
+        });
+
+        // const circle = new window.kakao.maps.Circle({
+        //   center: latlng,
+        //   radius: 8000,
+        //   strokeWeight: 1,
+        //   strokeColor: 'rgb(22,137,243)',
+        //   strokeOpacity: 0.5,
+        //   fillColor: 'rgb(0,26,255)',
+        //   fillOpacity: 0.05,
+        // });
+        // console.log(circle);
+
+        // 이전 마커가 있다면 삭제
+        if (circle) {
+          // setCircle(null);
+          circle.setMap(null);
+          circle.setPosition(null);
+          // circle.setMap(null);
+          // circle.setPosition(null);
+        }
       });
     }
   }, [map]);
@@ -240,6 +320,7 @@ export default function Location(): JSX.Element {
           )}
           <Ao>
             <Map id="map"></Map>
+            {circle.setMap(map)}
           </Ao>
           <MSG1>현재 위치에 있는 동네는 아래와 같나요?</MSG1>
           <MSG2>
