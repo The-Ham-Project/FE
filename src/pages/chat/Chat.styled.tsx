@@ -126,14 +126,17 @@ export const Box = styled.div`
     display: flex;
     border-radius: 18px;
     font-family: 'Pretendard-Regular';
-    height: 20px;
     background-color: #f5f5f5;
+      height: 50px;
+      overflow: hidden;
     border: none;
     width: calc(100% - 32px);
     padding-left: 18px;
     font-size: 15px;
     outline: none;
-    resize: none;
+    resize: none; 
+      &::-webkit-scrollbar {
+          display: none;
   }
 `;
 export const DateSpanBox = styled.div<{ $active: boolean }>(
@@ -148,7 +151,9 @@ export const DateSpanBox = styled.div<{ $active: boolean }>(
       background-color: #ffffff;
       color: #9e9e9e;
       padding: 8px 16px;
+      overflow: auto;
       border-radius: 30px;
+      }
       > img {
         padding: 0 6px 0 0;
       }
