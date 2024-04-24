@@ -22,6 +22,7 @@ export default function Location(): JSX.Element {
   const navigate = useNavigate();
   // const handleBackClick = () => navigate(-2);
   const [map, setMap] = useState<any>(null);
+  const [pin, setPin] = useState();
   const [address, setAddress] = useState('');
   const [newAddress, setNewAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수
@@ -57,10 +58,10 @@ export default function Location(): JSX.Element {
   const getCurrentPosBtn = () => {
     setIsLoading(true); // API 요청 전 로딩 상태를 true로 변경
     if (marker) {
-      setMarker(null);
+      marker.setMap(null);
       // circle.setMap(null);
       // setMarker(map);
-      // marker.setPosition(null);
+      marker.setPosition(null);
     }
     navigator.geolocation.getCurrentPosition(
       getPosSuccess,
@@ -127,7 +128,6 @@ export default function Location(): JSX.Element {
     // 마커 상태 업데이트
     circle.setMap(map);
     marker.setMap(map);
-    setMarker(marker);
     setIsLoading(false); // API 요청 후 로딩 상태를 false로 변경
 
     const geocoder = new window.kakao.maps.services.Geocoder();
@@ -138,8 +138,8 @@ export default function Location(): JSX.Element {
       const latlng = mouseEvent.latLng;
       // 이전 마커가 있다면 삭제
       if (marker) {
-        setMarker(null);
-        // marker.setPosition(null);
+        marker.setMap(null);
+        marker.setPosition(null);
       }
 
       // 새로운 마커 생성 및 위치 설정
@@ -183,10 +183,10 @@ export default function Location(): JSX.Element {
           const new_address = result[0].address.address_name;
           setNewAddress(new_address);
           if (marker) {
-            setMarker(null);
-            // marker.setPosition(null);
+            marker.setMap(null);
+            marker.setPosition(null);
           }
-
+    
           // 마커를 클릭한 위치에 표시합니다
           marker.setPosition(mouseEvent.latLng);
           circle.setPosition(mouseEvent.latLng);
@@ -737,8 +737,6 @@ const NewAddress = styled.div`
     bottom: 190.4px;
   }
 `;
-
-
 
 
 
