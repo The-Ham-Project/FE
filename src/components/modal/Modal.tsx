@@ -86,7 +86,7 @@ const ModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은색 배경 */
+  background-color: rgba(0, 0, 0, 0.1); /* 반투명한 검은색 배경 */
   display: flex;
   justify-content: center;
   align-items: center;

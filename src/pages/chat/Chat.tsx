@@ -13,6 +13,8 @@ import calender from '/public/assets/calender.svg';
 import Loading from '../glitch/Loading.tsx';
 import { FaCamera } from 'react-icons/fa';
 import NotFound from '../glitch/NotFound.tsx';
+import arrow from '/public/assets/arrow.svg';
+import exit from '/public/assets/exit.svg';
 
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -23,7 +25,7 @@ const Chat = () => {
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
 
-  const [isFirst, setIsFirst] = useState(true);
+  // const [isFirst, setIsFirst] = useState(true);
 
   const navigate = useNavigate();
   const queryChatRoom = useQuery({
@@ -64,7 +66,7 @@ const Chat = () => {
               '/user/queue/error',
               (message) => {
                 const receivedMessage = JSON.parse(message.body);
-                console.log(receivedMessage);
+                alert(JSON.stringify(receivedMessage.data.message));
               },
               { chatRoomId: `${params.chatRoom}` },
             ),
@@ -91,7 +93,7 @@ const Chat = () => {
 
           setStompClient(client);
         } catch (error) {
-          console.error('Error fetching chat room data:', error);
+          console.log('다시시도');
         }
       };
 
@@ -157,20 +159,11 @@ const Chat = () => {
   useEffect(() => {
     if (queryChatRoom.data) {
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
-      if (isFirst) {
-        setTestMessges(messagesToAdd);
-        setIsFirst(false);
-      } else {
-        setTestMessges((prev) => {
-          if (prev.length === 0) {
-            return [...messagesToAdd, ...prev];
-          } else {
-            return [...messagesToAdd];
-          }
-        });
-      }
+      setTestMessges((prev) => {
+        return [...messagesToAdd, ...prev];
+      });
     }
-  }, [queryChatRoom.data, isFirst]);
+  }, [queryChatRoom.data]);
 
   // useEffect(() => {
   //   setTestMessges([]);
@@ -179,7 +172,7 @@ const Chat = () => {
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (!isFirst && entry.isIntersecting) {
+        if (entry.isIntersecting) {
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
           if (!isPageEnd) {
@@ -192,11 +185,15 @@ const Chat = () => {
       const io = new IntersectionObserver(updateIndicator);
       io.observe(indicatorRef.current);
     }
-  }, [data?.totalPage, indicatorRef, currentPageNo, isFirst]);
+  }, [data?.totalPage, indicatorRef, currentPageNo]);
 
   if (error) return <NotFound />;
 
   if (!isFetchedAfterMount) return <Loading />;
+
+  if (queryChatRoom.error) {
+    return <NotFound />;
+  }
 
   const handleClickNavigate = () => {
     navigate(-1);
@@ -204,15 +201,15 @@ const Chat = () => {
   const handelLeaveButton = () => {
     mutate(parseInt(params?.chatRoom));
   };
-  console.log(data.rentalThumbnailUrl);
+
   return (
     <ChatStyle.Container>
       <ChatStyle.MenuBox>
         <div id={'test'} onClick={handleClickNavigate}>
-          <IoIosArrowBack size={'24px'} />
+          <img src={arrow} className={'arrow'} />
         </div>
         <span>{data?.toUserNickname}</span>
-        <RxExit size={'22px'} onClick={handelLeaveButton} />
+        <img src={exit} className={'exit'} onClick={handelLeaveButton} />
       </ChatStyle.MenuBox>
       <ChatStyle.RentalItemBox
         onClick={() => {
@@ -239,13 +236,15 @@ const Chat = () => {
         <ChatStyle.Cloum>
           <h6>{data.rentalTitle}</h6>
           <ChatStyle.Flex>
-            <span className={'rentalFee'}>대여비{data.rentalFee}</span>
-            <span>보증금{data.deposit}</span>
+            <span className={'rentalFee'}>
+              대여비{data.rentalFee.toLocaleString()}원
+            </span>
+            <span>보증금{data.deposit.toLocaleString()}원</span>
           </ChatStyle.Flex>
         </ChatStyle.Cloum>
       </ChatStyle.RentalItemBox>
       <ChatStyle.Center ref={scrollRef} id={'scrollRef'}>
-        {/*<div ref={indicatorRef} className={'indicator'} />*/}
+        <div ref={indicatorRef} className={'indicator'} />
 
         <ChatStyle.ChatBox>
           {testMessges.map((item, index) => {
@@ -287,7 +286,7 @@ const Chat = () => {
                     </ChatStyle.Message>
 
                     <span>
-                      {moment(new Date(item.createdAt)).format('hh:mm')}
+                      {moment(new Date(item.createdAt)).format('HH:mm')}
                     </span>
                   </ChatStyle.Seserve>
                 </ChatStyle.Chatting>
@@ -295,7 +294,6 @@ const Chat = () => {
             );
           })}
         </ChatStyle.ChatBox>
-        {/*<div ref={indicatorRef} className={'indicator'} />*/}
       </ChatStyle.Center>
       <ChatStyle.InputBox>
         <ChatStyle.Box>

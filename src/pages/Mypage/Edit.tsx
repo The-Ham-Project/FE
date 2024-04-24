@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import { instance } from '../../api/axios';
 import { updatePost } from '../../api/itemAPI';
 import { Container } from '../../components/layout/DefaultLayout';
-import { Wrapper } from '../main/PostDetailsPage';
+import { Imagine, Wrapper } from '../main/PostDetailsPage';
 
 // 카테고리 타입 정의
 type Category =
@@ -36,14 +36,18 @@ interface RentalImage {
 function Edit() {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const [rentalFee, setRentalFee] = useState<number | ''>('');
-  const [deposit, setDeposit] = useState<number | ''>('');
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [rentalFee, setRentalFee] = useState<number>(0);
+  const [deposit, setDeposit] = useState<number>(0);
+  const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
+
   const [Files, setFiles] = useState<RentalImage[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [imageChanged, setImageChanged] = useState<boolean>(false); // Track if images changed
+  const [fileBlobs, setFileBlobs] = useState([]);
   const { rentalId } = useParams();
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,74 +60,120 @@ function Edit() {
         setDeposit(rentalData.deposit);
         setFiles(rentalData.rentalImageList);
         setSelectedCategory(rentalData.category);
+        //  // 파일들을 blob 형태로 변환하여 저장
+        //  const blobs = await Promise.all(rentalData.rentalImageList.map(async (file) => {
+        //   const blobResponse = await fetch(file.url);
+        //   return blobResponse.blob();
+        // }));
+        // setFileBlobs(blobs);
       } catch (error) {
         console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
       }
     };
     fetchData();
+
   }, [rentalId]);
+  console.log( selectedCategory)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      setSelectedFiles(files);
+      // 기존의 선택된 파일 목록에 새로운 이미지를 추가하여 업데이트
+      setSelectedFiles((prevFiles: File[] | null) => {
+        // 새로운 이미지를 포함한 새로운 파일 목록을 생성
+        const updatedFiles = Array.from(files);
+        // 이전에 선택된 이미지도 추가
+        if (prevFiles) {
+          updatedFiles.push(...Array.from(prevFiles));
+        }
+        return updatedFiles;
+      });
       setImageChanged(true); // 이미지가 변경되었음을 표시
     } else {
-      setImageChanged(false); // 이미지가 변경되지 않았음을 표시
+      // 이미지가 변경되지 않았음을 표시
+      setImageChanged(false);
+    }
+  };
+  
+  
+  
+  
+
+
+  const handleCancelImage = () => {
+    setSelectedFiles(null); // 이미지 선택 초기화
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''; // input 요소 초기화
     }
   };
 
   const handleSubmit = async () => {
     const formData = new FormData();
+    const imageUrlList = Files.map(file => file.imageUrl);
 
+
+    const removeComma = (value: string | undefined) => {
+      return value ? value.replace(/,/g, '') : '';
+    };
+    const formattedRentalFee = removeComma(rentalFee?.toLocaleString());
+    const formattedDeposit = removeComma(deposit?.toLocaleString());
+
+
+  console.log(imageUrlList)
     const requestDto = {
       title,
       category: selectedCategory,
       content,
-      rentalFee,
-      deposit,
-    };
+      rentalFee: formattedRentalFee,
+      deposit: formattedDeposit,
+      beforeImageUrlList: imageUrlList
+    
+  };
 
-    formData.append('requestDto', JSON.stringify(requestDto));
+  const multipartFileList = { Files: imageUrlList };
 
-    // 이미지 파일 데이터를 FormData에 추가
-    if (selectedFiles) {
-      Array.from(selectedFiles).forEach((file) => {
-        formData.append('multipartFileList', file);
-      });
-    }
+  formData.append('requestDto', JSON.stringify(requestDto));
+  formData.append('multipartFileList', JSON.stringify(multipartFileList));
 
-    // 기존 이미지 파일 데이터를 FormData에 추가
-    Files.forEach((file) => {
-      formData.append('rentalImageList', JSON.stringify(file));
+  // multipartFileList에 파일 추가
+  if (selectedFiles) {
+    Array.from(selectedFiles).forEach((file) => {
+      formData.append('multipartFileList', file);
     });
+  }
 
-    try {
-      await updatePost({ rentalId: rentalId, formData: formData });
-      navigate('/mylist');
-    } catch (error) {
-      console.error('게시글 수정 오류:', error);
-    }
-  };
+  try {
+    await updatePost({ rentalId: rentalId, formData: formData });
+    navigate('/mylist');
+  } catch (error) {
+    console.error('게시글 수정 오류:', error);
+  }
+};
 
-  const handleValueChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setter: React.Dispatch<React.SetStateAction<number | string>>,
-  ) => {
-    let value = e.target.value.replace(/\D/g, '').slice(0, 6);
-    const numericValue: number | '' = value === '' ? '' : +value;
-    const formattedValue: number | string =
-      numericValue === '' ? '' : numericValue.toLocaleString();
-    setter(formattedValue);
-  };
+// 입력 필드에 쉼표를 추가하는 함수
+const formatNumber = (value: number | ''): string => {
+  if (value === '') return '';
+  return new Intl.NumberFormat().format(value);
+};
 
-  const handleRentalFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleValueChange(e, setRentalFee);
-  };
+const handleRentalFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  handleValueChange(e, setRentalFee);
+};
 
-  const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleValueChange(e, setDeposit);
-  };
+const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  handleValueChange(e, setDeposit);
+};
+
+const handleValueChange = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  setter: React.Dispatch<React.SetStateAction<number | string>>,
+) => {
+  const value = e.target.value.replace(/\D/g, '').slice(0, 6); // 숫자만 남기고 최대 길이 제한
+  const numericValue: number | '' = value === '' ? '' : +value; // 숫자로 변환
+  const formattedValue: number | string =
+    numericValue === '' ? '' : numericValue.toLocaleString(); // 쉼표 추가
+  setter(formattedValue); // 상태 업데이트
+};
 
   const handleDeleteImage = (indexToRemove: number) => {
     setFiles((prevFiles) =>
@@ -133,103 +183,132 @@ function Edit() {
 
   return (
     <>
-      <Container>
+       <Container>
         <Wrapper1>
-          <div>
-            {Files.map((file, index) => (
-              <div key={index}>
+        <div style={{display: 'flex'}}>
+      <div style={{display: 'flex'}}>
+        {Files.map((file, index) => (
+          <div key={index}>
+            <img
+              src={file.imageUrl}
+              alt={`Image ${index + 1}`}
+              style={{ maxWidth: '100px', maxHeight: '100px' }}
+            />
+            <Button onClick={() => handleDeleteImage(index)}>x</Button>
+          </div>
+        ))}
+      </div>
+     
+      <div>
+        {selectedFiles && (
+            <div style={{display: 'flex'}}>
+            {Array.from(selectedFiles).reverse().map((file, index) => (
+              <div key={index} style={{width: '100px', height: '100px'}}>
                 <img
-                  src={file.imageUrl}
+                  src={URL.createObjectURL(file)}
                   alt={`Image ${index + 1}`}
-                  style={{ maxWidth: '100px', maxHeight: '100px' }}
+                  style={{ width: '100px', height: '100px' }}
                 />
-                <button onClick={() => handleDeleteImage(index)}>삭제</button>
+                <Button onClick={() => handleCancelImage()}>x</Button>
               </div>
             ))}
           </div>
-          <div>
-            {selectedFiles && (
-              <div>
-                {Array.from(selectedFiles).map((file, index) => (
-                  <div key={index}>
-                    <span>{file.name}</span>
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt={`Image ${index + 1}`}
-                      style={{ maxWidth: '100px', maxHeight: '100px' }}
-                    />
-                    <button onClick={() => handleDeleteImage(index)}>
-                      삭제
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-          <div>
-            {Object.entries(categories).map(([key, value]) => (
-              <button
-                key={key}
-                onClick={() => setSelectedCategory(key as Category)}
-                style={{
-                  backgroundColor:
-                    String(selectedCategory) === String(key) ||
-                    String(selectedCategory) === value
-                      ? '#258bff'
-                      : '#F5F5F5',
-                  color: selectedCategory === key ? 'white' : 'black',
-                  cursor: 'pointer',
-                  width: '80px',
-                  height: '30px',
-                  fontSize: '14px',
-                  fontWeight: selectedCategory === key ? 'bold' : 'normal',
-                }}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-          <div>제목</div>
-          <input
-            type="text"
-            placeholder="제목을 입력하세요"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <div>내용</div>
-          <textarea
-            style={{ resize: 'none' }}
-            rows={10}
-            cols={50}
-            placeholder="게시글의 내용을 작성해주세요."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-          <div>대여비</div>
-          <input
-            type="text"
-            placeholder="대여비를 입력해주세요"
-            value={rentalFee}
-            onChange={handleRentalFeeChange}
-          />
-          <div>보증금</div>
-          <input
-            type="text"
-            placeholder="보증금을 입력해주세요"
-            value={deposit}
-            onChange={handleDepositChange}
-          />
-          <Rectangle>
-            <button onClick={handleSubmit}>게시글 수정</button>
-          </Rectangle>
-        </Wrapper1>
-      </Container>
+        )}
+      </div>
+      {(!selectedFiles ||  (selectedFiles.length + Files.length) > 3) && (
+  <label
+    style={{
+      width: '100px',
+      height: '100px',
+      borderRadius: '7px',
+      backgroundColor: 'gray',
+      display: 'flex',
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center',
+    }}
+    htmlFor="file-upload"
+  >
+    <FaCamera size={24} />
+  </label>
+)}
+
+
+
+
+<input
+  id="file-upload"
+  type="file"
+  accept="image/*"
+  onChange={handleFileChange}
+  ref={fileInputRef} 
+  style={{ display: 'none', }}
+  
+/>
+
+</div>
+<Group>
+      <div>
+      <Image>
+        {Object.entries(categories).map(([key, value]) => (
+          <button
+            key={key}
+            onClick={() => setSelectedCategory(key as Category)}
+            style={{
+              backgroundColor:
+                String(selectedCategory) === String(key) ||
+                String(selectedCategory) === value
+                  ? '#258bff'
+                  : '#F5F5F5',
+              color: selectedCategory === key ? 'white' : 'black',
+              cursor: 'pointer',
+              width: '80px',
+              height: '30px',
+              fontSize: '14px',
+              fontWeight: selectedCategory === key ? 'bold' : 'normal',
+            }}
+          >
+             <Imagine> {value}</Imagine> 
+          </button>
+        ))}
+            </Image>
+      </div>
+      <div>제목</div>
+      <input
+        type="text"
+        placeholder="제목을 입력하세요"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <div>내용</div>
+      <textarea
+        style={{ resize: 'none' }}
+        rows={10}
+        cols={50}
+        placeholder="게시글의 내용을 작성해주세요."
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
+      <div>대여비</div>
+      <input
+        type="text"
+        placeholder="대여비를 입력해주세요"
+        value={rentalFee || ''}
+        onChange={handleRentalFeeChange}
+      />
+      <div>보증금</div>
+      <input
+        type="text"
+        placeholder="보증금을 입력해주세요"
+        value={deposit || ''}
+        onChange={handleDepositChange}
+      />
+      </Group>
+      <Rectangle>
+        <button onClick={handleSubmit}>게시글 수정</button>
+      </Rectangle>
+      </Wrapper1>
+   </Container>
     </>
   );
 }
@@ -246,7 +325,63 @@ const Rectangle = styled.div`
 `;
 
 const Wrapper1 = styled.div`
-  height: 100vh;
-  overflow-y: scroll;
-  padding-bottom: 50px;
+   padding: 40px 13px 0px 20px;
+  gap: 30px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  overflow: overlay;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  padding-bottom: 120px;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  &::-webkit-scrollbar-track {
+    /* 스크롤바 트랙 스타일링 */
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+`;
+
+const Group = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+`;
+
+export const Image = styled.div`
+  width: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 50px;
+  @media screen and (max-width: 430px) {
+    height: 60px;
+    width: 100%;
+    margin: 0px;
+    padding: 0 20px;
+  }
+`;
+export const Button = styled.div`
+position: absolute;
+  width: 10px;
+  height: 0;
+  top: 40px;
+  color: grey;
+  cursor: pointer;
+ 
+  
 `;

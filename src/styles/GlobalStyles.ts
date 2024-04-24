@@ -14,13 +14,19 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
+    @font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 	margin: 0;
 	padding: 0;
 	border: 0;
 	font-size: 14px;
 	/* font-family: 'Pretendard-Regular'; */
 	vertical-align: baseline;
-    font-family: 'Pretendard';
+    font-family: Pretendard-Regular;
     font-style: normal;    
     box-sizing: border-box;
 
@@ -52,7 +58,9 @@ table {
 input { 
     box-sizing: border-box;
     border: none;
-    outline:none
+    outline-color: rgba(22, 137, 243, 1);
+    
+    
 	
 }
 input:checked {
@@ -65,9 +73,9 @@ height: 52px;
 background-color: #1689f3;
 border-radius: 31.14px;
 color: white;
-font-size: 15.45px;
+font-size: 16px;
 font-family: 'Pretendard';
-font-weight: 500;
+font-weight: 600;
 text-align: center;
 border: none;
 cursor: pointer;
@@ -83,23 +91,43 @@ a {
 }
 input[type="text"] {
         width: 100%;
-        height: 50px;
+        height: 40px;
         background: #F5F5F5;
-        border-radius: 20px;
+        border-radius: 6px;
         font-size: 16px;
         padding: 10px; /* Add padding for text inside the input */
-    }
+        
 
+    }
+    input::placeholder {
+    font-family: 'Pretendard-Regular'; /* placeholder 폰트 변경 */
+    font-size: 14px; /* placeholder 폰트 크기 변경 */
+    color: #878787; /* placeholder 색상 변경 */
+
+}
+textarea::placeholder {
+    font-family: 'Pretendard-Regular'; /* placeholder 폰트 변경 */
+    font-size: 14px; /* placeholder 폰트 크기 변경 */
+    color: #999; /* placeholder 색상 변경 */
+    line-height: 2;
+    padding: 10px;
+}
    /* Custom style for textarea */
    textarea {
-	
+    height: 190px;
+      outline-color: rgba(22, 137, 243, 1);
 	background: #F5F5F5;
-    border-radius: 24px;
+    border-radius: 6px;
     font-size: 14px;
-    padding: 10px;
-    width: 93%;
+    padding: 0px;
+    width: 100%;
+    border: none;
+
+
 }
-   html, body, #root {width:100%; height:100%;
+   html, body, #root {
+    position: fixed;
+    width:100%; height:100vh;
    margin: 0;
    }
 

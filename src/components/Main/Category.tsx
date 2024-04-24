@@ -33,12 +33,15 @@ export type Category =
 
 const categories: Record<Category, { label: string; icon: string }> = {
   ALL: { label: '전체', icon: ALL },
-  ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
   HOUSEHOLD: { label: '생활용품', icon: HOUSEHOLD },
   KITCHEN: { label: '주방용품', icon: KITCHEN },
-  CLOSET: { label: '의류/신발', icon: CLOSET },
-  BOOK: { label: '책', icon: BOOK },
-  PLACE: { label: '공간', icon: PLACE },
+  CLOSET: { label: '의류', icon: CLOSET },
+  ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
+
+
+
+  BOOK: { label: '도서', icon: BOOK },
+  PLACE: { label: '장소', icon: PLACE },
   OTHER: { label: '기타', icon: OTHER },
 };
 
@@ -71,9 +74,41 @@ function Category() {
   };
 
   useEffect(() => {
-    refetch();
+    const fetchData = async () => {
+      try {
+        const response = await authInstance.get(
+          `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`
+        );
+        console.log(response.data);
+        const newData = response.data.data;
+  
+        // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
+        const uniqueRentals = [
+          ...newData,
+          ...rentals
+        ].reduce((acc, current) => {
+          // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
+          if (
+            !acc.find(
+              (item) => item.rentalId === current.rentalId
+            )
+          ) {
+            acc.push(current);
+          }
+          return acc;
+        }, []);
+        setRentals(uniqueRentals);
+        setPage(page + 1);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        throw new Error('Network response was not ok');
+      }
+    };
+  
+    fetchData();
     console.log('컴포넌트가 처음 마운트될 때 데이터를 새로고침합니다.');
   }, []);
+  
 
   const handleDifferentLocationClick = async () => {
     const response = await axios.get(
@@ -84,7 +119,7 @@ function Category() {
     }
     const newData = response.data.data;
     // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [...newData, ...rentals].reduce((acc, current) => {
+    const uniqueRentals = [ ...newData,...rentals].reduce((acc, current) => {
       // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
       if (
         !acc.find(
@@ -103,7 +138,7 @@ function Category() {
     if (data) {
       // 중복된 데이터 제거 후 새로운 데이터 추가
       setRentals((prevRentals) => {
-        const newRentals = [...prevRentals, ...data.data];
+        const newRentals = [ ...prevRentals, ...data.data ];
         return newRentals.filter(
           (rental, index, self) =>
             index === self.findIndex((t) => t.rentalId === rental.rentalId),
@@ -151,8 +186,7 @@ function Category() {
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column',
-              paddingLeft: '12px',
+              flexDirection: 'column'
             }}
           >
             <img src={banner} alt="Top Banner" />
@@ -209,7 +243,7 @@ function Category() {
                         </ImageWrapper>
                         <Layout>
                           <ProfileUrl>
-                            <div style={{ display: 'flex' }}>
+                            <div style={{ display: 'flex', alignItems: 'center'}}>
                               <ProfileImage
                                 src={item.profileUrl}
                                 alt="Profile"
@@ -223,7 +257,7 @@ function Category() {
                                   fontFamily: 'Pretendard',
                                   fontStyle: 'normal',
                                   fontWeight: '400',
-                                  fontSize: '8px',
+                                  fontSize: '9px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   gap: '2px',
@@ -427,7 +461,7 @@ const CategoryContainer = styled.div`
     padding-bottom: 20px;
     row-gap: 20px;
   }
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 530px) {
     grid-template-columns: repeat(2, 0fr);
     padding-bottom: 20px;
     row-gap: 20px;
@@ -483,6 +517,7 @@ const ProfileUrl = styled.span`
   width: 137px;
   margin: 12px 0px 12px 0px;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const Div = styled.div`
@@ -494,6 +529,7 @@ export const Div = styled.div`
   /* 스크롤바 스타일 */
   &::-webkit-scrollbar {
     width: 8px;
+    display: none;
   }
 
   &::-webkit-scrollbar-thumb {

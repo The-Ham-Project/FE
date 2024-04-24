@@ -8,20 +8,28 @@ export const Contaier = styled.div`
 
 export const MenuBox = styled.div`
   display: flex;
-  background-color: #f5f5f5;
+  background-color: #fff;
   height: 60px;
   width: 100%;
   align-items: center;
   justify-content: center;
+  position: relative;
   > span {
     display: flex;
     justify-content: center;
     width: 100%;
+    font-size: 14px;
+  }
+  > .arrow {
+    width: 10px;
+    height: 16px;
+    position: absolute;
+    left: 0;
   }
 `;
 export const PaddingBox = styled.div`
   padding: 0 20px;
-  background-color: #f5f5f5;
+  background-color: #fff;
   box-shadow: 0 0 20px 0px rgba(100, 100, 111, 0.2);
 `;
 

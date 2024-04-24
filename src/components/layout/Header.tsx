@@ -1,49 +1,47 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
-function Header() {
+import arrow from '/public/assets/arrow.svg';
+function Header({text}) {
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
   return (
+    <PaddingBox>
     <MenuBox>
-      <IoIosArrowBack
+       <img src={arrow} className={'arrow'}
         onClick={handleBackClick}
-        size={'24px'}
-        style={{ marginTop: '25px' }}
+       
+        style={{ position: 'absolute', left: '20px'}}
       />
-      <span style={{ marginTop: '25px' }}>내가 쓴 글</span>
+      <span style={{ }}>{text}</span>
     </MenuBox>
+          </PaddingBox>
   );
 }
 
 export default Header;
-const MenuBox = styled.div`
+export const MenuBox = styled.div`
   display: flex;
-  flex-direction: row;
+  background-color: #fff;
+  height: 60px;
+  width: 100%;
   align-items: center;
-  height: 10vh;
-  padding: 0 7%;
-  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f5f5f5;
-  z-index: 1;
+  justify-content: center;
   > span {
-    width: 69px;
-    height: 17px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14.1085px;
-    line-height: 17px;
-    text-align: center;
-    color: #000000;
-    font-family: 'Pretendard';
-    font-style: normal;
-  }
-  @media screen and (max-width: 430px) {
-    height: 60px;
+    display: flex;
+    justify-content: center;
     width: 100%;
-    margin: 0px;
-    padding: 0 20px;
+    font-size: 14px;
   }
+  > .arrow {
+    width: 10px;
+    height: 16px;
+  }
+`;
+export const PaddingBox = styled.div`
+width: 100%;
+position: relative;
+  padding: 0 20px;
+  background-color: #fff;
+  box-shadow: 0 0 20px 0px rgba(100, 100, 111, 0.2);
 `;

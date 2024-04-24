@@ -13,7 +13,7 @@ export default Contents;
 
 const Box = styled.div`
   width: 100%;
-  height: 110px;
+  height: 85px;
   background-color: #ffffff;
 
   border-radius: 15px;

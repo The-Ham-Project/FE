@@ -1,4 +1,3 @@
-import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery } from '@tanstack/react-query';
 import { readChatList } from '../../api/chat.ts';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +13,9 @@ import {
   PaddingBox,
   TextBox,
 } from './ChatList.style.tsx';
+import arrow from '/public/assets/arrow.svg';
 import moment from 'moment/moment';
-import Navbar from '../../components/layout/Navbar.tsx';
+
 function ChatList() {
   const navigate = useNavigate();
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -58,7 +58,7 @@ function ChatList() {
     <Contaier>
       <PaddingBox>
         <MenuBox>
-          <IoIosArrowBack size={'24px'} onClick={handleClickNavigate} />
+          <img src={arrow} className={'arrow'} onClick={handleClickNavigate} />
           <span>메세지</span>
         </MenuBox>
       </PaddingBox>
@@ -70,6 +70,7 @@ function ChatList() {
               key={item.chatRoomId}
               onClick={() => {
                 navigate(`/comm/${item.chatRoomId}`);
+                window.location.reload();
               }}
             >
               <FlexBox>
@@ -82,7 +83,7 @@ function ChatList() {
                       {item?.toMemberNickName}
                     </span>
                     <span className={'lastMessageTime'}>
-                      {moment(new Date(item.lastMessageTime)).format('hh:mm')}
+                      {moment(new Date(item.lastMessageTime)).format('HH:mm')}
                     </span>
                   </Btween>
                   <Btween $active={isUnread}>

@@ -10,7 +10,8 @@ export const MenuBox = styled.div`
   width: 100%;
   display: flex;
   padding: 0 20px;
-  justify-content: space-between;
+  //justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background-color: #fff;
   position: relative;
@@ -18,11 +19,25 @@ export const MenuBox = styled.div`
   z-index: 100;
   > div {
     cursor: pointer;
+    > .arrow {
+      width: 10px;
+      height: 16px;
+      position: absolute;
+      left: 20px;
+      top: 22px;
+    }
   }
   > span {
     display: flex;
-    font-size: 18px;
+    font-size: 17px;
     justify-content: center;
+  }
+  > .exit {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: 20px;
+    top: 21px;
   }
 `;
 

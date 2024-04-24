@@ -64,14 +64,11 @@ interface RentalData {
 
 function Details() {
   const navigate = useNavigate();
-  const isLoggedIn = useStore((state) => state.isLoggedIn);
-  const [isLoggedIn1, setLoggedIn1] = useState(
-    localStorage.getItem('isLoggedIn') === 'true',
-  );
   const { rentalId } = useParams();
   const [item, setItem] = useState<RentalData | null>(null);
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   const { mutate } = useMutation({
     mutationFn: createChat,
     onSuccess: (response) => {
@@ -81,10 +78,11 @@ function Details() {
       console.log('error');
     },
   });
+
   const handleCreateChat = () => {
-    if (isLoggedIn === true && item) {
-      mutate({ sellerNickname: item!.nickname, rentalId: item!.rentalId });
-    } else {
+    if (localStorage.getItem('accessToken')) {
+      mutate(item!.rentalId);
+    } else if (localStorage.getItem('accessToken') === null || undefined) {
       navigate('/sociallogin');
     }
   };
@@ -118,17 +116,17 @@ function Details() {
 
   const images =
     item.rentalImageList.length === 0 ? (
-      <div>
+      <div >
         {/* 이미지가 없는 경우에 보여줄 요소 */}
         <FaCamera
           size={24}
           color="#B1B1B1"
           style={{
-            maxWidth: '100%',
-            maxHeight: '330px',
             width: '100%',
-            height: '50px',
-            objectFit: 'cover',
+            maxWidth: '100%',
+            maxHeight: '390px',
+            outline: 'none',
+            objectFit: 'contain',
             paddingTop: '150px',
             paddingBottom: '150px',
             backgroundColor: '#ececec',
@@ -139,21 +137,23 @@ function Details() {
       <img
         src={item.rentalImageList[0].imageUrl}
         style={{
-          width: '100%',
-          height: '100%',
+          outline: 'none',
+          maxHeight: '390px',
         }}
         alt={`Image 1`}
       />
     ) : (
-      <Slider {...settings}>
+      <Slider  {...settings}>
         {item.rentalImageList.map((image, index) => (
-          <div key={index}>
-            <img
+          <div style={{display:'flex',  justifyContent: 'center' , alignItems : 'center'}} key={index}>
+            <img  key={index}
               src={image.imageUrl}
               alt={`Image ${index + 1}`}
               style={{
                 width: '100%',
-                height: '100%',
+                objectFit: 'contain',
+                maxHeight: '350px',
+                outline: 'none'
               }}
             />
           </div>
@@ -198,7 +198,7 @@ function Details() {
           <Text>
             <span>{item.content}</span>
           </Text>
-          {isLoggedIn1 ? (
+          {localStorage.getItem('accessToken') ? (
             <Chat $active={isChatButton}>
               <button className={'chatButton'} onClick={handleCreateChat}>
                 채팅하기
