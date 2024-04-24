@@ -20,6 +20,7 @@ function ChatList() {
   const navigate = useNavigate();
   const indicatorRef = useRef<HTMLDivElement>(null);
   const [currentPageNo, setCurrentPageNo] = useState(1);
+  const [chatList, setChatList] = useState([]);
 
   const queryChatList = useQuery({
     queryKey: ['chatList', currentPageNo],
@@ -29,9 +30,16 @@ function ChatList() {
   const { data, error, isLoading } = queryChatList;
 
   useEffect(() => {
+    if (data && data.chatRoomListResponseDto) {
+      setChatList((prevList) => [...data.chatRoomListResponseDto, ...prevList]);
+    }
+  }, [data]);
+
+  useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          console.log('ddd');
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
 
@@ -63,7 +71,7 @@ function ChatList() {
         </MenuBox>
       </PaddingBox>
       <List>
-        {data?.chatRoomListResponseDto.map((item) => {
+        {chatList.map((item) => {
           const isUnread = item.unreadCount !== 0;
           return (
             <ListBox
@@ -92,10 +100,10 @@ function ChatList() {
                   </Btween>
                 </TextBox>
               </FlexBox>
-              <div ref={indicatorRef} className={'indicator'} />
             </ListBox>
           );
         })}
+        <div ref={indicatorRef} className={'indicator'} />
       </List>
     </Contaier>
   );
