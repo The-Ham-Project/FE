@@ -1,15 +1,16 @@
-import bar from '../../../public/assets/bar.svg';
+import Clickchat from '/public/assets/Clickchat.svg';
+import Clickhome from '/public/assets/Clickhome.svg';
+import bar from '/public/assets/bar.svg';
 import styled from 'styled-components';
 import { FiPlus } from 'react-icons/fi';
-import message from '../../../public/assets/message.svg';
-import home from '../../../public/assets/home.svg';
-import { Outlet, useNavigate } from 'react-router-dom';
+import message from '/public/assets/message.svg';
+import home from '/public/assets/home.svg';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { useEffect, useState } from 'react';
 import Modal from '../modal/Modal.tsx';
 
 function Navbar() {
-  
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const [isLoggedIn1, setLoggedIn1] = useState(
     localStorage.getItem('isLoggedIn') === 'true',
@@ -18,9 +19,14 @@ function Navbar() {
 
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
+  const location = useLocation();
+
+  // 현재 위치가 message 페이지인지 확인
+  const isMessagePage = location.pathname === '/commlist';
+
   const handlePostButtonClick = () => {
     if (localStorage.getItem('accessToken')) {
-      navigate("/postdetailspage");
+      navigate('/postdetailspage');
     } else if (localStorage.getItem('accessToken') === null || undefined) {
       openModal('로그인 후에 게시글을 생성할 수 있습니다.');
     }
@@ -36,7 +42,12 @@ function Navbar() {
 
   return (
     <>
-     <Modal isOpen={isOpen} message={errorMessage} onClose={closeModal} rentalId={0} />
+      <Modal
+        isOpen={isOpen}
+        message={errorMessage}
+        onClose={closeModal}
+        rentalId={0}
+      />
       <Container>
         <img
           className={'home'}
@@ -48,12 +59,12 @@ function Navbar() {
 
         <img
           className={'message'}
-          src={message}
+          src={isMessagePage ? Clickchat : message} // message 페이지면 Clickchat, 아니면 message.svg
           onClick={handleChatButtonClick}
         />
-        <div onClick={handlePostButtonClick}>
+        <Div onClick={handlePostButtonClick}>
           <FiPlus fontSize={'40px'} />
-        </div>
+        </Div>
         <img
           style={{
             filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))',
@@ -70,6 +81,8 @@ function Navbar() {
 }
 
 export default Navbar;
+
+const Div = styled.div``;
 
 const Container = styled.div`
   width: 100%;
@@ -111,5 +124,7 @@ const Container = styled.div`
     height: 54px;
     width: 54px;
     border-radius: 100%;
+
+    filter: drop-shadow(0px 3.69509px 8.39793px rgba(0, 0, 0, 0.2));
   }
 `;

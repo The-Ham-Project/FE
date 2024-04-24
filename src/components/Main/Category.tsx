@@ -33,11 +33,14 @@ export type Category =
 
 const categories: Record<Category, { label: string; icon: string }> = {
   ALL: { label: '전체', icon: ALL },
-  ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
   HOUSEHOLD: { label: '생활용품', icon: HOUSEHOLD },
   KITCHEN: { label: '주방용품', icon: KITCHEN },
-  CLOSET: { label: '의류/신발', icon: CLOSET },
-  BOOK: { label: '책', icon: BOOK },
+  CLOSET: { label: '의류', icon: CLOSET },
+  ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
+
+
+
+  BOOK: { label: '도서', icon: BOOK },
   PLACE: { label: '장소', icon: PLACE },
   OTHER: { label: '기타', icon: OTHER },
 };
@@ -183,8 +186,7 @@ function Category() {
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column',
-              paddingLeft: '12px',
+              flexDirection: 'column'
             }}
           >
             <img src={banner} alt="Top Banner" />
@@ -459,7 +461,7 @@ const CategoryContainer = styled.div`
     padding-bottom: 20px;
     row-gap: 20px;
   }
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 530px) {
     grid-template-columns: repeat(2, 0fr);
     padding-bottom: 20px;
     row-gap: 20px;
@@ -527,6 +529,7 @@ export const Div = styled.div`
   /* 스크롤바 스타일 */
   &::-webkit-scrollbar {
     width: 8px;
+    display: none;
   }
 
   &::-webkit-scrollbar-thumb {

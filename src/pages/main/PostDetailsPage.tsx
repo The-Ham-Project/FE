@@ -8,7 +8,7 @@ import { authInstance } from '../../api/axios';
 import styled from 'styled-components';
 
 // import ALL from '../../../public/assets/ALL.svg';
-import ELECTRONIC from '../../../public/assets/ELECTRONIC.svg';
+import Camera from '../../../public/assets/Camera.svg';
 import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
 import KITCHEN from '../../../public/assets/KITCHEN.svg';
 import CLOSET from '../../../public/assets/CLOSET.svg';
@@ -35,11 +35,11 @@ type Category =
 
 // 카테고리에 대한 이름 정의
 const categories: Record<Category, string> = {
-  ELECTRONIC: '가전제품',
-  HOUSEHOLD: '가구용품',
+  HOUSEHOLD: '생활용품',
   KITCHEN: '주방용품',
   CLOSET: '의류',
-  BOOK: '책',
+  ELECTRONIC: '전자제품',
+  BOOK: '도서',
   PLACE: '장소',
   OTHER: '기타',
 };
@@ -55,11 +55,10 @@ function PostDetailsPage() {
   const [missingRequiredInput, setMissingRequiredInput] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-
   const titleInputRef = useRef<HTMLInputElement | null>(null);
   const depositInputRef = useRef<HTMLInputElement | null>(null);
   const rentalFeeInputRef = useRef<HTMLInputElement | null>(null);
-  const contentInputRef =useRef<HTMLTextAreaElement | null>(null);
+  const contentInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [focused, setFocused] = useState(false);
 
   const handleFocus = () => {
@@ -174,10 +173,9 @@ function PostDetailsPage() {
     <>
       {showModal && <PostDetailsPageModal onClose={closeModal} />}
       <Container>
-        <Header />
-        
+        <Header text="글 작성" />
+
         <Wrapper>
-      
           <CustomDropzone>
             <Dropzone
               onChangeStatus={(meta, status) => {
@@ -189,7 +187,14 @@ function PostDetailsPage() {
                   );
                 }
               }}
-              inputContent={<FaCamera size={24} color="#B1B1B1" />}
+              inputContent={
+                <>
+                  <img src={Camera} alt={Camera} style={{ margin: '20px' }} />
+                  <div style={{ color: '#B1B1B1', fontWeight: '200' }}>
+                    (선택)0/3
+                  </div>
+                </>
+              }
               accept="image/*"
               multiple={true}
               classNames={{
@@ -202,7 +207,14 @@ function PostDetailsPage() {
                 submitButton: 'custom-submit-button',
                 submitButtonContainer: 'custom-submit-button-container',
               }}
-              inputWithFilesContent={(files) => `${files.length}/3`}
+              inputWithFilesContent={(files) => (
+                <>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <FaCamera size={24} color="#B1B1B1" />
+                    {`${files.length}/3`}
+                  </div>
+                </>
+              )}
               maxFiles={3}
             />
           </CustomDropzone>
@@ -218,20 +230,20 @@ function PostDetailsPage() {
             }}
           >
             {' '}
-            물품의 카테고리를 선택해주세요
+            물품의 카테고리를 선택해주세요.
           </div>
           <Group>
             <div>
               <Image>
                 {Object.entries(categories).map(([key, value]) => (
-                  <button
+                  <Button
                     key={key}
                     onClick={() => handleCategoryClick(key as Category)}
                     style={{
                       backgroundColor:
                         selectedCategory === key ? '' : '#F5F5F5',
                       color: selectedCategory === key ? '#F5F5F5' : '#000000',
-
+                      fontWeight: '10',
                       cursor: 'pointer',
                       width: '80px',
                       height: '30px',
@@ -239,7 +251,7 @@ function PostDetailsPage() {
                     }}
                   >
                     <Imagine>{value}</Imagine>
-                  </button>
+                  </Button>
                 ))}
               </Image>
             </div>
@@ -251,57 +263,65 @@ function PostDetailsPage() {
                 gap: '16px',
               }}
             >
-              <div>제목</div>
               <div>
-                <StyledInput
-                  type="text"
-                  placeholder="제목을 입력하세요"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  $missingTitle={missingRequiredInput && !title}
-                  ref={titleInputRef}
-                />
+              <div style={{marginBottom:'8px'}}>제목</div>
+                <div>
+                  <StyledInput
+                    type="text"
+                    placeholder="제목을 입력하세요."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    $missingTitle={missingRequiredInput && !title}
+                    ref={titleInputRef}
+                  />
+                </div>
               </div>
-
-              <div>내용</div>
               <div>
-              <StyledTextarea
-  placeholder= {`원활한 쉐어를 위해 내용을 상세하게 작성해주세요.
+              <div style={{marginBottom:'8px'}}>내용</div>
+                <div>
+                  <StyledTextarea
+                    placeholder={`원활한 쉐어를 위해 내용을 상세하게 작성해주세요.
 부적절한 단어 사용 혹은 금지 물품을 작성할 경우 이용이 제한될 수 있습니다.
+`}
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    $missingContent={missingRequiredInput && !content}
+                    ref={contentInputRef}
+                  />
+                </div>
+              </div>
 
-`
-}value={content}
-  onChange={(e) => setContent(e.target.value)}
-  $missingContent={missingRequiredInput && !content}
-  ref={contentInputRef}
-/>
-              </div>
-              <div>대여비</div>
               <div>
-                <StyledInput
-                  type="text"
-                  placeholder="대여비를 입력해주세요"
-                  value={rentalFee || ''}
-                  onChange={handleRentalFeeChange}
-                  $missingRentalFee={missingRequiredInput && !rentalFee}
-                  ref={rentalFeeInputRef}
-                />
+              <div style={{marginBottom:'8px'}}>대여비</div>
+                <div>
+                  <StyledInput
+                    type="text"
+                    placeholder="대여비를 입력해주세요."
+                    value={rentalFee || ''}
+                    onChange={handleRentalFeeChange}
+                    $missingRentalFee={missingRequiredInput && !rentalFee}
+                    ref={rentalFeeInputRef}
+                  />
+                </div>
               </div>
-              <div>보증금</div>
-              <div>
-                <StyledInput
-                  type="text"
-                  placeholder="보증금을 입력해주세요"
-                  value={deposit || ''}
-                  onChange={handleDepositChange}
-                  $missingDeposit={missingRequiredInput && !deposit}
-                  ref={depositInputRef}
-                />
+
+              <div >
+                <div style={{marginBottom:'8px'}}>보증금</div>
+                <div>
+                  <StyledInput
+                    type="text"
+                    placeholder="보증금을 입력해주세요."
+                    value={deposit || ''}
+                    onChange={handleDepositChange}
+                    $missingDeposit={missingRequiredInput && !deposit}
+                    ref={depositInputRef}
+                  />
+                </div>
               </div>
             </div>
           </Group>
           <Rectangle>
-            <Text onClick={handleButtonClick}>게시글 작성</Text>
+            <Text onClick={handleButtonClick}>작성 완료</Text>
           </Rectangle>
         </Wrapper>
       </Container>
@@ -320,7 +340,7 @@ const CustomDropzone = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  padding: 40px 13px 0px 20px;
+  padding: 40px 20px 0px 20px;
   gap: 30px;
   display: flex;
   justify-content: flex-start;
@@ -333,6 +353,7 @@ export const Wrapper = styled.div`
   padding-bottom: 120px;
   &::-webkit-scrollbar {
     width: 8px;
+    display: none;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -372,10 +393,11 @@ const StyledInput = styled.input.attrs<StyledInputProps>((props) => ({
 
   &::placeholder {
     color: ${({ $missingTitle, $missingRentalFee, $missingDeposit }) =>
-      $missingTitle || $missingRentalFee || $missingDeposit ? 'rgba(255, 0, 0, 0.5)' : 'rgba(135, 135, 135, 1)'};
+      $missingTitle || $missingRentalFee || $missingDeposit
+        ? 'rgba(255, 0, 0, 0.5)'
+        : 'rgba(135, 135, 135, 1)'};
   }
 `;
-
 
 interface StyledTextareaProps {
   $missingContent?: boolean;
@@ -383,26 +405,30 @@ interface StyledTextareaProps {
 
 const StyledTextarea = styled.textarea.attrs<StyledTextareaProps>((props) => ({
   style: {
-    borderColor: props.$missingContent ? 'rgba(255, 0, 0, 0.5)' : 'rgba(22, 137, 243, 1)',
-    outlineColor: props.$missingContent ? 'rgba(255, 0, 0, 0.5)' : 'rgba(22, 137, 243, 1)',
-    height: '100px',
-    resize: 'none'
+    borderColor: props.$missingContent
+      ? 'rgba(255, 0, 0, 0.5)'
+      : 'rgba(22, 137, 243, 1)',
+    outlineColor: props.$missingContent
+      ? 'rgba(255, 0, 0, 0.5)'
+      : 'rgba(22, 137, 243, 1)',
+    resize: 'none',
   },
 }))<StyledTextareaProps>`
   color: black;
 
   &::placeholder {
-    color: ${({ $missingContent }) => ($missingContent ? 'rgba(255, 0, 0, 0.5)' : 'rgba(135, 135, 135, 1)')};
+    color: ${({ $missingContent }) =>
+      $missingContent ? 'rgba(255, 0, 0, 0.5)' : 'rgba(135, 135, 135, 1)'};
   }
 `;
 
-const Image = styled.div`
+export const Image = styled.div`
   width: 350px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 50px;
-    @media screen and (max-width: 430px) {
+  @media screen and (max-width: 430px) {
     height: 60px;
     width: 100%;
     margin: 0px;
@@ -410,19 +436,7 @@ const Image = styled.div`
   }
 `;
 
-const Counter = styled.div`
-  width: 283.81px;
-  height: 46.56px;
-  position: absolute;
-  left: 10.5px;
-  top: 218px;
-  text-align: center;
-  color: #b1b1b1;
-  font-size: 36px;
-  font-family: 'Inter';
-  font-weight: 400;
-  word-wrap: break-word;
-`;
+const Button = styled.button``;
 
 const Group = styled.div`
   display: flex;
@@ -431,12 +445,10 @@ const Group = styled.div`
   gap: 16px;
 `;
 
-const Imagine = styled.div`
+export const Imagine = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 14px;
-  word-break: break-all;
-
   justify-content: center; /* 텍스트를 버튼 세로 가운데 정렬합니다. */
   align-items: center; /* 텍스트를 버튼 가로 가운데 정렬합니다. */
 `;
@@ -454,5 +466,4 @@ const Rectangle = styled.div`
 const Text = styled.button`
   text-align: center;
   color: white;
-  font-size: 20px;
 `;

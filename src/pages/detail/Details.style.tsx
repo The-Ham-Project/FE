@@ -5,6 +5,7 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: #fff;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -39,10 +40,6 @@ export const ContentsBox = styled.div`
   width: 100%;
   height: 53%;
   padding: 0 20px;
-  > img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export const Contents = styled.div`

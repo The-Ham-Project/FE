@@ -7,9 +7,9 @@ import bubble from '/public/assets/bubble.svg';
 
 function Layout() {
   return (
-    <Container>
+    <Container >
       <Explanation>
-        <ContentsBox>
+        <ContentsBox >
           <Title>
             <span>함께 쓰고 나누자</span>
             <img src={thehamlogo} />
@@ -21,19 +21,12 @@ function Layout() {
             </span>
           </Contents>
           <Bubble>
-            <div>더함에서 필요한 물건을 함께 쓰고 나눠봐요!</div>
+            <div style={{textAlign: 'center'}}>더함에서 필요한 물건을 함께 쓰고 나눠봐요!</div>
           </Bubble>
         </ContentsBox>
         <PhoneBox>
           <Phone>
-            <img
-              src={phone}
-              style={{
-                position: 'absolute',
-                pointerEvents: 'none',
-                zIndex: '999990',
-              }}
-            />
+          
             <div className={'outlet'}>
               <Outlet />
             </div>
@@ -47,6 +40,7 @@ function Layout() {
 export default Layout;
 
 const Container = styled.div`
+position: relative;
   width: 100%;
   height: 100%;
   background-color: #1689f3;
@@ -73,6 +67,8 @@ const Explanation = styled.div`
   z-index: 300;
   @media screen and (max-width: 700px) {
     height: 100%;
+    width: 100%;
+    display: contents;
   }
 `;
 const ContentsBox = styled.div`
@@ -129,7 +125,7 @@ const Bubble = styled.div`
     border-radius: 166px;
     color: #1689f3;
     font-size: 28px;
-    font-weight: 500;
+    font-weight: 600;
     position: relative;
 
     &:before {
@@ -152,6 +148,10 @@ const PhoneBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 700px) {
+    height: 100%;
+    width: 100%;
+    display: contents;}
   &:before {
     background-image: url(${phontheham});
     background-repeat: no-repeat;
@@ -162,14 +162,12 @@ const PhoneBox = styled.div`
     width: 380px;
     height: 496px;
     z-index: 10000;
-    @media (max-width: 700px) {
+    @media (width: 700px) {
       display: none;
     }
   }
 
-  @media (max-width: 700px) {
-    width: 100%;
-  }
+
 `;
 
 const Phone = styled.div`
@@ -180,7 +178,7 @@ const Phone = styled.div`
   justify-content: center;
   overflow: hidden;
   z-index: 10000;
-  border-radius: 60px 55px 52px 54px;
+  border-radius: 20px;
 
   > img {
     z-index: 300;
@@ -189,8 +187,9 @@ const Phone = styled.div`
     position: relative;
   }
   .outlet {
+    position: relative;
     height: 100%;
-    width: calc(97% - 8px);
+    width: calc(100%);
   }
 
   @media (max-width: 700px) {

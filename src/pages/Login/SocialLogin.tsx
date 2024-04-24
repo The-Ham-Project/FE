@@ -77,7 +77,7 @@ const MenuBox = styled.div`
 const Motto = styled.div`
   width: 100px;
   height: 17px;
-  font-family: 'Pretendard';
+
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -113,7 +113,7 @@ const Charactor = styled.div`
 const MSG = styled.div`
   width: 287px;
   height: 55px;
-  font-family: 'Pretendard';
+
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -127,7 +127,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Pretendard';
+
   font-style: normal;
   font-weight: 500;
   font-size: 18px;

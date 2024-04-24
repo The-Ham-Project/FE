@@ -31,15 +31,15 @@ function Router() {
             <Route path="/" element={<Main />} />
             <Route path="/search" element={<SearchDetail />} />
             <Route path="/mypage" element={<Mypage />} />
-             <Route path="/mylist" element={<MyList />} />
+            <Route path="/mylist" element={<MyList />} />
             <Route path="/details/:rentalId" element={<Details />} />
             <Route path={'/commlist'} element={<ChatList />} />
             <Route path="/kakao/callback" element={<RedirectKakao />} />
             <Route path="/google/callback" element={<RedirectGoogle />} />
             <Route path="/naver/callback" element={<RedirectNaver />} />
-    
-          <Route path="/postdetailspage" element={<PostDetailsPage />} />
-        
+
+            <Route path="/postdetailspage" element={<PostDetailsPage />} />
+
             <Route path="/details/:rentalId/edit" element={<Edit />} />
           </Route>
           {/* <Route path={`/splash`} element={<Splash />} /> */}

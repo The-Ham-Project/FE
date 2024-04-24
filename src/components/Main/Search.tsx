@@ -66,7 +66,7 @@ function Search() {
     console.log();
     if (localStorage.getItem('accessToken')) {
       navigate('/mypage');
-    } else if ( localStorage.getItem('accessToken') === null || undefined) {
+    } else if (localStorage.getItem('accessToken') === null || undefined) {
       // 모달 열기
       console.log(isLoggedIn);
       openModal('로그인 페이지로 이동합니다');
@@ -78,11 +78,8 @@ function Search() {
       <SearchContainer>
         <img
           style={{
-            width: '59px',
-            height: '59px',
-            position: 'absolute',
-            left: '25px',
             cursor: 'pointer',
+            marginRight: '20px'
           }}
           src={lgoo}
           onClick={() => {
@@ -91,15 +88,16 @@ function Search() {
         />
         <div
           style={{
+            borderRadius: '20px',
+            width:'100%',
             display: 'flex',
             justifyContent: 'flex-end',
             alignItems: 'center',
-            width: '72%%',
           }}
         >
           <AnimatedInputContainer showInput={showInput}>
             <input
-              style={{ borderRadius: '20px 0 0 20px' }}
+              style={{ borderRadius: '20px' }}
               onKeyDown={activeEnter}
               type="text"
               placeholder="검색..."
@@ -131,7 +129,7 @@ function Search() {
               ))}
           </SearchResults>
         </div>
-        <PersonButton  onClick={handlePersonButtonClick} >
+        <PersonButton onClick={handlePersonButtonClick}>
           <img
             style={{
               maxWidth: '22px',
@@ -152,13 +150,13 @@ const SearchContainer = styled.div`
   display: flex;
   width: 100%;
   height: 60px;
-  align-items: flex-end;
+  align-items: center;
   background-color: rgb(255, 255, 255);
   justify-content: flex-end;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;
   position: absolute;
   z-index: 99;
-  padding: 10px 20px 10px 30px;
+  padding: 20px;
 `;
 
 const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
@@ -179,18 +177,20 @@ const PersonButton = styled.button`
   padding: 0;
   border: none;
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 12px;
   /* padding-left: 25px; */
 `;
 
 const SearchButton = styled.button<SearchButtonProps>`
+  right: 74px;
+  position: absolute;
   background-color: ${({ isActive }) => (isActive ? '#F5F5F5' : '#ffffff')};
-  width: 30px;
-  height: 50px;
+  width: 20px;
+  height: 0px;
+  top: 17px;
   padding: 0;
   border: none;
   cursor: pointer;
-  border-radius: 0 10px 10px 0;
   transition: background-color 0.7s ease-in-out;
 `;
 
