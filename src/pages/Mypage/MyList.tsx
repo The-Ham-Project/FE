@@ -14,6 +14,7 @@ import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
 import DeleteModal from '../../components/modal/DeleteModal.tsx';
 import { FaCamera } from 'react-icons/fa';
+import Header from '../../components/layout/Header.tsx';
 
 interface Rental {
   rentalId: number;
@@ -89,10 +90,7 @@ function MyList() {
     <Wrapper>
       {!data || data.length === 0 ? (
         <>
-          <MenuBox>
-            <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
-            <span>내가 쓴 글</span>
-          </MenuBox>
+          <Header text={'내가 쓴 글'} />
           <NoData>
             <img src={donotcrythehamzzang} />
             <NoDataMSG>아직 쓰신 글이 없네용</NoDataMSG>
@@ -100,10 +98,7 @@ function MyList() {
         </>
       ) : (
         <>
-          <MenuBox>
-            <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
-            <span>내가 쓴 글</span>
-          </MenuBox>
+          <Header text={'내가 쓴 글'} />
           <SB>
             {data.map((data) => (
               <Ao
@@ -174,6 +169,7 @@ function MyList() {
 export default MyList;
 
 const PlaceholderImage = styled.div`
+  width: 100%;
   background-color: #ffffff;
   display: flex;
   justify-content: center;
@@ -213,6 +209,7 @@ const MenuBox = styled.div`
 `;
 
 const Loading = styled.div`
+  width: 100%;
   height: 100vh;
   @media screen and (max-width: 430px) {
   }
@@ -228,6 +225,7 @@ const Ao = styled.div`
 `;
 
 const ErrorPage = styled.div`
+  width: 100%;
   height: 100vh;
   @media screen and (max-width: 430px) {
   }
@@ -262,11 +260,10 @@ const Custom = styled.div`
 `;
 const SB = styled.div`
   margin-top: 73px;
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const Wrapper = styled.div`
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -274,8 +271,6 @@ const Wrapper = styled.div`
   overflow: auto;
   background-color: white;
   padding-bottom: 120px;
-  @media screen and (max-width: 430px) {
-  }
 `;
 const NoData = styled.div`
   height: 70vh;
@@ -284,8 +279,6 @@ const NoData = styled.div`
   justify-content: center;
   align-items: center;
   gap: 33px;
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const NoDataMSG = styled.div`
@@ -298,8 +291,6 @@ const NoDataMSG = styled.div`
   line-height: 19px;
   text-align: center;
   color: #282828;
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const Container = styled.div`
@@ -310,8 +301,6 @@ const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 10.4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const Box = styled.div`
@@ -320,16 +309,12 @@ const Box = styled.div`
   justify-content: space-between;
   align-content: space-between;
   margin-left: 16px;
-  @media screen and (max-width: 430px) {
-  }
 `;
 const Box1 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   gap: 18.32px;
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const Box2 = styled.div`
@@ -338,8 +323,6 @@ const Box2 = styled.div`
   justify-content: space-between;
   gap: 13px;
   text-align: center;
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const Title = styled.div`
@@ -351,9 +334,6 @@ const Title = styled.div`
   line-height: 19px;
   margin-bottom: 25px;
   color: #000000;
-
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const Fee = styled.div`
@@ -380,11 +360,8 @@ const Fee = styled.div`
   order: 0;
   flex-grow: 0;
   z-index: 1;
-
   background: rgba(31, 147, 255, 0.1);
   border-radius: 16.623px;
-  @media screen and (max-width: 430px) {
-  }
 `;
 
 const Deposit = styled.div`
@@ -400,9 +377,6 @@ const Deposit = styled.div`
   text-align: right;
 
   color: #595959;
-
-  @media screen and (max-width: 430px) {
-  }
 `;
 const IMG = styled.div`
   width: 130px;
