@@ -181,9 +181,14 @@ const Chat = () => {
         }
       });
     };
+
     if (indicatorRef?.current && data?.totalPage) {
-      const io = new IntersectionObserver(updateIndicator);
-      io.observe(indicatorRef.current);
+      const timeoutId = setTimeout(() => {
+        const io = new IntersectionObserver(updateIndicator);
+        io.observe(indicatorRef.current);
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [data?.totalPage, indicatorRef, currentPageNo]);
 
