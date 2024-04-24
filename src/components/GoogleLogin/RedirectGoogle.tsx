@@ -4,12 +4,7 @@ import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 import { instance } from '../../api/axios';
 import NotFound from '../../pages/glitch/NotFound';
 
-// const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
-// const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
-
 function RedirectGoogle() {
-  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
-
   const navigate = useNavigate();
   const PARAMS = new URL(window.location.href).searchParams;
   const GOOGLE_CODE = PARAMS.get('code');

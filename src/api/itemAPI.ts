@@ -22,21 +22,6 @@ export const createItem = async (newItem: any) => {
   }
 };
 
-// export const editItemPut = async ({
-//   rentalId,
-//   updatedItem,
-// }: {
-//   rentalId: number;
-//   updatedItem: ItemDataRes;
-// }): Promise<void> => {
-//   // 게시글 수정
-//   try {
-//     await authInstance.put(`/api/v1/rentals/${rentalId}`, updatedItem);
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
 export const removeItemPost = async (rentalId: number) => {
   // 게시글 삭제
   // console.log(`Removing ${rentalId}`);
@@ -46,20 +31,6 @@ export const removeItemPost = async (rentalId: number) => {
   return data;
 };
 
-// const getMeetingDetail = async (
-//   meetingId: number
-// ): Promise<MeetingDetailInfo> => {
-//   try {
-//     // 토큰 유무 분리
-//     const { data } = token
-//       ? await authInstance.get(`/api/meetings/meetings/${meetingId}`)
-//       : await instance.get(`/api/meetings/meetings/${meetingId}`)
-//     return data.data
-//   } catch (error) {
-//     console.log(error)
-//     throw error
-//   }
-// }
 interface ApiResponse {
   status: boolean;
   message: string;

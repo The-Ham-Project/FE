@@ -8,7 +8,6 @@ import { removeTokensFromLocalStorage } from '../../util/localStorage/localStora
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
-import useStore from '../../store/store.ts';
 import NotFound from '../glitch/NotFound.tsx';
 import Header from '../../components/layout/Header.tsx';
 
@@ -35,7 +34,7 @@ function Mypage() {
   if (isLoading) {
     return (
       <Container>
-        <Loading/> 
+        <Loading />
       </Container>
     );
   }
@@ -45,7 +44,7 @@ function Mypage() {
 
   return (
     <Wrapper>
-     <Header text="마이페이지" />
+      <Header text="마이페이지" />
       <PaddingBox>
         <Profile>
           <Picture>
@@ -114,7 +113,6 @@ const Wrapper = styled.div`
   height: 100%;
 
   @media screen and (max-width: 700px) {
-  
   }
 `;
 

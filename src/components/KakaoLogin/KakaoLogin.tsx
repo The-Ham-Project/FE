@@ -15,7 +15,6 @@ function KakaoLogin() {
 
   return (
     <>
-      {/* <Header></Header> */}
       <Button onClick={kakao}>
         <IMG onClick={login} src={startwithkakao} alt="카카오 로그인 버튼" />
       </Button>
@@ -26,11 +25,7 @@ function KakaoLogin() {
 export default KakaoLogin;
 
 // token api 서버에서 자동으로 요청해서 응답 보내줄때 브라우저에 쿠키생성하라고 백에서 보낼 예정
-// 끝!
-// 프론트는 이게 끝?! 와우~
 // 401 뜨면 재발급하기
-
-// import styled from 'styled-components';
 
 const Button = styled.button`
   background-color: white;

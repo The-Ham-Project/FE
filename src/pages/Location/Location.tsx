@@ -66,25 +66,12 @@ export default function Location(): JSX.Element {
     // 지도를 현재 위치로 이동
     map.panTo(currentPos);
 
-    const circle = new window.kakao.maps.Circle({
-      center: currentPos,
-      radius: 8000,
-      strokeWeight: 1,
-      strokeColor: 'rgb(22,137,243)',
-      strokeOpacity: 0.5,
-      fillColor: 'rgb(0,26,255)',
-      fillOpacity: 0.05,
-    });
-
     // 마커를 생성합니다
     marker.setMap(map);
     marker.setPosition(currentPos);
     circle.setMap(map);
     circle.setPosition(currentPos);
-
-    // setCircle(map);
-    // setCircle(currentPos);
-
+    // setCircle(circle);
     setIsLoading(false); // API 요청 후 로딩 상태를 false로 변경
   };
 
@@ -96,7 +83,6 @@ export default function Location(): JSX.Element {
       await axios
         .get(
           `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${x}&y=${y}`,
-          // `https://dapi.kakao.com/v2/local/geo/coord2address.json?input_coord=WGS84&x=${x}&y=${y}`,
           {
             headers: {
               Authorization: `KakaoAK ${import.meta.env.VITE_APP_KAKAO_JAVASCRIPT_KEY}`,
@@ -186,37 +172,17 @@ export default function Location(): JSX.Element {
           };
           setMap(new window.kakao.maps.Map(container, options));
           setMarker(new window.kakao.maps.Marker());
-        });
-      };
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const script = document.createElement('script');
-      script.src =
-        '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=1df8e00ba19cbaf3ed39000226e2e4c8';
-      document.head.appendChild(script);
-      script.onload = () => {
-        window.kakao.maps.load(async function () {
-          const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-          const options = {
-            //지도를 생성할 때 필요한 기본 옵션
-            center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-            level: 7, //지도의 레벨(확대, 축소 정도)
-          };
-          const circle = new window.kakao.maps.Circle({
-            center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-            radius: 8000,
-            strokeWeight: 1,
-            strokeColor: 'rgb(22,137,243)',
-            strokeOpacity: 0.5,
-            fillColor: 'rgb(0,26,255)',
-            fillOpacity: 0.05,
-          });
-          console.log(circle);
-          setMap(new window.kakao.maps.Map(container, options));
-          setCircle(new window.kakao.maps.Circle());
+          setCircle(
+            new window.kakao.maps.Circle({
+              center: currentLatLng,
+              radius: 8000,
+              strokeWeight: 1,
+              strokeColor: 'rgb(22,137,243)',
+              strokeOpacity: 0.5,
+              fillColor: 'rgb(0,26,255)',
+              fillOpacity: 0.05,
+            }),
+          );
         });
       };
     })();
@@ -225,7 +191,7 @@ export default function Location(): JSX.Element {
   useEffect(() => {
     if (map) {
       window.kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-        // // 클릭한 위도, 경도 정보를 가져옵니다
+        // 클릭한 위도, 경도 정보를 가져옵니다
         const latlng = mouseEvent.latLng;
 
         geolocationMutation.mutate({
@@ -237,6 +203,10 @@ export default function Location(): JSX.Element {
         if (marker) {
           marker.setMap(null);
           marker.setPosition(null);
+        }
+        if (circle) {
+          circle.setMap(null);
+          circle.setPosition(null);
         }
 
         searchDetailAddrFromCoords(
@@ -254,45 +224,13 @@ export default function Location(): JSX.Element {
   }, [map]);
 
   useEffect(() => {
-    if (map) {
-      window.kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-        // // 클릭한 위도, 경도 정보를 가져옵니다
-        const latlng = mouseEvent.latLng;
-
-        geolocationMutation.mutate({
-          lon: latlng.La,
-          lat: latlng.Ma,
-        });
-
-        // const circle = new window.kakao.maps.Circle({
-        //   center: latlng,
-        //   radius: 8000,
-        //   strokeWeight: 1,
-        //   strokeColor: 'rgb(22,137,243)',
-        //   strokeOpacity: 0.5,
-        //   fillColor: 'rgb(0,26,255)',
-        //   fillOpacity: 0.05,
-        // });
-        // console.log(circle);
-
-        // 이전 마커가 있다면 삭제
-        if (circle) {
-          // setCircle(null);
-          circle.setMap(null);
-          circle.setPosition(null);
-          // circle.setMap(null);
-          // circle.setPosition(null);
-        }
-      });
-    }
-  }, [map]);
-
-  useEffect(() => {
     if (currentLatLng) {
       marker.setPosition(currentLatLng);
       marker.setMap(map);
+      circle.setPosition(currentLatLng);
+      circle.setMap(map);
     }
-  }, [currentLatLng, map, marker]);
+  }, [currentLatLng, map, marker, circle]);
 
   return (
     <>
@@ -320,7 +258,6 @@ export default function Location(): JSX.Element {
           )}
           <Ao>
             <Map id="map"></Map>
-            {circle.setMap(map)}
           </Ao>
           <MSG1>현재 위치에 있는 동네는 아래와 같나요?</MSG1>
           <MSG2>
@@ -372,27 +309,6 @@ const MenuBox = styled.div`
     justify-content: center;
     width: 100%;
   }
-  /* position: absolute;
-  width: 430px;
-  display: flex;
-  flex-direction: row;
-  padding-left: 140px;
-  background-color: #ffffff;
-  height: 60px;
-  align-items: center;
-  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
-  z-index: 5;
-  > span {
-    width: 100px;
-    margin-top: 32px;
-    height: 17px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14.1085px;
-    line-height: 17px;
-    text-align: center;
-    color: #000000; */
   @media screen and (max-width: 430px) {
     height: 60px;
     > span {
@@ -451,6 +367,7 @@ const LoadingMSG = styled.div`
   @media screen and (max-width: 430px) {
   }
 `;
+
 const LoadingContainer = styled.div`
   width: 285px;
   height: 24px;
@@ -468,29 +385,12 @@ const LoadingContainer = styled.div`
   flex-grow: 0;
   z-index: 5000000;
   padding: 50% 18%;
-
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Pretendard';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: 0.0015em;
-  text-transform: uppercase;
-  color: #282828;
-  order: 1;
-  flex-grow: 0;
-  z-index: 5000000; */
   @media screen and (max-width: 430px) {
   }
 `;
 
 const Ao = styled.div`
   box-shadow: inset 0 5px 5px -5px #333;
-  /* z-index: 1; */
   width: 100%;
   height: 463px;
   display: contents;
@@ -528,7 +428,6 @@ const MSG1 = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  /* identical to box height */
   text-align: center;
   color: #000000;
   z-index: 100;
@@ -546,7 +445,6 @@ const MSG2 = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  /* identical to box height */
   text-align: center;
   color: #000000;
   z-index: 100;

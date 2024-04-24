@@ -1,12 +1,10 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { instance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
-import { getKeywordList } from '../../api/search';
 import Search from './Search';
 import { useSearchParams } from 'react-router-dom';
 
@@ -44,53 +42,6 @@ function SearchDetail() {
   }, [keyword]);
 
   return (
-    // <Wrapper>
-    //   <Search />
-    //   <Result>
-    //     {data?.count !== 0 ? (
-    //       <>
-    //         검색 결과 총 <span>{data?.count}</span>개의 글을 찾았습니다!
-    //       </>
-    //     ) : (
-    //       <>
-    //         검색 결과 총 <span>0</span>개의 글을 찾았습니다.
-    //       </>
-    //     )}
-    //   </Result>
-    //   {isLoading && <li>Loading...</li>}
-    //   {isError && <li>Error occurred while fetching data</li>}
-    //   {data?.count !== 0 ? (
-    //     <>
-    //       {data.searchResponseList?.map((rental) => (
-    //         <Ao
-    //           key={rental.rentalId}
-    //           onClick={(e) => {
-    //             e.stopPropagation();
-    //             navigate(`/details/${rental.rentalId}`);
-    //           }}
-    //         >
-    //           <Container>
-    //             <IMG>
-    //               <img src={rental.rentalImageList} alt="Rental Thumbnail" />
-    //             </IMG>
-    //             <Box>
-    //               <Title>{rental.title}</Title>
-    //               <Box2>
-    //                 <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
-    //                 <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
-    //               </Box2>
-    //             </Box>
-    //           </Container>
-    //         </Ao>
-    //       ))}
-    //     </>
-    //   ) : (
-    //     <NoData>
-    //       <Image>{magnifyingtheham}</Image>
-    //       <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
-    //     </NoData>
-    //   )}
-    // </Wrapper>
     <Wrapper>
       <Search />
       <Detail>

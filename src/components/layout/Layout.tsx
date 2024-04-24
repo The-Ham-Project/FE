@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import thehamlogo from '../../../public/assets/thehamlogo.svg';
-import phone from '../../../public/assets/phone.svg';
 import { Outlet } from 'react-router-dom';
 import phontheham from '../../../public/assets/phontheham.svg';
 import bubble from '/public/assets/bubble.svg';
 
 function Layout() {
   return (
-    <Container >
+    <Container>
       <Explanation>
-        <ContentsBox >
+        <ContentsBox>
           <Title>
             <span>함께 쓰고 나누자</span>
             <img src={thehamlogo} />
@@ -21,12 +20,13 @@ function Layout() {
             </span>
           </Contents>
           <Bubble>
-            <div style={{textAlign: 'center'}}>더함에서 필요한 물건을 함께 쓰고 나눠봐요!</div>
+            <div style={{ textAlign: 'center' }}>
+              더함에서 필요한 물건을 함께 쓰고 나눠봐요!
+            </div>
           </Bubble>
         </ContentsBox>
         <PhoneBox>
           <Phone>
-          
             <div className={'outlet'}>
               <Outlet />
             </div>
@@ -40,7 +40,7 @@ function Layout() {
 export default Layout;
 
 const Container = styled.div`
-position: relative;
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: #1689f3;
@@ -151,7 +151,8 @@ const PhoneBox = styled.div`
   @media screen and (max-width: 700px) {
     height: 100%;
     width: 100%;
-    display: contents;}
+    display: contents;
+  }
   &:before {
     background-image: url(${phontheham});
     background-repeat: no-repeat;
@@ -166,8 +167,6 @@ const PhoneBox = styled.div`
       display: none;
     }
   }
-
-
 `;
 
 const Phone = styled.div`

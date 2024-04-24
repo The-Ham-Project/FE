@@ -5,14 +5,13 @@ import styled from 'styled-components';
 import { authInstance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useErrorModalStore } from '../../store/store';
 import Modal from '../../components/modal/Modal.tsx';
 import { removeItemPost } from '../../api/itemAPI';
 import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
-import DeleteModal from '../../components/modal/DeleteModal.tsx';
 import { FaCamera } from 'react-icons/fa';
 import Header from '../../components/layout/Header.tsx';
 

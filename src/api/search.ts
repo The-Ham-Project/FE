@@ -9,14 +9,3 @@ export const getKeywordList = async (keyword) => {
       throw error;
     });
 };
-// const searchPosts = async (query: string) => {
-//   const { data } = await instance.get(`/posts/search?query=${query}`);
-//   return data;
-// };
-
-// export const useSearchedPosts = (query: string) => {
-//   return useQuery({
-//     queryKey: ['searchedPosts', query],
-//     queryFn: () => searchPosts(query),
-//   });
-// };

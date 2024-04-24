@@ -1,6 +1,6 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import styled from 'styled-components';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Search from '../Main/Search';
 
 function Header() {
@@ -10,7 +10,6 @@ function Header() {
     <MenuBox>
       <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
       <Search />
-     
     </MenuBox>
   );
 }
