@@ -125,8 +125,8 @@ export default Mypage;
 const Wrapper = styled.div`
   background-color: white;
   height: 100%;
-
   @media screen and (max-width: 700px) {
+    overflow: scroll;
   }
 `;
 
@@ -162,15 +162,6 @@ const PaddingBox = styled.div`
     /* box-shadow: inset 0 5px 5px -5px #333; */
 
     width: 100%;
-  }
-`;
-
-const ErrorPage = styled.div`
-  @media screen and (max-width: 430px) {
-    /* Group 1394 */
-
-    width: 141.1px;
-    height: 193.64px;
   }
 `;
 
