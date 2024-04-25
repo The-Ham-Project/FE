@@ -24,9 +24,7 @@ function RedirectKakao() {
       const response = await instance.get(
         `/api/v1/members/kakao/callback?code=${KAKAO_CODE}`,
       );
-      console.log('나 김동준이야', response);
       const accessToken = response.headers.authorization;
-      console.log('accessToken:', accessToken);
       saveTokensToLocalStorage(accessToken);
       setAccessTokenFetching(false); // Reset fetching to false
       navigate('/thxkakaomap');
