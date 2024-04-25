@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { instance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
-import Search from './Search';
+
 import { useSearchParams } from 'react-router-dom';
+import Search from './Search';
 
 function SearchDetail() {
   const navigate = useNavigate();

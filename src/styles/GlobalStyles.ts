@@ -109,22 +109,30 @@ textarea::placeholder {
     font-family: 'Pretendard-Regular'; /* placeholder 폰트 변경 */
     font-size: 14px; /* placeholder 폰트 크기 변경 */
     color: #999; /* placeholder 색상 변경 */
-    line-height: 2;
-    padding: 10px;
+    line-height: 1.5;
+    width: 100%;
+padding-left: 10px;
+padding-top: 10px;
+    @media screen and (max-width: 375px) {
+        width: 280px;
 }
+}
+
+
    /* Custom style for textarea */
    textarea {
+    
+    overflow: hidden;
+    font-family: 'Pretendard-Regular';
     height: 190px;
       outline-color: rgba(22, 137, 243, 1);
 	background: #F5F5F5;
     border-radius: 6px;
-    font-size: 14px;
-    padding: 0px;
+    font-size: 16px;
     width: 100%;
     border: none;
-
-
 }
+
    html, body, #root {
     position: fixed;
     width:100%; height:100vh;
