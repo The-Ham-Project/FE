@@ -1,5 +1,4 @@
 import { instance } from './axios';
-import { useQuery } from '@tanstack/react-query';
 
 export const getKeywordList = async (keyword) => {
   return await instance

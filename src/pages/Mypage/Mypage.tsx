@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { getMyPage } from '../../api/mypage';
 import gogo from '../../../public/assets/gogo.svg';
@@ -10,19 +10,29 @@ import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
 import NotFound from '../glitch/NotFound.tsx';
 import Header from '../../components/layout/Header.tsx';
+import { logout } from '../../api/axios.ts';
+import useStore from '../../store/store.ts';
 
 function Mypage() {
+  const url = 'https://www.kakao.com/policy/location';
   const navigate = useNavigate();
+  const useLogout = () => {
+    return useMutation({
+      mutationFn: logout,
+      onSuccess: () => {
+        localStorage.removeItem('accessToken');
+        useStore.getState().logout();
+      },
+    });
+  };
+  const logoutMutation = useLogout();
   const handleBackClick = () => navigate(-1);
   const GotoListHandler = () => {
     navigate('/mylist');
   };
-  const GotoPolicyHandler = () => {
-    navigate('https://www.kakao.com/policy/location');
-  };
 
   const LogoutHandler = () => {
-    removeTokensFromLocalStorage();
+    logoutMutation.mutate();
     alert('로그아웃되었습니다');
     navigate('/');
   };
@@ -80,7 +90,11 @@ function Mypage() {
               }}
             />
           </Box1>
-          <Box2 onClick={GotoPolicyHandler}>
+          <Box2
+            onClick={() => {
+              window.open(url);
+            }}
+          >
             <Policy>위치정보이용동의 약관</Policy>
             <img
               src={gogo}
