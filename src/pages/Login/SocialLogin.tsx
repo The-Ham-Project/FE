@@ -8,10 +8,6 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
 function SocialLogin() {
-  // const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
-  // const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
-  // console.log(client_id);
-  // console.log(redirect_uri);
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
   return (

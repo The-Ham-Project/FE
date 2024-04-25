@@ -3,20 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
 import { instance } from '../../api/axios';
 import NotFound from '../../pages/glitch/NotFound';
-// const client_id = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
-
-// const redirect_uri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
 function RedirectKakao() {
-  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
-
   const navigate = useNavigate();
   const PARAMS = new URL(window.location.href).searchParams;
   const KAKAO_CODE = PARAMS.get('code');
   const [accessTokenFetching, setAccessTokenFetching] = useState(false);
 
   console.log('KAKAO_CODE:', KAKAO_CODE);
-  // console.log(client_id);
 
   // Access Token 받아오기
   const getAccessToken = async () => {
@@ -34,7 +28,6 @@ function RedirectKakao() {
       const accessToken = response.headers.authorization;
       console.log('accessToken:', accessToken);
       saveTokensToLocalStorage(accessToken);
-      // localStorage.setItem('accessToken', accessToken);
       setAccessTokenFetching(false); // Reset fetching to false
       navigate('/thxkakaomap');
     } catch (error) {

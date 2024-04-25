@@ -1,5 +1,4 @@
 import Clickchat from '/public/assets/Clickchat.svg';
-import Clickhome from '/public/assets/Clickhome.svg';
 import bar from '/public/assets/bar.svg';
 import styled from 'styled-components';
 import { FiPlus } from 'react-icons/fi';
@@ -7,7 +6,7 @@ import message from '/public/assets/message.svg';
 import home from '/public/assets/home.svg';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from '../modal/Modal.tsx';
 
 function Navbar() {
