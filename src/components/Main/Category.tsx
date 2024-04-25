@@ -101,7 +101,6 @@ function Category() {
     };
 
     fetchData();
-    console.log('컴포넌트가 처음 마운트될 때 데이터를 새로고침합니다.');
   }, []);
 
   const handleDifferentLocationClick = async () => {

@@ -20,7 +20,7 @@ const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은색 배경 */
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   z-index: 100;
 `;
 
@@ -35,7 +35,7 @@ const ModalContent = styled.div`
   border-radius: 70px;
   justify-content: flex-end;
   gap: 17px;
-  animation: ${slideIn} 0.9s ease forwards; /* 애니메이션 적용 */
+  animation: ${slideIn} 0.5s ease forwards; /* 애니메이션 적용 */
 `;
 
 const ModalOKButton = styled.button`

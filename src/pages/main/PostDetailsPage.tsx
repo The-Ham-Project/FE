@@ -189,7 +189,7 @@ function PostDetailsPage() {
               }}
               inputContent={
                 <>
-                  <img src={Camera} alt={Camera} style={{ margin: '20px' }} />
+                  <img src={Camera} style={{ margin: '20px' }} />
                   <div style={{ color: '#B1B1B1', fontWeight: '200' }}>
                     (선택)0/3
                   </div>
@@ -209,9 +209,9 @@ function PostDetailsPage() {
               }}
               inputWithFilesContent={(files) => (
                 <>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <FaCamera size={24} color="#B1B1B1" />
-                    {`${files.length}/3`}
+                  <div style={{ display: 'flex', flexDirection: 'column', color: '#969696'}}>
+                  <img src={Camera} style={{ margin: '16px 20px 10px 20px' }} />
+                    {`(선택)${files.length}/3`}
                   </div>
                 </>
               )}
