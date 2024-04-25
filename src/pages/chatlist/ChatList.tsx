@@ -27,16 +27,20 @@ function ChatList() {
   const queryChatList = useQuery({
     queryKey: ['chatList', currentPageNo],
     queryFn: () => readChatList(currentPageNo),
-    refetchInterval: 2000,
+    // refetchInterval: 2000,
     select: (response) => response.data,
   });
   const { data, error, isLoading } = queryChatList;
 
   useEffect(() => {
     if (data && data.chatRoomListResponseDto) {
-      setChatList((prevList) => [...data.chatRoomListResponseDto, ...prevList]);
+      setChatList((prevList) => [...prevList, ...data.chatRoomListResponseDto]);
     }
   }, [data]);
+
+  // useEffect(() => {
+  //   console.log('ddd', chatList);
+  // }, [chatList]);
 
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
@@ -60,6 +64,7 @@ function ChatList() {
   if (error) return <NotFound />;
 
   if (isLoading) return <Loading />;
+
   const handleClickNavigate = () => {
     navigate(-1);
   };
