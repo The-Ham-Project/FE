@@ -78,7 +78,6 @@ function Search() {
       <SearchContainer>
         <img
           style={{
-            cursor: 'pointer',
             marginRight: '20px'
           }}
           src={lgoo}

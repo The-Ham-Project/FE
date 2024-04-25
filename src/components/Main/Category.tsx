@@ -12,6 +12,7 @@ import PLACE from '/public/assets/PLACE.svg';
 import OTHER from '/public/assets/OTHER.svg';
 import position from '/public/assets/position.svg';
 import banner from '/public/assets/banner.svg';
+import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 import donotcrythehamzzang from '/public/assets/donotcrythehamzzang.svg';
 
 import Contents from '../../components/Main/Contents';
@@ -104,29 +105,27 @@ function Category() {
   }, []);
 
   const handleDifferentLocationClick = async () => {
-    try {
-      const nextPage = page + 1; // 다음 페이지 번호 계산
-      const response = await instance.get(
-        `/api/v1/rentals?category=${selectedCategory}&page=${nextPage}&size=6`,
-      );
-      if (!response) {
-        throw new Error('네트워크 응답이 올바르지 않습니다.');
-      }
-      const newData = response.data.data;
-      if (newData.length === 0) {
-        setHasMore(false);
-      }
-      const uniqueRentals = [...rentals, ...newData].reduce((acc, current) => {
-        if (!acc.find(item => item.rentalId === current.rentalId)) {
-          acc.push(current);
-        }
-        return acc;
-      }, []);
-      setRentals(uniqueRentals);
-      setPage(nextPage); // 페이지 번호 업데이트
-    } catch (error) {
-      console.error('데이터 가져오기 오류:', error);
+    const response = await axios.get(
+      `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=6`,
+    );
+    if (!response) {
+      throw new Error('Network response was not ok');
     }
+    const newData = response.data.data;
+    // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
+    const uniqueRentals = [ ...newData,...rentals].reduce((acc, current) => {
+      // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
+      if (
+        !acc.find(
+          (item: { rentalId: any }) => item.rentalId === current.rentalId,
+        )
+      ) {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+    setRentals(uniqueRentals);
+    setPage(page + 1);
   };
   
   
@@ -312,8 +311,8 @@ function Category() {
               >
                 <img
                   style={{ marginRight: '10px', width: '80px' }}
-                  src={donotcrythehamzzang}
-                  alt=" donotcrythehamzzang"
+                  src={magnifyingtheham}
+                  alt=" magnifyingtheham"
                 />
                 <p>주변에 함께 사용할 물품이 없나요?</p>
                 <Button
@@ -328,7 +327,7 @@ function Category() {
         </InfiniteScroll>
       </ScrollableCategoryContainer>
 
-      <Contents />
+      <Contents2 />
     </Div>
   );
 }
@@ -508,6 +507,12 @@ const ProfileImage = styled.img`
   height: 16px;
   border-radius: 50%;
   object-fit: cover;
+`;
+
+const Contents2 = styled.div`
+  width: 16px;
+  height: 100px;
+
 `;
 
 const ProfileUrl = styled.span`
