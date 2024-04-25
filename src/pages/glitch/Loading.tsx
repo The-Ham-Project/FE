@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import loding from '../../../public/assets/loding.gif';
 
 function Loading() {
   return (
     <Container>
-      <span>로딩중입니다.</span>
+      <img src={loding} />
     </Container>
   );
 }
@@ -17,7 +18,7 @@ const Container = styled.div`
   background-color: #fff;
   align-items: center;
   justify-content: center;
-  > span {
-    font-size: 20px;
+  > img {
+    width: 70px;
   }
 `;
