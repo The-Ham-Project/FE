@@ -100,12 +100,14 @@ function Edit() {
   
 
 
-  const handleCancelImage = () => {
-    setSelectedFiles(null); // 이미지 선택 초기화
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''; // input 요소 초기화
-    }
+  const handleCancelImage = (index) => {
+    setSelectedFiles(prevFiles => {
+      const updatedFiles = prevFiles.filter((_, i) => i !== index); // 선택된 이미지 중 해당 인덱스를 제외한 이미지만 유지
+      return updatedFiles;
+    });
   };
+  
+  
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -175,11 +177,15 @@ const handleValueChange = (
   setter(formattedValue); // 상태 업데이트
 };
 
-  const handleDeleteImage = (indexToRemove: number) => {
-    setFiles((prevFiles) =>
-      prevFiles.filter((_, index) => index !== indexToRemove),
-    );
-  };
+const handleDeleteImage = (indexToRemove: number) => {
+  setFiles((prevFiles) =>
+    prevFiles.filter((_, index) => index !== indexToRemove)
+  );
+  setSelectedFiles((prevFiles) =>
+    prevFiles ? prevFiles.filter((_, index) => index !== indexToRemove) : null
+  );
+};
+
 
   return (
     <>
@@ -200,38 +206,36 @@ const handleValueChange = (
       </div>
      
       <div>
-        {selectedFiles && (
-            <div style={{display: 'flex'}}>
-            {Array.from(selectedFiles).reverse().map((file, index) => (
-              <div key={index} style={{width: '100px', height: '100px'}}>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt={`Image ${index + 1}`}
-                  style={{ width: '100px', height: '100px' }}
-                />
-                <Button onClick={() => handleCancelImage()}>x</Button>
-              </div>
-            ))}
-          </div>
-        )}
+      {selectedFiles && (
+    <div style={{ display: 'flex' }}>
+      {Array.from(selectedFiles).map((file, index) => (
+        <div key={selectedFiles.length - index - 1} style={{ width: '100px', height: '100px' }}>
+          <img
+            src={URL.createObjectURL(file)}
+            alt={`Image ${index + 1}`}
+            style={{ width: '100px', height: '100px' }}
+          />
+          <Button onClick={() => handleCancelImage(selectedFiles.length - index - 1)}>x</Button>
+        </div>
+      ))}
+    </div>
+  )}
       </div>
-      {(!selectedFiles ||  (selectedFiles.length + Files.length) > 3) && (
-  <label
-    style={{
-      width: '100px',
-      height: '100px',
-      borderRadius: '7px',
-      backgroundColor: 'gray',
-      display: 'flex',
-      justifyContent: 'center',
-      alignContent: 'center',
-      alignItems: 'center',
-    }}
-    htmlFor="file-upload"
-  >
-    <FaCamera size={24} />
-  </label>
-)}
+      <label
+  style={{
+    width: '100px',
+    height: '100px',
+    borderRadius: '7px',
+    backgroundColor: 'gray',
+    display: (Files && Files.length < 3 ) ? 'flex' : 'none',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+  }}
+  htmlFor="file-upload"
+>
+  <FaCamera size={24} />
+</label>
 
 
 
