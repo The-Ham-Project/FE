@@ -1,21 +1,21 @@
-import { IoIosArrowBack } from 'react-icons/io';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import arrow from '/public/assets/arrow.svg';
-function Header({text}) {
+function Header({ text }) {
   const navigate = useNavigate();
   const handleBackClick = () => navigate(-1);
   return (
     <PaddingBox>
-    <MenuBox>
-       <img src={arrow} className={'arrow'}
-        onClick={handleBackClick}
-       
-        style={{ position: 'absolute', left: '20px'}}
-      />
-      <span style={{ }}>{text}</span>
-    </MenuBox>
-          </PaddingBox>
+      <MenuBox>
+        <img
+          src={arrow}
+          className={'arrow'}
+          onClick={handleBackClick}
+          style={{ position: 'absolute', left: '20px' }}
+        />
+        <span style={{}}>{text}</span>
+      </MenuBox>
+    </PaddingBox>
   );
 }
 
@@ -39,8 +39,8 @@ export const MenuBox = styled.div`
   }
 `;
 export const PaddingBox = styled.div`
-width: 100%;
-position: relative;
+  width: 100%;
+  position: relative;
   padding: 0 20px;
   background-color: #fff;
   box-shadow: 0 0 20px 0px rgba(100, 100, 111, 0.2);

@@ -17,7 +17,7 @@ import donotcrythehamzzang from '/public/assets/donotcrythehamzzang.svg';
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
-import { authInstance } from '../../api/axios';
+import { authInstance, instance } from '../../api/axios';
 import Header from '../layout/MainHeder';
 import axios from 'axios';
 
@@ -38,8 +38,6 @@ const categories: Record<Category, { label: string; icon: string }> = {
   CLOSET: { label: '의류', icon: CLOSET },
   ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
 
-
-
   BOOK: { label: '도서', icon: BOOK },
   PLACE: { label: '장소', icon: PLACE },
   OTHER: { label: '기타', icon: OTHER },
@@ -58,7 +56,7 @@ function Category() {
     queryFn: async () => {
       try {
         const response = await authInstance.get(
-          `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
+          `/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
         );
         console.log(response.data);
         return response.data;
@@ -77,26 +75,22 @@ function Category() {
     const fetchData = async () => {
       try {
         const response = await authInstance.get(
-          `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`
+          `/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
         );
         console.log(response.data);
         const newData = response.data.data;
-  
+
         // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-        const uniqueRentals = [
-          ...newData,
-          ...rentals
-        ].reduce((acc, current) => {
-          // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
-          if (
-            !acc.find(
-              (item) => item.rentalId === current.rentalId
-            )
-          ) {
-            acc.push(current);
-          }
-          return acc;
-        }, []);
+        const uniqueRentals = [...newData, ...rentals].reduce(
+          (acc, current) => {
+            // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
+            if (!acc.find((item) => item.rentalId === current.rentalId)) {
+              acc.push(current);
+            }
+            return acc;
+          },
+          [],
+        );
         setRentals(uniqueRentals);
         setPage(page + 1);
       } catch (error) {
@@ -104,41 +98,44 @@ function Category() {
         throw new Error('Network response was not ok');
       }
     };
-  
+
     fetchData();
     console.log('컴포넌트가 처음 마운트될 때 데이터를 새로고침합니다.');
   }, []);
-  
 
   const handleDifferentLocationClick = async () => {
-    const response = await axios.get(
-      `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=6`,
-    );
-    if (!response) {
-      throw new Error('Network response was not ok');
-    }
-    const newData = response.data.data;
-    // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [ ...newData,...rentals].reduce((acc, current) => {
-      // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
-      if (
-        !acc.find(
-          (item: { rentalId: any }) => item.rentalId === current.rentalId,
-        )
-      ) {
-        acc.push(current);
+    try {
+      const nextPage = page + 1; // 다음 페이지 번호 계산
+      const response = await instance.get(
+        `/api/v1/rentals?category=${selectedCategory}&page=${nextPage}&size=6`,
+      );
+      if (!response) {
+        throw new Error('네트워크 응답이 올바르지 않습니다.');
       }
-      return acc;
-    }, []);
-    setRentals(uniqueRentals);
-    setPage(page + 1);
+      const newData = response.data.data;
+      if (newData.length === 0) {
+        setHasMore(false);
+      }
+      const uniqueRentals = [...rentals, ...newData].reduce((acc, current) => {
+        if (!acc.find(item => item.rentalId === current.rentalId)) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+      setRentals(uniqueRentals);
+      setPage(nextPage); // 페이지 번호 업데이트
+    } catch (error) {
+      console.error('데이터 가져오기 오류:', error);
+    }
   };
+  
+  
 
   useEffect(() => {
     if (data) {
       // 중복된 데이터 제거 후 새로운 데이터 추가
       setRentals((prevRentals) => {
-        const newRentals = [ ...prevRentals, ...data.data ];
+        const newRentals = [...prevRentals, ...data.data];
         return newRentals.filter(
           (rental, index, self) =>
             index === self.findIndex((t) => t.rentalId === rental.rentalId),
@@ -180,13 +177,13 @@ function Category() {
             </LoadingMessage>
           }
           scrollableTarget="ScrollableCategoryContainer"
-          scrollThreshold={0.95}
+          scrollThreshold={0}
         >
           <Contents />
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
             }}
           >
             <img src={banner} alt="Top Banner" />
@@ -243,7 +240,9 @@ function Category() {
                         </ImageWrapper>
                         <Layout>
                           <ProfileUrl>
-                            <div style={{ display: 'flex', alignItems: 'center'}}>
+                            <div
+                              style={{ display: 'flex', alignItems: 'center' }}
+                            >
                               <ProfileImage
                                 src={item.profileUrl}
                                 alt="Profile"

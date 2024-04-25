@@ -6,6 +6,8 @@ import { instance } from '../../api/axios';
 import { updatePost } from '../../api/itemAPI';
 import { Container } from '../../components/layout/DefaultLayout';
 import { Imagine, Wrapper } from '../main/PostDetailsPage';
+import Header from '../../components/layout/Header';
+import Camera from '/public/assets/Camera.svg';
 
 // 카테고리 타입 정의
 type Category =
@@ -60,12 +62,6 @@ function Edit() {
         setDeposit(rentalData.deposit);
         setFiles(rentalData.rentalImageList);
         setSelectedCategory(rentalData.category);
-        //  // 파일들을 blob 형태로 변환하여 저장
-        //  const blobs = await Promise.all(rentalData.rentalImageList.map(async (file) => {
-        //   const blobResponse = await fetch(file.url);
-        //   return blobResponse.blob();
-        // }));
-        // setFileBlobs(blobs);
       } catch (error) {
         console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
       }
@@ -106,8 +102,6 @@ function Edit() {
       return updatedFiles;
     });
   };
-  
-  
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -177,37 +171,34 @@ const handleValueChange = (
   setter(formattedValue); // 상태 업데이트
 };
 
-const handleDeleteImage = (indexToRemove: number) => {
-  setFiles((prevFiles) =>
-    prevFiles.filter((_, index) => index !== indexToRemove)
-  );
-  setSelectedFiles((prevFiles) =>
-    prevFiles ? prevFiles.filter((_, index) => index !== indexToRemove) : null
-  );
-};
-
+  const handleDeleteImage = (indexToRemove: number) => {
+    setFiles((prevFiles) =>
+      prevFiles.filter((_, index) => index !== indexToRemove),
+    );
+  };
 
   return (
     <>
        <Container>
+        <Header text={"글 수정"}/>
         <Wrapper1>
-        <div style={{display: 'flex'}}>
-      <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', justifyContent: 'flex-start',}} >
+      <div style={{display: 'flex',  gap: '12px' }}>
         {Files.map((file, index) => (
           <div key={index}>
             <img
               src={file.imageUrl}
               alt={`Image ${index + 1}`}
-              style={{ maxWidth: '100px', maxHeight: '100px' }}
+              style={{  width: '100px', height: '100px' }}
             />
             <Button onClick={() => handleDeleteImage(index)}>x</Button>
           </div>
         ))}
       </div>
      
-      <div>
+      <div >
       {selectedFiles && (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex'}}>
       {Array.from(selectedFiles).map((file, index) => (
         <div key={selectedFiles.length - index - 1} style={{ width: '100px', height: '100px' }}>
           <img
@@ -226,15 +217,15 @@ const handleDeleteImage = (indexToRemove: number) => {
     width: '100px',
     height: '100px',
     borderRadius: '7px',
-    backgroundColor: 'gray',
-    display: (Files && Files.length < 3 ) ? 'flex' : 'none',
+    backgroundColor: '#F5F5F5',
+    display: Files.length + (selectedFiles ? selectedFiles.length : 0) < 3 ? 'flex' : 'none',
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
   }}
   htmlFor="file-upload"
 >
-  <FaCamera size={24} />
+<img src={Camera} alt={Camera}/>
 </label>
 
 
@@ -246,7 +237,7 @@ const handleDeleteImage = (indexToRemove: number) => {
   accept="image/*"
   onChange={handleFileChange}
   ref={fileInputRef} 
-  style={{ display: 'none', }}
+  style={{ display: Files.length + (selectedFiles ? selectedFiles.length : 0) < 3 ? 'none' : 'none' }}
   
 />
 
@@ -308,9 +299,9 @@ const handleDeleteImage = (indexToRemove: number) => {
         onChange={handleDepositChange}
       />
       </Group>
-      <Rectangle>
-        <button onClick={handleSubmit}>게시글 수정</button>
-      </Rectangle>
+
+        <Text onClick={handleSubmit}>게시글 수정</Text>
+
       </Wrapper1>
    </Container>
     </>
@@ -318,6 +309,14 @@ const handleDeleteImage = (indexToRemove: number) => {
 }
 
 export default Edit;
+
+
+const Text = styled.button`
+width: 100%;
+  text-align: center;
+  color: white;
+`;
+
 
 const Rectangle = styled.div`
   width: 371px;

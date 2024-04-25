@@ -8,7 +8,7 @@ import { authInstance } from '../../api/axios';
 import styled from 'styled-components';
 
 // import ALL from '../../../public/assets/ALL.svg';
-import Camera from '../../../public/assets/Camera.svg';
+import Camera from '/public/assets/Camera.svg';
 import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
 import KITCHEN from '../../../public/assets/KITCHEN.svg';
 import CLOSET from '../../../public/assets/CLOSET.svg';

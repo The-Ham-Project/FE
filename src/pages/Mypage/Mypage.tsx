@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { getMyPage } from '../../api/mypage';
 import gogo from '../../../public/assets/gogo.svg';
@@ -8,22 +8,31 @@ import { removeTokensFromLocalStorage } from '../../util/localStorage/localStora
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
 import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
-import useStore from '../../store/store.ts';
 import NotFound from '../glitch/NotFound.tsx';
 import Header from '../../components/layout/Header.tsx';
+import { logout } from '../../api/axios.ts';
+import useStore from '../../store/store.ts';
 
 function Mypage() {
+  const url = 'https://www.kakao.com/policy/location';
   const navigate = useNavigate();
+  const useLogout = () => {
+    return useMutation({
+      mutationFn: logout,
+      onSuccess: () => {
+        localStorage.removeItem('accessToken');
+        useStore.getState().logout();
+      },
+    });
+  };
+  const logoutMutation = useLogout();
   const handleBackClick = () => navigate(-1);
   const GotoListHandler = () => {
     navigate('/mylist');
   };
-  const GotoPolicyHandler = () => {
-    navigate('https://www.kakao.com/policy/location');
-  };
 
   const LogoutHandler = () => {
-    removeTokensFromLocalStorage();
+    logoutMutation.mutate();
     alert('로그아웃되었습니다');
     navigate('/');
   };
@@ -35,7 +44,7 @@ function Mypage() {
   if (isLoading) {
     return (
       <Container>
-        <Loading/> 
+        <Loading />
       </Container>
     );
   }
@@ -45,7 +54,7 @@ function Mypage() {
 
   return (
     <Wrapper>
-     <Header text="마이페이지" />
+      <Header text="마이페이지" />
       <PaddingBox>
         <Profile>
           <Picture>
@@ -81,7 +90,11 @@ function Mypage() {
               }}
             />
           </Box1>
-          <Box2 onClick={GotoPolicyHandler}>
+          <Box2
+            onClick={() => {
+              window.open(url);
+            }}
+          >
             <Policy>위치정보이용동의 약관</Policy>
             <img
               src={gogo}
@@ -114,7 +127,6 @@ const Wrapper = styled.div`
   height: 100%;
 
   @media screen and (max-width: 700px) {
-  
   }
 `;
 
