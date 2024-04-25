@@ -38,6 +38,9 @@ export const List = styled.div`
   height: calc(100% - 60px);
 
   padding: 0 0 100px 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   > indicator {
     height: 10px;
     border: 1px solid black;
