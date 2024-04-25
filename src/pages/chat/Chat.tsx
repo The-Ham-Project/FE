@@ -24,6 +24,7 @@ const Chat = () => {
   const [stompClient, setStompClient] = useState<Client | null>();
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
+  const [start, setStart] = useState(true);
 
   // const [isFirst, setIsFirst] = useState(true);
 
@@ -149,7 +150,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    if (scrollRef.current) {
+    if (start && scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     } else {
       console.error('STOMP connection is not established.');
@@ -165,18 +166,17 @@ const Chat = () => {
     }
   }, [queryChatRoom.data]);
 
-  // useEffect(() => {
-  //   setTestMessges([]);
-  // }, []);
-
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          setStart(false);
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
           if (!isPageEnd) {
             setCurrentPageNo(nextPageNo);
+          } else {
+            setStart(true);
           }
         }
       });
@@ -186,9 +186,11 @@ const Chat = () => {
       const timeoutId = setTimeout(() => {
         const io = new IntersectionObserver(updateIndicator);
         io.observe(indicatorRef.current);
-      }, 2000);
+      }, 1500);
 
-      return () => clearTimeout(timeoutId);
+      return () => {
+        clearTimeout(timeoutId);
+      };
     }
   }, [data?.totalPage, indicatorRef, currentPageNo]);
 

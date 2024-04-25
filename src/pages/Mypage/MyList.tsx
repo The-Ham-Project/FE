@@ -75,6 +75,7 @@ function MyList() {
         refetch(); // 데이터 다시 불러오기
         closeModal(); // 모달 닫기
         navigate('/mylist'); // 페이지 이동
+          window.location.reload();
       },
       onError: (error) => {
         // 삭제 실패 시 로직

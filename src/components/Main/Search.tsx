@@ -78,7 +78,6 @@ function Search() {
       <SearchContainer>
         <img
           style={{
-            cursor: 'pointer',
             marginRight: '20px'
           }}
           src={lgoo}
@@ -97,7 +96,7 @@ function Search() {
         >
           <AnimatedInputContainer showInput={showInput}>
             <input
-              style={{ borderRadius: '20px' }}
+              style={{ borderRadius: '20px', outline: 'none'}}
               onKeyDown={activeEnter}
               type="text"
               placeholder="검색..."

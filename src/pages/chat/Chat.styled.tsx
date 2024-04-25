@@ -53,7 +53,7 @@ export const Center = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #1689f3; /* 스크롤바 색상 */
+    background: #a4a4a4; /* 스크롤바 색상 */
     border-radius: 10px; /* 스크롤바 둥근 테두리 */
   }
 
@@ -127,16 +127,18 @@ export const Box = styled.div`
     border-radius: 18px;
     font-family: 'Pretendard-Regular';
     background-color: #f5f5f5;
-      height: 50px;
-      overflow: hidden;
+    height: 50px;
+    overflow: hidden;
     border: none;
     width: calc(100% - 32px);
     padding-left: 18px;
     font-size: 15px;
     outline: none;
-    resize: none; 
-      &::-webkit-scrollbar {
-          display: none;
+    resize: none;
+    line-height: 50px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 export const DateSpanBox = styled.div<{ $active: boolean }>(
