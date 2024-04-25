@@ -88,7 +88,6 @@ function PostDetailsPage() {
     handleValueChange(e, setDeposit);
   };
 
-  console.log('이미지', selectedFiles);
   // 카테고리 클릭 시 상태 업데이트 함수
   const handleCategoryClick = (category: Category) => {
     setSelectedCategory(category);
@@ -264,7 +263,7 @@ function PostDetailsPage() {
               }}
             >
               <div>
-              <div style={{marginBottom:'8px'}}>제목</div>
+                <div style={{ marginBottom: '8px' }}>제목</div>
                 <div>
                   <StyledInput
                     type="text"
@@ -277,7 +276,7 @@ function PostDetailsPage() {
                 </div>
               </div>
               <div>
-              <div style={{marginBottom:'8px'}}>내용</div>
+                <div style={{ marginBottom: '8px' }}>내용</div>
                 <div>
                   <StyledTextarea
                     placeholder={`원활한 쉐어를 위해 내용을 상세하게 작성해주세요.
@@ -292,7 +291,7 @@ function PostDetailsPage() {
               </div>
 
               <div>
-              <div style={{marginBottom:'8px'}}>대여비</div>
+                <div style={{ marginBottom: '8px' }}>대여비</div>
                 <div>
                   <StyledInput
                     type="text"
@@ -305,8 +304,8 @@ function PostDetailsPage() {
                 </div>
               </div>
 
-              <div >
-                <div style={{marginBottom:'8px'}}>보증금</div>
+              <div>
+                <div style={{ marginBottom: '8px' }}>보증금</div>
                 <div>
                   <StyledInput
                     type="text"
