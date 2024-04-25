@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import loding from '../../../public/assets/loding.gif';
+import loading from '../../../public/assets/loading.gif';
 
 function Loading() {
   return (
     <Container>
-      <img src={loding} />
+      <img src={loading} />
     </Container>
   );
 }
@@ -18,7 +18,4 @@ const Container = styled.div`
   background-color: #fff;
   align-items: center;
   justify-content: center;
-  > img {
-    width: 70px;
-  }
 `;
