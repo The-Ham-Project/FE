@@ -28,7 +28,6 @@ function ChatList() {
     queryKey: ['chatList', currentPageNo],
     queryFn: () => readChatList(currentPageNo),
     refetchInterval: 2000,
-    refetchIntervalInBackground: false,
     select: (response) => response.data,
   });
   const { data, error, isLoading } = queryChatList;
