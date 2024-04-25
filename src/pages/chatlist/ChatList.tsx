@@ -54,6 +54,25 @@ function ChatList() {
     }
   }, [data?.totalPage, indicatorRef, currentPageNo]);
 
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     readChatList(currentPageNo)
+  //       .then((response) => {
+  //         if (response.data && response.data.chatRoomListResponseDto) {
+  //           setChatList((prevList) => [
+  //             ...response.data.chatRoomListResponseDto,
+  //             ...prevList,
+  //           ]);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching chat list:', error);
+  //       });
+  //   }, 3000);
+  //
+  //   return () => clearInterval(interval); // cleanup function
+  // }, [currentPageNo]);
+
   if (error) return <div>죄송합니다.다시 접속해주세요!</div>;
 
   if (isLoading) return <div>로딩주웅 ~.~</div>;
