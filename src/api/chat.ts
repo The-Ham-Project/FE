@@ -1,8 +1,5 @@
 import { authInstance } from './axios.ts';
-import {
-  createChatItem,
-  CreateChatResponse,
-} from '../types/chat/createChat.type.ts';
+import { CreateChatResponse } from '../types/chat/createChat.type.ts';
 import { ChatListType } from '../types/chat/chatList.type.ts';
 import { ServerResponse } from '../types/chat/common.type.ts';
 import { ChatRoomResponse } from '../types/chat/chatRoom.ts';

@@ -73,6 +73,7 @@ function Details() {
     mutationFn: createChat,
     onSuccess: (response) => {
       navigate(`/comm/${response?.data}`);
+      window.location.reload();
     },
     onError: () => {
       console.log('error');
@@ -116,7 +117,7 @@ function Details() {
 
   const images =
     item.rentalImageList.length === 0 ? (
-      <div >
+      <div>
         {/* 이미지가 없는 경우에 보여줄 요소 */}
         <FaCamera
           size={24}
@@ -143,17 +144,25 @@ function Details() {
         alt={`Image 1`}
       />
     ) : (
-      <Slider  {...settings}>
+      <Slider {...settings}>
         {item.rentalImageList.map((image, index) => (
-          <div style={{display:'flex',  justifyContent: 'center' , alignItems : 'center'}} key={index}>
-            <img  key={index}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            key={index}
+          >
+            <img
+              key={index}
               src={image.imageUrl}
               alt={`Image ${index + 1}`}
               style={{
                 width: '100%',
                 objectFit: 'contain',
                 maxHeight: '350px',
-                outline: 'none'
+                outline: 'none',
               }}
             />
           </div>

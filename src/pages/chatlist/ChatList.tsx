@@ -15,6 +15,8 @@ import {
 } from './ChatList.style.tsx';
 import arrow from '/public/assets/arrow.svg';
 import moment from 'moment/moment';
+import Loading from '../glitch/Loading.tsx';
+import NotFound from '../glitch/NotFound.tsx';
 
 function ChatList() {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ function ChatList() {
   const queryChatList = useQuery({
     queryKey: ['chatList', currentPageNo],
     queryFn: () => readChatList(currentPageNo),
+    refetchInterval: 2000,
+    refetchIntervalInBackground: false,
     select: (response) => response.data,
   });
   const { data, error, isLoading } = queryChatList;
@@ -54,9 +58,9 @@ function ChatList() {
     }
   }, [data?.totalPage, indicatorRef, currentPageNo]);
 
-  if (error) return <div>죄송합니다.다시 접속해주세요!</div>;
+  if (error) return <NotFound />;
 
-  if (isLoading) return <div>로딩주웅 ~.~</div>;
+  if (isLoading) return <Loading />;
   const handleClickNavigate = () => {
     navigate(-1);
   };
