@@ -259,10 +259,11 @@ const Custom = styled.div`
   }
 `;
 const SB = styled.div`
-  margin-top: 13px;
+  margin-top: 73px;
 `;
 
 const Wrapper = styled.div`
+
   width: 100%;
   height: 100vh;
   display: flex;
