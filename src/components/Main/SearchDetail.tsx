@@ -52,7 +52,7 @@ function SearchDetail() {
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
         {data && data.data.count !== 0
-          ? data.data.searchResponseList.map((rental: any) => (
+          ? data.data.searchResponseList.map((rental) => (
               <Ao
                 key={rental.rentalId}
                 onClick={(e) => {
@@ -62,9 +62,9 @@ function SearchDetail() {
               >
                 <Container>
                   <IMG>
-                    {data.firstThumbnailUrl ? (
+                    {rental.firstThumbnailUrl ? (
                       <img
-                        src={data.firstThumbnailUrl}
+                        src={rental.firstThumbnailUrl}
                         alt="Rental Thumbnail"
                       />
                     ) : (
@@ -124,7 +124,7 @@ const Wrapper = styled.div`
   }
 `;
 const Detail = styled.div`
-  margin-top: 85px;
+  margin-top: 67px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -210,7 +210,7 @@ const Box2 = styled.div`
   flex-direction: row;
   justify-content: space-between;
   gap: 30px;
-  text-align: center;
+  align-items: center;
   margin-bottom: 26.74px;
   @media screen and (max-width: 430px) {
   }
@@ -240,7 +240,7 @@ const Fee = styled.div`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 17px;
   text-align: right;
   flex: none;
@@ -260,7 +260,7 @@ const Deposit = styled.div`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 14px;
   text-align: right;
   color: #595959;

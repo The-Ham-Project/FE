@@ -90,7 +90,7 @@ function MyList() {
     <Wrapper>
       {!data || data.length === 0 ? (
         <>
-          <Header text={'내가 쓴 글'} />
+          <Header text={'함께 쓴 내역'} />
           <NoData>
             <img src={donotcrythehamzzang} />
             <NoDataMSG>아직 쓰신 글이 없네용</NoDataMSG>
@@ -98,7 +98,7 @@ function MyList() {
         </>
       ) : (
         <>
-          <Header text={'내가 쓴 글'} />
+          <Header text={'함께 쓴 내역'} />
           <SB>
             {data.map((data) => (
               <Ao
@@ -321,8 +321,8 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 13px;
-  text-align: center;
+  width: 180px;
+  align-items: center;
 `;
 
 const Title = styled.div`
@@ -349,7 +349,7 @@ const Fee = styled.div`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 17px;
   text-align: center;
   /* identical to box height */
@@ -372,7 +372,7 @@ const Deposit = styled.div`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 14px;
   text-align: right;
 
