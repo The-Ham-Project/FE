@@ -50,6 +50,7 @@ function Navbar() {
       <Container>
         <img
           className={'home'}
+          style={{ cursor: 'pointer' }}
           src={home}
           onClick={() => {
             navigate('/');
@@ -58,11 +59,12 @@ function Navbar() {
 
         <img
           className={'message'}
+          style={{ cursor: 'pointer' }}
           src={isMessagePage ? Clickchat : message} // message 페이지면 Clickchat, 아니면 message.svg
           onClick={handleChatButtonClick}
         />
         <Div onClick={handlePostButtonClick}>
-          <FiPlus fontSize={'40px'} />
+          <FiPlus style={{ cursor: 'pointer' }} fontSize={'40px'} />
         </Div>
         <img
           style={{
