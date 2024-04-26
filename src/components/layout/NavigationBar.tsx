@@ -81,7 +81,6 @@ export default function NavigationBar() {
         <img src="../../../public/assets/Chat.svg" alt="Chat" />
       </Chat>
 
-      <MainHeder />
       <Category />
     </>
   );
