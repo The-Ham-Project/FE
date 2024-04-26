@@ -132,13 +132,12 @@ const Detail = styled.div`
   }
 `;
 const NoData = styled.div`
-  position: relative;
-  height: 100vh;
+  position: absolute;
   width: 375px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 27vh;
+  top: 30vh;
 `;
 
 const Result = styled.div`
