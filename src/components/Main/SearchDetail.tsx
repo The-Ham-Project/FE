@@ -124,12 +124,10 @@ const Wrapper = styled.div`
   }
 `;
 const Detail = styled.div`
-  margin-top: 100px;
+  margin-top: 85px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  /* margin-left: 16px; */
   @media screen and (max-width: 430px) {
   }
 `;
@@ -274,6 +272,12 @@ const IMG = styled.div`
   width: 130px;
   height: 130px;
   border-radius: 6.71835px;
+  width: 130px;
+  height: 130px;
+  border-radius: 6.71835px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   > img {
     width: 130px;
     height: 130px;

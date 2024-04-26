@@ -8,7 +8,11 @@ function Header() {
   const handleBackClick = () => navigate(-1);
   return (
     <MenuBox>
-      <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+      <IoIosArrowBack
+        style={{ cursor: 'pointer' }}
+        onClick={handleBackClick}
+        size={'24px'}
+      />
       <Search />
     </MenuBox>
   );
