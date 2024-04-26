@@ -75,7 +75,7 @@ function MyList() {
         refetch(); // 데이터 다시 불러오기
         closeModal(); // 모달 닫기
         navigate('/mylist'); // 페이지 이동
-          window.location.reload();
+        window.location.reload();
       },
       onError: (error) => {
         // 삭제 실패 시 로직
@@ -259,7 +259,7 @@ const Custom = styled.div`
   }
 `;
 const SB = styled.div`
-  margin-top: 73px;
+  margin-top: 13px;
 `;
 
 const Wrapper = styled.div`
