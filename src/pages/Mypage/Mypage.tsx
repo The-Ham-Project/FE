@@ -171,8 +171,7 @@ const Profile = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 0 15% 0;
-  padding-top: 50px;
-
+  padding-top: 110px;
   @media screen and (max-width: 430px) {
   }
 `;

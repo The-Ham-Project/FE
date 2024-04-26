@@ -31,10 +31,7 @@ function Main() {
   return (
     <>
       <Navbar />
-
-      {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
       <Search />
-
       <Container>
         <Category />
       </Container>
@@ -49,6 +46,7 @@ export const Flex = styled.div`
   height: 100vh;
   overflow: hidden;
 `;
+
 export const Flex2 = styled.div`
   display: flex;
   justify-content: center;
@@ -59,18 +57,18 @@ export const Div1 = styled.div`
   height: 100vh;
   display: flex;
   background-color: #6b8ec0;
-
   background-position: center;
 `;
+
 export const Div3 = styled.div`
   width: 10vh;
   height: 100vh;
   background-color: wheat;
 `;
+
 export const Div4 = styled.div`
   overflow-y: hidden;
   background-color: #ffffff;
-
   border-radius: 20px;
   max-height: 100vh;
 `;

@@ -36,9 +36,7 @@ const Button = styled.button`
 `;
 
 const IMG = styled.img`
-  width: 350px;
   height: 44px;
-
   @media screen and (max-width: 430px) {
   }
 `;

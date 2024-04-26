@@ -22,7 +22,7 @@ function Header({ text }) {
 export default Header;
 export const MenuBox = styled.div`
   display: flex;
-  background-color: #fff;
+  background-color: #ffffff;
   height: 60px;
   width: 100%;
   align-items: center;
