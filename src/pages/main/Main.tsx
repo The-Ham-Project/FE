@@ -1,16 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import Category from '../../components/Main/Category';
 
-
 import useStore, { useErrorModalStore } from '../../store/store';
 import styled from 'styled-components';
 import Modal from '../../components/modal/Modal.tsx';
 // import Details from './Details';
-import MainHeder from '../../components/layout/MainHeder';
+// import MainHeder from '../../components/layout/MainHeder';
 import Navbar from '../../components/layout/Navbar.tsx';
 import lgoo from '../../../public/assets/lgoo.svg';
 import { Container } from '../../components/layout/DefaultLayout.tsx';
-import Header from '../../components/layout/MainHeder';
+// import Header from '../../components/layout/MainHeder';
 import Search from '../../components/Main/Search.tsx';
 
 function Main() {
@@ -33,12 +32,8 @@ function Main() {
     <>
       <Navbar />
 
-     
-
-     
       {/*<ButtonContainer onClick={handleButtonClick}>+</ButtonContainer>*/}
-<Search/>
-
+      <Search />
 
       <Container>
         <Category />
