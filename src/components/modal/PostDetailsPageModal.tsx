@@ -39,25 +39,24 @@ const ModalContent = styled.div`
 `;
 
 const ModalOKButton = styled.button`
-font-size: 14px;
-    width: 140px;
-    padding: 10px;
-    margin-top: 47px;
-    height: 40px;
-    cursor: pointer;
-    color: gray;
-    background-color: #F5F5F5;
+  font-size: 14px;
+  width: 140px;
+  padding: 10px;
+  margin-top: 47px;
+  height: 40px;
+  cursor: pointer;
+  color: gray;
+  background-color: #f5f5f5;
 `;
-
 
 const PostDetailsPageModal = ({ onClose }) => {
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent>
-      <img src={sweattheham} />
-      <div>
-        <h2>카테고리를 선택해주세요</h2>
-        <ModalOKButton onClick={onClose}>확인</ModalOKButton>
+        <img src={sweattheham} />
+        <div>
+          <h2>카테고리를 선택해주세요</h2>
+          <ModalOKButton onClick={onClose}>확인</ModalOKButton>
         </div>
       </ModalContent>
     </ModalOverlay>
