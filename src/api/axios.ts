@@ -36,7 +36,6 @@ authInstance.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken');
 
         if (!refreshToken) {
-          // localStorage.clear();
           localStorage.removeItem('accessToken');
           return;
         }
@@ -86,6 +85,7 @@ export const logout = async () => {
       )
       .then((res) => {
         console.log(res);
+        localStorage.removeItem('refreshToken');
       });
     return res;
   } catch (error) {
