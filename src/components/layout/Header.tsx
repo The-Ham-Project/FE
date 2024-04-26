@@ -15,7 +15,7 @@ function Header({ text }) {
         />
         <span style={{}}>{text}</span>
       </MenuBox>
-    </PaddingBox>
+    </PaddingBox> 
   );
 }
 

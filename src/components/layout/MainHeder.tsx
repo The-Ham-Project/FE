@@ -14,6 +14,8 @@ function Header() {
   );
 }
 
+// =근데 이 컴포넌트를 이용 한하고 있어요 마이페이지 가면
+
 export default Header;
 const MenuBox = styled.div`
   display: flex;

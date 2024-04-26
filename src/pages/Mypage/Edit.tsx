@@ -182,7 +182,7 @@ const handleValueChange = (
        <Container>
         <Header text={"글 수정"}/>
         <Wrapper1>
-        <div style={{display: 'flex', justifyContent: 'flex-start',}} >
+        <div style={{display: 'flex', justifyContent: 'flex-start', gap: '10px'}} >
       <div style={{display: 'flex',  gap: '12px' }}>
         {Files.map((file, index) => (
           <div key={index}>

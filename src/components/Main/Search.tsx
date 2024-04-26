@@ -194,20 +194,20 @@ const SearchButton = styled.button<SearchButtonProps>`
 `;
 
 const SearchResults = styled.ul`
-  width: 200px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  position: absolute;
-  left: 100px;
-  top: 100px;
-
-  flex-direction: column;
+    width: 50%;
+    border-radius: 10px;
+    display: flex;
+    place-content: center;
+    position: absolute;
+    left: 92px;
+    top: 50px;
+    flex-direction: column;
+    border-radius: 20px;
 `;
 
 const Searchli = styled.li`
   background-color: #fafafa;
   border-bottom: 1px solid #dddddd;
   padding: 10px;
+  border-radius: 20px;
 `;

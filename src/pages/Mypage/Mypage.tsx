@@ -9,7 +9,7 @@ import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg'
 import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
 import NotFound from '../glitch/NotFound.tsx';
-import Header from '../../components/layout/Header.tsx';
+import Header from '../../components/layout/Header.tsx'; //. 메인헤더가 아니라 헤더
 import { logout } from '../../api/axios.ts';
 import useStore from '../../store/store.ts';
 
@@ -54,7 +54,7 @@ function Mypage() {
 
   return (
     <Wrapper>
-      <Header text="마이페이지" />
+      <Header text="마이페이지" /> 
       <PaddingBox>
         <Profile>
           <Picture>
@@ -123,6 +123,7 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
+overflow: auto;
   background-color: white;
   height: 100%;
 
