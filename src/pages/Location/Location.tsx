@@ -36,7 +36,11 @@ export default function Location(): JSX.Element {
       getPosSuccess,
       () => {
         setIsLoading(false); // 위치 정보 가져오기 실패 시 로딩 상태를 false로 변경
-        alert('위치 정보 가져오기 실패');
+        alert(
+          `위치 정보 가져오기 실패하였습니다.
+설정에서 사용하시는 브라우저의 위치정보 허용 상태인지 확인해주세요!
+설정을 허용하셨다면 새로고침 후 이용해주세요.`,
+        );
       },
       {
         enableHighAccuracy: true,
@@ -327,6 +331,7 @@ const IMG = styled.button<{ $active: string }>(
     bottom: ${$active ? '113px' : '40px'}; /* 조건부 위치 설정 */
     background-color: ${$active ? '#D1D1D1' : '#1689F3'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
+      bottom: ${$active ? '93px' : '20px'}; /* 조건부 위치 설정 */
     }
   `,
 );
@@ -339,6 +344,7 @@ const IMG2 = styled.button<{ $active: string }>(
     z-index: 100;
     bottom: ${$active ? '40px' : '113px'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
+      bottom: ${$active ? '20px' : '93px'}; /* 조건부 위치 설정 */
     }
   `,
 );

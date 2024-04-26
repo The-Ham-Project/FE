@@ -4,8 +4,9 @@ import KakaoLogin from '../../components/KakaoLogin/KakaoLogin';
 import styled from 'styled-components';
 import theham from '../../../public/assets/theham.svg';
 import movingtheham from '../../../public/assets/movingtheham.gif';
-import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import arrow from '/public/assets/arrow.svg';
 
 function SocialLogin() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function SocialLogin() {
   return (
     <Wrapper>
       <MenuBox>
-        <IoIosArrowBack onClick={handleBackClick} size={'24px'} />
+        <img src={arrow} className={'arrow'} onClick={handleBackClick} />
       </MenuBox>
       {/* <Header /> */}
       <Motto>함께 쓰고 나누자</Motto>
@@ -67,6 +68,9 @@ const MenuBox = styled.div`
     height: 60px;
     margin: 0px;
     /* padding: 0; */
+  }
+  > img {
+    padding-top: 40px;
   }
 `;
 

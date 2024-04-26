@@ -11,7 +11,7 @@ function Header({ text }) {
           src={arrow}
           className={'arrow'}
           onClick={handleBackClick}
-          style={{ position: 'absolute', left: '20px' }}
+          style={{ cursor: 'pointer', position: 'absolute', left: '20px' }}
         />
         <span style={{}}>{text}</span>
       </MenuBox>
