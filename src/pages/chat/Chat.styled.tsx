@@ -103,6 +103,9 @@ export const Message = styled.div<{ $active: boolean }>(
     color: ${$active ? 'black' : 'white'};
 
     background-color: ${$active ? '#fff' : '#1689F3'};
+    > span {
+      font-size: 12px;
+    }
   `,
 );
 
@@ -117,17 +120,18 @@ export const InputBox = styled.div`
   background-color: white;
 `;
 export const Box = styled.div`
-  border-radius: 18px;
+  border-radius: 27px;
   background-color: #f5f5f5;
   display: flex;
   align-items: center;
   width: 100%;
+  height: 50px;
   > textarea {
     display: flex;
-    border-radius: 18px;
+    border-radius: 27px;
     font-family: 'Pretendard-Regular';
     background-color: #f5f5f5;
-    height: 50px;
+    height: 45px;
     overflow: hidden;
     border: none;
     width: calc(100% - 32px);
@@ -140,6 +144,9 @@ export const Box = styled.div`
       display: none;
     }
   }
+  > img {
+    padding-right: 13px;
+  }
 `;
 export const DateSpanBox = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
@@ -149,15 +156,19 @@ export const DateSpanBox = styled.div<{ $active: boolean }>(
     align-items: center;
     width: 100%;
     > span {
-      font-size: 13px;
+      font-size: 10px;
+        display: flex;
+        align-items: center;
       background-color: #ffffff;
       color: #9e9e9e;
       padding: 8px 16px;
       overflow: auto;
       border-radius: 30px;
-      }
-      > img {
-        padding: 0 6px 0 0;
+        > img {
+            padding: 0 6px 0 0;
+            width: 19px;
+            height: 12px;
+        }
       }
     }
   `,
@@ -186,8 +197,9 @@ export const Cloum = styled.div`
   width: 70%;
   > h6 {
     text-overflow: ellipsis;
-    height: 27px;
+    height: 32px;
     width: 100%;
+    font-size: 16px;
     overflow: hidden;
     -webkit-line-clamp: 2;
     word-break: break-word;
@@ -197,9 +209,28 @@ export const Cloum = styled.div`
 `;
 export const Flex = styled.div`
   display: flex;
-  margin-top: 29px;
+  margin-top: 18px;
+  align-items: center;
   > .rentalFee {
     color: #1689f3;
+    font-size: 14px;
     margin: 0 12px 0 0;
+    position: relative;
+
+    &:after {
+      content: '';
+      background-color: rgba(22, 137, 243, 0.1);
+      border-radius: 27px;
+      width: 100%;
+      height: 10px;
+      position: absolute;
+      z-index: 1000;
+      left: 0;
+      top: 10px;
+    }
+  }
+  > span {
+    color: #595959;
+    font-size: 12px;
   }
 `;
