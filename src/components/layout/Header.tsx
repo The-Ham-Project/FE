@@ -40,7 +40,7 @@ export const MenuBox = styled.div`
 `;
 export const PaddingBox = styled.div`
   width: 100%;
-  position: relative;
+  position: absolute;
   padding: 0 20px;
   background-color: #fff;
   box-shadow: 0 0 20px 0px rgba(100, 100, 111, 0.2);
