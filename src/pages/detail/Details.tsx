@@ -131,6 +131,7 @@ function Details() {
             paddingTop: '150px',
             paddingBottom: '150px',
             backgroundColor: '#ececec',
+            OObjectFit: 'none',
           }}
         />
       </div>
@@ -140,6 +141,7 @@ function Details() {
         style={{
           outline: 'none',
           maxHeight: '390px',
+          OObjectFit: 'none',
         }}
         alt={`Image 1`}
       />

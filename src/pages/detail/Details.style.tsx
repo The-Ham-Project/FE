@@ -18,8 +18,8 @@ export const ImgBox = styled.div`
   height: 400px;
   position: relative;
   > img {
-    height: 24px;
-    width: 24px;
+    height: 16px;
+    width: 10px;
     z-index: 1000;
     position: absolute;
     top: 22px;
@@ -34,6 +34,7 @@ export const Img = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  object-fit: none;
 `;
 
 export const ContentsBox = styled.div`
