@@ -310,6 +310,7 @@ const Box = styled.div`
   align-content: space-between;
   margin-left: 16px;
 `;
+
 const Box1 = styled.div`
   display: flex;
   flex-direction: row;
@@ -368,16 +369,15 @@ const Deposit = styled.div`
   width: 80px;
   height: 14px;
   text-align: center;
-
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 14px;
   text-align: right;
-
   color: #595959;
 `;
+
 const IMG = styled.div`
   width: 130px;
   height: 130px;
@@ -388,7 +388,7 @@ const IMG = styled.div`
     width: 130px;
     height: 130px;
     border-radius: 6.71835px;
-    object-fit: contain;
+    object-fit: cover;
   }
   @media screen and (max-width: 430px) {
   }

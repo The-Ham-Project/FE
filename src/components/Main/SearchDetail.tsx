@@ -201,6 +201,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-content: space-between;
+  margin-left: 16px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -209,7 +210,7 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 30px;
+  width: 180px;
   align-items: center;
   margin-bottom: 26.74px;
   @media screen and (max-width: 430px) {
@@ -282,7 +283,7 @@ const IMG = styled.div`
     width: 130px;
     height: 130px;
     border-radius: 6.71835px;
-    object-fit: contain;
+    object-fit: cover;
   }
   @media screen and (max-width: 430px) {
   }
