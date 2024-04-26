@@ -30,12 +30,35 @@ authInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
-      try {
-        const response = await instance.post('/api/v1/members/reissue');
-        const accessToken = response.headers['Authorization'];
+      originalRequest._retry = true;
 
-        localStorage.setItem('accessToken', accessToken);
-        originalRequest.headers['Authorization'] = `${accessToken}`;
+      try {
+        const refreshToken = localStorage.getItem('refreshToken');
+
+        if (!refreshToken) {
+          localStorage.clear();
+          // localStorage.removeItem('accessToken');
+          return;
+        }
+
+        const response = await instance.post(
+          '/api/v1/members/reissue',
+          {},
+          {
+            headers: { 'Refresh-Token': refreshToken },
+          },
+        );
+
+        const newAccessToken = response.headers['authorization'];
+        const newRefreshToken = response.headers['refresh-token'];
+
+        console.log('newAccessToken', newAccessToken);
+        console.log('newRefreshToken', newRefreshToken);
+
+        localStorage.setItem('accessToken', newAccessToken);
+        localStorage.setItem('refreshToken', newRefreshToken);
+
+        originalRequest.headers['Authorization'] = `${newAccessToken}`;
 
         return authInstance(originalRequest);
       } catch (refreshError) {
@@ -48,10 +71,19 @@ authInstance.interceptors.response.use(
 
 export const logout = async () => {
   try {
+    // Local Storage에서 리프레쉬 토큰 불러오기
+    const refreshToken = localStorage.getItem('refreshToken');
+
     const res = await authInstance
-      .post('/api/v1/members/logout', {
-        withCredentials: true,
-      })
+      .post(
+        '/api/v1/members/logout',
+        {},
+        {
+          headers: {
+            'Refresh-Token': refreshToken,
+          },
+        },
+      )
       .then((res) => {
         console.log(res);
       });

@@ -444,7 +444,7 @@ const MSG1 = styled.div`
 `;
 const MSG2 = styled.div`
   position: absolute;
-  width: 340px;
+  width: 430px;
   height: 17px;
   font-family: 'Pretendard';
   font-style: normal;
