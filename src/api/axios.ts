@@ -86,6 +86,7 @@ export const logout = async () => {
       )
       .then((res) => {
         console.log(res);
+        localStorage.removeItem('refreshToken');
       });
     return res;
   } catch (error) {
