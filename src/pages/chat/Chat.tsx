@@ -316,7 +316,7 @@ const Chat = () => {
               }
             }}
           />
-          <img src={send} />
+          <img src={send} onClick={sendMessage} />
           {/*<IoArrowUpCircleOutline*/}
           {/*  style={{*/}
           {/*    fontSize: '32px',*/}
