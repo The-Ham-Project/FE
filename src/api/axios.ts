@@ -36,8 +36,8 @@ authInstance.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken');
 
         if (!refreshToken) {
-          localStorage.clear();
-          // localStorage.removeItem('accessToken');
+          // localStorage.clear();
+          localStorage.removeItem('accessToken');
           return;
         }
 
