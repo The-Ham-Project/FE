@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useStore, { useErrorModalStore } from '../../store/store';
-import MainHeder from '../../components/layout/MainHeder';
+// import MainHeder from '../../components/layout/MainHeder';
 import Category from '../../components/Main/Category';
 import Modal from '../../components/modal/Modal';
 
