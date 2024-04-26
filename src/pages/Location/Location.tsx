@@ -301,7 +301,7 @@ const Wrapper = styled.div`
 const MenuBox = styled.div`
   display: flex;
   position: relative;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   height: 60px;
   width: 100%;
   align-items: center;
@@ -319,7 +319,6 @@ const MenuBox = styled.div`
       width: 100px;
     }
   }
-  /* } */
 `;
 
 const IMG = styled.button<{ $active: string }>(
@@ -328,8 +327,11 @@ const IMG = styled.button<{ $active: string }>(
     width: 320px;
     height: 52px;
     z-index: 100;
+    color: grey;
     bottom: ${$active ? '113px' : '40px'}; /* 조건부 위치 설정 */
-    background-color: ${$active ? '#D1D1D1' : '#1689F3'}; /* 조건부 위치 설정 */
+    background-color: ${$active
+      ? '##f5f5f5'
+      : '#1689F3'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
       bottom: ${$active ? '93px' : '20px'}; /* 조건부 위치 설정 */
     }
