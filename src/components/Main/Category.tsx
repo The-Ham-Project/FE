@@ -19,7 +19,7 @@ import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
 import { authInstance, instance } from '../../api/axios';
-import Header from '../layout/MainHeder';
+// import Header from '../layout/MainHeder';
 import axios from 'axios';
 
 export type Category =

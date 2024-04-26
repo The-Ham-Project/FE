@@ -97,6 +97,7 @@ input[type="text"] {
         font-size: 16px;
         padding: 10px; /* Add padding for text inside the input */
         
+        
 
     }
     input::placeholder {
@@ -105,23 +106,30 @@ input[type="text"] {
     color: #878787; /* placeholder 색상 변경 */
 
 }
+
+input[type="text"]:focus {
+    border-color: rgba(22, 137, 243, 1); /* Change border color on focus */
+    outline: 1px solid rgba(22, 137, 243, 1); 
+}
 textarea::placeholder {
     font-family: 'Pretendard-Regular'; /* placeholder 폰트 변경 */
     font-size: 14px; /* placeholder 폰트 크기 변경 */
     color: #999; /* placeholder 색상 변경 */
     line-height: 1.5;
     width: 100%;
-padding-left: 10px;
-padding-top: 10px;
+
     @media screen and (max-width: 375px) {
         width: 280px;
 }
 }
 
-
+textarea:focus {
+    border-color: rgba(22, 137, 243, 1); /* Change border color on focus */
+    outline: 1px solid rgba(22, 137, 243, 1); 
+}
    /* Custom style for textarea */
    textarea {
-    
+    flex: 1;
     overflow: hidden;
     font-family: 'Pretendard-Regular';
     height: 190px;
@@ -129,8 +137,8 @@ padding-top: 10px;
 	background: #F5F5F5;
     border-radius: 6px;
     font-size: 16px;
-    width: 100%;
     border: none;
+    padding: 10px;
 }
 
    html, body, #root {

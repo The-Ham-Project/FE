@@ -131,6 +131,7 @@ function Details() {
             paddingTop: '150px',
             paddingBottom: '150px',
             backgroundColor: '#ececec',
+            OObjectFit: 'none',
           }}
         />
       </div>
@@ -139,7 +140,7 @@ function Details() {
         src={item.rentalImageList[0].imageUrl}
         style={{
           outline: 'none',
-          maxHeight: '390px',
+          OObjectFit: 'none',
         }}
         alt={`Image 1`}
       />
@@ -161,7 +162,6 @@ function Details() {
               style={{
                 width: '100%',
                 objectFit: 'contain',
-                maxHeight: '350px',
                 outline: 'none',
               }}
             />

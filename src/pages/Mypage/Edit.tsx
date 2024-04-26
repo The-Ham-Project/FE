@@ -182,14 +182,14 @@ const handleValueChange = (
        <Container>
         <Header text={"글 수정"}/>
         <Wrapper1>
-        <div style={{display: 'flex', justifyContent: 'flex-start', gap: '10px'}} >
-      <div style={{display: 'flex',  gap: '12px' }}>
+        <div style={{display: 'flex', justifyContent: 'flex-start', marginTop: '50px', position: 'relative'}} >
+      <div style={{display: 'flex'}}>
         {Files.map((file, index) => (
           <div key={index}>
             <img
               src={file.imageUrl}
               alt={`Image ${index + 1}`}
-              style={{  width: '100px', height: '100px' }}
+              style={{  width: '100px', height: '100px', marginRight: '10px' }}
             />
             <Button onClick={() => handleDeleteImage(index)}>x</Button>
           </div>
@@ -200,11 +200,11 @@ const handleValueChange = (
       {selectedFiles && (
     <div style={{ display: 'flex'}}>
       {Array.from(selectedFiles).map((file, index) => (
-        <div key={selectedFiles.length - index - 1} style={{ width: '100px', height: '100px' }}>
+        <div key={selectedFiles.length - index - 1} style={{ width: '100px', height: '100px' , marginRight: '10px'}}>
           <img
             src={URL.createObjectURL(file)}
             alt={`Image ${index + 1}`}
-            style={{ width: '100px', height: '100px' }}
+            style={{ width: '100px', height: '100px',}}
           />
           <Button onClick={() => handleCancelImage(selectedFiles.length - index - 1)}>x</Button>
         </div>
@@ -242,6 +242,20 @@ const handleValueChange = (
 />
 
 </div>
+<div
+            style={{
+              marginTop: '20px',
+              width: '300px',
+              height: '17px',
+              fontStyle: 'normal',
+              fontWeight: '900',
+              fontSize: '14px',
+              lineHeight: '17px',
+            }}
+          >
+            {' '}
+            물품의 카테고리를 선택해주세요.
+          </div>
 <Group>
       <div>
       <Image>
@@ -299,9 +313,9 @@ const handleValueChange = (
         onChange={handleDepositChange}
       />
       </Group>
-
+<Rectangle>
         <Text onClick={handleSubmit}>게시글 수정</Text>
-
+        </Rectangle>
       </Wrapper1>
    </Container>
     </>
@@ -319,7 +333,8 @@ width: 100%;
 
 
 const Rectangle = styled.div`
-  width: 371px;
+  width: 100%;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -381,10 +396,13 @@ export const Image = styled.div`
 export const Button = styled.div`
 position: absolute;
   width: 10px;
-  height: 0;
-  top: 40px;
+  top: 0px;
+  z-index: 10000;
   color: grey;
   cursor: pointer;
- 
+  &:hover {
+    color: red; /* 호버 시 텍스트 색상 변경 */
+  }
   
 `;
+

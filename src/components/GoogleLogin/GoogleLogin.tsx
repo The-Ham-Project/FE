@@ -27,15 +27,12 @@ const Button = styled.button`
   background-color: white;
   width: 350px;
   height: 44px;
-  /* margin-right: 6px; */
   @media screen and (max-width: 430px) {
     margin-right: 0px;
   }
 `;
 const IMG = styled.img`
-  width: 350px;
   height: 44px;
-  /* margin-right: 6px; */
   @media screen and (max-width: 430px) {
     margin-right: 0px;
   }

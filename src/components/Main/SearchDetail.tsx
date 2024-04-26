@@ -52,7 +52,7 @@ function SearchDetail() {
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error occurred while fetching data</li>}
         {data && data.data.count !== 0
-          ? data.data.searchResponseList.map((rental: any) => (
+          ? data.data.searchResponseList.map((rental) => (
               <Ao
                 key={rental.rentalId}
                 onClick={(e) => {
@@ -62,9 +62,9 @@ function SearchDetail() {
               >
                 <Container>
                   <IMG>
-                    {data.firstThumbnailUrl ? (
+                    {rental.firstThumbnailUrl ? (
                       <img
-                        src={data.firstThumbnailUrl}
+                        src={rental.firstThumbnailUrl}
                         alt="Rental Thumbnail"
                       />
                     ) : (
@@ -124,7 +124,7 @@ const Wrapper = styled.div`
   }
 `;
 const Detail = styled.div`
-  margin-top: 85px;
+  margin-top: 67px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,13 +132,12 @@ const Detail = styled.div`
   }
 `;
 const NoData = styled.div`
-  position: relative;
-  height: 100vh;
+  position: absolute;
   width: 375px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 27vh;
+  top: 30vh;
 `;
 
 const Result = styled.div`
@@ -201,6 +200,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-content: space-between;
+  margin-left: 16px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -209,8 +209,8 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 30px;
-  text-align: center;
+  width: 180px;
+  align-items: center;
   margin-bottom: 26.74px;
   @media screen and (max-width: 430px) {
   }
@@ -240,7 +240,7 @@ const Fee = styled.div`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 17px;
   text-align: right;
   flex: none;
@@ -260,7 +260,7 @@ const Deposit = styled.div`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 14px;
   text-align: right;
   color: #595959;
@@ -282,7 +282,7 @@ const IMG = styled.div`
     width: 130px;
     height: 130px;
     border-radius: 6.71835px;
-    object-fit: contain;
+    object-fit: cover;
   }
   @media screen and (max-width: 430px) {
   }

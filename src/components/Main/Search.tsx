@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import searchIcon from '/public/assets/search.svg';
@@ -6,13 +6,17 @@ import lgoo from '/public/assets/lgoo.svg';
 import person from '/public/assets/person.svg';
 import styled from 'styled-components';
 import useStore, { useErrorModalStore } from '../../store/store';
+
 interface SearchButtonProps {
   isActive: boolean;
 }
+
 function Search() {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
-  const [showInput, setShowInput] = useState(false); // 인풋 창 보이기 여부를 관리하는 상태
+  const [showInput, setShowInput] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null); // Ref 생성
+  const searchContainerRef = useRef<HTMLDivElement>(null); // Ref 생성
   const { login } = useStore();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', keyword],
@@ -25,19 +29,17 @@ function Search() {
           throw new Error('네트워크 응답이 올바르지 않습니다');
         }
         const responseData = await response.json();
-        console.log(responseData);
         return responseData.data;
       } catch (error) {
         console.error('데이터를 가져오는 중 에러 발생:', error);
         throw error;
       }
     },
-    enabled: keyword !== '', // keyword가 변경되면 쿼리를 다시 실행합니다.
+    enabled: keyword !== '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleSearch = () => {
@@ -59,23 +61,38 @@ function Search() {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
+        setShowInput(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
   const handlePersonButtonClick = () => {
-    console.log();
     if (localStorage.getItem('accessToken')) {
       navigate('/mypage');
     } else if (localStorage.getItem('accessToken') === null || undefined) {
-      // 모달 열기
-      console.log(isLoggedIn);
       openModal('로그인 페이지로 이동합니다');
     }
   };
 
   return (
     <div style={{ display: 'flex', backgroundColor: 'white' }}>
-      <SearchContainer>
+      <SearchContainer ref={searchContainerRef}>
         <img
           style={{
             marginRight: '20px',
@@ -97,6 +114,7 @@ function Search() {
         >
           <AnimatedInputContainer showInput={showInput}>
             <input
+              ref={inputRef}
               style={{ borderRadius: '20px', outline: 'none' }}
               onKeyDown={activeEnter}
               type="text"

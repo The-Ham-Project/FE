@@ -25,6 +25,7 @@ export const MenuBox = styled.div`
     height: 16px;
     position: absolute;
     left: 0;
+    cursor: pointer;
   }
 `;
 export const PaddingBox = styled.div`

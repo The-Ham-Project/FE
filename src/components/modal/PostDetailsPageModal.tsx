@@ -25,14 +25,14 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  width: 100%;
+  width: 350px;
+  height: 200px;
   background-color: white;
-  padding: 20px 20px 108px 20px;
+  padding: 20px 20px 21px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 30%;
-  border-radius: 70px;
+  border-radius: 20px;
   justify-content: flex-end;
   gap: 17px;
   animation: ${slideIn} 0.5s ease forwards; /* 애니메이션 적용 */
@@ -42,8 +42,11 @@ const ModalOKButton = styled.button`
 font-size: 14px;
     width: 140px;
     padding: 10px;
+    margin-top: 47px;
     height: 40px;
     cursor: pointer;
+    color: gray;
+    background-color: #F5F5F5;
 `;
 
 
@@ -52,8 +55,10 @@ const PostDetailsPageModal = ({ onClose }) => {
     <ModalOverlay onClick={onClose}>
       <ModalContent>
       <img src={sweattheham} />
+      <div>
         <h2>카테고리를 선택해주세요</h2>
         <ModalOKButton onClick={onClose}>확인</ModalOKButton>
+        </div>
       </ModalContent>
     </ModalOverlay>
   );

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { saveTokensToLocalStorage } from '../../util/localStorage/localStorage';
+import {
+  saveTokensToLocalStorage,
+  saveRefreshTokenToLocalStorage,
+} from '../../util/localStorage/localStorage';
 import { instance } from '../../api/axios';
 import NotFound from '../../pages/glitch/NotFound';
 
@@ -10,13 +13,11 @@ function RedirectKakao() {
   const KAKAO_CODE = PARAMS.get('code');
   const [accessTokenFetching, setAccessTokenFetching] = useState(false);
 
-  console.log('KAKAO_CODE:', KAKAO_CODE);
+
 
   // Access Token 받아오기
   const getAccessToken = async () => {
     if (accessTokenFetching) return; // Return early if fetching
-
-    console.log('getAccessToken 호출');
 
     try {
       setAccessTokenFetching(true); // Set fetching to true
@@ -24,8 +25,13 @@ function RedirectKakao() {
       const response = await instance.get(
         `/api/v1/members/kakao/callback?code=${KAKAO_CODE}`,
       );
+
       const accessToken = response.headers.authorization;
+      const refreshToken = response.headers['refresh-token'];
+
       saveTokensToLocalStorage(accessToken);
+      saveRefreshTokenToLocalStorage(refreshToken);
+
       setAccessTokenFetching(false); // Reset fetching to false
       navigate('/thxkakaomap');
     } catch (error) {

@@ -85,8 +85,8 @@ function Mypage() {
             <img
               src={gogo}
               style={{
-                maxWidth: '10px',
-                maxHeight: '16px',
+                maxWidth: '18px',
+                maxHeight: '18px',
               }}
             />
           </Box1>
@@ -99,8 +99,8 @@ function Mypage() {
             <img
               src={gogo}
               style={{
-                maxWidth: '10px',
-                maxHeight: '16px',
+                maxWidth: '18px',
+                maxHeight: '18px',
               }}
             />
           </Box2>
@@ -109,8 +109,8 @@ function Mypage() {
             <img
               src={logoutimage}
               style={{
-                maxWidth: '10px',
-                maxHeight: '16px',
+                maxWidth: '18px',
+                maxHeight: '18px',
               }}
             />
           </Box3>
@@ -172,8 +172,7 @@ const Profile = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 0 15% 0;
-  padding-top: 50px;
-
+  padding-top: 110px;
   @media screen and (max-width: 430px) {
   }
 `;

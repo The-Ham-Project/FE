@@ -278,7 +278,8 @@ function PostDetailsPage() {
               <div>
 
               <div style={{marginBottom:'8px'}}>내용</div>
-                <div style={{width: '100%'}}>
+                <div style={{width: '100%', display: 'flex'}}>
+
 
                   <StyledTextarea
                     placeholder={`원활한 쉐어를 위해 내용을 상세하게 작성해주세요.
@@ -443,7 +444,7 @@ export const Image = styled.div`
     width: 100%;
     margin: 0px;
     margin-bottom: 50px;
-    gap: 5px;
+    gap: 10px;
 
   }
 `;
