@@ -54,7 +54,7 @@ function Mypage() {
 
   return (
     <Wrapper>
-      <Header text="마이페이지" /> 
+      <Header text="마이페이지" />
       <PaddingBox>
         <Profile>
           <Picture>
@@ -92,6 +92,20 @@ function Mypage() {
           </Box1>
           <Box2
             onClick={() => {
+              navigate('/thxkakaomap');
+            }}
+          >
+            <Policy>내 위치 새로 설정하기</Policy>
+            <img
+              src={gogo}
+              style={{
+                maxWidth: '18px',
+                maxHeight: '18px',
+              }}
+            />
+          </Box2>
+          <Box3
+            onClick={() => {
               window.open(url);
             }}
           >
@@ -103,8 +117,8 @@ function Mypage() {
                 maxHeight: '18px',
               }}
             />
-          </Box2>
-          <Box3 onClick={LogoutHandler}>
+          </Box3>
+          <Box4 onClick={LogoutHandler}>
             <Logout>로그아웃</Logout>
             <img
               src={logoutimage}
@@ -113,7 +127,7 @@ function Mypage() {
                 maxHeight: '18px',
               }}
             />
-          </Box3>
+          </Box4>
         </Container2>
       </PaddingBox>
     </Wrapper>
@@ -123,7 +137,7 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
-overflow: auto;
+  overflow: auto;
   background-color: white;
   height: 100%;
   @media screen and (max-width: 700px) {
@@ -340,6 +354,21 @@ const Box2 = styled.div`
   }
 `;
 const Box3 = styled.div`
+  display: flex;
+  background: #f5f5f5;
+  height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10%;
+  margin-left: 10%;
+  padding-right: 29px;
+  padding-left: 29px;
+  border-radius: 7px;
+  cursor: pointer;
+  @media screen and (max-width: 430px) {
+  }
+`;
+const Box4 = styled.div`
   display: flex;
   background: #f5f5f5;
   height: 40px;
