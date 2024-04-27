@@ -50,9 +50,10 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 0;
   gap: 16.97px;
-  padding-bottom: 46px;
+  /* padding-bottom: 46px; */
   @media screen and (max-width: 430px) {
     overflow: scroll;
+    gap: 0;
   }
 `;
 
@@ -65,7 +66,7 @@ const MenuBox = styled.div`
   padding: 0 7%;
   z-index: 1;
   @media screen and (max-width: 430px) {
-    height: 60px;
+    /* height: 60px; */
     margin: 0px;
   }
   > img {
@@ -85,10 +86,10 @@ const Motto = styled.div`
   text-align: center;
   padding: 0;
   color: #505050;
-
   @media screen and (max-width: 430px) {
   }
 `;
+
 const Logo = styled.div`
   width: 166px;
   height: 92px;
