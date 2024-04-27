@@ -7,7 +7,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { deleteRental } from '../../api/mylist.ts';
 import { createChat } from '../../api/chat.ts';
 
-
 interface ModalProps {
   isOpen: boolean;
   message: string;
@@ -52,30 +51,28 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <ModalOverlay>
-      <ModalHeader>
-
-      </ModalHeader>
+      <ModalHeader></ModalHeader>
       <ModalContent>
-      <img src={sweattheham} />
-      <ModalBody>
-        <MSG>{message}</MSG>
-        <Button>
-          <ModalCloseButton
-            onClick={(e) => {
-              onClose();
-              e.stopPropagation();
-            }}
-          >
-            취소
-          </ModalCloseButton>
-          {isLoggedIn ? (
-            <ModalOKButton onClick={handelDeleteButton}>확인</ModalOKButton>
-          ) : (
-            <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
-          )}
-          {/* 확인 버튼 */}
-        </Button>
-      </ModalBody>
+        <img src={sweattheham} />
+        <ModalBody>
+          <MSG>{message}</MSG>
+          <Button>
+            <ModalCloseButton
+              onClick={(e) => {
+                onClose();
+                e.stopPropagation();
+              }}
+            >
+              취소
+            </ModalCloseButton>
+            {isLoggedIn ? (
+              <ModalOKButton onClick={handelDeleteButton}>확인</ModalOKButton>
+            ) : (
+              <ModalOKButton onClick={onConfirm}>확인</ModalOKButton>
+            )}
+            {/* 확인 버튼 */}
+          </Button>
+        </ModalBody>
       </ModalContent>
     </ModalOverlay>
   );

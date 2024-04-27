@@ -71,6 +71,7 @@ export const ImgBox = styled.div`
     width: 54px;
     height: 54px;
     border-radius: 100%;
+    object-fit: cover;
   }
 `;
 

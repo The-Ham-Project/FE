@@ -247,13 +247,15 @@ export default function Location(): JSX.Element {
             <>
               <LoadingMap id="map">
                 <LoadingContainer
-                  style={{
-                    width: '430px',
-                    height: '433px%',
-                    position: 'absolute',
-                    zIndex: '888888',
-                    backgroundColor: 'rgba(225, 225, 225, 0.5)',
-                  }}
+                  style={
+                    {
+                      // width: '430px',
+                      // height: '433px%',
+                      // position: 'absolute',
+                      // zIndex: '888888',
+                      // backgroundColor: 'rgba(225, 225, 225, 0.5)',
+                    }
+                  }
                 >
                   <LoadingMSG>로딩중입니다. 잠시만 기다려주세요!</LoadingMSG>
                 </LoadingContainer>
@@ -271,7 +273,7 @@ export default function Location(): JSX.Element {
           {address && !newAddress && <Address>{address}</Address>}
           <div style={{ width: '320px', marginBottom: '34px' }}>
             <IMG onClick={getCurrentPosBtn} $active={address}>
-              위치설정하기
+              여기를 눌러 위치설정해주세요!
             </IMG>
             {(address || newAddress) && (
               <IMG onClick={getCurrentPosBtn} $active={address}>
@@ -355,8 +357,9 @@ const PaddingBox = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  @media screen and (max-width: 430px) {
-    /* box-shadow: inset 0 -5px 5px -5px #333; */
+  @media screen and (max-width: 390px) {
+    width: 390px;
+    height: 320px;
   }
 `;
 const LoadingMSG = styled.div`
@@ -375,8 +378,8 @@ const LoadingMSG = styled.div`
 `;
 
 const LoadingContainer = styled.div`
-  width: 285px;
-  height: 24px;
+  width: 430px;
+  height: 433px;
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
@@ -389,9 +392,19 @@ const LoadingContainer = styled.div`
   flex: none;
   order: 1;
   flex-grow: 0;
-  z-index: 5000000;
+  z-index: 888888;
   padding: 50% 18%;
+  position: absolute;
+  /* width: '430px'; */
+  /* height: '433px%',
+                    position: 'absolute',
+                    zIndex: '888888',
+                    backgroundColor: 'rgba(225, 225, 225, 0.5)', */
   @media screen and (max-width: 430px) {
+    width: 390px;
+    /* height: 320px; */
+    height: 100%;
+    padding: 40% 18%;
   }
 `;
 
@@ -400,7 +413,9 @@ const Ao = styled.div`
   width: 100%;
   height: 463px;
   display: contents;
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 390px) {
+    width: 390px;
+    height: 320px;
   }
 `;
 
