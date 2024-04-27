@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import sweattheham from '../../../public/assets/sweattheham.svg';
 import useStore from '../../store/store';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { deleteRental } from '../../api/mylist.ts';
 import { createChat } from '../../api/chat.ts';
+
 
 interface ModalProps {
   isOpen: boolean;
@@ -52,9 +53,10 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <ModalOverlay>
       <ModalHeader>
-        <img src={sweattheham} />
+
       </ModalHeader>
-      {/* <ModalContent> */}
+      <ModalContent>
+      <img src={sweattheham} />
       <ModalBody>
         <MSG>{message}</MSG>
         <Button>
@@ -74,7 +76,7 @@ const Modal: React.FC<ModalProps> = ({
           {/* 확인 버튼 */}
         </Button>
       </ModalBody>
-      {/* </ModalContent> */}
+      </ModalContent>
     </ModalOverlay>
   );
 };
@@ -86,22 +88,34 @@ const ModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.1); /* 반투명한 검은색 배경 */
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은색 배경 */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 100;
 `;
+const slideIn = keyframes`
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
 
-// const ModalContent = styled.div`
-//   background-color: white;
-//   border-radius: 8px;
-//   padding: 20px;
-//   max-width: 300px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `;
+const ModalContent = styled.div`
+  width: 350px;
+  height: 200px;
+  background-color: white;
+  padding: 20px 20px 21px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  justify-content: flex-end;
+  gap: 17px;
+  animation: ${slideIn} 0.5s ease forwards; /* 애니메이션 적용 */
+`;
 
 const ModalHeader = styled.div`
   margin-bottom: 155.39px;

@@ -139,9 +139,9 @@ function Details() {
       <img
         src={item.rentalImageList[0].imageUrl}
         style={{
-          outline: 'none',
           maxHeight: '390px',
-          OObjectFit: 'none',
+          outline: 'none',
+          objectFit: 'cover',
         }}
         alt={`Image 1`}
       />
@@ -163,8 +163,8 @@ function Details() {
               style={{
                 width: '100%',
                 objectFit: 'contain',
-                maxHeight: '350px',
                 outline: 'none',
+                maxHeight: '390px'
               }}
             />
           </div>

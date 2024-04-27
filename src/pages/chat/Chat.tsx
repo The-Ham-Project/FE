@@ -15,6 +15,7 @@ import { FaCamera } from 'react-icons/fa';
 import NotFound from '../glitch/NotFound.tsx';
 import arrow from '/public/assets/arrow.svg';
 import exit from '/public/assets/exit.svg';
+import send from '../../../public/assets/send.svg';
 
 const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -244,9 +245,9 @@ const Chat = () => {
           <h6>{data.rentalTitle}</h6>
           <ChatStyle.Flex>
             <span className={'rentalFee'}>
-              대여비{data.rentalFee.toLocaleString()}원
+              대여비 {data.rentalFee.toLocaleString()}원
             </span>
-            <span>보증금{data.deposit.toLocaleString()}원</span>
+            <span>보증금 {data.deposit.toLocaleString()}원</span>
           </ChatStyle.Flex>
         </ChatStyle.Cloum>
       </ChatStyle.RentalItemBox>
@@ -315,17 +316,19 @@ const Chat = () => {
               }
             }}
           />
-          <IoArrowUpCircleOutline
-            style={{
-              fontSize: '32px',
-              // position: 'absolute',
-              // right: '30px',
-              // zIndex: '100px',
-              color: '#1689F3',
-              padding: '10px',
-            }}
-            onClick={sendMessage}
-          />
+          <img src={send} onClick={sendMessage} />
+          {/*<IoArrowUpCircleOutline*/}
+          {/*  style={{*/}
+          {/*    fontSize: '32px',*/}
+          {/*    // position: 'absolute',*/}
+          {/*    // right: '30px',*/}
+          {/*    // zIndex: '100px',*/}
+          {/*    color: '#1689F3',*/}
+          {/*    padding: '10px',*/}
+          {/*    cursor: 'pointer',*/}
+          {/*  }}*/}
+          {/*  onClick={sendMessage}*/}
+          {/*/>*/}
         </ChatStyle.Box>
       </ChatStyle.InputBox>
     </ChatStyle.Container>

@@ -14,6 +14,7 @@ import modification from '../../../public/assets/modification.svg';
 import trashbin from '../../../public/assets/trashbin.svg';
 import { FaCamera } from 'react-icons/fa';
 import Header from '../../components/layout/Header.tsx';
+import Loading from '../glitch/Loading.tsx';
 
 interface Rental {
   rentalId: number;
@@ -48,7 +49,7 @@ function MyList() {
     },
   });
   if (isLoading) {
-    return <Loading>로딩 중...</Loading>;
+    return <Loading/>;
   }
   if (isError) {
     return (
@@ -208,12 +209,12 @@ const MenuBox = styled.div`
   }
 `;
 
-const Loading = styled.div`
-  width: 100%;
-  height: 100vh;
-  @media screen and (max-width: 430px) {
-  }
-`;
+// const Loading = styled.div`
+//   width: 100%;
+//   height: 100vh;
+//   @media screen and (max-width: 430px) {
+//   }
+// `;
 const Ao = styled.div`
   display: flex;
   flex-direction: row;
@@ -259,10 +260,11 @@ const Custom = styled.div`
   }
 `;
 const SB = styled.div`
-  margin-top: 13px;
+  margin-top: 73px;
 `;
 
 const Wrapper = styled.div`
+
   width: 100%;
   height: 100vh;
   display: flex;
