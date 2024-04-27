@@ -59,7 +59,7 @@ function Category() {
         const response = await authInstance.get(
           `/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
         );
-        console.log(response.data);
+
         return response.data;
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -78,7 +78,7 @@ function Category() {
         const response = await authInstance.get(
           `/api/v1/rentals?category=${selectedCategory}&page=${page}&size=6`,
         );
-        console.log(response.data);
+
         const newData = response.data.data;
 
         // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
@@ -105,7 +105,7 @@ function Category() {
 
   const handleDifferentLocationClick = async () => {
     const response = await axios.get(
-      `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=6`,
+      `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=12`,
     );
     if (!response) {
       throw new Error('Network response was not ok');

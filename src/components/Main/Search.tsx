@@ -137,7 +137,8 @@ function Search() {
               src={searchIcon}
             />
           </SearchButton>
-          <SearchResults>
+          {showInput && (
+          <SearchResults >
             {isError && <li>Error occurred while fetching data</li>}
             {data &&
               data.searchResponseList?.map((rental) => (
@@ -146,6 +147,7 @@ function Search() {
                 </Searchli>
               ))}
           </SearchResults>
+        )}
         </div>
         <PersonButton onClick={handlePersonButtonClick}>
           <img
