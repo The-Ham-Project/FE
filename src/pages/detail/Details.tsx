@@ -207,7 +207,7 @@ function Details() {
             <h5>{item.title}</h5>
           </TextBox>
           <Text>
-            <span>{item.content}</span>
+          <pre style={{overflowWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{item.content}</pre>
           </Text>
           {localStorage.getItem('accessToken') ? (
             <Chat $active={isChatButton}>
