@@ -53,7 +53,7 @@ function Navbar() {
           style={{ cursor: 'pointer' }}
           src={home}
           onClick={() => {
-            window.location.href = '/';
+            navigate('/')
           }}
         />
 
