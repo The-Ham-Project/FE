@@ -61,9 +61,10 @@ function Mypage() {
             <img
               src={data?.data.profileUrl}
               style={{
-                maxWidth: '130px',
-                maxHeight: '130px',
+                width: '130px',
+                height: '130px',
                 borderRadius: '50%',
+                objectFit: 'cover',
               }}
             />
           </Picture>
@@ -80,7 +81,7 @@ function Mypage() {
 
         <Container2>
           <Title2>나의 활동</Title2>
-          <Box1 onClick={GotoListHandler}>
+          <Box onClick={GotoListHandler}>
             <GotoMyList>함께 쓴 내역</GotoMyList>
             <img
               src={gogo}
@@ -89,8 +90,8 @@ function Mypage() {
                 maxHeight: '18px',
               }}
             />
-          </Box1>
-          <Box2
+          </Box>
+          <Box
             onClick={() => {
               navigate('/thxkakaomap');
             }}
@@ -103,8 +104,22 @@ function Mypage() {
                 maxHeight: '18px',
               }}
             />
-          </Box2>
-          <Box3
+          </Box>
+          {/* <Box
+            onClick={() => {
+              window.open(url);
+            }}
+          >
+            <Policy>더함 서비스 약관</Policy>
+            <img
+              src={gogo}
+              style={{
+                maxWidth: '18px',
+                maxHeight: '18px',
+              }}
+            />
+          </Box> */}
+          <Box
             onClick={() => {
               window.open(url);
             }}
@@ -117,8 +132,8 @@ function Mypage() {
                 maxHeight: '18px',
               }}
             />
-          </Box3>
-          <Box4 onClick={LogoutHandler}>
+          </Box>
+          <Box onClick={LogoutHandler}>
             <Logout>로그아웃</Logout>
             <img
               src={logoutimage}
@@ -127,7 +142,7 @@ function Mypage() {
                 maxHeight: '18px',
               }}
             />
-          </Box4>
+          </Box>
         </Container2>
       </PaddingBox>
     </Wrapper>
@@ -175,7 +190,6 @@ const PaddingBox = styled.div`
     flex-direction: column;
     align-items: center;
     /* box-shadow: inset 0 5px 5px -5px #333; */
-
     width: 100%;
   }
 `;
@@ -298,7 +312,7 @@ const Title2 = styled.div`
   }
 `;
 
-const Box1 = styled.div`
+const Box = styled.div`
   display: flex;
   background: #f5f5f5;
   height: 40px;
@@ -334,52 +348,6 @@ const Policy = styled.div`
   font-size: 12px;
   line-height: 14px;
   color: #000000;
-  @media screen and (max-width: 430px) {
-  }
-`;
-
-const Box2 = styled.div`
-  display: flex;
-  background: #f5f5f5;
-  height: 40px;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10%;
-  margin-left: 10%;
-  padding-right: 29px;
-  padding-left: 29px;
-  border-radius: 7px;
-  cursor: pointer;
-  @media screen and (max-width: 430px) {
-  }
-`;
-const Box3 = styled.div`
-  display: flex;
-  background: #f5f5f5;
-  height: 40px;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10%;
-  margin-left: 10%;
-  padding-right: 29px;
-  padding-left: 29px;
-  border-radius: 7px;
-  cursor: pointer;
-  @media screen and (max-width: 430px) {
-  }
-`;
-const Box4 = styled.div`
-  display: flex;
-  background: #f5f5f5;
-  height: 40px;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10%;
-  margin-left: 10%;
-  padding-right: 29px;
-  padding-left: 29px;
-  border-radius: 7px;
-  cursor: pointer;
   @media screen and (max-width: 430px) {
   }
 `;

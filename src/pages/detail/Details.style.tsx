@@ -26,9 +26,9 @@ export const ImgBox = styled.div`
     cursor: pointer;
   }
   .slick-dots li.slick-active button:before {
-    opacity: .75;
+    opacity: 0.75;
     color: rgb(22, 137, 243);
-}
+  }
 `;
 
 export const Img = styled.div`
@@ -58,7 +58,7 @@ export const TitleBox = styled.div`
   justify-content: space-between;
   height: 82px;
   position: relative;
-margin-top: 12px;
+  margin-top: 12px;
   &:after {
     content: '';
     border-bottom: 1px solid #d1d1d1;
@@ -76,6 +76,7 @@ export const Between = styled.div`
     width: 32px;
     height: 32px;
     margin-right: 8px;
+    object-fit: cover;
   }
   > span {
     font-size: 20px;
