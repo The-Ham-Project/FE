@@ -413,6 +413,7 @@ interface StyledTextareaProps {
 
 const StyledTextarea = styled.textarea.attrs<StyledTextareaProps>((props) => ({
   style: {
+    padding: '10px',
     borderColor: props.$missingContent
       ? 'rgba(255, 0, 0, 0.5)'
       : 'rgba(22, 137, 243, 1)',
