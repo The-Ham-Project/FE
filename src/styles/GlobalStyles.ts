@@ -138,7 +138,6 @@ textarea:focus {
     border-radius: 6px;
     font-size: 16px;
     border: none;
-    padding: 10px;
 }
 
    html, body, #root {
