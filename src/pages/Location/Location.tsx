@@ -249,7 +249,7 @@ export default function Location(): JSX.Element {
                 <LoadingContainer
                   style={{
                     width: '430px',
-                    height: '463px',
+                    height: '433px%',
                     position: 'absolute',
                     zIndex: '888888',
                     backgroundColor: 'rgba(225, 225, 225, 0.5)',
