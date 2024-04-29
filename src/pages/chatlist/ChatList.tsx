@@ -85,7 +85,7 @@ function ChatList() {
               key={item.chatRoomId}
               onClick={() => {
                 navigate(`/comm/${item.chatRoomId}`);
-                window.location.reload();
+                // window.location.reload();
               }}
             >
               <FlexBox>

@@ -25,7 +25,6 @@ const Chat = () => {
   const [stompClient, setStompClient] = useState<Client | null>();
   const [testMessges, setTestMessges] = useState([]);
   const [currentPageNo, setCurrentPageNo] = useState(1);
-  const [start, setStart] = useState(true);
 
   // const [isFirst, setIsFirst] = useState(true);
 
@@ -151,41 +150,59 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    if (start && scrollRef.current) {
+    if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     } else {
       console.error('STOMP connection is not established.');
     }
   }, [testMessges]);
 
+  // useEffect(() => {
+  //   if (queryChatRoom.data) {
+  //     const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
+  //     setTestMessges((prev) => {
+  //       return [...messagesToAdd, ...prev];
+  //     });
+  //   }
+  // }, [queryChatRoom.data]);
+
   useEffect(() => {
     if (queryChatRoom.data) {
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
       setTestMessges((prev) => {
-        return [...messagesToAdd, ...prev];
+        const existingChatroomIds = prev.map((message) => message.chatId);
+        const filteredMessagesToAdd = messagesToAdd.filter(
+          (message) => !existingChatroomIds.includes(message.chatId),
+        );
+        return [...prev, ...filteredMessagesToAdd];
       });
     }
   }, [queryChatRoom.data]);
 
   useEffect(() => {
+    let io: IntersectionObserver | null = null;
+
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setStart(false);
+          console.log('감지');
           const nextPageNo = currentPageNo + 1;
           const isPageEnd = nextPageNo > data.totalPage;
+          console.log(currentPageNo);
           if (!isPageEnd) {
             setCurrentPageNo(nextPageNo);
-          } else {
-            setStart(true);
           }
         }
       });
     };
+    console.log('indicatorRef', indicatorRef.current);
+    console.log('data?.totalPage', data?.totalPage);
+    console.log(currentPageNo);
 
     if (indicatorRef?.current && data?.totalPage) {
+      console.log('생성');
       const timeoutId = setTimeout(() => {
-        const io = new IntersectionObserver(updateIndicator);
+        io = new IntersectionObserver(updateIndicator);
         io.observe(indicatorRef.current);
       }, 1500);
 
@@ -193,7 +210,7 @@ const Chat = () => {
         clearTimeout(timeoutId);
       };
     }
-  }, [data?.totalPage, indicatorRef, currentPageNo]);
+  }, [data?.totalPage, currentPageNo, indicatorRef]);
 
   if (error) return <NotFound />;
 
@@ -204,7 +221,7 @@ const Chat = () => {
   }
 
   const handleClickNavigate = () => {
-    navigate(-1);
+    navigate('/commlist');
   };
   const handelLeaveButton = () => {
     mutate(parseInt(params?.chatRoom));
