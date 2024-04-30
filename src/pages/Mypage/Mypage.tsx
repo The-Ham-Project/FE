@@ -9,7 +9,7 @@ import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg'
 import { IoIosArrowBack } from 'react-icons/io';
 import Navbar from '../../components/layout/Navbar.tsx';
 import NotFound from '../glitch/NotFound.tsx';
-import Header from '../../components/layout/Header.tsx';
+import Header from '../../components/layout/Header.tsx'; //. 메인헤더가 아니라 헤더
 import { logout } from '../../api/axios.ts';
 import useStore from '../../store/store.ts';
 
@@ -61,9 +61,10 @@ function Mypage() {
             <img
               src={data?.data.profileUrl}
               style={{
-                maxWidth: '130px',
-                maxHeight: '130px',
+                width: '130px',
+                height: '130px',
                 borderRadius: '50%',
+                objectFit: 'cover',
               }}
             />
           </Picture>
@@ -80,17 +81,45 @@ function Mypage() {
 
         <Container2>
           <Title2>나의 활동</Title2>
-          <Box1 onClick={GotoListHandler}>
+          <Box onClick={GotoListHandler}>
             <GotoMyList>함께 쓴 내역</GotoMyList>
             <img
               src={gogo}
               style={{
-                maxWidth: '10px',
-                maxHeight: '16px',
+                maxWidth: '18px',
+                maxHeight: '18px',
               }}
             />
-          </Box1>
-          <Box2
+          </Box>
+          <Box
+            onClick={() => {
+              navigate('/thxkakaomap');
+            }}
+          >
+            <Policy>내 위치 새로 설정하기</Policy>
+            <img
+              src={gogo}
+              style={{
+                maxWidth: '18px',
+                maxHeight: '18px',
+              }}
+            />
+          </Box>
+          {/* <Box
+            onClick={() => {
+              window.open(url);
+            }}
+          >
+            <Policy>더함 서비스 약관</Policy>
+            <img
+              src={gogo}
+              style={{
+                maxWidth: '18px',
+                maxHeight: '18px',
+              }}
+            />
+          </Box> */}
+          <Box
             onClick={() => {
               window.open(url);
             }}
@@ -99,21 +128,21 @@ function Mypage() {
             <img
               src={gogo}
               style={{
-                maxWidth: '10px',
-                maxHeight: '16px',
+                maxWidth: '18px',
+                maxHeight: '18px',
               }}
             />
-          </Box2>
-          <Box3 onClick={LogoutHandler}>
+          </Box>
+          <Box onClick={LogoutHandler}>
             <Logout>로그아웃</Logout>
             <img
               src={logoutimage}
               style={{
-                maxWidth: '10px',
-                maxHeight: '16px',
+                maxWidth: '18px',
+                maxHeight: '18px',
               }}
             />
-          </Box3>
+          </Box>
         </Container2>
       </PaddingBox>
     </Wrapper>
@@ -123,6 +152,7 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
+  overflow: auto;
   background-color: white;
   height: 100%;
   @media screen and (max-width: 700px) {
@@ -160,7 +190,6 @@ const PaddingBox = styled.div`
     flex-direction: column;
     align-items: center;
     /* box-shadow: inset 0 5px 5px -5px #333; */
-
     width: 100%;
   }
 `;
@@ -171,8 +200,7 @@ const Profile = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 0 15% 0;
-  padding-top: 50px;
-
+  padding-top: 110px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -284,7 +312,7 @@ const Title2 = styled.div`
   }
 `;
 
-const Box1 = styled.div`
+const Box = styled.div`
   display: flex;
   background: #f5f5f5;
   height: 40px;
@@ -320,37 +348,6 @@ const Policy = styled.div`
   font-size: 12px;
   line-height: 14px;
   color: #000000;
-  @media screen and (max-width: 430px) {
-  }
-`;
-
-const Box2 = styled.div`
-  display: flex;
-  background: #f5f5f5;
-  height: 40px;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10%;
-  margin-left: 10%;
-  padding-right: 29px;
-  padding-left: 29px;
-  border-radius: 7px;
-  cursor: pointer;
-  @media screen and (max-width: 430px) {
-  }
-`;
-const Box3 = styled.div`
-  display: flex;
-  background: #f5f5f5;
-  height: 40px;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10%;
-  margin-left: 10%;
-  padding-right: 29px;
-  padding-left: 29px;
-  border-radius: 7px;
-  cursor: pointer;
   @media screen and (max-width: 430px) {
   }
 `;

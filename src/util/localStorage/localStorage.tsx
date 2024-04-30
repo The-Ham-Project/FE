@@ -13,7 +13,7 @@ export const removeTokensFromLocalStorage = () => {
 // => 백엔드에서 유효성 검사를 진행한다면 로그아웃 api 콜을 별도로 프론트엔드에서 작성해줘야 할 것
 
 export const saveRefreshTokenToLocalStorage = (token: string) => {
-  localStorage.setItem('smoothieRefresh', token);
+  localStorage.setItem('refreshToken', token);
 };
 
 // export const getTokensFromLocalStorage = () => {

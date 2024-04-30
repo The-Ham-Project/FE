@@ -11,7 +11,7 @@ function Header({ text }) {
           src={arrow}
           className={'arrow'}
           onClick={handleBackClick}
-          style={{ cursor: 'pointer', position: 'absolute', left: '20px' }}
+          style={{ position: 'absolute', left: '20px', cursor: 'pointer' }}
         />
         <span style={{}}>{text}</span>
       </MenuBox>
@@ -22,7 +22,7 @@ function Header({ text }) {
 export default Header;
 export const MenuBox = styled.div`
   display: flex;
-  background-color: #fff;
+  background-color: #ffffff;
   height: 60px;
   width: 100%;
   align-items: center;
@@ -40,8 +40,9 @@ export const MenuBox = styled.div`
 `;
 export const PaddingBox = styled.div`
   width: 100%;
-  position: relative;
+  position: absolute;
   padding: 0 20px;
+  z-index: 10000;
   background-color: #fff;
   box-shadow: 0 0 20px 0px rgba(100, 100, 111, 0.2);
 `;

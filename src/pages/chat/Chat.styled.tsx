@@ -120,6 +120,7 @@ export const InputBox = styled.div`
   background-color: white;
 `;
 export const Box = styled.div`
+overflow: hidden;
   border-radius: 27px;
   background-color: #f5f5f5;
   display: flex;
@@ -127,6 +128,7 @@ export const Box = styled.div`
   width: 100%;
   height: 50px;
   > textarea {
+    padding-top: 28px;
     display: flex;
     border-radius: 27px;
     font-family: 'Pretendard-Regular';
@@ -139,7 +141,9 @@ export const Box = styled.div`
     font-size: 15px;
     outline: none;
     resize: none;
-    line-height: 50px;
+    line-height: 1;
+    
+
     &::-webkit-scrollbar {
       display: none;
     }
@@ -170,7 +174,7 @@ export const DateSpanBox = styled.div<{ $active: boolean }>(
             height: 12px;
         }
       }
-    }
+    
   `,
 );
 

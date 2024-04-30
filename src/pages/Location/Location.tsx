@@ -247,13 +247,15 @@ export default function Location(): JSX.Element {
             <>
               <LoadingMap id="map">
                 <LoadingContainer
-                  style={{
-                    width: '430px',
-                    height: '463px',
-                    position: 'absolute',
-                    zIndex: '888888',
-                    backgroundColor: 'rgba(225, 225, 225, 0.5)',
-                  }}
+                  style={
+                    {
+                      // width: '430px',
+                      // height: '433px%',
+                      // position: 'absolute',
+                      // zIndex: '888888',
+                      // backgroundColor: 'rgba(225, 225, 225, 0.5)',
+                    }
+                  }
                 >
                   <LoadingMSG>로딩중입니다. 잠시만 기다려주세요!</LoadingMSG>
                 </LoadingContainer>
@@ -271,7 +273,7 @@ export default function Location(): JSX.Element {
           {address && !newAddress && <Address>{address}</Address>}
           <div style={{ width: '320px', marginBottom: '34px' }}>
             <IMG onClick={getCurrentPosBtn} $active={address}>
-              위치설정하기
+              여기를 눌러 위치설정해주세요!
             </IMG>
             {(address || newAddress) && (
               <IMG onClick={getCurrentPosBtn} $active={address}>
@@ -301,7 +303,7 @@ const Wrapper = styled.div`
 const MenuBox = styled.div`
   display: flex;
   position: relative;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   height: 60px;
   width: 100%;
   align-items: center;
@@ -319,7 +321,6 @@ const MenuBox = styled.div`
       width: 100px;
     }
   }
-  /* } */
 `;
 
 const IMG = styled.button<{ $active: string }>(
@@ -328,8 +329,9 @@ const IMG = styled.button<{ $active: string }>(
     width: 320px;
     height: 52px;
     z-index: 100;
-    bottom: ${$active ? '113px' : '40px'}; /* 조건부 위치 설정 */
-    background-color: ${$active ? '#D1D1D1' : '#1689F3'}; /* 조건부 위치 설정 */
+    bottom: ${$active ? '111px' : '34px'}; /* 조건부 위치 설정 */
+    background-color: ${$active ? '#f5f5f5' : '#1689F3'}; /* 조건부 위치 설정 */
+    color: ${$active ? 'grey' : '#ffffff'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
       bottom: ${$active ? '93px' : '20px'}; /* 조건부 위치 설정 */
     }
@@ -342,7 +344,7 @@ const IMG2 = styled.button<{ $active: string }>(
     width: 320px;
     height: 52px;
     z-index: 100;
-    bottom: ${$active ? '40px' : '113px'}; /* 조건부 위치 설정 */
+    bottom: ${$active ? '34px' : '111px'}; /* 조건부 위치 설정 */
     @media screen and (max-width: 430px) {
       bottom: ${$active ? '20px' : '93px'}; /* 조건부 위치 설정 */
     }
@@ -355,8 +357,9 @@ const PaddingBox = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  @media screen and (max-width: 430px) {
-    /* box-shadow: inset 0 -5px 5px -5px #333; */
+  @media screen and (max-width: 390px) {
+    width: 390px;
+    height: 320px;
   }
 `;
 const LoadingMSG = styled.div`
@@ -375,8 +378,8 @@ const LoadingMSG = styled.div`
 `;
 
 const LoadingContainer = styled.div`
-  width: 285px;
-  height: 24px;
+  width: 430px;
+  height: 433px;
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
@@ -389,9 +392,19 @@ const LoadingContainer = styled.div`
   flex: none;
   order: 1;
   flex-grow: 0;
-  z-index: 5000000;
+  z-index: 888888;
   padding: 50% 18%;
+  position: absolute;
+  /* width: '430px'; */
+  /* height: '433px%',
+                    position: 'absolute',
+                    zIndex: '888888',
+                    backgroundColor: 'rgba(225, 225, 225, 0.5)', */
   @media screen and (max-width: 430px) {
+    width: 390px;
+    /* height: 320px; */
+    height: 100%;
+    padding: 40% 18%;
   }
 `;
 
@@ -400,7 +413,9 @@ const Ao = styled.div`
   width: 100%;
   height: 463px;
   display: contents;
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 390px) {
+    width: 390px;
+    height: 320px;
   }
 `;
 
@@ -418,7 +433,7 @@ const Map = styled.div`
   position: absolute;
   top: 60px;
   width: 430px;
-  height: 463px;
+  height: 433px;
   @media screen and (max-width: 390px) {
     width: 390px;
     height: 320px;
@@ -437,14 +452,14 @@ const MSG1 = styled.div`
   text-align: center;
   color: #000000;
   z-index: 100;
-  bottom: 278.26px;
+  bottom: 272.26px;
   @media screen and (max-width: 430px) {
-    bottom: 258.26px;
+    bottom: 252.26px;
   }
 `;
 const MSG2 = styled.div`
   position: absolute;
-  width: 340px;
+  width: 430px;
   height: 17px;
   font-family: 'Pretendard';
   font-style: normal;
@@ -454,9 +469,9 @@ const MSG2 = styled.div`
   text-align: center;
   color: #000000;
   z-index: 100;
-  bottom: 257.26px;
+  bottom: 251.26px;
   @media screen and (max-width: 430px) {
-    bottom: 237.26px;
+    bottom: 231.26px;
   }
 `;
 
@@ -472,11 +487,12 @@ const Address = styled.div`
   text-align: center;
   color: #000000;
   z-index: 100;
-  bottom: 205.4px;
+  bottom: 205.84px;
   @media screen and (max-width: 430px) {
     bottom: 190.4px;
   }
 `;
+
 const NewAddress = styled.div`
   position: absolute;
   width: 340px;
@@ -488,8 +504,8 @@ const NewAddress = styled.div`
   line-height: 26px;
   text-align: center;
   color: #000000;
-  z-index: 100;
-  bottom: 205.4px;
+  z-index: 10000000;
+  bottom: 205.84px;
   @media screen and (max-width: 430px) {
     bottom: 190.4px;
   }

@@ -208,8 +208,17 @@ function PostDetailsPage() {
               }}
               inputWithFilesContent={(files) => (
                 <>
-                  <div style={{ display: 'flex', flexDirection: 'column', color: '#969696'}}>
-                  <img src={Camera} style={{ margin: '16px 20px 10px 20px' }} />
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      color: '#969696',
+                    }}
+                  >
+                    <img
+                      src={Camera}
+                      style={{ margin: '16px 20px 10px 20px' }}
+                    />
                     {`(선택)${files.length}/3`}
                   </div>
                 </>
@@ -276,10 +285,8 @@ function PostDetailsPage() {
                 </div>
               </div>
               <div>
-
-              <div style={{marginBottom:'8px'}}>내용</div>
-                <div style={{width: '100%'}}>
-
+                <div style={{ marginBottom: '8px' }}>내용</div>
+                <div style={{ width: '100%', display: 'flex' }}>
                   <StyledTextarea
                     placeholder={`원활한 쉐어를 위해 내용을 상세하게 작성해주세요.
 부적절한 단어 사용 혹은 금지 물품을 작성할 경우 이용이 제한될 수 있습니다.
@@ -406,6 +413,7 @@ interface StyledTextareaProps {
 
 const StyledTextarea = styled.textarea.attrs<StyledTextareaProps>((props) => ({
   style: {
+    padding: '10px',
     borderColor: props.$missingContent
       ? 'rgba(255, 0, 0, 0.5)'
       : 'rgba(22, 137, 243, 1)',
@@ -434,7 +442,6 @@ export const Image = styled.div`
     max-width: 500px;
     width: 100%;
     margin: 0px;
-
   }
   margin-bottom: 50px;
   @media screen and (max-width: 430px) {
@@ -443,8 +450,7 @@ export const Image = styled.div`
     width: 100%;
     margin: 0px;
     margin-bottom: 50px;
-    gap: 5px;
-
+    gap: 10px;
   }
 `;
 

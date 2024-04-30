@@ -14,7 +14,12 @@ function SocialLogin() {
   return (
     <Wrapper>
       <MenuBox>
-        <img src={arrow} className={'arrow'} onClick={handleBackClick} />
+        <img
+          src={arrow}
+          className={'arrow'}
+          onClick={handleBackClick}
+          style={{ position: 'absolute', left: '20px', cursor: 'pointer' }}
+        />
       </MenuBox>
       {/* <Header /> */}
       <Motto>함께 쓰고 나누자</Motto>
@@ -53,31 +58,32 @@ const Wrapper = styled.div`
   padding-bottom: 46px;
   @media screen and (max-width: 430px) {
     overflow: scroll;
+    gap: 0;
+    padding-bottom: 0px;
   }
 `;
 
 const MenuBox = styled.div`
-  width: 100%;
   display: flex;
-  flex-direction: row;
+  height: 60px;
+  width: 100%;
   align-items: center;
-  height: 0px;
-  padding: 0 7%;
-  z-index: 1;
-  @media screen and (max-width: 430px) {
-    height: 60px;
-    margin: 0px;
-    /* padding: 0; */
+  justify-content: center;
+  > span {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 14px;
   }
-  > img {
-    padding-top: 40px;
+  > .arrow {
+    width: 10px;
+    height: 16px;
   }
 `;
 
 const Motto = styled.div`
   width: 100px;
   height: 17px;
-
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -86,10 +92,10 @@ const Motto = styled.div`
   text-align: center;
   padding: 0;
   color: #505050;
-
   @media screen and (max-width: 430px) {
   }
 `;
+
 const Logo = styled.div`
   width: 166px;
   height: 92px;

@@ -131,6 +131,7 @@ function Details() {
             paddingTop: '150px',
             paddingBottom: '150px',
             backgroundColor: '#ececec',
+            OObjectFit: 'none',
           }}
         />
       </div>
@@ -138,8 +139,9 @@ function Details() {
       <img
         src={item.rentalImageList[0].imageUrl}
         style={{
-          outline: 'none',
           maxHeight: '390px',
+          outline: 'none',
+          objectFit: 'cover',
         }}
         alt={`Image 1`}
       />
@@ -161,8 +163,8 @@ function Details() {
               style={{
                 width: '100%',
                 objectFit: 'contain',
-                maxHeight: '350px',
                 outline: 'none',
+                maxHeight: '390px'
               }}
             />
           </div>
@@ -205,7 +207,7 @@ function Details() {
             <h5>{item.title}</h5>
           </TextBox>
           <Text>
-            <span>{item.content}</span>
+          <pre style={{overflowWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{item.content}</pre>
           </Text>
           {localStorage.getItem('accessToken') ? (
             <Chat $active={isChatButton}>

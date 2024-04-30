@@ -25,6 +25,7 @@ export const MenuBox = styled.div`
     height: 16px;
     position: absolute;
     left: 0;
+    cursor: pointer;
   }
 `;
 export const PaddingBox = styled.div`
@@ -70,6 +71,7 @@ export const ImgBox = styled.div`
     width: 54px;
     height: 54px;
     border-radius: 100%;
+    object-fit: cover;
   }
 `;
 

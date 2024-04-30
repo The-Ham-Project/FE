@@ -15,16 +15,19 @@ export const Container = styled.div`
 
 export const ImgBox = styled.div`
   width: 100%;
-  height: 400px;
   position: relative;
   > img {
-    height: 24px;
-    width: 24px;
+    height: 16px;
+    width: 10px;
     z-index: 1000;
     position: absolute;
     top: 22px;
     left: 20px;
     cursor: pointer;
+  }
+  .slick-dots li.slick-active button:before {
+    opacity: 0.75;
+    color: rgb(22, 137, 243);
   }
 `;
 
@@ -34,6 +37,8 @@ export const Img = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  object-fit: none;
+  background-color: #ececec;
 `;
 
 export const ContentsBox = styled.div`
@@ -53,7 +58,7 @@ export const TitleBox = styled.div`
   justify-content: space-between;
   height: 82px;
   position: relative;
-
+  margin-top: 12px;
   &:after {
     content: '';
     border-bottom: 1px solid #d1d1d1;
@@ -71,6 +76,7 @@ export const Between = styled.div`
     width: 32px;
     height: 32px;
     margin-right: 8px;
+    object-fit: cover;
   }
   > span {
     font-size: 20px;
@@ -112,7 +118,7 @@ export const TextBox = styled.div`
   display: flex;
   align-items: center;
   > h5 {
-    font-size: 25px;
+    font-size: 22px;
   }
 `;
 
@@ -120,7 +126,7 @@ export const Text = styled.div`
   margin-bottom: 46px;
   width: 100%;
   > span {
-    font-size: 16px;
+    font-size: 12px;
   }
 `;
 
