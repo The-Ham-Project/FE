@@ -75,7 +75,7 @@ function Details() {
     mutationFn: createChat,
     onSuccess: (response) => {
       navigate(`/comm/${response?.data}`);
-      window.location.reload();
+      // window.location.reload();
     },
     onError: () => {
       console.log('error');
