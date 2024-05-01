@@ -21,7 +21,7 @@ import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { authInstance } from '../../api/axios.ts';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import arrow from '/public/assets/arrow.svg';
-import LikeButton from '../../components/Main/LikeButton.tsx';
+// import LikeButton from '../../components/Main/LikeButton.tsx';
 import {
   Container,
   ImgBox,
