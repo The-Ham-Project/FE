@@ -16,12 +16,12 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
 import styled, { css } from 'styled-components';
-import { FaCamera } from 'react-icons/fa';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { authInstance } from '../../api/axios.ts';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import arrow from '/public/assets/arrow.svg';
-// import LikeButton from '../../components/Main/LikeButton.tsx';
+import LikeButton from '../../components/Main/LikeButton.tsx';
+import Camera from '/public/assets/Camera.svg';
 import {
   Container,
   ImgBox,
@@ -120,21 +120,20 @@ function Details() {
     item.rentalImageList.length === 0 ? (
       <div>
         {/* 이미지가 없는 경우에 보여줄 요소 */}
-        <FaCamera
-          size={24}
-          color="#B1B1B1"
+        <div
           style={{
             width: '100%',
-            maxWidth: '100%',
             maxHeight: '390px',
-            outline: 'none',
-            objectFit: 'contain',
+            backgroundColor: '#ececec',
             paddingTop: '150px',
             paddingBottom: '150px',
-            backgroundColor: '#ececec',
-            OObjectFit: 'fill',
+            display: 'flex',
+            justifyContent: 'center',
           }}
-        />
+        >
+          {' '}
+          <img src={Camera} />
+        </div>
       </div>
     ) : item.rentalImageList.length === 1 ? (
       <img
@@ -206,7 +205,7 @@ function Details() {
               </Between>
             </div>
             <div style={{ fontSize: '30px' }}>
-              {/* <LikeButton rentalId={item.rentalId} initialLiked={item.isLike} /> */}
+              <LikeButton rentalId={item.rentalId} initialLiked={item.isLike} />
             </div>
           </TitleBox>
           <PriceBox>

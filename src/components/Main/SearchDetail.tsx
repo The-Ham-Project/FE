@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { instance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
-
+import Camera from '/public/assets/Camera.svg';
 import { useSearchParams } from 'react-router-dom';
 import Search from './Search';
 
@@ -69,12 +69,14 @@ function SearchDetail() {
                       />
                     ) : (
                       <PlaceholderImage>
-                        <FaCamera size={24} color="#f0f0f0" />
+                           <img src={Camera}/>
                       </PlaceholderImage>
                     )}
                   </IMG>
                   <Box>
-                    <Title>{rental.title}</Title>
+                    <Title> {rental.title.length > 25
+                              ? rental.title.slice(0, 25) + '···'
+                              : rental.title}</Title>
                     <Box2>
                       <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
                       <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
@@ -99,6 +101,7 @@ export default SearchDetail;
 
 // 스타일드 컴포넌트 정의
 const PlaceholderImage = styled.div`
+width: 130px;
   background-color: #ffffff;
   display: flex;
   justify-content: center;

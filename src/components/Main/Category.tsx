@@ -13,12 +13,16 @@ import OTHER from '/public/assets/OTHER.svg';
 import position from '/public/assets/position.svg';
 import banner from '/public/assets/banner.svg';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
+import donotcrythehamzzang from '/public/assets/donotcrythehamzzang.svg';
+import { BsArrowDownCircleFill } from 'react-icons/bs';
+
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
-import { FaCamera } from 'react-icons/fa';
-import { authInstance } from '../../api/axios';
+import Camera from '/public/assets/Camera.svg';
+import { authInstance, instance } from '../../api/axios';
 // import Header from '../layout/MainHeder';
 import axios from 'axios';
+import LikeButton from './LikeButton';
 
 export type Category =
   | 'ALL'
@@ -47,6 +51,7 @@ function Category() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [rentals, setRentals] = useState([]);
+  const [clicked, setClicked] = useState(false);
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -68,6 +73,9 @@ function Category() {
 
   const fetchMoreData = () => {
     setPage(page + 1);
+    refetch();
+
+    console.log(page);
   };
 
   useEffect(() => {
@@ -81,7 +89,7 @@ function Category() {
 
         // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
         const uniqueRentals = [...newData, ...rentals].reduce(
-          (acc, current) => {
+          (acc, current) => { 
             // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
             if (!acc.find((item) => item.rentalId === current.rentalId)) {
               acc.push(current);
@@ -102,27 +110,33 @@ function Category() {
   }, []);
 
   const handleDifferentLocationClick = async () => {
-    const response = await axios.get(
-      `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=12`,
-    );
-    if (!response) {
-      throw new Error('Network response was not ok');
+    setClicked(true)
+    try {
+      const nextPage = page + 1;
+      const response = await instance.get(
+        `/api/v1/rentals?category=${selectedCategory}&page=${nextPage}&size=6`,
+      );
+
+      const newData = response.data.data;
+      console.log(newData, 'newData');
+      // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
+      const uniqueRentals = [...rentals, ...newData].reduce((acc, current) => {
+        // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
+        if (
+          !acc.find(
+            (item: { rentalId: any }) => item.rentalId === current.rentalId,
+          )
+        ) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+      setRentals(uniqueRentals);
+      setPage(nextPage); // 다음 페이지를 가져오기 위해 페이지 상태를 업데이트합니다
+    } catch (error) {
+      console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+      throw new Error('네트워크 응답이 정상적이지 않습니다');
     }
-    const newData = response.data.data;
-    // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [...newData, ...rentals].reduce((acc, current) => {
-      // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
-      if (
-        !acc.find(
-          (item: { rentalId: any }) => item.rentalId === current.rentalId,
-        )
-      ) {
-        acc.push(current);
-      }
-      return acc;
-    }, []);
-    setRentals(uniqueRentals);
-    setPage(page + 1);
   };
 
   useEffect(() => {
@@ -147,14 +161,18 @@ function Category() {
     }
   }, [data]);
 
-  const handleCategoryChange = (category: Category) => {
-    if (selectedCategory === category) {
-      return;
-    }
-    setSelectedCategory(category);
-    setPage(1);
-    setRentals([]);
-  };
+const handleCategoryChange = (category: Category) => {
+  if (selectedCategory === category) {
+    return;
+  }
+
+  setSelectedCategory(category);
+  setPage(1);
+  setRentals([]);
+
+};
+
+console.log(rentals[0])
 
   return (
     <Div id="ScrollableCategoryContainer">
@@ -163,7 +181,7 @@ function Category() {
       >
         <InfiniteScroll
           dataLength={rentals.length}
-          next={fetchMoreData}
+          next = {fetchMoreData}
           hasMore={hasMore}
           loader={
             <LoadingMessage>
@@ -171,7 +189,7 @@ function Category() {
             </LoadingMessage>
           }
           scrollableTarget="ScrollableCategoryContainer"
-          scrollThreshold={0}
+          scrollThreshold={0.9}
         >
           <Contents />
           <div
@@ -216,19 +234,24 @@ function Category() {
             </div>
             <div>
               <CategoryContainer>
-                {rentals.map((item) => (
-                  <CategoryItem key={item.rentalId}>
+                {rentals.map((item) => (<>
+             
+                  <CategoryItem  key={item.rentalId}>
+                  <div style={{position: 'absolute',zIndex: '9', right: '0' , fontSize: '19px'}} >
+                  <LikeButton  rentalId={item.rentalId} initialLiked={item.isLike} />
+                  </div>
                     <Link
                       to={`/details/${item.rentalId}`}
                       style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                      <ALLLayout>
-                        <ImageWrapper>
+                    >  
+                      <ALLLayout >
+                        <ImageWrapper >
                           {item.firstThumbnailUrl ? (
                             <Image src={item.firstThumbnailUrl} alt="no img" />
                           ) : (
                             <PlaceholderImage>
-                              <FaCamera size={24} color="#f0f0f0" />
+                              <img src={Camera}/>
+                              {/* <FaCamera size={24} color="#f0f0f0" /> */}
                             </PlaceholderImage>
                           )}
                         </ImageWrapper>
@@ -263,7 +286,7 @@ function Category() {
 
                           <H1>
                             {item.title.length > 20
-                              ? item.title.slice(0, 19) + '···'
+                              ? item.title.slice(0, 25) + '···'
                               : item.title}
                           </H1>
                           <Layout2>
@@ -290,7 +313,7 @@ function Category() {
                       </ALLLayout>
                     </Link>
                   </CategoryItem>
-                ))}
+                  </>))}
               </CategoryContainer>
             </div>
             {rentals.length === 0 && (
@@ -318,6 +341,14 @@ function Category() {
                 </Button>
               </div>
             )}
+            {rentals.length > 0 && (
+              <div
+                style={{ overflow: 'hidden' }}
+                onClick={handleDifferentLocationClick}
+              >
+                <Arrow />
+              </div>
+            )}
           </div>
         </InfiniteScroll>
       </ScrollableCategoryContainer>
@@ -327,6 +358,12 @@ function Category() {
 }
 
 export default Category;
+
+const Arrow = styled(BsArrowDownCircleFill)`
+color: #e5e5e5;
+font-size: 20px;
+`;
+
 
 const ScrollableCategoryContainer = styled.div``;
 const Button = styled.button`
@@ -461,6 +498,7 @@ const CategoryContainer = styled.div`
 `;
 
 const CategoryItem = styled.div`
+position: relative;
   height: 208.32px;
   width: 100%;
   border-radius: 8px;
