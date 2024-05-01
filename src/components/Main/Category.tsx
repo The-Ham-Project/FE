@@ -13,12 +13,10 @@ import OTHER from '/public/assets/OTHER.svg';
 import position from '/public/assets/position.svg';
 import banner from '/public/assets/banner.svg';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
-import donotcrythehamzzang from '/public/assets/donotcrythehamzzang.svg';
-
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
-import { authInstance, instance } from '../../api/axios';
+import { authInstance } from '../../api/axios';
 // import Header from '../layout/MainHeder';
 import axios from 'axios';
 
@@ -112,7 +110,7 @@ function Category() {
     }
     const newData = response.data.data;
     // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [ ...newData,...rentals].reduce((acc, current) => {
+    const uniqueRentals = [...newData, ...rentals].reduce((acc, current) => {
       // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
       if (
         !acc.find(
@@ -126,8 +124,6 @@ function Category() {
     setRentals(uniqueRentals);
     setPage(page + 1);
   };
-  
-  
 
   useEffect(() => {
     if (data) {
@@ -278,7 +274,7 @@ function Category() {
                                     item.deposit >= 10000 ? '9px' : '10px',
                                 }}
                               >
-                                보증금 {priceDot(item.rentalFee)}원
+                                보증금 {priceDot(item.deposit)}원
                               </H2>
                               <H3
                                 style={{
@@ -286,7 +282,7 @@ function Category() {
                                     item.deposit >= 10000 ? '10px' : '12px',
                                 }}
                               >
-                                대여비 {priceDot(item.deposit)}원
+                                대여비 {priceDot(item.rentalFee)}원
                               </H3>
                             </Layout1>
                           </Layout2>
@@ -325,7 +321,6 @@ function Category() {
           </div>
         </InfiniteScroll>
       </ScrollableCategoryContainer>
-
       <Contents2 />
     </Div>
   );
@@ -511,7 +506,6 @@ const ProfileImage = styled.img`
 const Contents2 = styled.div`
   width: 16px;
   height: 100px;
-
 `;
 
 const ProfileUrl = styled.span`
