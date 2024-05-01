@@ -122,13 +122,15 @@ export const TextBox = styled.div`
   }
 `;
 
-export const Text = styled.div`
-  margin-bottom: 46px;
-  width: 100%;
-  > span {
-    font-size: 12px;
-  }
-`;
+export const Text = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
+    margin-bottom: ${$active ? '46px' : '120px'};
+    width: 100%;
+    > span {
+      font-size: 12px;
+    }
+  `,
+);
 
 export const Chat = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
@@ -171,5 +173,6 @@ export const Catting = styled.div`
     text-align: center;
     border: none;
     cursor: pointer;
+    /* margin-bottom: 74px; */
   }
 `;

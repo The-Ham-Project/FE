@@ -112,6 +112,10 @@ const ModalContent = styled.div`
   justify-content: flex-end;
   gap: 17px;
   animation: ${slideIn} 0.5s ease forwards; /* 애니메이션 적용 */
+  @media screen and (max-width: 430px) {
+    > img {
+    }
+  }
 `;
 
 const ModalHeader = styled.div`

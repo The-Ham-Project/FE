@@ -164,7 +164,7 @@ function Details() {
                 width: '100%',
                 objectFit: 'contain',
                 outline: 'none',
-                maxHeight: '390px'
+                maxHeight: '390px',
               }}
             />
           </div>
@@ -207,7 +207,9 @@ function Details() {
             <h5>{item.title}</h5>
           </TextBox>
           <Text>
-          <pre style={{overflowWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{item.content}</pre>
+            <pre style={{ overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}>
+              {item.content}
+            </pre>
           </Text>
           {localStorage.getItem('accessToken') ? (
             <Chat $active={isChatButton}>
