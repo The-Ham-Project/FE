@@ -36,7 +36,7 @@ export const readChatRoom = async (
     {
       params: {
         page: currentPageNo,
-        size: 20,
+        size: 50,
       },
     },
   );

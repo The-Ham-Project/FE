@@ -120,7 +120,7 @@ export const InputBox = styled.div`
   background-color: white;
 `;
 export const Box = styled.div`
-overflow: hidden;
+  overflow: hidden;
   border-radius: 27px;
   background-color: #f5f5f5;
   display: flex;
@@ -128,7 +128,6 @@ overflow: hidden;
   width: 100%;
   height: 50px;
   > textarea {
-    padding-top: 28px;
     display: flex;
     border-radius: 27px;
     font-family: 'Pretendard-Regular';
@@ -142,8 +141,6 @@ overflow: hidden;
     outline: none;
     resize: none;
     line-height: 1;
-    
-
     &::-webkit-scrollbar {
       display: none;
     }
@@ -161,20 +158,19 @@ export const DateSpanBox = styled.div<{ $active: boolean }>(
     width: 100%;
     > span {
       font-size: 10px;
-        display: flex;
-        align-items: center;
+      display: flex;
+      align-items: center;
       background-color: #ffffff;
       color: #9e9e9e;
       padding: 8px 16px;
       overflow: auto;
       border-radius: 30px;
-        > img {
-            padding: 0 6px 0 0;
-            width: 19px;
-            height: 12px;
-        }
+      > img {
+        padding: 0 6px 0 0;
+        width: 19px;
+        height: 12px;
       }
-    
+    }
   `,
 );
 
