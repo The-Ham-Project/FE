@@ -112,7 +112,7 @@ function Category() {
     }
     const newData = response.data.data;
     // 이전에 불러온 rentals와 새로운 newData를 합친 후 중복을 제거합니다.
-    const uniqueRentals = [ ...newData,...rentals].reduce((acc, current) => {
+    const uniqueRentals = [...newData, ...rentals].reduce((acc, current) => {
       // acc에 rentalId가 없으면 현재 데이터를 추가합니다.
       if (
         !acc.find(
@@ -126,8 +126,6 @@ function Category() {
     setRentals(uniqueRentals);
     setPage(page + 1);
   };
-  
-  
 
   useEffect(() => {
     if (data) {
@@ -222,9 +220,19 @@ function Category() {
               <CategoryContainer>
                 {rentals.map((item) => (
                   <CategoryItem key={item.rentalId}>
-                    <div style={{position: 'absolute',zIndex: '9', right: '0' , fontSize: '19px'}} >
-                  <LikeButton  rentalId={item.rentalId} initialLiked={item.isLike} />
-                  </div>
+                    <div
+                      style={{
+                        position: 'absolute',
+                        zIndex: '9',
+                        right: '0',
+                        fontSize: '19px',
+                      }}
+                    >
+                      <LikeButton
+                        rentalId={item.rentalId}
+                        initialLiked={item.isLike}
+                      />
+                    </div>
                     <Link
                       to={`/details/${item.rentalId}`}
                       style={{ textDecoration: 'none', color: 'inherit' }}
@@ -469,7 +477,7 @@ const CategoryContainer = styled.div`
 `;
 
 const CategoryItem = styled.div`
-position: relative;
+  position: relative;
   height: 208.32px;
   width: 100%;
   border-radius: 8px;
@@ -515,7 +523,6 @@ const ProfileImage = styled.img`
 const Contents2 = styled.div`
   width: 16px;
   height: 100px;
-
 `;
 
 const ProfileUrl = styled.span`
