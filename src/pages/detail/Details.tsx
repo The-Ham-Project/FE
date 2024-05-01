@@ -206,7 +206,7 @@ function Details() {
               </Between>
             </div>
             <div style={{ fontSize: '30px' }}>
-              <LikeButton rentalId={item.rentalId} initialLiked={item.isLike} />
+              {/* <LikeButton rentalId={item.rentalId} initialLiked={item.isLike} /> */}
             </div>
           </TitleBox>
           <PriceBox>
