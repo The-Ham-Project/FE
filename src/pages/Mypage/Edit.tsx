@@ -308,7 +308,7 @@ function Edit() {
             />
             <div>내용</div>
             <textarea
-              style={{ resize: 'none' }}
+              style={{ resize: 'none', padding: '10px' }}
               rows={10}
               cols={50}
               placeholder="게시글의 내용을 작성해주세요."
