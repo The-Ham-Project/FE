@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-
+import DetailsArrow1 from '../../../public/assets/DetailsArrow1.svg';
+import DetailsArrow2 from '../../../public/assets/DetailsArrow2.svg';
 export const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -28,6 +29,37 @@ export const ImgBox = styled.div`
   .slick-dots li.slick-active button:before {
     opacity: 0.75;
     color: rgb(22, 137, 243);
+  }
+  .slick-prev:before {
+    content: url(${DetailsArrow1});
+  }
+  .slick-next:before {
+    content: url(${DetailsArrow2});
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    color: #898989;
+    font-size: 20px;
+  }
+  .slick-prev,
+  .slick-next {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 79px;
+    height: 20px;
+    padding: 0;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: transparent;
+    border: none;
+    outline: none;
+    background: transparent;
+    z-index: 99999;
   }
 `;
 
@@ -122,15 +154,13 @@ export const TextBox = styled.div`
   }
 `;
 
-export const Text = styled.div<{ $active: boolean }>(
-  ({ $active }) => css`
-    margin-bottom: ${$active ? '46px' : '120px'};
-    width: 100%;
-    > span {
-      font-size: 12px;
-    }
-  `,
-);
+export const Text = styled.div`
+  margin-bottom: 46px;
+  width: 100%;
+  > span {
+    font-size: 12px;
+  }
+`;
 
 export const Chat = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
@@ -173,6 +203,5 @@ export const Catting = styled.div`
     text-align: center;
     border: none;
     cursor: pointer;
-    /* margin-bottom: 74px; */
   }
 `;
