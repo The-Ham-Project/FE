@@ -16,8 +16,13 @@ import NotFound from '../glitch/NotFound.tsx';
 import arrow from '/public/assets/arrow.svg';
 import exit from '/public/assets/exit.svg';
 import send from '../../../public/assets/send.svg';
+import ChatList from '../chatlist/ChatList.tsx';
 
-const Chat = () => {
+interface Props {
+  successCallback?: () => void;
+}
+
+const Chat: React.FC<Props> = ({ successCallback }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
   const params = useParams();
@@ -41,7 +46,7 @@ const Chat = () => {
   const { mutate } = useMutation({
     mutationFn: leaveChatRoom,
     onSuccess: () => {
-      navigate(-1);
+      successCallback && successCallback();
     },
   });
 
@@ -225,6 +230,7 @@ const Chat = () => {
   };
   const handelLeaveButton = () => {
     mutate(parseInt(params?.chatRoom));
+    navigate('/commlist');
   };
 
   return (

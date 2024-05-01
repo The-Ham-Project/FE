@@ -17,8 +17,10 @@ import arrow from '/public/assets/arrow.svg';
 import moment from 'moment/moment';
 import Loading from '../glitch/Loading.tsx';
 import NotFound from '../glitch/NotFound.tsx';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
-function ChatList() {
+import Chat from '../chat/Chat.tsx';
+const ChatList = () => {
   const navigate = useNavigate();
   const indicatorRef = useRef<HTMLDivElement>(null);
   const [currentPageNo, setCurrentPageNo] = useState(1);
@@ -28,19 +30,74 @@ function ChatList() {
     queryKey: ['chatList', currentPageNo],
     queryFn: () => readChatList(currentPageNo),
     // refetchInterval: 2000,
+    staleTime: 0,
+    // cacheTime: 0,
     select: (response) => response.data,
   });
-  const { data, error, isLoading } = queryChatList;
+  const { data, error, isLoading, refetch } = queryChatList;
 
   useEffect(() => {
     if (data && data.chatRoomListResponseDto) {
-      setChatList((prevList) => [...prevList, ...data.chatRoomListResponseDto]);
+      setChatList((prevList) => {
+        const existingChatroomIds = prevList.map(
+          (chatRoom) => chatRoom.chatRoomId,
+        );
+        const filteredChatRooms = data.chatRoomListResponseDto.filter(
+          (chatRoom) => !existingChatroomIds.includes(chatRoom.chatRoomId),
+        );
+        return [...prevList, ...filteredChatRooms];
+      });
     }
   }, [data]);
 
   // useEffect(() => {
   //   console.log('ddd', chatList);
   // }, [chatList]);
+  const accessToken = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (accessToken) {
+      const eventSource = new EventSourcePolyfill(
+        'https://api.openmpy.com/api/v1/sse',
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          },
+          heartbeatTimeout: 600000,
+          withCredentials: true,
+        },
+      );
+
+      eventSource.addEventListener('sse', (event: any) => {
+        const parseData = JSON.parse(event.data);
+        console.log(parseData);
+
+        // SSE 이벤트를 받으면 채팅 목록 업데이트
+        if (parseData.message === 'UPDATE_CHATROOM') {
+          const updatedChatRoom = parseData.data;
+
+          // 채팅 목록에서 업데이트된 채팅룸의 인덱스 찾기
+          const index = chatList.findIndex(
+            (chatRoom) => chatRoom.chatRoomId === updatedChatRoom.chatRoomId,
+          );
+
+          // 찾은 경우 채팅 목록 업데이트
+          if (index !== -1) {
+            setChatList((prevChatList) => {
+              const newChatList = [...prevChatList];
+              newChatList[index] = {
+                ...newChatList[index],
+                lastMessage: updatedChatRoom.lastMessage,
+                lastMessageTime: updatedChatRoom.lastMessageTime,
+                unreadCount: updatedChatRoom.unreadCount,
+              };
+              return newChatList;
+            });
+          }
+        }
+      });
+    }
+  }, [accessToken, chatList]);
 
   useEffect(() => {
     const updateIndicator = (entries: IntersectionObserverEntry[]) => {
@@ -112,8 +169,13 @@ function ChatList() {
         })}
         <div ref={indicatorRef} className={'indicator'} />
       </List>
+      <Chat
+        successCallback={() => {
+          refetch();
+        }}
+      />
     </Contaier>
   );
-}
+};
 
 export default ChatList;
