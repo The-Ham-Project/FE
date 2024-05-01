@@ -143,7 +143,9 @@ function Search() {
             {data &&
               data.searchResponseList?.map((rental) => (
                 <Searchli key={rental.rentalId}>
-                  <Link to={`/Details/${rental.rentalId}`}>{rental.title}</Link>
+                  <Link to={`/Details/${rental.rentalId}`}>{rental.title.length > 20
+                              ? rental.title.slice(0, 16) + '···'
+                              : rental.title}</Link>
                 </Searchli>
               ))}
           </SearchResults>
@@ -215,7 +217,7 @@ const SearchButton = styled.button<SearchButtonProps>`
 `;
 
 const SearchResults = styled.ul`
-    width: 50%;
+    width: 54%;
     border-radius: 10px;
     display: flex;
     place-content: center;

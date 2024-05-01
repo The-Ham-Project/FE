@@ -16,11 +16,12 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { createChat } from '../../api/chat.ts';
 import styled, { css } from 'styled-components';
-import { FaCamera } from 'react-icons/fa';
 import useStore, { useErrorModalStore } from '../../store/store.ts';
 import { authInstance } from '../../api/axios.ts';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import arrow from '/public/assets/arrow.svg';
+import LikeButton from '../../components/Main/LikeButton.tsx';
+import Camera from '/public/assets/Camera.svg';
 import {
   Container,
   ImgBox,
@@ -59,6 +60,7 @@ interface RentalData {
   latitude: number;
   longitude: number;
   isChatButton: boolean;
+  isLike: boolean;
   rentalImageList: RentalImage[];
 }
 
@@ -112,28 +114,26 @@ function Details() {
     slidesToShow: 1,
     slidesToScroll: 1,
     slickNext: false,
-    arrows: false,
   };
 
   const images =
     item.rentalImageList.length === 0 ? (
       <div>
         {/* 이미지가 없는 경우에 보여줄 요소 */}
-        <FaCamera
-          size={24}
-          color="#B1B1B1"
+        <div
           style={{
             width: '100%',
-            maxWidth: '100%',
             maxHeight: '390px',
-            outline: 'none',
-            objectFit: 'contain',
+            backgroundColor: '#ececec',
             paddingTop: '150px',
             paddingBottom: '150px',
-            backgroundColor: '#ececec',
-            OObjectFit: 'none',
+            display: 'flex',
+            justifyContent: 'center',
           }}
-        />
+        >
+          {' '}
+          <img src={Camera} />
+        </div>
       </div>
     ) : item.rentalImageList.length === 1 ? (
       <img
@@ -161,17 +161,21 @@ function Details() {
               src={image.imageUrl}
               alt={`Image ${index + 1}`}
               style={{
+                display: 'flex',
+                alignContent: 'center',
+                alignItems: 'center',
                 width: '100%',
-                objectFit: 'contain',
+                objectFit: 'cover',
                 outline: 'none',
-                maxHeight: '390px'
+                height: '390px',
+                maxHeight: '390px',
               }}
             />
           </div>
         ))}
       </Slider>
     );
-  console.log(' isChatButton', item.isChatButton);
+  console.log(' isChatButton', item.rentalId);
   const isChatButton = item.isChatButton;
 
   return (
@@ -188,26 +192,37 @@ function Details() {
       <ContentsBox>
         <Contents>
           <TitleBox>
-            <Between>
-              <img src={item.profileUrl} alt="Profile" />
-              <span>{item.nickname}</span>
-            </Between>
-            <Between>
-              <FaMapMarkerAlt style={{ fontSize: '12px', color: '#1689F3' }} />
-              <span className={'district'}>{item.district}</span>
-            </Between>
+            <div style={{ display: 'flex' }}>
+              <Between>
+                <img src={item.profileUrl} alt="Profile" />
+                <span>{item.nickname}</span>
+              </Between>
+              <Between>
+                <FaMapMarkerAlt
+                  style={{ fontSize: '12px', color: '#1689F3' }}
+                />
+                <span className={'district'}>{item.district}</span>
+              </Between>
+            </div>
+            <div style={{ fontSize: '30px' }}>
+              <LikeButton rentalId={item.rentalId} initialLiked={item.isLike} />
+            </div>
           </TitleBox>
           <PriceBox>
             <span className={'rentalFee'}>
-              대여비 {priceDot(item.rentalFee)}원
+              대여비 {priceDot(item.deposit)}원
             </span>
-            <span className={'deposit'}>보증금 {priceDot(item.deposit)}원</span>
+            <span className={'deposit'}>
+              보증금 {priceDot(item.rentalFee)}원
+            </span>
           </PriceBox>
           <TextBox>
             <h5>{item.title}</h5>
           </TextBox>
           <Text>
-          <pre style={{overflowWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{item.content}</pre>
+            <pre style={{ overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}>
+              {item.content}
+            </pre>
           </Text>
           {localStorage.getItem('accessToken') ? (
             <Chat $active={isChatButton}>

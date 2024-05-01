@@ -15,6 +15,7 @@ import trashbin from '../../../public/assets/trashbin.svg';
 import { FaCamera } from 'react-icons/fa';
 import Header from '../../components/layout/Header.tsx';
 import Loading from '../glitch/Loading.tsx';
+import Camera from '/public/assets/Camera.svg';
 
 interface Rental {
   rentalId: number;
@@ -117,7 +118,7 @@ function MyList() {
                       />
                     ) : (
                       <PlaceholderImage>
-                        <FaCamera size={24} color="#f0f0f0" />
+                        <img src={Camera}/>
                       </PlaceholderImage>
                     )}
                   </IMG>
@@ -151,7 +152,9 @@ function MyList() {
                         <img src={trashbin} />
                       </Button>
                     </Box1>
-                    <Title>{data.title}</Title>
+                    <Title> {data.title.length > 25
+                              ? data.title.slice(0, 25) + '···'
+                              : data.title}</Title>
                     <Box2>
                       <Fee>대여비 {priceDot(data.rentalFee)}원</Fee>
                       <Deposit>보증금 {priceDot(data.deposit)}원</Deposit>
@@ -380,7 +383,7 @@ const Deposit = styled.div`
 `;
 
 const IMG = styled.div`
-  width: 130px;
+  width: 100%;
   height: 130px;
   border-radius: 6.71835px;
   display: flex;
