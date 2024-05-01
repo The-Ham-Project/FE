@@ -158,6 +158,7 @@ export default SearchDetail;
 
 // 스타일드 컴포넌트 정의
 const PlaceholderImage = styled.div`
+width: 130px;
   background-color: #ffffff;
   display: flex;
   justify-content: center;

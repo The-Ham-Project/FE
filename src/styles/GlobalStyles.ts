@@ -23,7 +23,6 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 14px;
 	/* font-family: 'Pretendard-Regular'; */
 	vertical-align: baseline;
     font-family: Pretendard-Regular;

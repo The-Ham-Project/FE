@@ -15,6 +15,7 @@ import trashbin from '../../../public/assets/trashbin.svg';
 import { FaCamera } from 'react-icons/fa';
 import Header from '../../components/layout/Header.tsx';
 import Loading from '../glitch/Loading.tsx';
+import Camera from '/public/assets/Camera.svg';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Rental {
@@ -450,7 +451,7 @@ const Deposit = styled.div`
 `;
 
 const IMG = styled.div`
-  width: 130px;
+  width: 100%;
   height: 130px;
   border-radius: 6.71835px;
   display: flex;

@@ -1,20 +1,18 @@
 import Clickchat from '/public/assets/Clickchat.svg';
 import bar from '/public/assets/bar.svg';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FiPlus } from 'react-icons/fi';
 import message from '/public/assets/message.svg';
 import home from '/public/assets/home.svg';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import useStore, { useErrorModalStore } from '../../store/store.ts';
-import { useState } from 'react';
+import { useErrorModalStore } from '../../store/store.ts';
+import { useEffect, useState } from 'react';
 import Modal from '../modal/Modal.tsx';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 function Navbar() {
-  const isLoggedIn = useStore((state) => state.isLoggedIn);
-  const [isLoggedIn1, setLoggedIn1] = useState(
-    localStorage.getItem('isLoggedIn') === 'true',
-  );
   const navigate = useNavigate();
+  const [unReadCount, setUnReadCount] = useState();
 
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
 
@@ -39,6 +37,29 @@ function Navbar() {
     }
   };
 
+  const accessToken = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (accessToken) {
+      const eventSource = new EventSourcePolyfill(
+        'https://api.openmpy.com/api/v1/sse',
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          },
+          heartbeatTimeout: 600000,
+          withCredentials: true,
+        },
+      );
+
+      eventSource.addEventListener('sse', (event: any) => {
+        const parseData = JSON.parse(event.data);
+        console.log(parseData);
+        setUnReadCount(parseData.data.totalUnreadCount);
+      });
+    }
+  }, [accessToken]);
+
   return (
     <>
       <Modal
@@ -53,7 +74,7 @@ function Navbar() {
           style={{ cursor: 'pointer' }}
           src={home}
           onClick={() => {
-            navigate('/')
+            navigate('/');
           }}
         />
 
@@ -63,9 +84,10 @@ function Navbar() {
           src={isMessagePage ? Clickchat : message} // message 페이지면 Clickchat, 아니면 message.svg
           onClick={handleChatButtonClick}
         />
-        <Div onClick={handlePostButtonClick}>
+        <ChatRing $active={unReadCount}></ChatRing>
+        <div className={'Div'} onClick={handlePostButtonClick}>
           <FiPlus style={{ cursor: 'pointer' }} fontSize={'40px'} />
-        </Div>
+        </div>
         <img
           style={{
             filter: 'drop-shadow(2px 1px 6px rgba(0, 0, 0, 0.13))',
@@ -112,7 +134,7 @@ const Container = styled.div`
     left: 63px;
     width: 27px;
   }
-  > div {
+  > .Div {
     z-index: 10;
     background-color: #1689f3;
     color: #fff;
@@ -129,3 +151,17 @@ const Container = styled.div`
     filter: drop-shadow(0px 3.69509px 8.39793px rgba(0, 0, 0, 0.2));
   }
 `;
+
+const ChatRing = styled.div<{ $active: boolean }>(
+  ({ $active }) => css`
+    width: 6px;
+    z-index: 10000;
+    height: 6px;
+    background-color: #1689f3;
+    position: absolute;
+    border-radius: 50%;
+    bottom: 53px;
+    right: 55px;
+    display: ${$active ? 'flex' : 'none'};
+  `,
+);
