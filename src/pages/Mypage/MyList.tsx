@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { IoIosArrowBack } from 'react-icons/io';
-import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import arrow from '/public/assets/arrow.svg';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { authInstance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 import donotcrythehamzzang from '../../../public/assets/donotcrythehamzzang.svg';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useErrorModalStore } from '../../store/store';
 import Modal from '../../components/modal/Modal.tsx';
@@ -16,6 +16,7 @@ import { FaCamera } from 'react-icons/fa';
 import Header from '../../components/layout/Header.tsx';
 import Loading from '../glitch/Loading.tsx';
 import Camera from '/public/assets/Camera.svg';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Rental {
   rentalId: number;
@@ -28,11 +29,14 @@ interface Rental {
 
 function MyList() {
   const [selectedRentalId, setSelectedRentalId] = useState<number | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [rentals, setRentals] = useState([]);
   const navigate = useNavigate();
-  const handleBackClick = () => navigate(-1);
+  const handleBackClick = () => navigate('/');
 
   const { isOpen, errorMessage, openModal, closeModal } = useErrorModalStore();
-  const page = 1; // 페이지당 아이템 수
+  // const page = 1; // 페이지당 아이템 수
   // const selectedCategory = 'ALL'; // 선택된 카테고리
   const priceDot = (num: number) =>
     num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -40,30 +44,19 @@ function MyList() {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['rentals', { page }],
     queryFn: async () => {
-      const response = await authInstance.get('/api/v1/rentals/my/posts', {
-        params: {
-          page,
+      const response = await authInstance.get(
+        `/api/v1/rentals/my/posts?page=${page}&size=100`,
+        {
+          params: {
+            page,
+          },
         },
-      });
+      );
       console.log(response.data.data);
       return response.data.data;
     },
   });
-  if (isLoading) {
-    return <Loading />;
-  }
-  if (isError) {
-    return (
-      <ErrorPage>
-        <img src={magnifyingtheham} />
-        <MSG>
-          페이지를 찾을 수 없습니다. <br />
-          <br />
-          잠시후 다시 시도해주세요.
-        </MSG>
-      </ErrorPage>
-    );
-  }
+  console.log(data);
 
   const handleConfirmDelete = (rentalId) => {
     closeModal();
@@ -84,93 +77,194 @@ function MyList() {
         console.error('게시물 삭제 중 오류가 발생했습니다:', error);
       },
     });
-
     deleteMutation.mutate(rentalId);
   };
 
+  const fetchMoreData = () => {
+    setPage(page + 1);
+  };
+
+  // useEffect(() => {
+  //   if (!isLoading && rentals.length === 0) {
+  //     setHasMore(true);
+  //   }
+  // }, [data]);
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return (
+      <ErrorPage>
+        <img src={magnifyingtheham} />
+        <MSG>
+          페이지를 찾을 수 없습니다. <br />
+          <br />
+          잠시후 다시 시도해주세요.
+        </MSG>
+      </ErrorPage>
+    );
+  }
+
   return (
-    <Wrapper>
-      {!data || data.length === 0 ? (
-        <>
-          <Header text={'함께 쓴 내역'} />
-          <NoData>
-            <img src={donotcrythehamzzang} />
-            <NoDataMSG>아직 쓰신 글이 없네용</NoDataMSG>
-          </NoData>
-        </>
-      ) : (
-        <>
-          <Header text={'함께 쓴 내역'} />
-          <SB>
-            {data.map((data) => (
-              <Ao
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/details/${data.rentalId}`);
-                }}
-              >
-                <Container key={data.rentalId}>
-                  <IMG>
-                    {data.firstThumbnailUrl ? (
-                      <img
-                        src={data.firstThumbnailUrl}
-                        alt="Rental Thumbnail"
-                      />
-                    ) : (
-                      <PlaceholderImage>
-                        <img src={Camera}/>
-                      </PlaceholderImage>
-                    )}
-                  </IMG>
-                  <Box>
-                    <Box1>
-                      <Custom>
-                        <Link
-                          to={`/details/${data.rentalId}/edit`}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <img src={modification} />
-                        </Link>
-                        <Modal
-                          isOpen={isOpen}
-                          message={errorMessage}
-                          onClose={closeModal}
-                          rentalId={selectedRentalId}
-                          successCallback={() => {
-                            refetch();
-                          }}
-                        />
-                      </Custom>
-                      <Button
-                        style={{ zIndex: '4' }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openModal('게시글을 삭제하시겠습니까?');
-                          setSelectedRentalId(data.rentalId);
-                        }}
-                      >
-                        <img src={trashbin} />
-                      </Button>
-                    </Box1>
-                    <Title> {data.title.length > 25
-                              ? data.title.slice(0, 25) + '···'
-                              : data.title}</Title>
-                    <Box2>
-                      <Fee>대여비 {priceDot(data.rentalFee)}원</Fee>
-                      <Deposit>보증금 {priceDot(data.deposit)}원</Deposit>
-                    </Box2>
-                  </Box>
-                </Container>
-              </Ao>
-            ))}
-          </SB>
-        </>
-      )}
+    <Wrapper id="ScrollableCategoryContainer">
+      <ScrollableCategoryContainer
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          // alignItems: 'center',
+        }}
+      >
+        <InfiniteScroll
+          dataLength={rentals.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          inverse={true}
+          loader={
+            <LoadingMessage>
+              {isLoading && rentals.length > 0 && ''}
+            </LoadingMessage>
+          }
+          scrollableTarget="ScrollableCategoryContainer"
+          scrollThreshold={0.9}
+        >
+          {!data || data.length === 0 ? (
+            <>
+              <PaddingBox>
+                <MenuBox>
+                  <img
+                    src={arrow}
+                    className={'arrow'}
+                    onClick={handleBackClick}
+                    style={{
+                      position: 'absolute',
+                      left: '20px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                  <span>함께 쓴 내역</span>
+                </MenuBox>
+              </PaddingBox>
+              <NoData>
+                <img src={donotcrythehamzzang} />
+                <NoDataMSG>아직 쓰신 글이 없네용</NoDataMSG>
+              </NoData>
+            </>
+          ) : (
+            <>
+              <PaddingBox>
+                <MenuBox>
+                  <img
+                    src={arrow}
+                    className={'arrow'}
+                    onClick={handleBackClick}
+                    style={{
+                      position: 'absolute',
+                      left: '20px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                  <span>함께 쓴 내역</span>
+                </MenuBox>
+              </PaddingBox>
+              <SB>
+                {data.map((data) => (
+                  <Ao
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/details/${data.rentalId}`);
+                    }}
+                  >
+                    <Container key={data.rentalId}>
+                      <IMG>
+                        {data.firstThumbnailUrl ? (
+                          <img
+                            src={data.firstThumbnailUrl}
+                            alt="Rental Thumbnail"
+                          />
+                        ) : (
+                          <PlaceholderImage>
+                            <FaCamera size={24} color="#f0f0f0" />
+                          </PlaceholderImage>
+                        )}
+                      </IMG>
+                      <Box>
+                        <Box1>
+                          <Custom>
+                            <Link
+                              to={`/details/${data.rentalId}/edit`}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <img src={modification} />
+                            </Link>
+                            <Modal
+                              isOpen={isOpen}
+                              message={errorMessage}
+                              onClose={closeModal}
+                              rentalId={selectedRentalId}
+                              successCallback={() => {
+                                refetch();
+                              }}
+                            />
+                          </Custom>
+                          <Button
+                            style={{ zIndex: '4' }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openModal('게시글을 삭제하시겠습니까?');
+                              setSelectedRentalId(data.rentalId);
+                            }}
+                          >
+                            <img src={trashbin} />
+                          </Button>
+                        </Box1>
+                        <Title>{data.title}</Title>
+                        <Box2>
+                          <Fee>대여비 {priceDot(data.rentalFee)}원</Fee>
+                          <Deposit>보증금 {priceDot(data.deposit)}원</Deposit>
+                        </Box2>
+                      </Box>
+                    </Container>
+                  </Ao>
+                ))}
+              </SB>
+            </>
+          )}
+        </InfiniteScroll>
+      </ScrollableCategoryContainer>
     </Wrapper>
   );
 }
 
 export default MyList;
+
+const MenuBox = styled.div`
+  display: flex;
+  background-color: #ffffff;
+  height: 60px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  > span {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 14px;
+  }
+  > .arrow {
+    width: 10px;
+    height: 16px;
+  }
+`;
+const PaddingBox = styled.div`
+  width: 100%;
+  position: absolute;
+  padding: 0 20px;
+  z-index: 10000;
+  background-color: #fff;
+  box-shadow: 0 0 20px 0px rgba(100, 100, 111, 0.2);
+`;
 
 const PlaceholderImage = styled.div`
   width: 100%;
@@ -181,46 +275,17 @@ const PlaceholderImage = styled.div`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 `;
-const MenuBox = styled.div`
-  width: 100%;
+
+const LoadingMessage = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  padding: 0 7%;
-  margin-top: 10px;
-  height: 6vh;
-  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f5f5f5;
-  z-index: 666666;
-  position: absolute;
-  > span {
-    width: 69px;
-    height: 17px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14.1085px;
-    line-height: 17px;
-    text-align: center;
-    color: #000000;
-    margin-left: 110px;
-  }
-  @media screen and (max-width: 430px) {
-    height: 60px;
-    margin: 0px;
-    padding: 0 20px;
-  }
 `;
 
-// const Loading = styled.div`
-//   width: 100%;
-//   height: 100vh;
-//   @media screen and (max-width: 430px) {
-//   }
-// `;
 const Ao = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: flex-end;
   margin-top: 13px;
   margin-bottom: 12px;
@@ -275,7 +340,10 @@ const Wrapper = styled.div`
   overflow: auto;
   background-color: white;
   padding-bottom: 120px;
+  /* overflow: scroll; */
 `;
+const ScrollableCategoryContainer = styled.div``;
+
 const NoData = styled.div`
   height: 70vh;
   display: flex;

@@ -297,7 +297,7 @@ console.log(rentals[0])
                                     item.deposit >= 10000 ? '9px' : '10px',
                                 }}
                               >
-                                보증금 {priceDot(item.rentalFee)}원
+                                보증금 {priceDot(item.deposit)}원
                               </H2>
                               <H3
                                 style={{
@@ -305,7 +305,7 @@ console.log(rentals[0])
                                     item.deposit >= 10000 ? '10px' : '12px',
                                 }}
                               >
-                                대여비 {priceDot(item.deposit)}원
+                                대여비 {priceDot(item.rentalFee)}원
                               </H3>
                             </Layout1>
                           </Layout2>
@@ -352,7 +352,6 @@ console.log(rentals[0])
           </div>
         </InfiniteScroll>
       </ScrollableCategoryContainer>
-
       <Contents2 />
     </Div>
   );

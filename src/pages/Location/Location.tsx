@@ -273,7 +273,7 @@ export default function Location(): JSX.Element {
           {address && !newAddress && <Address>{address}</Address>}
           <div style={{ width: '320px', marginBottom: '34px' }}>
             <IMG onClick={getCurrentPosBtn} $active={address}>
-              여기를 눌러 위치설정해주세요!
+              먼저 여기를 눌러 위치설정해주세요!
             </IMG>
             {(address || newAddress) && (
               <IMG onClick={getCurrentPosBtn} $active={address}>

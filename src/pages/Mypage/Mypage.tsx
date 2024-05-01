@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
@@ -14,8 +15,18 @@ import { logout } from '../../api/axios.ts';
 import useStore from '../../store/store.ts';
 
 function Mypage() {
-  const url = 'https://www.kakao.com/policy/location';
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['getMyPage'],
+    queryFn: () => getMyPage(),
+  });
+
   const navigate = useNavigate();
+  const url = 'https://www.kakao.com/policy/location';
+  // //닉네임수정
+  // const handleChangeNicknameClick = () => {
+  //   setShowNicknameInput(true);
+  // };
+
   const useLogout = () => {
     return useMutation({
       mutationFn: logout,
@@ -25,8 +36,9 @@ function Mypage() {
       },
     });
   };
+
   const logoutMutation = useLogout();
-  const handleBackClick = () => navigate(-1);
+
   const GotoListHandler = () => {
     navigate('/mylist');
   };
@@ -36,10 +48,6 @@ function Mypage() {
     alert('로그아웃되었습니다');
     navigate('/');
   };
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['getMyPage'],
-    queryFn: () => getMyPage(),
-  });
 
   if (isLoading) {
     return (
@@ -248,7 +256,6 @@ const Title1 = styled.div`
   font-size: 20px;
   line-height: 24px;
   color: #000000;
-
   @media screen and (max-width: 430px) {
   }
 `;
