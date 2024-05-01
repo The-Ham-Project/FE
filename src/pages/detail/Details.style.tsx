@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import DetailsArrow1 from '../../../public/assets/DetailsArrow1.svg';
-import DetailsArrow2 from '../../../public/assets/DetailsArrow2.svg';
+// import DetailsArrow1 from '../../../public/assets/DetailsArrow1.svg';
+// import DetailsArrow2 from '../../../public/assets/DetailsArrow2.svg';
 export const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -31,10 +31,10 @@ export const ImgBox = styled.div`
     color: rgb(22, 137, 243);
   }
   .slick-prev:before {
-    content: url(${DetailsArrow1});
+
   }
   .slick-next:before {
-    content: url(${DetailsArrow2});
+
   }
   .slick-prev:before,
   .slick-next:before {
