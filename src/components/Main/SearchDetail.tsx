@@ -5,12 +5,16 @@ import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { instance } from '../../api/axios';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
-import Camera from '/public/assets/Camera.svg';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSearchParams } from 'react-router-dom';
 import Search from './Search';
+import Loading from '../../pages/glitch/Loading';
 
 function SearchDetail() {
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [rentals, setRentals] = useState([]);
   const [searchParams] = useSearchParams();
   const [data, setData] = useState(null);
   const keyword = searchParams.get('keyword');
@@ -20,11 +24,16 @@ function SearchDetail() {
   };
 
   const { isLoading, isError, refetch } = useQuery({
-    queryKey: ['rentals', keyword],
+    queryKey: ['rentals', keyword, { page }],
     queryFn: async () => {
       try {
         const { data } = await instance.get(
-          `/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`,
+          `/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=100`,
+          {
+            params: {
+              page,
+            },
+          },
         );
         setData(data);
         console.log('검색 결과:', data);
@@ -37,63 +46,111 @@ function SearchDetail() {
     },
     enabled: keyword !== '',
   });
+  const fetchMoreData = () => {
+    setPage(page + 1);
+  };
+  useEffect(() => {
+    if (!isLoading && rentals.length === 0) {
+      setHasMore(true);
+    }
+  }, [data]);
 
   useEffect(() => {
     refetch();
   }, [keyword]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return (
+      <ErrorPage>
+        <img src={magnifyingtheham} />
+        <MSG>
+          페이지를 찾을 수 없습니다. <br />
+          <br />
+          잠시후 다시 시도해주세요.
+        </MSG>
+      </ErrorPage>
+    );
+  }
+
   return (
-    <Wrapper>
-      <Search />
-      <Detail>
-        {data && data.data.count !== 0 && (
-          <Result>검색 결과 : 총 {data.data.count}개의 글을 찾았습니다!</Result>
-        )}
-        {isLoading && <li>Loading...</li>}
-        {isError && <li>Error occurred while fetching data</li>}
-        {data && data.data.count !== 0
-          ? data.data.searchResponseList.map((rental) => (
-              <Ao
-                key={rental.rentalId}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/details/${rental.rentalId}`);
-                }}
-              >
-                <Container>
-                  <IMG>
-                    {rental.firstThumbnailUrl ? (
-                      <img
-                        src={rental.firstThumbnailUrl}
-                        alt="Rental Thumbnail"
-                      />
-                    ) : (
-                      <PlaceholderImage>
-                           <img src={Camera}/>
-                      </PlaceholderImage>
-                    )}
-                  </IMG>
-                  <Box>
-                    <Title> {rental.title.length > 25
-                              ? rental.title.slice(0, 25) + '···'
-                              : rental.title}</Title>
-                    <Box2>
-                      <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
-                      <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
-                    </Box2>
-                  </Box>
-                </Container>
-              </Ao>
-            ))
-          : !isLoading && (
-              <NoData>
-                <Image>
-                  <img src={magnifyingtheham} />
-                </Image>
-                <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
-              </NoData>
+    <Wrapper id="ScrollableCategoryContainer">
+      <ScrollableCategoryContainer
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          // alignItems: 'center',
+        }}
+      >
+        <InfiniteScroll
+          dataLength={rentals.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          inverse={true}
+          loader={
+            <LoadingMessage>
+              {isLoading && rentals.length > 0 && ''}
+            </LoadingMessage>
+          }
+          scrollableTarget="ScrollableCategoryContainer"
+          scrollThreshold={0.9}
+        >
+          <Search />
+          <Detail>
+            {data && data.data.count !== 0 && (
+              <Result>
+                검색 결과 : 총 {data.data.count}개의 글을 찾았습니다!
+              </Result>
             )}
-      </Detail>
+            {isLoading && <li>Loading...</li>}
+            {isError && <li>Error occurred while fetching data</li>}
+            {data && data.data.count !== 0
+              ? data.data.searchResponseList.map((rental) => (
+                  <Ao
+                    key={rental.rentalId}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/details/${rental.rentalId}`);
+                    }}
+                  >
+                    <Container>
+                      <IMG>
+                        {rental.firstThumbnailUrl ? (
+                          <img
+                            src={rental.firstThumbnailUrl}
+                            alt="Rental Thumbnail"
+                          />
+                        ) : (
+                          <PlaceholderImage>
+                            <FaCamera size={24} color="#f0f0f0" />
+                          </PlaceholderImage>
+                        )}
+                      </IMG>
+                      <Box>
+                        <Title>{rental.title}</Title>
+                        <Box2>
+                          <Fee>대여비 {priceDot(rental.rentalFee)}원</Fee>
+                          <Deposit>보증금 {priceDot(rental.deposit)}원</Deposit>
+                        </Box2>
+                      </Box>
+                    </Container>
+                  </Ao>
+                ))
+              : !isLoading && (
+                  <NoData>
+                    <Image>
+                      <img src={magnifyingtheham} />
+                    </Image>
+                    <MSG>검색하신 키워드와 관련된 상품이 없어요.</MSG>
+                  </NoData>
+                )}
+          </Detail>
+        </InfiniteScroll>
+      </ScrollableCategoryContainer>
     </Wrapper>
   );
 }
@@ -109,13 +166,12 @@ width: 130px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 `;
+const ScrollableCategoryContainer = styled.div``;
 
-const AnimatedInputContainer = styled.div<{ showInput: boolean }>`
-  width: ${({ showInput }) =>
-    showInput ? '100%' : '0'}; /* 입력 창의 너비를 조정합니다. */
-  opacity: ${({ showInput }) => (showInput ? 1 : 0)};
-  overflow: hidden; /* 애니메이션 중 내용물이 넘치는 것을 방지합니다. */
-  transition: width 0.3s ease-in-out; /* 너비 변경에 대한 애니메이션 효과를 적용합니다. */
+const LoadingMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`
@@ -123,6 +179,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
+  overflow: scroll;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -131,6 +188,7 @@ const Detail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 140px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -287,6 +345,13 @@ const IMG = styled.div`
     border-radius: 6.71835px;
     object-fit: cover;
   }
+  @media screen and (max-width: 430px) {
+  }
+`;
+
+const ErrorPage = styled.div`
+  width: 100%;
+  height: 100vh;
   @media screen and (max-width: 430px) {
   }
 `;
