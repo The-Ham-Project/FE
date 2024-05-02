@@ -380,7 +380,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-content: space-between;
-  margin-left: 16px;
+  margin-left: 13px;
 `;
 
 const Box1 = styled.div`
@@ -394,7 +394,7 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 180px;
+  width: 185px;
   align-items: center;
 `;
 

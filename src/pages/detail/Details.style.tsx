@@ -104,6 +104,7 @@ export const TitleBox = styled.div`
 export const Between = styled.div`
   display: flex;
   align-items: center;
+     margin-right: 8px;
   > img {
     border-radius: 100%;
     width: 32px;

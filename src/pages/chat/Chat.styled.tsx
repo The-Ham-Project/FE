@@ -132,11 +132,12 @@ export const Box = styled.div`
     border-radius: 27px;
     font-family: 'Pretendard-Regular';
     background-color: #f5f5f5;
-    height: 45px;
+    height: 43px;
     overflow: hidden;
     border: none;
     width: calc(100% - 32px);
     padding-left: 18px;
+    padding-top: 25px;
     font-size: 15px;
     outline: none;
     resize: none;
@@ -148,6 +149,7 @@ export const Box = styled.div`
   > img {
     padding-right: 13px;
   }
+
 `;
 export const DateSpanBox = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
