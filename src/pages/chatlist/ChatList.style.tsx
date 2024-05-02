@@ -70,6 +70,7 @@ export const ListBox = styled.div`
   padding: 20px;
   align-items: center;
   position: relative;
+  cursor: pointer;
   &:after {
     content: '';
     border-bottom: 1px solid #f5f5f5;

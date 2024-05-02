@@ -320,6 +320,7 @@ const Button = styled.div`
   border: none;
   width: 39.69px;
   height: 13.77px;
+  cursor: pointer;
   @media screen and (max-width: 430px) {
   }
 `;

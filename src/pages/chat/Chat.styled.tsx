@@ -146,10 +146,14 @@ export const Box = styled.div`
       display: none;
     }
   }
+  textarea::placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   > img {
     padding-right: 13px;
   }
-
 `;
 export const DateSpanBox = styled.div<{ $active: boolean }>(
   ({ $active }) => css`
