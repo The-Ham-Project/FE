@@ -369,8 +369,10 @@ const Wrapper1 = styled.div`
   height: 100%;
   overflow-x: hidden;
   padding-bottom: 120px;
+  /* 스크롤바 스타일 */
   &::-webkit-scrollbar {
     width: 8px;
+    display: none;
   }
 
   &::-webkit-scrollbar-thumb {
