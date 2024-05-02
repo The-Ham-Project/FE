@@ -48,6 +48,22 @@ export const List = styled.div`
   }
 `;
 
+export const None = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  > span {
+    font-size: 16px;
+    padding-top: 10px;
+  }
+  > button {
+    margin-top: 15px;
+    width: 260px;
+  }
+`;
+
 export const ListBox = styled.div`
   height: 100px;
   display: flex;
