@@ -6,6 +6,7 @@ import lgoo from '/public/assets/lgoo.svg';
 import person from '/public/assets/person.svg';
 import styled from 'styled-components';
 import useStore, { useErrorModalStore } from '../../store/store';
+import NotFound from '../../pages/glitch/NotFound';
 
 interface SearchButtonProps {
   isActive: boolean;
@@ -81,6 +82,16 @@ function Search() {
       openModal('로그인 페이지로 이동합니다');
     }
   };
+  if (isLoading) {
+    return (
+      <LoadingWrapper>
+        <Loading />
+      </LoadingWrapper>
+    );
+  }
+  if (isError) {
+    return <NotFound />;
+  }
 
   return (
     <div style={{ display: 'flex', backgroundColor: 'white' }}>
@@ -134,7 +145,7 @@ function Search() {
               {data &&
                 data.searchResponseList?.map((rental) => (
                   <Searchli key={rental.rentalId}>
-                    <Link to={`/Details/${rental.rentalId}`}>
+                    <Link to={`/details/${rental.rentalId}`}>
                       {rental.title.length > 20
                         ? rental.title.slice(0, 16) + '···'
                         : rental.title}
@@ -160,6 +171,33 @@ function Search() {
 
 export default Search;
 
+const LoadingWrapper = styled.div`
+  overflow: auto;
+  background-color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 700px) {
+    overflow: scroll;
+  }
+`;
+
+const Loading = styled.div`
+  width: 80px;
+  height: 80px;
+  border: 8px solid #8da9db;
+  border-top-color: #2f5496;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  @media screen and (max-width: 430px) {
+  }
+  @keyframes spin {
+    to {
+    }
+  }
+`;
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
   display: flex;
