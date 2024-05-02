@@ -16,8 +16,8 @@ function Search() {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
   const [showInput, setShowInput] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null); // Ref 생성
-  const searchContainerRef = useRef<HTMLDivElement>(null); // Ref 생성
+  const inputRef = useRef<HTMLInputElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   const { login } = useStore();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', keyword],
@@ -43,25 +43,17 @@ function Search() {
     setKeyword(e.target.value);
   };
 
-  const handleSearch = () => {
-    setShowInput(true);
-    if (!showInput) {
-      setShowInput(true);
-      return;
-    }
-    if (keyword.trim() === '') {
-      setShowInput(false);
-      return;
-    }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (keyword.trim() === '') {
+        setShowInput(false);
+        return;
+      }
+      navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
+    }, 5000); // 500ms 디바운스 시간 설정
 
-    navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
-  };
-
-  const activeEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
-  };
+    return () => clearTimeout(timer); // 이전 타이머를 제거하여 디바운스 효과를 구현
+  }, [keyword]); // 키워드가 변경될 때마다 useEffect가 호출되어 타이머가 재설정됨
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -127,7 +119,6 @@ function Search() {
             <input
               ref={inputRef}
               style={{ borderRadius: '20px', outline: 'none' }}
-              onKeyDown={activeEnter}
               type="text"
               placeholder="검색..."
               value={keyword}
@@ -137,7 +128,7 @@ function Search() {
           <SearchButton
             isActive={showInput}
             onClick={() => {
-              handleSearch();
+              setShowInput(!showInput);
             }}
           >
             <img

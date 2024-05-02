@@ -370,7 +370,7 @@ const Layout1 = styled.div`
 `;
 
 const Nickname = styled.div`
-  width: 57px;
+  width: 53px;
   height: 11px;
   font-family: 'Pretendard';
   font-style: normal;
