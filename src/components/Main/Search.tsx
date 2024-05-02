@@ -15,8 +15,8 @@ function Search() {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
   const [showInput, setShowInput] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); // Ref 생성
+  const searchContainerRef = useRef<HTMLDivElement>(null); // Ref 생성
   const { login } = useStore();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['rentals', keyword],
@@ -42,17 +42,25 @@ function Search() {
     setKeyword(e.target.value);
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (keyword.trim() === '') {
-        setShowInput(false);
-        return;
-      }
-      navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
-    }, 5000); // 500ms 디바운스 시간 설정
+  const handleSearch = () => {
+    setShowInput(true);
+    if (!showInput) {
+      setShowInput(true);
+      return;
+    }
+    if (keyword.trim() === '') {
+      setShowInput(false);
+      return;
+    }
 
-    return () => clearTimeout(timer); // 이전 타이머를 제거하여 디바운스 효과를 구현
-  }, [keyword]); // 키워드가 변경될 때마다 useEffect가 호출되어 타이머가 재설정됨
+    navigate(`/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`);
+  };
+
+  const activeEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -108,6 +116,7 @@ function Search() {
             <input
               ref={inputRef}
               style={{ borderRadius: '20px', outline: 'none' }}
+              onKeyDown={activeEnter}
               type="text"
               placeholder="검색..."
               value={keyword}
@@ -117,7 +126,7 @@ function Search() {
           <SearchButton
             isActive={showInput}
             onClick={() => {
-              setShowInput(!showInput);
+              handleSearch();
             }}
           >
             <img
@@ -129,20 +138,18 @@ function Search() {
             />
           </SearchButton>
           {showInput && (
-            <SearchResults>
-              {isError && <li>Error occurred while fetching data</li>}
-              {data &&
-                data.searchResponseList?.map((rental) => (
-                  <Searchli key={rental.rentalId}>
-                    <Link to={`/Details/${rental.rentalId}`}>
-                      {rental.title.length > 20
-                        ? rental.title.slice(0, 16) + '···'
-                        : rental.title}
-                    </Link>
-                  </Searchli>
-                ))}
-            </SearchResults>
-          )}
+          <SearchResults >
+            {isError && <li>Error occurred while fetching data</li>}
+            {data &&
+              data.searchResponseList?.map((rental) => (
+                <Searchli key={rental.rentalId}>
+                  <Link to={`/Details/${rental.rentalId}`}>{rental.title.length > 20
+                              ? rental.title.slice(0, 16) + '···'
+                              : rental.title}</Link>
+                </Searchli>
+              ))}
+          </SearchResults>
+        )}
         </div>
         <PersonButton onClick={handlePersonButtonClick}>
           <img
@@ -210,15 +217,15 @@ const SearchButton = styled.button<SearchButtonProps>`
 `;
 
 const SearchResults = styled.ul`
-  width: 54%;
-  border-radius: 10px;
-  display: flex;
-  place-content: center;
-  position: absolute;
-  left: 92px;
-  top: 50px;
-  flex-direction: column;
-  border-radius: 20px;
+    width: 54%;
+    border-radius: 10px;
+    display: flex;
+    place-content: center;
+    position: absolute;
+    left: 92px;
+    top: 50px;
+    flex-direction: column;
+    border-radius: 20px;
 `;
 
 const Searchli = styled.li`
