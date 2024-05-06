@@ -16,10 +16,9 @@ import send from '../../../public/assets/send.svg';
 
 interface Props {
   successCallback?: () => void;
-  query: any;
 }
 
-const Chat: React.FC<Props> = ({ query, successCallback }) => {
+const Chat: React.FC<Props> = ({ successCallback }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
   const params = useParams();
