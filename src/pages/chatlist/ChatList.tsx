@@ -31,9 +31,7 @@ const ChatList = () => {
   const queryChatList = useQuery({
     queryKey: ['chatList', currentPageNo],
     queryFn: () => readChatList(currentPageNo),
-    // refetchInterval: 2000,
     staleTime: 0,
-    // cacheTime: 0,
     select: (response) => response.data,
   });
   const { data, error, isLoading, refetch } = queryChatList;
@@ -52,9 +50,6 @@ const ChatList = () => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   console.log('ddd', chatList);
-  // }, [chatList]);
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
@@ -103,6 +98,15 @@ const ChatList = () => {
 
               return newChatList;
             });
+            // } else {
+            //   if (
+            //     !chatList.some(
+            //       (chatRoom) =>
+            //         chatRoom.chatRoomId === updatedChatRoom.chatRoomId,
+            //     )
+            //   ) {
+            //     setChatList((prevChatList) => [updatedChatRoom, ...prevChatList]);
+            //   }
           }
         }
       });
@@ -195,11 +199,6 @@ const ChatList = () => {
           <div ref={indicatorRef} className={'indicator'} />
         </List>
       )}
-      <Chat
-        successCallback={() => {
-          refetch();
-        }}
-      />
     </Contaier>
   );
 };
