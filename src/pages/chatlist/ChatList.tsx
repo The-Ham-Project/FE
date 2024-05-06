@@ -199,13 +199,6 @@ const ChatList = () => {
           <div ref={indicatorRef} className={'indicator'} />
         </List>
       )}
-      <Chat
-        query={queryChatList}
-        successCallback={() => {
-          console.log('test');
-          refetch();
-        }}
-      />
     </Contaier>
   );
 };

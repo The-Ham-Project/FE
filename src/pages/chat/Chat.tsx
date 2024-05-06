@@ -14,11 +14,7 @@ import arrow from '/public/assets/arrow.svg';
 import exit from '/public/assets/exit.svg';
 import send from '../../../public/assets/send.svg';
 
-interface Props {
-  successCallback?: () => void;
-}
-
-const Chat: React.FC<Props> = ({ successCallback }) => {
+const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
   const params = useParams();
@@ -41,9 +37,7 @@ const Chat: React.FC<Props> = ({ successCallback }) => {
 
   const mutateLeave = useMutation({
     mutationFn: leaveChatRoom,
-    onSuccess: () => {
-      successCallback && successCallback();
-    },
+    // onSuccess: () => {},
   });
 
   useEffect(() => {
