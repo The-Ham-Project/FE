@@ -20,7 +20,7 @@ export const readChatList = async (currentPageNo: number) => {
     {
       params: {
         page: currentPageNo,
-        size: 20,
+        size: 7,
       },
     },
   );

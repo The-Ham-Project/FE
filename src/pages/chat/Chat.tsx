@@ -1,6 +1,3 @@
-import { IoIosArrowBack } from 'react-icons/io';
-import { RxExit } from 'react-icons/rx';
-import { IoArrowUpCircleOutline } from 'react-icons/io5';
 import { leaveChatRoom, readChatRoom } from '../../api/chat.ts';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -16,13 +13,13 @@ import NotFound from '../glitch/NotFound.tsx';
 import arrow from '/public/assets/arrow.svg';
 import exit from '/public/assets/exit.svg';
 import send from '../../../public/assets/send.svg';
-import ChatList from '../chatlist/ChatList.tsx';
 
 interface Props {
   successCallback?: () => void;
+  query: any;
 }
 
-const Chat: React.FC<Props> = ({ successCallback }) => {
+const Chat: React.FC<Props> = ({ query, successCallback }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
   const params = useParams();
@@ -43,7 +40,7 @@ const Chat: React.FC<Props> = ({ successCallback }) => {
 
   const { data, error, isFetchedAfterMount } = queryChatRoom;
 
-  const { mutate } = useMutation({
+  const mutateLeave = useMutation({
     mutationFn: leaveChatRoom,
     onSuccess: () => {
       successCallback && successCallback();
@@ -162,15 +159,6 @@ const Chat: React.FC<Props> = ({ successCallback }) => {
     }
   }, [testMessges]);
 
-  // useEffect(() => {
-  //   if (queryChatRoom.data) {
-  //     const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
-  //     setTestMessges((prev) => {
-  //       return [...messagesToAdd, ...prev];
-  //     });
-  //   }
-  // }, [queryChatRoom.data]);
-
   useEffect(() => {
     if (queryChatRoom.data) {
       const messagesToAdd = [...queryChatRoom.data.chatReadResponseDtoList];
@@ -228,9 +216,14 @@ const Chat: React.FC<Props> = ({ successCallback }) => {
   const handleClickNavigate = () => {
     navigate('/commlist');
   };
-  const handelLeaveButton = () => {
-    mutate(parseInt(params?.chatRoom));
-    navigate('/commlist');
+
+  const handelLeaveButton = async () => {
+    //mutate(parseInt(params?.chatRoom));
+    mutateLeave.mutateAsync(parseInt(params?.chatRoom)).then(() => {
+      setTimeout(() => {
+        navigate('/commlist');
+      }, 300);
+    });
   };
 
   return (
@@ -340,18 +333,6 @@ const Chat: React.FC<Props> = ({ successCallback }) => {
             }}
           />
           <img src={send} onClick={sendMessage} />
-          {/*<IoArrowUpCircleOutline*/}
-          {/*  style={{*/}
-          {/*    fontSize: '32px',*/}
-          {/*    // position: 'absolute',*/}
-          {/*    // right: '30px',*/}
-          {/*    // zIndex: '100px',*/}
-          {/*    color: '#1689F3',*/}
-          {/*    padding: '10px',*/}
-          {/*    cursor: 'pointer',*/}
-          {/*  }}*/}
-          {/*  onClick={sendMessage}*/}
-          {/*/>*/}
         </ChatStyle.Box>
       </ChatStyle.InputBox>
     </ChatStyle.Container>
