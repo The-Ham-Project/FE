@@ -13,6 +13,7 @@ import NotFound from '../glitch/NotFound.tsx';
 import Header from '../../components/layout/Header.tsx'; //. 메인헤더가 아니라 헤더
 import { logout } from '../../api/axios.ts';
 import useStore from '../../store/store.ts';
+import Loading from '../glitch/Loading.tsx';
 
 function Mypage() {
   const { data, isLoading, isError } = useQuery({
@@ -50,11 +51,7 @@ function Mypage() {
   };
 
   if (isLoading) {
-    return (
-      <LoadingWrapper>
-        <Loading />
-      </LoadingWrapper>
-    );
+    return <Loading />;
   }
   if (isError) {
     return <NotFound />;
@@ -89,6 +86,20 @@ function Mypage() {
 
         <Container2>
           <Title2>나의 활동</Title2>
+          <Box
+            onClick={() => {
+              navigate('/userinfo');
+            }}
+          >
+            <GotoMyList>프로필 및 위치 수정</GotoMyList>
+            <img
+              src={gogo}
+              style={{
+                maxWidth: '18px',
+                maxHeight: '18px',
+              }}
+            />
+          </Box>
           <Box onClick={GotoListHandler}>
             <GotoMyList>함께 쓴 내역</GotoMyList>
             <img
@@ -99,7 +110,7 @@ function Mypage() {
               }}
             />
           </Box>
-          <Box
+          {/* <Box
             onClick={() => {
               navigate('/thxkakaomap');
             }}
@@ -112,7 +123,7 @@ function Mypage() {
                 maxHeight: '18px',
               }}
             />
-          </Box>
+          </Box> */}
           {/* <Box
             onClick={() => {
               window.open(url);
@@ -230,7 +241,6 @@ const PaddingBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* box-shadow: inset 0 5px 5px -5px #333; */
     width: 100%;
   }
 `;
@@ -368,7 +378,7 @@ const Box = styled.div`
 `;
 
 const GotoMyList = styled.div`
-  width: 90px;
+  width: 110px;
   height: 14.79px;
   font-family: 'Pretendard';
   font-style: normal;
@@ -429,20 +439,20 @@ const Container2 = styled.div`
     gap: 25px;
   }
 `;
-const Loading = styled.div`
-  width: 80px;
-  height: 80px;
-  border: 8px solid #8da9db;
-  border-top-color: #2f5496;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  @media screen and (max-width: 430px) {
-  }
-  @keyframes spin {
-    to {
-    }
-  }
-`;
+// const Loading = styled.div`
+//   width: 80px;
+//   height: 80px;
+//   border: 8px solid #8da9db;
+//   border-top-color: #2f5496;
+//   border-radius: 50%;
+//   animation: spin 1s linear infinite;
+//   @media screen and (max-width: 430px) {
+//   }
+//   @keyframes spin {
+//     to {
+//     }
+//   }
+// `;
 
 //로딩
 // body {

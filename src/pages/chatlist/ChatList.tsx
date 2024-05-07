@@ -145,7 +145,7 @@ const ChatList = () => {
       <PaddingBox>
         <MenuBox>
           <img src={arrow} className={'arrow'} onClick={handleClickNavigate} />
-          <span>메세지</span>
+          <span>메시지</span>
         </MenuBox>
       </PaddingBox>
       {data.totalPage === 0 ? (

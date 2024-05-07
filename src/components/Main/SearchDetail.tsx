@@ -77,6 +77,7 @@ function SearchDetail() {
 
   return (
     <Wrapper id="ScrollableCategoryContainer">
+      <Search />
       <ScrollableCategoryContainer
         style={{
           width: '100%',
@@ -99,7 +100,6 @@ function SearchDetail() {
           scrollableTarget="ScrollableCategoryContainer"
           scrollThreshold={0.9}
         >
-          <Search />
           <Detail>
             {data && data.data.count !== 0 && (
               <Result>
@@ -158,7 +158,7 @@ export default SearchDetail;
 
 // 스타일드 컴포넌트 정의
 const PlaceholderImage = styled.div`
-width: 130px;
+  width: 130px;
   background-color: #ffffff;
   display: flex;
   justify-content: center;

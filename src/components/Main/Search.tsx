@@ -6,6 +6,7 @@ import lgoo from '/public/assets/lgoo.svg';
 import person from '/public/assets/person.svg';
 import styled from 'styled-components';
 import useStore, { useErrorModalStore } from '../../store/store';
+import { instance } from '../../api/axios';
 
 interface SearchButtonProps {
   isActive: boolean;
@@ -22,13 +23,14 @@ function Search() {
     queryKey: ['rentals', keyword],
     queryFn: async () => {
       try {
-        const response = await fetch(
-          `https://api.openmpy.com/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`,
+        const response = await instance.get(
+          `/api/v1/rentals/search?keyword=${encodeURIComponent(keyword)}&page=1&size=6`,
         );
-        if (!response.ok) {
+        if (!response) {
           throw new Error('네트워크 응답이 올바르지 않습니다');
         }
-        const responseData = await response.json();
+        const responseData = await response;
+        console.log(responseData.data.data.title);
         return responseData.data;
       } catch (error) {
         console.error('데이터를 가져오는 중 에러 발생:', error);
@@ -138,18 +140,20 @@ function Search() {
             />
           </SearchButton>
           {showInput && (
-          <SearchResults >
-            {isError && <li>Error occurred while fetching data</li>}
-            {data &&
-              data.searchResponseList?.map((rental) => (
-                <Searchli key={rental.rentalId}>
-                  <Link to={`/Details/${rental.rentalId}`}>{rental.title.length > 20
-                              ? rental.title.slice(0, 16) + '···'
-                              : rental.title}</Link>
-                </Searchli>
-              ))}
-          </SearchResults>
-        )}
+            <SearchResults>
+              {isError && <li>Error occurred while fetching data</li>}
+              {data &&
+                data.data.searchResponseList?.map((rental) => (
+                  <Searchli key={rental.rentalId}>
+                    <Link to={`/details/${rental.rentalId}`}>
+                      {rental.title.length > 20
+                        ? rental.title.slice(0, 16) + '···'
+                        : rental.title}
+                    </Link>
+                  </Searchli>
+                ))}
+            </SearchResults>
+          )}
         </div>
         <PersonButton onClick={handlePersonButtonClick}>
           <img
