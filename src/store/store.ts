@@ -59,30 +59,30 @@ const useStore = create<State>((set) => {
       localStorage.setItem('isLoggedIn', 'false'); // 로그아웃 시 로컬 스토리지 업데이트
       set({ isLoggedIn: false });
     },
-    // getCategoryData: async (category, pageNumber, pageSize) => {
-    //   set({ isLoading: true });
+    getCategoryData: async (category, pageNumber, pageSize) => {
+      set({ isLoading: true });
 
-    //   try {
-    //     const response: AxiosResponse<any> = await axios.get(
-    //       `https://api.openmpy.com/api/v1/rentals?category=${category}&page=${pageNumber}&size=${pageSize}`,
-    //     );
+      try {
+        const response: AxiosResponse<any> = await axios.get(
+          `https://api.openmpy.com/api/v1/rentals?category=${category}&page=${pageNumber}&size=${pageSize}`,
+        );
 
-    //     const newData: any = response.data;
-    //     set((state: State) => ({
-    //       rentalData: { ...state.rentalData, [category]: newData },
-    //       isLoading: false,
-    //     }));
-    //     console.log('게시 성공!');
-    //     return newData;
-    //   } catch (error) {
-    //     console.error('Error fetching category data:', error);
-    //     throw error;
-    //   } finally {
-    //     set({ isLoading: false });
-    //   }
-    // },
-    // setPageSize: (pageSize) => set({ pageSize }),
-    // setPageNumber: (pageNumber) => set({ pageNumber }), // setPageNumber 함수 정의
+        const newData: any = response.data;
+        set((state: State) => ({
+          rentalData: { ...state.rentalData, [category]: newData },
+          isLoading: false,
+        }));
+        console.log('게시 성공!');
+        return newData;
+      } catch (error) {
+        console.error('Error fetching category data:', error);
+        throw error;
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    setPageSize: (pageSize) => set({ pageSize }),
+    setPageNumber: (pageNumber) => set({ pageNumber }), // setPageNumber 함수 정의
   };
 });
 
