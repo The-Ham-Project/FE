@@ -13,15 +13,13 @@ import OTHER from '/public/assets/OTHER.svg';
 import position from '/public/assets/position.svg';
 import banner from '/public/assets/banner.svg';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
-import donotcrythehamzzang from '/public/assets/donotcrythehamzzang.svg';
-
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
 import { FaCamera } from 'react-icons/fa';
 import { authInstance, instance } from '../../api/axios';
 import LikeButton from './LikeButton';
-import axios from 'axios';
 
+// 카테고리 타입 정의
 export type Category =
   | 'ALL'
   | 'ELECTRONIC'
@@ -32,13 +30,13 @@ export type Category =
   | 'PLACE'
   | 'OTHER';
 
+// 카테고리 이미지 정의 for 간편성(∵map 이용)
 const categories: Record<Category, { label: string; icon: string }> = {
   ALL: { label: '전체', icon: ALL },
   HOUSEHOLD: { label: '생활용품', icon: HOUSEHOLD },
   KITCHEN: { label: '주방용품', icon: KITCHEN },
   CLOSET: { label: '의류', icon: CLOSET },
   ELECTRONIC: { label: '전자제품', icon: ELECTRONIC },
-
   BOOK: { label: '도서', icon: BOOK },
   PLACE: { label: '장소', icon: PLACE },
   OTHER: { label: '기타', icon: OTHER },
@@ -72,6 +70,7 @@ function Category() {
     setPage(page + 1);
   };
 
+  //컴포넌트가 마운팅 됐을 때 처음 로드할 아이템이 6개가 보이도록 초기 목록 정의하는 부분
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -99,13 +98,13 @@ function Category() {
         throw new Error('Network response was not ok');
       }
     };
-
     fetchData();
   }, []);
 
+  //다른 지역 게시물 보기 버튼 클릭 시 실행하는 함수인데 로그아웃 시에도 볼 수 있도록 하기 위해 instance 사용
   const handleDifferentLocationClick = async () => {
-    const response = await axios.get(
-      `https://api.openmpy.com/api/v1/rentals?category=${selectedCategory}&page=1&size=12`,
+    const response = await instance.get(
+      `/api/v1/rentals?category=${selectedCategory}&page=1&size=12`,
     );
     if (!response) {
       throw new Error('Network response was not ok');
@@ -127,28 +126,25 @@ function Category() {
     setPage(page + 1);
   };
 
+  //데이터의 변경이 생길 때 실행되는 함수(ex: 이미지를 삭제하거나 추가했을 경우) 데이터가 변하는거니까 그 때마다 실행되는 겁니다
   useEffect(() => {
     if (data) {
-      // 중복된 데이터 제거 후 새로운 데이터 추가
+      // 기존 데이터에서 중복되는 데이터 제거 후 새로운 데이터 추가
       setRentals((prevRentals) => {
-        const newRentals = [...prevRentals, ...data.data];
+        const newRentals = [...prevRentals, ...data.data]; // 새로운데이터가 있을때 배열에 추가
         return newRentals.filter(
           (rental, index, self) =>
             index === self.findIndex((t) => t.rentalId === rental.rentalId),
-        );
+        ); // 중복데이터가 있을 경우 중복되지 않은 데이터만 필터로 골라 나열
       });
+      // 데이터가 없을 경우 무한스크롤 요청 이벤트 실행 방지
       if (data.data.length === 0) {
         setHasMore(false);
       }
     }
   }, [data]);
 
-  useEffect(() => {
-    if (!isLoading && rentals.length === 0) {
-      setHasMore(true);
-    }
-  }, [data]);
-
+  //카테고리 선택 시 실행하는 함수
   const handleCategoryChange = (category: Category) => {
     if (selectedCategory === category) {
       return;

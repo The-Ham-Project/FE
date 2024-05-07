@@ -1,270 +1,334 @@
-// import { useState, useEffect, useCallback } from 'react';
-// import styled from 'styled-components';
-// import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-// import { getMyPage } from '../../api/mypage';
-// import { useNavigate } from 'react-router-dom';
-// import { checkDuplicateNickname, changeUserName } from '../../api/mypage';
+import { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import { getMyPage } from '../../api/mypage';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/layout/Header';
+import { changeUserName } from '../../api/mypage';
+import { checkDuplicateNickname } from '../../api/mypage';
+import { ImCamera } from 'react-icons/im';
+import gogo from '../../../public/assets/gogo.svg';
 
-// function ChangeUserInfo() {
-//   const [nickname, setNickname] = useState('');
-//   const [nicknameError, setNicknameError] = useState('');
-//   const [nicknameValidityMessage, setNicknameValidityMessage] =
-//     useState<string>('');
-//   const [nicknameDupMessage, setNicknameDupMessage] = useState<string>('');
-//   const [showNicknameInput, setShowNicknameInput] = useState(false);
-//   const [initialData, setInitialData] = useState({
-//     writtenNickname: '',
-//   });
-//   const useInput = (initialInput: any) => {
-//     const [input, setInput] = useState(initialInput);
-//     const onChange = useCallback((e: any) => {
-//       const { name, value } = e.target;
-//       setInput((input: any) => ({ ...input, [name]: value }));
-//     }, []);
-//     const reset = useCallback(() => setInput(initialInput), [initialInput]);
-//     return [input, onChange, reset];
-//   };
-//   // const { data: currentNickname, isLoading: isFetchingNickname } = useQuery({
-//   //   queryKey: ['getMyPage'],
-//   //   queryFn: () => getMyPage(),
-//   // });
-//   const {
-//     data,
-//     isLoading: isFetchingNickname,
-//     isError,
-//   } = useQuery({
-//     queryKey: ['getMyPage'],
-//     queryFn: () => getMyPage(),
-//   });
-//   const [input, onChange, resetInput] = useInput({
-//     writtenNickname: data?.nickname || '',
-//   });
-//   const navigate = useNavigate();
-//   // const nicknameCheck = (nickname: string) => {
-//   //   const nicknameCheck = /^[a-zA-Z0-9가-힣]{3,10}$/;
-//   //   return nicknameCheck.test(nickname);
-//   // };
+interface RentalImage {
+  file: string;
+  profileUrl: string;
+  createdAt: string;
+}
 
-//   // //회원정보 저장
-//   // const getChangedData = () => {
-//   //   const changedData = {
-//   //     nickname: localStorage.getItem('nickname') || '',
-//   //   };
-//   //   if (
-//   //     initialData.writtenNickname !== input.writtenNickname &&
-//   //     input.writtenNickname
-//   //   ) {
-//   //     changedData.nickname = input.writtenNickname;
-//   //     localStorage.setItem('nickname', changedData.nickname);
-//   //   }
-//   //   return changedData;
-//   // };
+function ChangeUserInfo() {
+  const [nickname, setNickname] = useState('');
+  const [nicknameError, setNicknameError] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
+  const [imageChanged, setImageChanged] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [nicknameValidityMessage, setNicknameValidityMessage] =
+    useState<string>('');
+  const [nicknameDupMessage, setNicknameDupMessage] = useState<string>('');
 
-//   const useChangeNicknameMutation = () => {
-//     const mutation = useMutation<string, Error, string>({
-//       mutationFn: changeUserName,
-//       onSuccess: (data) => {
-//         console.log('Nickname changed successfully:', data);
-//       },
-//       onError: (error: Error) => {
-//         console.error('Error changing nickname:', error.message);
-//       },
-//     });
-//     return mutation;
-//   };
+  const navigate = useNavigate();
 
-//   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const newNickname = e.target.value;
-//     if (newNickname.length >= 10) {
-//       setNicknameError('닉네임은 10글자 이내여야 합니다');
-//     } else {
-//       setNicknameError('');
-//     }
-//     setNickname(e.target.value);
-//   };
+  const { data, isLoading: isFetchingNickname } = useQuery({
+    queryKey: ['getMyPage'],
+    queryFn: () => getMyPage(),
+  });
 
-//   // // 닉네임 유효성 검사
-//   // useEffect(() => {
-//   //   if (input.writtenNickname) {
-//   //     setNicknameValidityMessage(
-//   //       nicknameCheck(input.writtenNickname)
-//   //         ? ''
-//   //         : '닉네임은 특수문자 제외 3자~10자로 설정해주세요!',
-//   //     );
-//   //   } else {
-//   //     setNicknameValidityMessage('');
-//   //   }
-//   //   const response = checkDuplicateNickname(input.writtenNickname);
-//   //   if (!response) {
-//   //     setNicknameDupMessage('이미 사용중인 닉네임이에요');
-//   //   }
-//   // }, [input.writtenNickname]);
+  const placeholder = isFetchingNickname
+    ? 'Loading...'
+    : data?.data.nickname || '새로운 닉네임을 입력하세요';
 
-//   //닉네임수정
-//   const handleChangeNicknameClick = () => {
-//     setShowNicknameInput(true);
-//   };
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newNickname = e.target.value;
+    if (newNickname.length >= 15) {
+      setNicknameError('닉네임은 15글자 이내여야 합니다');
+    } else {
+      setNicknameError('');
+    }
+    setNickname(e.target.value);
+  };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      // 기존의 선택된 파일 목록에 새로운 이미지를 추가하여 업데이트
+      setSelectedFiles((prevFiles: File[] | null) => {
+        // 새로운 이미지를 포함한 새로운 파일 목록을 생성
+        const updatedFiles = Array.from(files);
+        // 이전에 선택된 이미지도 추가
+        if (prevFiles) {
+          updatedFiles.push(...Array.from(prevFiles));
+        }
+        return updatedFiles;
+      });
+      setImageChanged(true); // 이미지가 변경되었음을 표시
+    } else {
+      // 이미지가 변경되지 않았음을 표시
+      setImageChanged(false);
+    }
+  };
 
-//     // const changedData = getChangedData();
+  // 닉네임 유효성 검사
+  useEffect(() => {
+    if (nickname) {
+      const nicknameCheck = (nickname: string) => {
+        const nicknameCheck = /^[a-zA-Z0-9가-힣]{3,10}$/;
+        console.log(placeholder);
+        console.log(nickname);
+        return nicknameCheck.test(nickname);
+      };
+      setNicknameValidityMessage(
+        nicknameCheck(nickname)
+          ? ''
+          : '닉네임은 특수문자 제외 3자~10자 입니다.',
+      );
+    } else {
+      setNicknameValidityMessage('');
+    }
+    const response = checkDuplicateNickname(nickname);
+    if (!response) {
+      setNicknameDupMessage('이미 사용중인 닉네임이에요');
+    }
+  }, [nickname]);
 
-//     // if (Object.keys(changedData).length === 0) {
-//     //   alert('변경 사항이 없습니다. 정보를 수정한 후에 제출해주세요.');
-//     //   return;
-//     // }
+  const submitNickname = async () => {
+    const formData = new FormData();
+    const requestDto = {
+      nickname,
+    };
 
-//     try {
-//       // if (profileImage && imageAction === 'modify') {
-//       //   updatePhotoMutate(profileImage);
-//       //   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-//       //   currentUser.profileImageUrl = previewImageUrl;
-//       //   localStorage.setItem('user', JSON.stringify(currentUser));
-//       // } else if (imageAction === 'delete') {
-//       //   // setProfileImage(null);
-//       //   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-//       //   currentUser.profileImageUrl = '';
-//       //   localStorage.setItem('user', JSON.stringify(currentUser));
-//       // }
-//       await changeUserName(nickname);
-//       resetInput();
-//       alert('회원 정보가 성공적으로 업데이트 되었습니다.');
-//       navigate('/mypage');
-//     } catch (error) {
-//       console.error('Update error:', error);
-//       alert('회원 정보 업데이트에 실패했습니다.');
-//     }
-//   };
+    formData.append('requestDto', JSON.stringify(requestDto));
 
-//   // const queryClient = useQueryClient();
+    // profileImage 파일 추가
+    if (selectedFiles) {
+      Array.from(selectedFiles).forEach((selectedFiles) => {
+        formData.append('profileImage', selectedFiles);
+      });
+      console.log('selectedFiles', selectedFiles);
+    }
 
-//   const submitNickname = () => {
-//     mutation.mutate(nickname, {
-//       onSuccess: () => {
-//         // queryClient.invalidateQueries({ queryKey: ['rankings'] });
-//         navigate('/mypage');
-//       },
-//     });
-//   };
+    try {
+      await changeUserName({ nickname: requestDto, formData: formData });
+      navigate('/mypage');
+    } catch (error) {
+      console.error('정보 수정 오류:', error);
+    }
+  };
 
-//   const mutation = useChangeNicknameMutation();
+  if (Error instanceof Error) {
+    console.error('닉네임을 가져오지 못했습니다 : ', Error.message);
+  }
 
-//   // const isLoading = mutation.status === 'pending';
+  return (
+    <Wrapper>
+      <Header text="프로필 수정" />
+      <PageContainer>
+        <div>
+          <Profile>
+            {selectedFiles && (
+              <Picture
+              // style={{ display: 'flex' }}
+              >
+                {Array.from(selectedFiles).map((file, index) => (
+                  <div key={selectedFiles.length - index - 1}>
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={`Image ${index + 1}`}
+                      style={{
+                        width: '130px',
+                        height: '130px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  </div>
+                ))}
+              </Picture>
+            )}
+            <label
+              style={{
+                width: '100px',
+                height: '100px',
+                borderRadius: '7px',
+                display:
+                  (selectedFiles ? selectedFiles.length : 0) < 1
+                    ? 'flex'
+                    : 'none',
+                justifyContent: 'center',
+                alignContent: 'center',
+                alignItems: 'center',
+              }}
+              htmlFor="file-upload"
+            >
+              <img
+                src={data?.data.profileUrl}
+                style={{
+                  width: '130px',
+                  height: '130px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                }}
+              />
+            </label>
+            <label htmlFor="file-upload">
+              <ProfileImageIcon>
+                <ImCamera />
+              </ProfileImageIcon>
+            </label>
+          </Profile>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            style={{
+              display:
+                (selectedFiles ? selectedFiles.length : 0) < 3
+                  ? 'none'
+                  : 'none',
+            }}
+          />
+        </div>
+        <InputWrapper>
+          <Input
+            type="text"
+            value={nickname}
+            onChange={handleNicknameChange}
+            placeholder={placeholder}
+            style={{ width: '265.54px' }}
+          />
+          <WarnSpan>{nicknameDupMessage}</WarnSpan>
+          <WarnSpan>{nicknameValidityMessage}</WarnSpan>
+        </InputWrapper>
+        {nicknameError && <TextOver>{nicknameError}</TextOver>}
+        <MyLocation>
+          <MSG>
+            내 위치
+            <ChangeMyLocation
+              onClick={() => {
+                navigate('/thxkakaomap');
+              }}
+            >
+              변경하기 &nbsp;
+              <img
+                src={gogo}
+                style={{
+                  maxWidth: '10px',
+                  maxHeight: '10px',
+                }}
+              />
+            </ChangeMyLocation>
+          </MSG>
+          <District>{data?.data.district}</District>
+        </MyLocation>
+        <ButtonWrapper>
+          <SubmitButton onClick={submitNickname}>내 정보 수정하기</SubmitButton>
+        </ButtonWrapper>
+      </PageContainer>
+    </Wrapper>
+  );
+}
 
-//   if (Error instanceof Error) {
-//     console.error('닉네임을 가져오지 못했습니다 : ', Error.message);
-//   }
+export default ChangeUserInfo;
 
-//   const placeholder = isFetchingNickname
-//     ? 'Loading...'
-//     : data?.data.nickname || '새로운 닉네임을 입력하세요';
+const TextOver = styled.p``;
 
-//   return (
-//     <>
-//       <Header>
-//         <Title>닉네임 변경</Title>
-//       </Header>
-//       <PageContainer>
-//         <Description>
-//           <h1>변경하실 닉네임을 입력해주세요</h1>
-//         </Description>
-//         <Input
-//           type="text"
-//           value={nickname}
-//           onChange={handleNicknameChange}
-//           placeholder={placeholder}
-//         />
-//         <ButtonWrapper>
-//           <SubmitButton onClick={submitNickname} disabled={isFetchingNickname}>
-//             {isFetchingNickname ? '변경 중...' : '확인'}
-//           </SubmitButton>
-//           {/* <SubmitButton onClick={submitNickname} disabled={isFetchingNickname}>
-//             {isFetchingNickname ? '변경 중...' : '확인'}
-//           </SubmitButton> */}
-//         </ButtonWrapper>
-//         {nicknameError && <TextOver>{nicknameError}</TextOver>}
-//         {!showNicknameInput && (
-//           <Row
-//             style={{
-//               width: '290px',
-//               justifyContent: 'space-between',
-//               paddingRight: '13px',
-//             }}
-//           >
-//             <InnerSpan>{data?.data.nickname}</InnerSpan>
-//             <Button onClick={handleChangeNicknameClick}>닉네임 변경</Button>
-//           </Row>
-//         )}
-//         {showNicknameInput && (
-//           <>
-//             <Col style={{ width: '300px', position: 'relative' }}>
-//               <AuthInput
-//                 type="text"
-//                 name="writtenNickname"
-//                 value={input.writtenNickname}
-//                 onChange={onChange}
-//               />
-//               <WarnSpan
-//                 style={{
-//                   position: 'absolute',
-//                   right: '-15px',
-//                   top: '10px',
-//                 }}
-//               >
-//                 {nicknameDupMessage}
-//               </WarnSpan>
-//               <WarnSpan>{nicknameValidityMessage}</WarnSpan>
-//             </Col>
-//             <Button onClick={handleSubmit}>수정완료</Button>
-//           </>
-//         )}
-//       </PageContainer>
-//     </>
-//   );
-// }
+const PageContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-// export default ChangeUserInfo;
+const Wrapper = styled.div`
+  background-color: white;
+  height: 100%;
+`;
 
-// const TextOver = styled.p``;
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const Input = styled.input`
+  margin-top: 50px;
+`;
 
-// const PageContainer = styled.div``;
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
-// const Title = styled.p``;
+const SubmitButton = styled.button`
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
+  display: flex;
+  width: 265.54px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+`;
+const MyLocation = styled.div`
+  margin: 50px;
+`;
+const MSG = styled.div`
+  display: flex;
+  gap: 150px;
+  margin-bottom: 15px;
+`;
+const ChangeMyLocation = styled.span`
+  cursor: pointer;
+`;
+const District = styled.div`
+  border-top: 1px solid #d1cece;
+  padding-top: 15px;
+`;
 
-// const Header = styled.div`
-//   .backButton {
-//     cursor: pointer;
-//   }
-// `;
+const Profile = styled.div`
+  gap: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin: 0 0 0 15%; */
+  margin-top: 200px;
+  @media screen and (max-width: 430px) {
+  }
+`;
+const ProfileImageIcon = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50px;
+  bottom: 40px;
+  width: 40px;
+  height: 40px;
+  background-color: #3d3d3de6;
+  color: white;
+  opacity: 50%;
+  border-radius: 50%;
+  cursor: pointer;
+  @media screen and (max-width: 430px) {
+  }
+`;
 
-// const Description = styled.div`
-//   h1 {
-//   }
-// `;
+const Picture = styled.div`
+  display: flex;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  cursor: pointer;
+  @media screen and (max-width: 430px) {
+    /* margin-left: 40px; */
+  }
+`;
 
-// const Input = styled.input`
-//   box-shadow: h1 {
-
-//   }
-// `;
-
-// const ButtonWrapper = styled.button``;
-
-// const SubmitButton = styled.button`
-//   background: ${(props) => (props.disabled ? '#ccc' : '#EEEEEE')};
-
-//   cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
-
-//   &:hover {
-//     background: ${(props) => (props.disabled ? '#ccc' : '#E88439')};
-//     color: ${(props) => (props.disabled ? '#ccc' : '#fff')};
-//   }
-// `;
-
-// const Row = styled.div``;
-// const InnerSpan = styled.span``;
-// const Col = styled.div``;
-// const AuthInput = styled.input``;
-// const WarnSpan = styled.span``;
-// const Button = styled.span``;
+const WarnSpan = styled.div`
+  color: red;
+  font-size: 0.7rem;
+`;

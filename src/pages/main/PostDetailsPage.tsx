@@ -3,22 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css'; // 기본 스타일 가져오기
 import './Dropzonestyles.css';
-import { FaCamera } from 'react-icons/fa';
 import { authInstance } from '../../api/axios';
 import styled from 'styled-components';
-
-// import ALL from '../../../public/assets/ALL.svg';
 import Camera from '/public/assets/Camera.svg';
-import HOUSEHOLD from '../../../public/assets/HOUSEHOLD.svg';
-import KITCHEN from '../../../public/assets/KITCHEN.svg';
-import CLOSET from '../../../public/assets/CLOSET.svg';
-import BOOK from '../../../public/assets/BOOK.svg';
-import PLACE from '../../../public/assets/PLACE.svg';
-import OTHER from '../../../public/assets/OTHER.svg';
-import Navbar from '../../components/layout/Navbar';
-
-import { IoIosArrowBack } from 'react-icons/io';
-import { MenuBox } from '../Mypage/Mypage';
 import { Container } from '../../components/layout/DefaultLayout';
 import Header from '../../components/layout/Header';
 import PostDetailsPageModal from '../../components/modal/PostDetailsPageModal';
@@ -51,7 +38,7 @@ function PostDetailsPage() {
   const [rentalFee, setRentalFee] = useState<number>(0);
   const [deposit, setDeposit] = useState<number>(0); // 보증금 상태
   const [selectedCategory, setSelectedCategory] = useState<Category>(); // 선택한 카테고리 상태
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택한 파일 상태 (배열)
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 내가 추가한 파일 상태 (배열)
   const [missingRequiredInput, setMissingRequiredInput] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -93,12 +80,12 @@ function PostDetailsPage() {
     setSelectedCategory(category);
   };
 
-  // FormData 객체 생성
-  const formData = new FormData();
+  // 카테고리 미선택 시 선택요청하는 모달
   const closeModal = () => {
     setShowModal(false);
   };
-  // 게시 버튼 클릭 시 실행되는 함수
+
+  // 게시 버튼 클릭 시 실행되는 에러처리
   const handleButtonClick = () => {
     if (!selectedCategory) {
       setShowModal(true);
@@ -129,7 +116,7 @@ function PostDetailsPage() {
     const formattedRentalFee = removeComma(rentalFee?.toLocaleString());
     const formattedDeposit = removeComma(deposit?.toLocaleString());
 
-    // requestDto 객체 생성
+    // requestDto 객체(실제 서버로 보내는 데이터들) 생성 // 실제 서버로 보내는 데이터들
     const requestDto = {
       title: title,
       category: selectedCategory,
@@ -137,6 +124,9 @@ function PostDetailsPage() {
       rentalFee: formattedRentalFee,
       deposit: formattedDeposit,
     };
+
+    // FormData 객체 생성
+    const formData = new FormData();
 
     // requestDto 객체를 JSON 문자열로 변환하여 FormData에 추가
     formData.append('requestDto', JSON.stringify(requestDto));
@@ -148,7 +138,7 @@ function PostDetailsPage() {
 
     // 서버에 데이터 전송
     authInstance
-      .post('https://api.openmpy.com/api/v1/rentals', formData)
+      .post('/api/v1/rentals', formData)
       .then((response) => {
         console.log('서버 응답:', response.data);
         alert('게시글을 성공적으로 추가했습니다.');
@@ -167,7 +157,7 @@ function PostDetailsPage() {
   //     body: '',
   //   });
   // };
-  const handleBackClick = () => navigate(-1);
+
   return (
     <>
       {showModal && <PostDetailsPageModal onClose={closeModal} />}
@@ -178,9 +168,11 @@ function PostDetailsPage() {
           <CustomDropzone>
             <Dropzone
               onChangeStatus={(meta, status) => {
+                // 정상적인 이미지일 경우
                 if (status === 'done') {
                   setSelectedFiles((prevFiles) => [...prevFiles, meta.file]);
                 } else if (status === 'removed') {
+                  // 추가한 이미지 삭제
                   setSelectedFiles((prevFiles) =>
                     prevFiles.filter((file) => file !== meta.file),
                   );
@@ -378,6 +370,8 @@ export const Wrapper = styled.div`
     }
   }
 `;
+
+// 필수값임을 표기하기 위해
 interface StyledInputProps {
   $missing?: boolean;
   $missingTitle?: boolean;

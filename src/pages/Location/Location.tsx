@@ -75,7 +75,7 @@ export default function Location(): JSX.Element {
     marker.setPosition(currentPos);
     circle.setMap(map);
     circle.setPosition(currentPos);
-    // setCircle(circle);
+
     setIsLoading(false); // API 요청 후 로딩 상태를 false로 변경
   };
 
@@ -246,17 +246,7 @@ export default function Location(): JSX.Element {
           {isLoading && (
             <>
               <LoadingMap id="map">
-                <LoadingContainer
-                  style={
-                    {
-                      // width: '430px',
-                      // height: '433px%',
-                      // position: 'absolute',
-                      // zIndex: '888888',
-                      // backgroundColor: 'rgba(225, 225, 225, 0.5)',
-                    }
-                  }
-                >
+                <LoadingContainer>
                   <LoadingMSG>로딩중입니다. 잠시만 기다려주세요!</LoadingMSG>
                 </LoadingContainer>
               </LoadingMap>

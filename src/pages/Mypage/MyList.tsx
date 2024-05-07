@@ -339,8 +339,10 @@ const Wrapper = styled.div`
   align-items: center;
   overflow: auto;
   background-color: white;
-  padding-bottom: 120px;
-  /* overflow: scroll; */
+  padding-bottom: 150px;
+  @media screen and (max-width: 430px) {
+    padding-bottom: 100px;
+  }
 `;
 const ScrollableCategoryContainer = styled.div``;
 

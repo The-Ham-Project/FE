@@ -9,7 +9,7 @@ import ChatList from '../pages/chatlist/ChatList.tsx';
 import RedirectGoogle from '../components/GoogleLogin/RedirectGoogle.tsx';
 import SocialLogin from '../pages/Login/SocialLogin.tsx';
 import Mypage from '../pages/Mypage/Mypage.tsx';
-// import ChangeUserInfo from '../pages/Mypage/ChangeUserInfo.tsx';
+import ChangeUserInfo from '../pages/Mypage/ChangeUserInfo.tsx';
 import useStore from '../store/store.ts';
 import MyList from '../pages/Mypage/MyList.tsx';
 import SearchDetail from '../components/Main/SearchDetail.tsx';
@@ -32,7 +32,7 @@ function Router() {
             <Route path="/" element={<Main />} />
             <Route path="/search" element={<SearchDetail />} />
             <Route path="/mypage" element={<Mypage />} />
-            {/* <Route path="/userinfo" element={<ChangeUserInfo />} /> */}
+            <Route path="/userinfo" element={<ChangeUserInfo />} />
             <Route path="/mylist" element={<MyList />} />
             <Route path="/details/:rentalId" element={<Details />} />
             <Route path={'/commlist'} element={<ChatList />} />
