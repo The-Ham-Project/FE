@@ -10,6 +10,7 @@ import {
   List,
   ListBox,
   MenuBox,
+  None,
   PaddingBox,
   TextBox,
 } from './ChatList.style.tsx';
@@ -18,6 +19,7 @@ import moment from 'moment/moment';
 import Loading from '../glitch/Loading.tsx';
 import NotFound from '../glitch/NotFound.tsx';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import sweattheham from '/public/assets/sweattheham.svg';
 
 import Chat from '../chat/Chat.tsx';
 const ChatList = () => {
@@ -29,9 +31,7 @@ const ChatList = () => {
   const queryChatList = useQuery({
     queryKey: ['chatList', currentPageNo],
     queryFn: () => readChatList(currentPageNo),
-    // refetchInterval: 2000,
     staleTime: 0,
-    // cacheTime: 0,
     select: (response) => response.data,
   });
   const { data, error, isLoading, refetch } = queryChatList;
@@ -50,9 +50,6 @@ const ChatList = () => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   console.log('ddd', chatList);
-  // }, [chatList]);
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
@@ -91,8 +88,25 @@ const ChatList = () => {
                 lastMessageTime: updatedChatRoom.lastMessageTime,
                 unreadCount: updatedChatRoom.unreadCount,
               };
+
+              newChatList.sort((a, b) => {
+                return (
+                  new Date(b.lastMessageTime).getTime() -
+                  new Date(a.lastMessageTime).getTime()
+                );
+              });
+
               return newChatList;
             });
+            // } else {
+            //   if (
+            //     !chatList.some(
+            //       (chatRoom) =>
+            //         chatRoom.chatRoomId === updatedChatRoom.chatRoomId,
+            //     )
+            //   ) {
+            //     setChatList((prevChatList) => [updatedChatRoom, ...prevChatList]);
+            //   }
           }
         }
       });
@@ -123,7 +137,7 @@ const ChatList = () => {
   if (isLoading) return <Loading />;
 
   const handleClickNavigate = () => {
-    navigate(-1);
+    navigate('/');
   };
 
   return (
@@ -134,46 +148,57 @@ const ChatList = () => {
           <span>메세지</span>
         </MenuBox>
       </PaddingBox>
-      <List>
-        {chatList.map((item) => {
-          const isUnread = item.unreadCount !== 0;
-          return (
-            <ListBox
-              key={item.chatRoomId}
+      {data.totalPage === 0 ? (
+        <List>
+          <None>
+            <img src={sweattheham} />
+            <span>채팅이 존재하지 않습니다.</span>
+            <button
               onClick={() => {
-                navigate(`/comm/${item.chatRoomId}`);
-                // window.location.reload();
+                navigate('/');
               }}
             >
-              <FlexBox>
-                <ImgBox>
-                  <img src={item.toMemberProfileUrl} />
-                </ImgBox>
-                <TextBox>
-                  <Btween $active={isUnread}>
-                    <span className={'toMemberNickName'}>
-                      {item?.toMemberNickName}
-                    </span>
-                    <span className={'lastMessageTime'}>
-                      {moment(new Date(item.lastMessageTime)).format('HH:mm')}
-                    </span>
-                  </Btween>
-                  <Btween $active={isUnread}>
-                    <span className={'lastMessage'}>{item?.lastMessage}</span>
-                    <div>{item.unreadCount}</div>
-                  </Btween>
-                </TextBox>
-              </FlexBox>
-            </ListBox>
-          );
-        })}
-        <div ref={indicatorRef} className={'indicator'} />
-      </List>
-      <Chat
-        successCallback={() => {
-          refetch();
-        }}
-      />
+              대여 물품 보러가기
+            </button>
+          </None>
+        </List>
+      ) : (
+        <List>
+          {chatList.map((item) => {
+            const isUnread = item.unreadCount !== 0;
+            return (
+              <ListBox
+                key={item.chatRoomId}
+                onClick={() => {
+                  navigate(`/comm/${item.chatRoomId}`);
+                  // window.location.reload();
+                }}
+              >
+                <FlexBox>
+                  <ImgBox>
+                    <img src={item.toMemberProfileUrl} />
+                  </ImgBox>
+                  <TextBox>
+                    <Btween $active={isUnread}>
+                      <span className={'toMemberNickName'}>
+                        {item?.toMemberNickName}
+                      </span>
+                      <span className={'lastMessageTime'}>
+                        {moment(new Date(item.lastMessageTime)).format('HH:mm')}
+                      </span>
+                    </Btween>
+                    <Btween $active={isUnread}>
+                      <span className={'lastMessage'}>{item?.lastMessage}</span>
+                      <div>{item.unreadCount}</div>
+                    </Btween>
+                  </TextBox>
+                </FlexBox>
+              </ListBox>
+            );
+          })}
+          <div ref={indicatorRef} className={'indicator'} />
+        </List>
+      )}
     </Contaier>
   );
 };

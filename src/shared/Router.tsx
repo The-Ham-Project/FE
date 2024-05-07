@@ -16,14 +16,10 @@ import SearchDetail from '../components/Main/SearchDetail.tsx';
 import RedirectNaver from '../components/NaverLogin/RedirectNaver.tsx';
 import Edit from '../pages/Mypage/Edit.tsx';
 import Layout from '../components/layout/Layout.tsx';
-import App from '../App.tsx';
-import { createBrowserRouter } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 // import Splash from '../components/Splash/Splash.tsx';
 
 function Router() {
-  const isLoggedIn = useStore((state) => state.isLoggedIn);
-
   return (
     <BrowserRouter>
       <Routes>

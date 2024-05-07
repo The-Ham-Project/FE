@@ -184,12 +184,32 @@ const LoadingWrapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-  overflow: auto;
+  overflow: scroll;
   background-color: white;
   height: 100%;
   @media screen and (max-width: 700px) {
     overflow: scroll;
   }
+  /* 스크롤바 스타일 */
+  &::-webkit-scrollbar {
+    width: 8px;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  &::-webkit-scrollbar-track {
+    /* 스크롤바 트랙 스타일링 */
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+
 `;
 
 export const MenuBox = styled.div`

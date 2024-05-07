@@ -221,15 +221,15 @@ const SearchButton = styled.button<SearchButtonProps>`
 `;
 
 const SearchResults = styled.ul`
-  width: 54%;
-  border-radius: 10px;
-  display: flex;
-  place-content: center;
-  position: absolute;
-  left: 92px;
-  top: 50px;
-  flex-direction: column;
-  border-radius: 20px;
+    width: 54%;
+    border-radius: 10px;
+    display: flex;
+    place-content: center;
+    position: absolute;
+    left: 92px;
+    top: 50px;
+    flex-direction: column;
+    border-radius: 20px;
 `;
 
 const Searchli = styled.li`

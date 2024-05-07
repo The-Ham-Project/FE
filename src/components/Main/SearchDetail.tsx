@@ -182,6 +182,25 @@ const Wrapper = styled.div`
   overflow: scroll;
   @media screen and (max-width: 430px) {
   }
+    /* 스크롤바 스타일 */
+    &::-webkit-scrollbar {
+    width: 8px;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  &::-webkit-scrollbar-track {
+    /* 스크롤바 트랙 스타일링 */
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
 `;
 const Detail = styled.div`
   margin-top: 67px;
@@ -261,7 +280,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-content: space-between;
-  margin-left: 16px;
+  margin-left: 13px;
   @media screen and (max-width: 430px) {
   }
 `;
@@ -270,7 +289,7 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 180px;
+  width: 185px;
   align-items: center;
   margin-bottom: 26.74px;
   @media screen and (max-width: 430px) {
@@ -284,7 +303,7 @@ const Title = styled.div`
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  margin-top: 41.26px;
+  margin-top: 20px;
   color: #000000;
   @media screen and (max-width: 430px) {
   }
