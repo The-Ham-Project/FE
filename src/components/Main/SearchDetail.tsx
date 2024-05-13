@@ -182,8 +182,8 @@ const Wrapper = styled.div`
   overflow: scroll;
   @media screen and (max-width: 430px) {
   }
-    /* 스크롤바 스타일 */
-    &::-webkit-scrollbar {
+  /* 스크롤바 스타일 */
+  &::-webkit-scrollbar {
     width: 8px;
     display: none;
   }
