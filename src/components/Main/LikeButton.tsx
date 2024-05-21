@@ -13,23 +13,23 @@ const LikeButton: FC<LikeButtonProps> = ({ rentalId, initialLiked }) => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [animate, setAnimate] = useState<boolean>(false);
 
-  // 초기 좋아요 상태와 좋아요 수를 설정합니다.
-  useEffect(() => {
-    console.log('초기 좋아요수:', initialLiked);
-    setLiked(initialLiked);
-    fetchLikeCount();
-  }, [initialLiked, rentalId]);
+  // // 초기 좋아요 상태와 좋아요 수를 설정합니다.
+  // useEffect(() => {
+  //   console.log('초기 좋아요수:', initialLiked);
+  //   setLiked(initialLiked);
+  //   fetchLikeCount();
+  // }, [initialLiked, rentalId]);
 
-  // 좋아요 수를 가져오는 함수
-  const fetchLikeCount = async () => {
-    try {
-      const response = await authInstance.get(`/api/v1/rentals/likes/${rentalId}`);
-      setLikeCount(response.data.data.likeCount);
-      console.log('Like 카운트 업데이트:', response.data.data);
-    } catch (error) {
-      console.error('Error fetching like count:', error);
-    }
-  };
+  // // 좋아요 수를 가져오는 함수
+  // const fetchLikeCount = async () => {
+  //   try {
+  //     const response = await authInstance.get(`/api/v1/rentals/likes/${rentalId}`);
+  //     setLikeCount(response.data.data.likeCount);
+  //     console.log('Like 카운트 업데이트:', response.data.data);
+  //   } catch (error) {
+  //     console.error('Error fetching like count:', error);
+  //   }
+  // };
 
   // 좋아요 등록 또는 취소하는 함수
   const handleLikeClick = async () => {
