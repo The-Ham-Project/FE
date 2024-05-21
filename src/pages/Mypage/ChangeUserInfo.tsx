@@ -68,39 +68,62 @@ function ChangeUserInfo() {
 
   // 닉네임 유효성 검사
   useEffect(() => {
-    if (nickname.length !== 0) {
-      const nicknameCheck = (nickname: string) => {
-        const nicknameCheck = /^[a-zA-Z0-9가-힣]{3,10}$/;
-        console.log(placeholder);
-        console.log(nickname);
-        return nicknameCheck.test(nickname);
-      };
-      setNicknameValidityMessage(
-        nicknameCheck(nickname)
-          ? ''
-          : '닉네임은 특수문자 제외 3자~10자 입니다.',
-      );
-      // } else {
-      //   setNicknameValidityMessage('');
-      // }
-      // const response = checkDuplicateNickname(nickname);
-      // if (!response) {
-      //   setNicknameDupMessage('이미 사용중인 닉네임이에요');
-      // }
+    const nicknameCheck = (nickname: string) => {
+      const nicknameCheck = /^[a-zA-Z0-9가-힣]{3,10}$/;
+      console.log(placeholder);
+      console.log(nickname);
+      return nicknameCheck.test(nickname);
+    };
+    // if (nickname.length !== 0) {
+    //   setNicknameValidityMessage(
+    //     nicknameCheck(nickname) ? '' : '닉네임은 특수문자 제외 3자~10자입니다.',
+    //   );
+    //   // } else {
+    //   //   setNicknameValidityMessage('');
+    //   // }
+    //   // const response = checkDuplicateNickname(nickname);
+    //   // if (!response) {
+    //   //   setNicknameDupMessage('이미 사용중인 닉네임이에요');
+    //   // }
 
-      // 닉네임 중복 확인
-      let timeoutId: NodeJS.Timeout;
-      if (nicknameCheck) {
-        timeoutId = setTimeout(() => {
-          const response = checkDuplicateNickname(nickname);
+    //   // 닉네임 중복 확인
+    //   let timeoutId: NodeJS.Timeout;
+    //   if (nicknameCheck(nickname)) {
+    //     console.log(nicknameCheck(nickname));
+
+    //     timeoutId = setTimeout(() => {
+    //       const response = checkDuplicateNickname(nickname);
+    //       console.log(response);
+    //       if (!response) {
+    //         setNicknameDupMessage('이미 사용중인 닉네임이에요');
+    //         console.log(nicknameDupMessage);
+    //       }
+    //     }, 1000); // 1초 딜레이 후에 실행
+    //   }
+
+    //   return () => clearTimeout(timeoutId); // 컴포넌트가 언마운트되면 타이머 해제
+    // } else {
+    //   setNicknameValidityMessage('');
+    // }
+    const checkAndSubmitNickname = async (nickname: string) => {
+      if (nickname.length !== 0) {
+        if (nicknameCheck(nickname)) {
+          const response = await checkDuplicateNickname(nickname);
+          console.log(response);
+
           if (!response) {
             setNicknameDupMessage('이미 사용중인 닉네임이에요');
-            console.log(nicknameDupMessage);
+          } else {
+            setNicknameDupMessage('');
           }
-        }, 1000); // 1초 딜레이 후에 실행
+        } else {
+          setNicknameValidityMessage('닉네임은 특수문자 제외 3자~10자입니다.');
+        }
       }
+    };
 
-      return () => clearTimeout(timeoutId); // 컴포넌트가 언마운트되면 타이머 해제
+    if (nickname.length !== 0) {
+      checkAndSubmitNickname(nickname);
     } else {
       setNicknameValidityMessage('');
     }
