@@ -432,4 +432,4 @@ const getPosSuccess = async (pos: GeolocationPosition) => {
 |-------|--------------------------------|--------------------------|
 | `이혜인` | https://github.com/zook0320  | zook020320@gmail.com |
 | `정예진` | https://github.com/asdfg030906     | s94979892@gmail.com         |
-| `황인영` | https://github.com/kimeomji333 | happy5225@naver.com    |
+| `황인영` | https://github.com/inyoungfriend | happy5225@naver.com    |
