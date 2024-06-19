@@ -2,16 +2,18 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ALL from '/public/assets/ALL.svg';
-import ELECTRONIC from '/public/assets/ELECTRONIC.svg';
-import HOUSEHOLD from '/public/assets/HOUSEHOLD.svg';
-import KITCHEN from '/public/assets/KITCHEN.svg';
-import CLOSET from '/public/assets/CLOSET.svg';
-import BOOK from '/public/assets/BOOK.svg';
-import PLACE from '/public/assets/PLACE.svg';
-import OTHER from '/public/assets/OTHER.svg';
+// import ALL from '/public/assets/ALL.svg';
+import ALL from '/public/assets/ALL.webp';
+import ELECTRONIC from '/public/assets/ELECTRONIC.webp';
+import HOUSEHOLD from '/public/assets/HOUSEHOLD.webp';
+import KITCHEN from '/public/assets/KITCHEN.webp';
+import CLOSET from '/public/assets/CLOSET.webp';
+import BOOK from '/public/assets/BOOK.webp';
+import PLACE from '/public/assets/PLACE.webp';
+import OTHER from '/public/assets/OTHER.webp';
 import position from '/public/assets/position.svg';
-import banner from '/public/assets/banner.svg';
+// import banner from '/public/assets/banner.svg';
+import webbanner from '/public/assets/webbanner.webp';
 import magnifyingtheham from '../../../public/assets/magnifyingtheham.png';
 import Contents from '../../components/Main/Contents';
 import { useQuery } from '@tanstack/react-query';
@@ -176,9 +178,19 @@ function Category() {
             style={{
               display: 'flex',
               flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
-            <img src={banner} alt="Top Banner" />
+            {/* <img src={banner} alt="Top Banner" /> */}
+            <img
+              style={{
+                display: 'flex',
+                maxWidth: '350px',
+                height: '160px',
+              }}
+              src={webbanner}
+              alt="webp Banner"
+            />
             <CategoryButtonsContainer>
               {Object.keys(categories).map((category) => (
                 <CategoryButtonWrapper
@@ -190,7 +202,14 @@ function Category() {
                   onClick={() => handleCategoryChange(category as Category)}
                 >
                   <CustomCategoryButton>
-                    <img src={categories[category].icon} />
+                    <img
+                      style={{
+                        display: 'flex',
+                        maxWidth: '40px',
+                        height: '40px',
+                      }}
+                      src={categories[category].icon}
+                    />
                   </CustomCategoryButton>
                   <CategoryLabel>{categories[category].label}</CategoryLabel>
                 </CategoryButtonWrapper>
