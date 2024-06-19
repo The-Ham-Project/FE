@@ -76,6 +76,7 @@ function Navbar() {
           onClick={() => {
             navigate('/');
           }}
+          alt="home"
         />
 
         <img
@@ -83,6 +84,7 @@ function Navbar() {
           style={{ cursor: 'pointer' }}
           src={isMessagePage ? Clickchat : message} // message 페이지면 Clickchat, 아니면 message.svg
           onClick={handleChatButtonClick}
+          alt="msg"
         />
         <ChatRing $active={unReadCount}></ChatRing>
         <div className={'Div'} onClick={handlePostButtonClick}>
