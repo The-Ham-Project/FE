@@ -185,7 +185,7 @@ const getPosSuccess = async (pos: GeolocationPosition) => {
 `해결방법`
 
 - 1. addListener 이벤트는 useEffect로 단독 실행되게 분리
-  2. currentLatLng (현재 위경도)를 상태로 관리해서 얘가 변할 때마다 마커 다시 그리도록 useEffect 추가
+  2. currentLatLng (현재 위경도)를 상태로 관리해서 이것이 변할 때마다 마커 다시 그리도록 useEffect 추가
   3. 첫 렌더링 시 setMarker 로 marker 상태 초기화하고 이후 계속 해당 marker 객체를 호출해서 사용
   4. searchDetailAddrFromCoords 함수 루트로 분리
 ```yaml
